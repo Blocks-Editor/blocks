@@ -1,6 +1,6 @@
 export function unaryOperator(type, symbol, evaluator) {
     return {
-        title: `${symbol}${type}`,
+        title: `${symbol}${type.toLowerCase()}`,
         inputs: [{
             key: 'input',
             type,
@@ -9,7 +9,10 @@ export function unaryOperator(type, symbol, evaluator) {
             key: 'result',
             type,
             compile(node, compiler) {
-                return `${symbol}${compiler.getInput(node, 'a')}`;
+                let a = compiler.getInput(node, 'a');
+                if(a !== undefined) {
+                    return `${symbol}${a}`;
+                }
             },
         }],
     };
@@ -17,7 +20,7 @@ export function unaryOperator(type, symbol, evaluator) {
 
 export function binaryOperator(type, symbol, evaluator) {
     return {
-        title: `${type} ${symbol} ${type}`,
+        title: `${type.toLowerCase()} ${symbol} ${type.toLowerCase()}`,
         inputs: [{
             key: 'a',
             type,
@@ -29,7 +32,11 @@ export function binaryOperator(type, symbol, evaluator) {
             key: 'result',
             type,
             compile(node, compiler) {
-                return `${compiler.getInput(node, 'a')} ${symbol} ${compiler.getInput(node, 'b')}`;
+                let a = compiler.getInput(node, 'a');
+                let b = compiler.getInput(node, 'b');
+                if(a !== undefined && b !== undefined) {
+                    return `${a} ${symbol} ${b}`;
+                }
             },
         }],
     };

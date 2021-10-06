@@ -9,7 +9,7 @@ export default function App() {
     // TODO: reset after clicking error notification
     let preventSave = null;
 
-    const onEditorSetup = async (editor, engine) => {
+    const onEditorSetup = async (loadState, editor, engine) => {
 
         let stateString = localStorage.getItem('editorState')/* || {
             id: editor.id,
@@ -33,20 +33,19 @@ export default function App() {
         }*/;
 
         if(stateString) {
-            try {
-                preventSave = !await editor.fromJSON(JSON.parse(stateString));
-            }
-            catch(err) {
-                preventSave = err;
+            let state = JSON.parse(stateString);
+            if(!await loadState(state)) {
+                preventSave = true;
+                localStorage.removeItem('editorState');////
             }
         }
     };
 
     const onEditorChange = async (state, editor, engine) => {
-        if(preventSave) {
-            console.warn('Unsaved changes due to load error');
-            return;
-        }
+        // if(preventSave) {
+        //     console.warn('Unsaved changes due to load error');
+        //     return;
+        // }
         localStorage.setItem('editorState', JSON.stringify(state));
     };
 

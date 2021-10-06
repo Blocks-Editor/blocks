@@ -16,7 +16,9 @@ class TypeSocket extends Rete.Socket {
 // https://github.com/dfinity/motoko/blob/master/doc/modules/language-guide/pages/language-manual.adoc#primitive-types
 
 // Anything passable through a socket
-export const anySocket = createSocket('Any', {});
+export const anySocket = createSocket('Any', {
+    category: 'default',
+});
 
 // High-level socket categories
 export const valueSocket = createSocket('Value', {
@@ -65,12 +67,32 @@ export const floatSocket = createSocket('Float', {
     controlType: NumberControlHandle,
 });
 export const intSocket = createSocket('Int', {
-    parent: valueSocket,
+    parent: floatSocket,
+    category: 'integers',
     controlType: NumberControlHandle,
     controlProps: {
         step: 1,
     },
 });
+export const natSocket = createSocket('Nat', {
+    parent: floatSocket,
+    category: 'naturals',
+    controlProps: {
+        step: 1,
+        min: 0,
+    },
+});
+export const blobSocket = createSocket('Blob', {
+    parent: valueSocket,
+});
+export const principalSocket = createSocket('Principal', {
+    parent: valueSocket,
+});
+export const errorSocket = createSocket('Error', {
+    parent: valueSocket,
+});
+
+// Fixed-size int values
 export const int8Socket = createSocket('Int8', {
     parent: intSocket,
     controlProps: getIntProps(8),
@@ -87,13 +109,8 @@ export const int64Socket = createSocket('Int64', {
     parent: intSocket,
     controlProps: getIntProps(64),
 });
-export const natSocket = createSocket('Nat', {
-    parent: intSocket,
-    controlProps: {
-        step: 1,
-        min: 0,
-    },
-});
+
+// Fixed-size nat values
 export const nat8Socket = createSocket('Nat8', {
     parent: natSocket,
     controlProps: getNatProps(8),
@@ -109,15 +126,6 @@ export const nat32Socket = createSocket('Nat32', {
 export const nat64Socket = createSocket('Nat64', {
     parent: natSocket,
     controlProps: getNatProps(64),
-});
-export const blobSocket = createSocket('Blob', {
-    parent: valueSocket,
-});
-export const principalSocket = createSocket('Principal', {
-    parent: valueSocket,
-});
-export const errorSocket = createSocket('Error', {
-    parent: valueSocket,
 });
 
 function getNatProps(n) {

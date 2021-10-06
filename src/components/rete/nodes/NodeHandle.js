@@ -1,5 +1,5 @@
 import React from 'react';
-import {Node, Socket, Control} from 'rete-react-render-plugin';
+import {Control, Node} from 'rete-react-render-plugin';
 import {SocketHandle} from '../sockets/SocketHandle';
 import getDefaultLabel from '../../../utils/getDefaultLabel';
 
@@ -43,15 +43,14 @@ export default class NodeHandle extends Node {
                             io={input}
                             innerRef={bindSocket}
                         />
-                        {!input.showControl() && (
-                            <div className="input-title">{getDefaultLabel(input.name)}</div>
-                        )}
-                        {input.showControl() && (
+                        {input.showControl() ? (
                             <Control
                                 className="input-control"
                                 control={input.control}
                                 innerRef={bindControl}
                             />
+                        ) : (
+                            <div className="input-title">{getDefaultLabel(input.name)}</div>
                         )}
                     </div>
                 ))}

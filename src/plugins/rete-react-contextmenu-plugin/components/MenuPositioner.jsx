@@ -37,8 +37,7 @@ const MenuPositioner = ({root, x, y, children, style: styleProp, editor}) => {
             <div
                 style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, pointerEvents: 'all'}}
                 onClick={handleClose}
-                ref={handleRef}
-            >
+                ref={handleRef}>
                 <div
                     style={style}
                 >

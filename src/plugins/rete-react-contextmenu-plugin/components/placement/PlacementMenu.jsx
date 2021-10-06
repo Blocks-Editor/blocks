@@ -2,7 +2,6 @@ import React from 'react';
 import MenuPositioner from '../MenuPositioner';
 import useComponents from '../../utils/useComponents';
 import NodeItem from '../node/NodeItem';
-import getDefaultLabel from '../../../../utils/getDefaultLabel';
 
 // TODO: migrate to SCSS?
 

@@ -3,7 +3,7 @@
     background: $color;
   }
 
-  .connection.socket-input-#{$name} .main-path {
+  .connection.socket-output-#{$name} .main-path {
     stroke: $color !important;
   }
 }
@@ -16,15 +16,23 @@ $member-color: #8af;
 $actor-color: #fa8;
 $module-color: #888;
 
-@include node-color("any", $any-color);
-@include node-color("value", $value-color);
-@include node-color("type", $type-color);
-@include node-color("effect", $effect-color);
-@include node-color("member", $member-color);
-@include node-color("actor", $actor-color);
-@include node-color("module", $module-color);
+$bool-color: #a6f;
+$float-color: #5df;
+$int-color: #6fd;
+$nat-color: #58f;
 
-// TODO: colors for bool, int, string, etc.
+@include node-color("any", $any-color);
+@include node-color("category-values", $value-color);
+@include node-color("category-types", $type-color);
+@include node-color("category-effects", $effect-color);
+@include node-color("category-members", $member-color);
+@include node-color("category-actors", $actor-color);
+@include node-color("category-modules", $module-color);
+
+@include node-color("bool", $bool-color);
+@include node-color("float", $float-color);
+@include node-color("category-integers", $int-color);
+@include node-color("category-naturals", $nat-color);
 
 .node {
   &.selected {

@@ -54,9 +54,7 @@ export default function Editor({onSetup, onChange}) {
         editor.use(CommentPlugin);
         editor.use(ConnectionPlugin);
         editor.use(ConnectionMasteryPlugin);
-        editor.use(ContextMenuPlugin, {
-
-        });
+        editor.use(ContextMenuPlugin, {});
 
         engine = new Rete.Engine(id);
 
@@ -87,11 +85,30 @@ export default function Editor({onSetup, onChange}) {
                 onChange(state, editor, engine);
             }
         });
+        editor.on('renderconnection', ({el, connection}) => {
+            el.querySelector('.connection').classList.add(
+                `socket-input-category-${connection.input.socket.data.category}`,
+                `socket-output-category-${connection.output.socket.data.category}`,
+            );
+        });
         editor.on('error', err => events.emit(ERROR_EVENT, err));
+
+        async function loadState(state) {
+            if(!state) {
+                return;
+            }
+            // for(let [key, node] of Object.entries(state.nodes)) {
+            //     if(!BLOCK_MAP.has(node.name)) {
+            //         delete state.nodes[key];
+            //         console.warn('Unknown block:', node.name);
+            //     }
+            // }
+            return await editor.fromJSON(state);
+        }
 
         (async () => {
             if(onSetup) {
-                await onSetup(editor, engine);
+                await onSetup(loadState, editor, engine);
             }
 
             editor.view.resize();

@@ -1,6 +1,6 @@
-import Compiler from '../editor/utils/Compiler';
+const Compiler = require('../editor/utils/Compiler').default;
 
-export default {
+exports.default = {
     category: 'Evaluation',
     inputs: [{
         key: 'input',

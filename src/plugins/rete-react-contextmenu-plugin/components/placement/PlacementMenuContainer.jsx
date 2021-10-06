@@ -17,8 +17,8 @@ export async function createNode(component, {data = {}, meta = {}, x = 0, y = 0}
 }
 
 const PlacementMenuContainer = ({component: Component, node, editor, mousePositionStart, context, ...props}) => {
-    const handleCreateNode = useCallback(async (c) => {
-        const createdNode = await createNode(c, mousePositionStart);
+    const handleCreateNode = useCallback(async (component) => {
+        const createdNode = await createNode(component, mousePositionStart);
         editor.addNode(createdNode);
         editor.trigger('hidecontextmenu');
 
