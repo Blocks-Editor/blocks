@@ -1,0 +1,21 @@
+$scrollColor: $secondary;
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+  background-color: $scrollColor;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: $scrollColor;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $dark;
+  border-top: 1px solid $scrollColor;
+  border-left: 1px solid $scrollColor;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #222;
+}

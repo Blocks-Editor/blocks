@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;400;700');
+
+$font-family-sans-serif: 'Noto Sans', sans-serif;
+$headings-font-family: $font-family-sans-serif;
+$headings-font-weight: 200;
+
+//$font-size-base: 1rem;
+//$input-font-size-lg: $font-size-base * 2;
+
+//$spacer: 1em;
+
+//$primary: #7D61C8;
+//$secondary: #ffffff;
+//$light: #f1f1f1;
+//$dark: #000000;
+
+@import '../../node_modules/bootswatch/dist/darkly/variables';
+@import 'mixins/bootstrap';
+@import '../../node_modules/bootswatch/dist/darkly/bootswatch';
+
+@import "mixins/scrollbar";
+@import "mixins/editor";
+
+
+html, body {
+  background: #EEE;
+  overflow-x: hidden;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+.clickable {
+  cursor: pointer;
+  //transition: .1s ease-out;
+  transition-property: color, background, opacity;
+}
+
+.clickable:hover {
+  transition: .2s ease-out;
+}
+
+.grabbable {
+  cursor: grabbing !important;
+}
+
+.clickable::selection, .grabbable.selection {
+  background: none;
+}
+
+.noselect {
+  user-select: none;
+}
+
+::selection {
+  background: #AAA;
+}

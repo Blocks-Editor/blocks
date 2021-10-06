@@ -1,0 +1,43 @@
+@mixin node-color($name, $color) {
+  .node .socket.#{$name} {
+    background: $color;
+  }
+
+  .connection.socket-input-#{$name} .main-path {
+    stroke: $color !important;
+  }
+}
+
+$value-color: #8fa;
+$type-color: #2AA;
+$effect-color: #CCC;
+$member-color: #8AF;
+$actor-color: #FA8;
+
+@include node-color("value", $value-color);
+@include node-color("type", $type-color);
+@include node-color("effect", $effect-color);
+@include node-color("member", $member-color);
+@include node-color("actor", $actor-color);
+
+// TODO: colors for bool, int, string, etc.
+
+.node {
+  &.selected {
+    background: #AAA !important;
+    border-color: #555 !important;
+  }
+
+  .socket {
+    background: #333;
+    border-color: #333;
+
+    &.effect {
+      //  Effect sockets should look like right-facing arrows
+    }
+  }
+}
+
+.connection .main-path {
+  stroke: #222 !important;
+}
