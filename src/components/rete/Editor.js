@@ -21,17 +21,18 @@ export default function Editor({onSetup, onChange}) {
     let editor = null;
     let engine = null;
 
-    ///
-    // useListener(events, EDITOR_PROCESS_EVENT, () => {
-    //     let compiler = new Compiler(editor);
-    //     let result = compiler.compile('2');///////
-    //     console.log('Compiled:', result);
-    // });
+    useListener(events, EDITOR_CHANGE_EVENT, () => {
+        if(onChange) {
+            onChange(editor.toJSON(), editor, engine);
+        }
+    });
 
     useListener(events, ENGINE_NOTIFY_EVENT, async () => {
         if(editor && engine) {
             await engine.abort();
             await engine.process(editor.toJSON());
+
+            events.emit(EDITOR_CHANGE_EVENT);////
         }
     });
 
@@ -74,6 +75,8 @@ export default function Editor({onSetup, onChange}) {
             await engine.process(state);
 
             // await editor.trigger('process');
+
+            events.emit(EDITOR_CHANGE_EVENT, state);
         });
         editor.on('zoom', ({source}) => {
             return source !== 'dblclick';
@@ -81,11 +84,8 @@ export default function Editor({onSetup, onChange}) {
         editor.on('process', (...args) => {
             let state = editor.toJSON();
             events.emit(EDITOR_CHANGE_EVENT, state);
-            if(onChange) {
-                onChange(state, editor, engine);
-            }
         });
-        editor.on('renderconnection', ({el, connection}) => {
+        editor.on(['renderconnection'/*, 'updateconnection'*/], ({el, connection}) => {
             el.querySelector('.connection').classList.add(
                 `socket-input-category-${connection.input.socket.data.category}`,
                 `socket-output-category-${connection.output.socket.data.category}`,

@@ -1,11 +1,11 @@
 exports.default = {
-    title: 'Integer',
+    title: 'Float',
     outputs: [{
         key: 'value',
-        type: 'Int',
+        type: 'Float',
         control: true,
         compile(node, compiler) {
-            return String(compiler.getControl(node, 'value'));
+            return String(node.data.value) + 'f';
         },
     }],
 };

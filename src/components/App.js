@@ -7,7 +7,7 @@ import Editor from './rete/Editor';
 export default function App() {
 
     // TODO: reset after clicking error notification
-    let preventSave = null;
+    // let preventSave = null;
 
     const onEditorSetup = async (loadState, editor, engine) => {
 
@@ -35,7 +35,8 @@ export default function App() {
         if(stateString) {
             let state = JSON.parse(stateString);
             if(!await loadState(state)) {
-                preventSave = true;
+                console.warn('Load error');
+                // preventSave = true;
                 localStorage.removeItem('editorState');////
             }
         }
@@ -43,14 +44,14 @@ export default function App() {
 
     const onEditorChange = async (state, editor, engine) => {
         // if(preventSave) {
-        //     console.warn('Unsaved changes due to load error');
+        //     console.warn('Preventing changes due to load error');
         //     return;
         // }
         localStorage.setItem('editorState', JSON.stringify(state));
     };
 
     // TODO: add react-router
-    // TODO: set up ErrorBanner
+    // TODO: set up ErrorBanner or similar
     return (
         <>
             <ReactTooltip backgroundColor="#444"/>

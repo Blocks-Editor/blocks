@@ -16,7 +16,7 @@ export default class NodeHandle extends Node {
                 {/* Outputs */}
                 {outputs.map(output => (
                     <div className="output" key={output.key}>
-                        <div className="output-title">{getDefaultLabel(output.name)}</div>
+                        <div className="output-title">{output.name}</div>
                         <SocketHandle
                             type="output"
                             socket={output.socket}
@@ -50,7 +50,7 @@ export default class NodeHandle extends Node {
                                 innerRef={bindControl}
                             />
                         ) : (
-                            <div className="input-title">{getDefaultLabel(input.name)}</div>
+                            <div className="input-title">{input.name}</div>
                         )}
                     </div>
                 ))}

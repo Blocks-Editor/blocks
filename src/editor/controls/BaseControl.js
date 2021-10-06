@@ -3,11 +3,10 @@ import TextControlHandle from '../../components/rete/controls/TextControlHandle'
 import EventEmitter from 'events';
 
 export default class BaseControl extends Rete.Control {
-    constructor(emitter, key, config) {
+    constructor(emitter, key, config = {}) {
         super(key);
 
-        config = config || {};
-
+        this.config = config;
         this.emitter = emitter;
         this.render = 'react';
         this.component = config.controlType || TextControlHandle;
@@ -21,14 +20,15 @@ export default class BaseControl extends Rete.Control {
     }
 
     getValue() {
-        return this.getData(this.key);
+        let value = this.getData(this.key);
+        if(value === undefined) {
+            return this.config.defaultValue;
+        }
+        return value;
     }
 
-    async setValue(value) {
+    setValue(value) {
         this.putData(this.key, value);
-        // this.emitter.trigger('process');
-        // await this.emitter._engine.abort();
-        // await this.emitter._engine.process(this.emitter.toJSON()); //temp
         this.events.emit('update', value);
     }
 }

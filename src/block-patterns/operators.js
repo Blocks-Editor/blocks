@@ -9,9 +9,9 @@ export function unaryOperator(type, symbol, evaluator) {
             key: 'result',
             type,
             compile(node, compiler) {
-                let a = compiler.getInput(node, 'a');
+                let a = compiler.getInput(node, 'value');
                 if(a !== undefined) {
-                    return `${symbol}${a}`;
+                    return `${symbol}(${a})`;
                 }
             },
         }],
@@ -35,7 +35,7 @@ export function binaryOperator(type, symbol, evaluator) {
                 let a = compiler.getInput(node, 'a');
                 let b = compiler.getInput(node, 'b');
                 if(a !== undefined && b !== undefined) {
-                    return `${a} ${symbol} ${b}`;
+                    return `(${a} ${symbol} ${b})`;
                 }
             },
         }],

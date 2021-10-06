@@ -65,6 +65,7 @@ export const textSocket = createSocket('Text', {
 export const floatSocket = createSocket('Float', {
     parent: valueSocket,
     controlType: NumberControlHandle,
+    defaultValue: 0,
 });
 export const intSocket = createSocket('Int', {
     parent: floatSocket,

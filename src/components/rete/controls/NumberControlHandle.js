@@ -9,6 +9,7 @@ export default function NumberControlHandle(props) {
     return (
         <input
             type="number"
+            style={{width: '4em'}}
             min={min}
             max={max}
             step={step}

@@ -1,11 +1,11 @@
 exports.default = {
-    title: 'Integer',
+    title: 'Text',
     outputs: [{
         key: 'value',
-        type: 'Int',
+        type: 'Text',
         control: true,
         compile(node, compiler) {
-            return String(compiler.getControl(node, 'value'));
+            return JSON.stringify(compiler.getControl(node, 'value'));
         },
     }],
 };

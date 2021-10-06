@@ -33,6 +33,9 @@ export default class Compiler {
             let c = input.connections[0];
             return this._compileConnection(c, c.input, c.output, 'outputs');
         }
+        if(input.control) {
+            return input.control.getValue();
+        }
     }
 
     getOutput(node, key) {
@@ -65,7 +68,7 @@ export default class Compiler {
     }
 
     _compileConnection(connection, from, to, list) {
-        let prop = this._getProp(to.node, list, to.name);
+        let prop = this._getProp(to.node, list, to.key);
         if(!prop.compile) {
             throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
         }
