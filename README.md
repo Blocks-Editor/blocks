@@ -1,4 +1,4 @@
 # Blocks.
 
-#### A visual smart contract editor for the Internet Computer.
+#### An online visual smart contract editor for the Internet Computer.
 
