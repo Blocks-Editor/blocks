@@ -56,6 +56,10 @@ export default class BlockComponent extends BaseComponent {
                 node.addControl(new TypeControl(this.editor, prop.key, socket));
             }
         }
+
+        if(this.block.builder) {
+            this.block.builder.apply(this, arguments);
+        }
     }
 
     async worker(node, inputs, outputs, ...args) {
@@ -66,16 +70,16 @@ export default class BlockComponent extends BaseComponent {
         // this.editor.nodes.find(n => n.id === node.id).controls.get('preview').setValue(sum);
         // outputs['num'] = sum;
 
-        if(this.block.controls) {
-            for(let [key, control] of this.getControls(node).entries()) {
-                outputs[key] = control.getValue();
-            }
-        }
+        // if(this.block.controls) {
+        //     for(let [key, control] of this.getControls(node).entries()) {
+        //         outputs[key] = control.getValue();
+        //     }
+        // }
 
         if(this.block.worker) {
-            await this.block.worker(...arguments);
+            await this.block.worker.apply(this, arguments);
         }
 
-        console.log('Node:', this.getEditorNode(node));///
+        // console.log('Node:', this.getEditorNode(node));///
     }
 }

@@ -9,7 +9,6 @@ import CommentPlugin from 'rete-comment-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import EventsContext, {EDITOR_PROCESS_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
 import ReteNodeHandle from './nodes/ReteNodeHandle';
-import DebugComponent from '../../editor/components/DebugComponent';
 import BlockComponent from '../../editor/components/BlockComponent';
 import {basename} from 'path';
 
@@ -39,7 +38,7 @@ export default function ReteEditor({onSetup, onChange}) {
         let id = name + '@' + version;
 
         let nodes = [
-            new DebugComponent(),
+            // new DebugComponent(),
         ];
         let blockNames = new Set();
         let blockContext = require.context('../../blocks', true, /\.js$/);
