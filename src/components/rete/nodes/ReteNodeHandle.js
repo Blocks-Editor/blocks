@@ -13,7 +13,7 @@ export default class ReteNodeHandle extends Node {
 
         return (
             <div className={`node ${selected}`}>
-                <div className="title">{getLabel(/*node.data.label ||*/ node.name)}</div>
+                <div className="title">{node.data.title || getLabel(node.name)}</div>
                 {/* Outputs */}
                 {outputs.map(output => (
                     <div className="output" key={output.key}>

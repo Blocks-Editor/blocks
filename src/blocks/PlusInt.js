@@ -1,4 +1,5 @@
 exports.default = {
+    title: 'Int + Int',
     inputs: [{
         key: 'a',
         type: 'Int',
@@ -11,7 +12,7 @@ exports.default = {
         key: 'result',
         type: 'Int',
         compile(node, compiler) {
-            return compiler.getInput(node, 'numbers');
+            return `${compiler.getInput(node, 'a')} + ${compiler.getInput(node, 'b')}`;
         },
     }],
 };

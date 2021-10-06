@@ -6,6 +6,9 @@ import ReteEditor from './rete/ReteEditor';
 
 export default function App() {
 
+    // TODO: reset after clicking error notification
+    let preventSave = null;
+
     const onEditorSetup = async (editor, engine) => {
 
         let stateString = localStorage.getItem('editorState')/* || {
@@ -30,14 +33,20 @@ export default function App() {
         }*/;
 
         if(stateString) {
-            await editor.fromJSON(JSON.parse(stateString));
+            try {
+                preventSave = !await editor.fromJSON(JSON.parse(stateString));
+            }
+            catch(err) {
+                preventSave = err;
+            }
         }
     };
 
-    const onEditorChange = async (editor, engine) => {
-        let state = editor.toJSON();
-        // console.log('State:', state);
-
+    const onEditorChange = async (state, editor, engine) => {
+        if(preventSave) {
+            console.warn('Unsaved changes due to load error');
+            return;
+        }
         localStorage.setItem('editorState', JSON.stringify(state));
     };
 

@@ -8,17 +8,21 @@
   }
 }
 
+$any-color: #f5a;
 $value-color: #8fa;
-$type-color: #2AA;
-$effect-color: #CCC;
-$member-color: #8AF;
-$actor-color: #FA8;
+$type-color: #2aa;
+$effect-color: #ccc;
+$member-color: #8af;
+$actor-color: #fa8;
+$module-color: #888;
 
+@include node-color("any", $any-color);
 @include node-color("value", $value-color);
 @include node-color("type", $type-color);
 @include node-color("effect", $effect-color);
 @include node-color("member", $member-color);
 @include node-color("actor", $actor-color);
+@include node-color("module", $module-color);
 
 // TODO: colors for bool, int, string, etc.
 

@@ -5,8 +5,8 @@ import BaseComponent from './BaseComponent';
 
 export default class BlockComponent extends BaseComponent {
 
-    constructor(name, block) {
-        super(name);
+    constructor(block) {
+        super(block.name);
 
         this.block = block;
     }
@@ -27,6 +27,10 @@ export default class BlockComponent extends BaseComponent {
         //         }
         //     }
         // }
+
+        if(this.block.title) {
+            node.data.title = this.block.title;
+        }
 
         // TODO: dry
 

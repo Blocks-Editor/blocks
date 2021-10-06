@@ -1,4 +1,5 @@
 exports.default = {
+    title: 'Boolean',
     outputs: [{
         key: 'value',
         type: 'Bool',
