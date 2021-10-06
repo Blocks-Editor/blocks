@@ -1,11 +1,3 @@
-exports.default = {
-    title: 'Text',
-    outputs: [{
-        key: 'value',
-        type: 'Text',
-        control: true,
-        compile(node, compiler) {
-            return JSON.stringify(compiler.getControl(node, 'value'));
-        },
-    }],
-};
+const {literalValue} = require('../block-patterns/literals');
+
+exports.default = literalValue('Text', 'Text', JSON.stringify);

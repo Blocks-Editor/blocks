@@ -1,11 +1,3 @@
-exports.default = {
-    title: 'Integer',
-    outputs: [{
-        key: 'value',
-        type: 'Int',
-        control: true,
-        compile(node, compiler) {
-            return String(compiler.getControl(node, 'value'));
-        },
-    }],
-};
+const {literalValue} = require('../block-patterns/literals');
+
+exports.default = literalValue('Integer', 'Int');
