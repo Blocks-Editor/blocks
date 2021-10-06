@@ -14,13 +14,15 @@ blockContext.keys().forEach(path => {
     //     ...blockContext(path).default,
     // };
     let block = blockContext(path).default;
-    block.name = name;
-    if(blockNames.has(name)) {
-        console.error(`Duplicate block name: ${name}`);
-        return;
+    if(block) {
+        block.name = name;
+        if(blockNames.has(name)) {
+            console.error(`Duplicate block name: ${name}`);
+            return;
+        }
+        blockNames.add(block.name);
+        allBlocks.push(block);
     }
-    blockNames.add(block.name);
-    allBlocks.push(block);
 });
 
 export const BLOCK_MAP = new Map(allBlocks.map(block => [block.name, block]));

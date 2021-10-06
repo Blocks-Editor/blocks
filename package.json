@@ -12,6 +12,7 @@
     "change-case": "^4.1.2",
     "classnames": "^2.3.1",
     "node-sass": "^6.0.1",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
@@ -26,7 +27,6 @@
     "rete-connection-plugin": "^0.9.0",
     "rete-history-plugin": "^0.2.2",
     "rete-react-render-plugin": "^0.2.1",
-    "rete-context-menu-plugin": "^0.6.0-rc.1",
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {

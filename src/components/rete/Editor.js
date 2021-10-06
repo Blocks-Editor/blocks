@@ -3,17 +3,17 @@ import Rete from 'rete';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionMasteryPlugin from 'rete-connection-mastery-plugin';
-import ContextMenuPlugin from 'rete-context-menu-plugin';
+import ContextMenuPlugin from '../../plugins/rete-react-contextmenu-plugin';
 import HistoryPlugin from 'rete-history-plugin';
 import CommentPlugin from 'rete-comment-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import EventsContext, {EDITOR_CHANGE_EVENT, ENGINE_NOTIFY_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
-import ReteNodeHandle from './nodes/ReteNodeHandle';
+import NodeHandle from './nodes/NodeHandle';
 import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/useListener';
 
-export default function ReteEditor({onSetup, onChange}) {
+export default function Editor({onSetup, onChange}) {
     let name = process.env.REACT_APP_EDITOR_NAME;
     let version = process.env.REACT_APP_EDITOR_VERSION;
 
@@ -48,13 +48,15 @@ export default function ReteEditor({onSetup, onChange}) {
 
         editor = new Rete.NodeEditor(id, element);
         editor.use(ReactRenderPlugin, {
-            component: ReteNodeHandle,
+            component: NodeHandle,
         });
         editor.use(HistoryPlugin);
         editor.use(CommentPlugin);
         editor.use(ConnectionPlugin);
         editor.use(ConnectionMasteryPlugin);
-        editor.use(ContextMenuPlugin); // TODO: completely replace
+        editor.use(ContextMenuPlugin, {
+
+        });
 
         engine = new Rete.Engine(id);
 

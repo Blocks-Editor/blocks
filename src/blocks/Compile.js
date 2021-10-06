@@ -1,6 +1,7 @@
 import Compiler from '../editor/utils/Compiler';
 
 export default {
+    category: 'Evaluation',
     inputs: [{
         key: 'input',
         type: 'Any',

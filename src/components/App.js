@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import './App.scss';
-import ReteEditor from './rete/ReteEditor';
+import Editor from './rete/Editor';
 
 
 export default function App() {
@@ -55,7 +55,7 @@ export default function App() {
     return (
         <>
             <ReactTooltip backgroundColor="#444"/>
-            <ReteEditor onSetup={onEditorSetup} onChange={onEditorChange}/>
+            <Editor onSetup={onEditorSetup} onChange={onEditorChange}/>
         </>
     );
 };

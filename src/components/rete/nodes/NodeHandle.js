@@ -1,24 +1,23 @@
 import React from 'react';
 import {Node, Socket, Control} from 'rete-react-render-plugin';
-import {sentenceCase} from 'change-case';
+import {SocketHandle} from '../sockets/SocketHandle';
+import getDefaultLabel from '../../../utils/getDefaultLabel';
 
-export default class ReteNodeHandle extends Node {
+export default class NodeHandle extends Node {
     render() {
         const {node, bindSocket, bindControl} = this.props;
         const {outputs, controls, inputs, selected} = this.state;
-
-        const getLabel = sentenceCase;
 
         // TODO: icons for different node/connection categories? ('react-icons' includes a lot of options)
 
         return (
             <div className={`node ${selected}`}>
-                <div className="title">{node.data.title || getLabel(node.name)}</div>
+                <div className="title">{node.data.title || getDefaultLabel(node.name)}</div>
                 {/* Outputs */}
                 {outputs.map(output => (
                     <div className="output" key={output.key}>
-                        <div className="output-title">{getLabel(output.name)}</div>
-                        <Socket
+                        <div className="output-title">{getDefaultLabel(output.name)}</div>
+                        <SocketHandle
                             type="output"
                             socket={output.socket}
                             io={output}
@@ -38,14 +37,14 @@ export default class ReteNodeHandle extends Node {
                 {/* Inputs */}
                 {inputs.map(input => (
                     <div className="input" key={input.key}>
-                        <Socket
+                        <SocketHandle
                             type="input"
                             socket={input.socket}
                             io={input}
                             innerRef={bindSocket}
                         />
                         {!input.showControl() && (
-                            <div className="input-title">{getLabel(input.name)}</div>
+                            <div className="input-title">{getDefaultLabel(input.name)}</div>
                         )}
                         {input.showControl() && (
                             <Control
