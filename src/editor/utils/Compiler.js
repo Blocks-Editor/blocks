@@ -28,9 +28,12 @@ export default class Compiler {
         node = this.getNode(node);
         let block = this.getBlock(node);
         let prop = block.inputs?.find(prop => prop.key === key);
-        if(!prop || !getSocket(prop.type).data.reversed) {
+        if(!prop) {
+            throw new Error(`Input not found on ${node.name}: ${key}`);
+        }
+        if(!getSocket(prop.type).data.reversed) {
             let input = this._input(node, key);
-            if(input.multipleConnections) {
+            if(prop.multi) {
                 return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
             }
             if(input.connections.length) {
@@ -43,7 +46,7 @@ export default class Compiler {
         }
         else {
             let output = this._output(node, key);
-            if(output.multipleConnections) {
+            if(prop.multi) {
                 return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
             }
             if(output.connections.length) {
@@ -58,24 +61,25 @@ export default class Compiler {
         return this._control(node, key).getValue();
     }
 
-    _getProp(node, list, key) {
-        let block = this.getBlock(node);
-        if(!block.hasOwnProperty(list)) {
-            throw new Error(`${node.name} does not have ${list}, searching for '${key}'`);
-        }
-        let prop = block[list].find(p => p.key === key);
-        if(!prop) {
-            throw new Error(`Prop does not exist on ${node.name}: ${key}`);
-        }
-        return prop;
-    }
-
     _compileConnection(connection, from, to, list) {
-        let prop = this._getProp(to.node, list, to.key);
+        let prop = this._getProp(to.node, /*list*/'outputs', to.key);
         if(!prop.compile) {
             throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
         }
-        return prop.compile(to.node, this);
+        console.log(to.node.name, to.key);
+        return this.compile(to.node, to.key);
+    }
+
+    _getProp(node, listKey, key) {
+        let block = this.getBlock(node);
+        if(!block.hasOwnProperty(listKey)) {
+            throw new Error(`${node.name} does not have ${listKey}, searching for '${key}'`);
+        }
+        let prop = block[listKey].find(p => p.key === key);
+        if(!prop) {
+            throw new Error(`Prop does not exist in ${node.name} ${listKey}: ${key}`);
+        }
+        return prop;
     }
 
     _input(node, key) {
@@ -99,22 +103,36 @@ export default class Compiler {
         return node.controls.get(key);
     }
 
-    // _reduce(node, fn) {
-    //     // TODO: dry
-    //     let data = {};
-    //     for(let input of node.inputs.values()) {
-    //         let values = input.connections.map(c => this._reduce(c.output.node, fn));
-    //         data[input.key] = input.multipleConnections ? values : values[0];
-    //     }
-    //     for(let output of node.outputs.values()) {
-    //         let values = output.connections.map(c => this._reduce(c.input.node, fn));
-    //         data[output.key] = output.multipleConnections ? values : values[0];
-    //     }
-    //     for(let control of node.controls.values()) {
-    //         data[control.key] = control.getValue();
-    //     }
-    //     return fn(node, data);
-    // }
+    compile(id, key) {
+        let node = this.getNode(id);
+        let block = this.getBlock(node);
+        let prop = block.outputs?.find(prop => prop.key === key);
+        if(!prop) {
+            throw new Error(`Output not found on ${node.name}: ${key}`);
+        }
+        let args = {};
+        if(block.inputs) {
+            for(let prop of block.inputs) {
+                let value = this.getInput(node, prop.key);
+                if(value === undefined && !prop.optional) {
+                    console.warn('Missing input:', prop.key);
+                    return;
+                }
+                args[prop.key] = value;
+            }
+        }
+        if(block.controls) {
+            for(let prop of block.controls) {
+                let value = this.getControl(node, prop.key);
+                if(value === undefined && !prop.optional) {
+                    console.warn('Missing control value:', prop.key);
+                    return;
+                }
+                args[prop.key] = value;
+            }
+        }
+        return prop?.compile(args, this);
+    }
 
     // _compile(functionName, id) {
     //     let node = this.getNode(id);

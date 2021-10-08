@@ -11,7 +11,13 @@ export function SocketHandle(props) {
 
     return (
         <div
-            className={classNames('socket', type, paramCase(socket.name), socket.data.category && 'category-' + paramCase(socket.data.category))}
+            className={classNames(
+                'socket',
+                type,
+                paramCase(socket.name),
+                socket.data.reversed && 'reversed',
+                socket.data.category && 'category-' + paramCase(socket.data.category),
+            )}
             title={socket.name}
             ref={el => createRef(el)} // force update for new IO with a same key
         />

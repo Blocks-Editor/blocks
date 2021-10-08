@@ -8,11 +8,8 @@ export function unaryOperator(type, symbol, evaluator) {
         outputs: [{
             key: 'result',
             type,
-            compile(node, compiler) {
-                let a = compiler.getInput(node, 'value');
-                if(a !== undefined) {
-                    return `${symbol}(${a})`;
-                }
+            compile({input}) {
+                return `${symbol}(${input})`;
             },
         }],
     };
@@ -31,12 +28,8 @@ export function binaryOperator(type, symbol, evaluator) {
         outputs: [{
             key: 'result',
             type,
-            compile(node, compiler) {
-                let a = compiler.getInput(node, 'a');
-                let b = compiler.getInput(node, 'b');
-                if(a !== undefined && b !== undefined) {
-                    return `(${a} ${symbol} ${b})`;
-                }
+            compile({a, b}) {
+                return `(${a} ${symbol} ${b})`;
             },
         }],
     };

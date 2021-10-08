@@ -33,7 +33,7 @@ export default class BlockComponent extends BaseComponent {
             node.data.title = this.block.title;
         }
 
-        function addProp(prop, isOutput) {
+        const addProp = (prop, isOutput) => {
             let socket = getSocket(prop.type);
             if(!!socket.data.reversed === isOutput) {
                 addPropInput(prop, socket, isOutput);
@@ -41,26 +41,26 @@ export default class BlockComponent extends BaseComponent {
             else {
                 addPropOutput(prop, socket, isOutput);
             }
-        }
+        };
 
-        function addPropInput(prop, socket, isOutput) {
-            let input = new Rete.Input(prop.key, prop.title || getDefaultLabel(prop.key), socket, false);
+        const addPropInput = (prop, socket, isOutput) => {
+            let input = new Rete.Input(prop.key, prop.title || getDefaultLabel(prop.key), socket, isOutput || prop.multi);
             if(hasPropControl(prop, socket, isOutput)) {
                 input.addControl(new TypeControl(this.editor, prop.key, socket));
             }
             node.addInput(input);
-        }
+        };
 
-        function addPropOutput(prop, socket, isOutput) {
-            node.addOutput(new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, true));
+        const addPropOutput = (prop, socket, isOutput) => {
+            node.addOutput(new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, !isOutput || prop.multi));
             if(hasPropControl(prop, socket, isOutput)) {
                 node.addControl(new TypeControl(this.editor, prop.key, socket));
             }
-        }
+        };
 
-        function hasPropControl(prop, socket, isOutput) {
+        const hasPropControl = (prop, socket, isOutput) => {
             return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType);
-        }
+        };
 
         // TODO: dry
 

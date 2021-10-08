@@ -9,6 +9,7 @@
 }
 
 $any-color: #f5a;
+$void-color: #333;
 $value-color: #8fa;
 $type-color: #2aa;
 $effect-color: #ccc;
@@ -21,7 +22,8 @@ $float-color: #5df;
 $int-color: #6fd;
 $nat-color: #58f;
 
-@include node-color("any", $any-color);
+@include node-color("any", $any-color); // `any` socket could use rainbow colors
+@include node-color("void", $void-color); // `any` socket could use rainbow colors
 @include node-color("category-values", $value-color);
 @include node-color("category-types", $type-color);
 @include node-color("category-effects", $effect-color);
@@ -44,12 +46,13 @@ $nat-color: #58f;
     background: #333;
     border-color: #333;
 
-    &.effect {
-      //  Effect sockets should look like right-facing arrows
+    &.reversed {
+      //  `.reversed` sockets should look like right-facing arrows
+      border-radius: 0;
     }
   }
 }
 
 .connection .main-path {
-  stroke: #222 !important;
+  stroke: #333 !important;
 }

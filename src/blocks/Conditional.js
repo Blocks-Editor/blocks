@@ -8,17 +8,14 @@ exports.default = {
     }, {
         key: 'false',
         type: 'Effect',
+        optional: true,
     }],
     outputs: [{
-        key: 'before',
+        key: 'statement',
         type: 'Effect',
-        compile(node, compiler) {
-            let condition = compiler.getInput(node, 'condition');
-            let trueCase = compiler.getInput(node, 'true');
-            let falseCase = compiler.getInput(node, 'false');
-            if(condition !== undefined && trueCase !== undefined && falseCase !== undefined) {
-                return `if (${condition}) {${trueCase}} else {${falseCase}}`;
-            }
+        compile({condition, trueCase, falseCase}) {
+            let falsePart = falseCase ? ` else {${falseCase}}` : '';
+            return `if(${condition}) {${trueCase}}${falsePart};`;
         },
     }],
 };

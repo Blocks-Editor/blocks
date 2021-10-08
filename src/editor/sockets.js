@@ -23,6 +23,11 @@ export const anySocket = createSocket('Any', {
     category: 'default',
 });
 
+// Void socket
+export const voidSocket = createSocket('Void', {
+    category: 'void',
+});
+
 // High-level socket categories
 export const valueSocket = createSocket('Value', {
     parent: anySocket,
@@ -31,6 +36,8 @@ export const valueSocket = createSocket('Value', {
 export const typeSocket = createSocket('Type', {
     parent: anySocket,
     category: 'types',
+    controlType: TextControlHandle,
+    defaultValue: 'Void',
 });
 export const effectSocket = createSocket('Effect', {
     parent: anySocket,

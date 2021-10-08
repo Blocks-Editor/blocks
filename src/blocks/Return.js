@@ -4,13 +4,10 @@ exports.default = {
         type: 'Value',
     }],
     outputs: [{
-        key: 'before',
+        key: 'statement',
         type: 'Effect',
-        compile(node, compiler) {
-            let value = compiler.getInput(node, 'value');
-            if(value !== undefined) {
-                return `return ${value};`;
-            }
+        compile({value}) {
+            return `return ${value};`;
         },
     }],
 };

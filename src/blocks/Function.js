@@ -21,7 +21,6 @@ exports.default = {
     }],
 };
 
-function compile(node, compiler) {
-    let name = compiler.getControl(node, 'name');
-    return `func${name ? ' ' + name : ''}() {${compiler.getInput(node, 'body')}}`;
+function compile({name, body}) {
+    return `func${name ? ' ' + name : ''}() {${body}}`;
 }

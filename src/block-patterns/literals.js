@@ -5,8 +5,7 @@ export function literalValue(title, type, stringifier) {
             key: 'value',
             type,
             control: true,
-            compile(node, compiler) {
-                let value = compiler.getControl(node, 'value');
+            compile({value}) {
                 return String(stringifier ? stringifier(value) : value);
             },
         }],

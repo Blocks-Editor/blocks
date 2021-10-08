@@ -1,5 +1,3 @@
-const Compiler = require('../editor/utils/Compiler').default;
-
 exports.default = {
     inputs: [{
         key: 'members',
@@ -9,8 +7,7 @@ exports.default = {
     // outputs: [{
     //     key: 'actor',
     //     type: 'Actor',
-    //     compile(node, compiler) {
-    //         // TODO
+    //     compile({members}) {
     //     },
     // }],
     controls: [{
