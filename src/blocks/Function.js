@@ -1,27 +1,27 @@
 exports.default = {
     inputs: [{
-        key: 'member',
-        type: 'Member',
-        compile,
+        key: 'body',
+        type: 'Effect',
     }, {
         key: 'returnType',
         type: 'Type',
     }],
     outputs: [{
-        key: 'body',
-        type: 'Effect',
-    }, {
         key: 'lambda',
         type: 'Value',
+        compile,
+    }, {
+        key: 'member',
+        type: 'Member',
         compile,
     }],
     controls: [{
         key: 'name',
-        type: 'Text',
+        type: 'Identifier',
     }],
 };
 
 function compile(node, compiler) {
     let name = compiler.getControl(node, 'name');
-    return `func${name ? ' ' + name : ''}() {${compiler.getOutput(node, 'body')}}`;
+    return `func${name ? ' ' + name : ''}() {${compiler.getInput(node, 'body')}}`;
 }

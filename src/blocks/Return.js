@@ -1,12 +1,16 @@
 exports.default = {
     inputs: [{
+        key: 'value',
+        type: 'Value',
+    }],
+    outputs: [{
         key: 'before',
         type: 'Effect',
         compile(node, compiler) {
-            return `return ${compiler.getInput(node, 'value')};`;
+            let value = compiler.getInput(node, 'value');
+            if(value !== undefined) {
+                return `return ${value};`;
+            }
         },
-    }, {
-        key: 'value',
-        type: 'Value',
     }],
 };

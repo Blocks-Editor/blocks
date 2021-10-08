@@ -7,6 +7,9 @@ const sockets = new Map();
 
 class TypeSocket extends Rete.Socket {
     compatibleWith(socket) {
+        if(!!this.data.reversed === !socket.data.reversed) {
+            return false;
+        }
         return super.compatibleWith(socket) || (!!this.data.parent && this.data.parent.compatibleWith(socket));
     }
 }
@@ -32,18 +35,22 @@ export const typeSocket = createSocket('Type', {
 export const effectSocket = createSocket('Effect', {
     parent: anySocket,
     category: 'effects',
+    reversed: true,
 });
 export const memberSocket = createSocket('Member', {
     parent: anySocket,
     category: 'members',
+    reversed: true,
 });
 export const actorSocket = createSocket('Actor', {
     parent: anySocket,
     category: 'actors',
+    reversed: true,
 });
 export const moduleSocket = createSocket('Module', {
     parent: anySocket,
     category: 'modules',
+    reversed: true,
 });
 
 // Value sockets
@@ -61,6 +68,11 @@ export const charSocket = createSocket('Char', {
 export const textSocket = createSocket('Text', {
     parent: valueSocket,
     controlType: TextControlHandle,
+    defaultValue: '',
+});
+export const identifierSocket = createSocket('Identifier', {
+    parent: valueSocket,
+    controlType: TextControlHandle, // TODO: constrain to valid identifiers
     defaultValue: '',
 });
 export const floatSocket = createSocket('Float', {

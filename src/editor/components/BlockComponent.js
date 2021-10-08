@@ -33,29 +33,46 @@ export default class BlockComponent extends BaseComponent {
             node.data.title = this.block.title;
         }
 
+        function addProp(prop, isOutput) {
+            let socket = getSocket(prop.type);
+            if(!!socket.data.reversed === isOutput) {
+                addPropInput(prop, socket, isOutput);
+            }
+            else {
+                addPropOutput(prop, socket, isOutput);
+            }
+        }
+
+        function addPropInput(prop, socket, isOutput) {
+            let input = new Rete.Input(prop.key, prop.title || getDefaultLabel(prop.key), socket, false);
+            if(hasPropControl(prop, socket, isOutput)) {
+                input.addControl(new TypeControl(this.editor, prop.key, socket));
+            }
+            node.addInput(input);
+        }
+
+        function addPropOutput(prop, socket, isOutput) {
+            node.addOutput(new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, true));
+            if(hasPropControl(prop, socket, isOutput)) {
+                node.addControl(new TypeControl(this.editor, prop.key, socket));
+            }
+        }
+
+        function hasPropControl(prop, socket, isOutput) {
+            return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType);
+        }
+
         // TODO: dry
 
         if(this.block.inputs) {
             for(let prop of this.block.inputs) {
-                let socket = getSocket(prop.type);
-
-                let input = new Rete.Input(prop.key, prop.title || getDefaultLabel(prop.key), socket, false);
-                if(socket.data.controlType) {
-                    input.addControl(new TypeControl(this.editor, prop.key, socket));
-                }
-
-                node.addInput(input);
+                addProp(prop, false);
             }
         }
 
         if(this.block.outputs) {
             for(let prop of this.block.outputs) {
-                let socket = getSocket(prop.type);
-
-                node.addOutput(new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, true));
-                if(prop.control) {
-                    node.addControl(new TypeControl(this.editor, prop.key, socket));
-                }
+                addProp(prop, true);
             }
         }
 

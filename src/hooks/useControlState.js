@@ -11,13 +11,11 @@ export default function useControlState({control}) {
 
     useListener(control.events, 'update', () => updateVisualValue(control.getValue()));
 
-    console.log(':',value)
-
     return [
         value,
         value => {
             control.setValue(value);
-            events.emit(ENGINE_NOTIFY_EVENT, control,value);
+            events.emit(ENGINE_NOTIFY_EVENT, control, value);
         },
     ];
 }

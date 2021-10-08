@@ -1,5 +1,6 @@
 import {BLOCK_MAP} from '../blocks';
 import Rete from 'rete';
+import {getSocket} from '../sockets';
 
 export default class Compiler {
     constructor(editor) {
@@ -25,28 +26,30 @@ export default class Compiler {
     // TODO: dry all this
     getInput(node, key) {
         node = this.getNode(node);
-        let input = this._input(node, key);
-        if(input.multipleConnections) {
-            return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
+        let block = this.getBlock(node);
+        let prop = block.inputs?.find(prop => prop.key === key);
+        if(!prop || !getSocket(prop.type).data.reversed) {
+            let input = this._input(node, key);
+            if(input.multipleConnections) {
+                return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
+            }
+            if(input.connections.length) {
+                let c = input.connections[0];
+                return this._compileConnection(c, c.input, c.output, 'outputs');
+            }
+            if(input.control) {
+                return input.control.getValue();
+            }
         }
-        if(input.connections.length) {
-            let c = input.connections[0];
-            return this._compileConnection(c, c.input, c.output, 'outputs');
-        }
-        if(input.control) {
-            return input.control.getValue();
-        }
-    }
-
-    getOutput(node, key) {
-        node = this.getNode(node);
-        let output = this._output(node, key);
-        if(output.multipleConnections) {
-            return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
-        }
-        if(output.connections.length) {
-            let c = output.connections[0];
-            return this._compileConnection(c, c.output, c.input, 'inputs');
+        else {
+            let output = this._output(node, key);
+            if(output.multipleConnections) {
+                return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
+            }
+            if(output.connections.length) {
+                let c = output.connections[0];
+                return this._compileConnection(c, c.output, c.input, 'inputs');
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 const Compiler = require('../editor/utils/Compiler').default;
 
 exports.default = {
-    category: 'Evaluation',
     inputs: [{
         key: 'input',
         type: 'Any',
