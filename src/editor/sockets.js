@@ -7,10 +7,15 @@ const sockets = new Map();
 
 class TypeSocket extends Rete.Socket {
     compatibleWith(socket) {
-        if(!!this.data.reversed === !socket.data.reversed) {
+        let reversed = !!this.data.reversed;
+        if(reversed === !socket.data.reversed) {
             return false;
         }
-        return super.compatibleWith(socket) || (!!this.data.parent && this.data.parent.compatibleWith(socket));
+        let self = socket;
+        // if(reversed) {
+        //     [self, socket] = [socket, self];
+        // }
+        return (self.name === socket.name) /*super.compatibleWith(socket)*/ || (!!self.data.parent && self.data.parent.compatibleWith(socket));
     }
 }
 
@@ -21,6 +26,10 @@ class TypeSocket extends Rete.Socket {
 // Anything passable through a socket
 export const anySocket = createSocket('Any', {
     category: 'default',
+});
+export const anyReversedSocket = createSocket('AnyReversed', {
+    parent: anySocket,
+    reversed: true,
 });
 
 // Void socket
@@ -39,25 +48,30 @@ export const typeSocket = createSocket('Type', {
     controlType: TextControlHandle,
     defaultValue: 'Void',
 });
-export const effectSocket = createSocket('Effect', {
+export const identifierSocket = createSocket('Identifier', {
     parent: anySocket,
+    controlType: TextControlHandle, // TODO: constrain to valid identifiers
+    defaultValue: '',
+});
+export const effectSocket = createSocket('Effect', {
+    parent: anyReversedSocket,
     category: 'effects',
-    reversed: true,
 });
 export const memberSocket = createSocket('Member', {
-    parent: anySocket,
+    parent: anyReversedSocket,
     category: 'members',
-    reversed: true,
 });
 export const actorSocket = createSocket('Actor', {
-    parent: anySocket,
+    parent: anyReversedSocket,
     category: 'actors',
-    reversed: true,
 });
 export const moduleSocket = createSocket('Module', {
-    parent: anySocket,
+    parent: anyReversedSocket,
     category: 'modules',
-    reversed: true,
+});
+export const paramSocket = createSocket('Param', {
+    parent: anyReversedSocket,
+    category: 'parameters',
 });
 
 // Value sockets
@@ -75,11 +89,6 @@ export const charSocket = createSocket('Char', {
 export const textSocket = createSocket('Text', {
     parent: valueSocket,
     controlType: TextControlHandle,
-    defaultValue: '',
-});
-export const identifierSocket = createSocket('Identifier', {
-    parent: valueSocket,
-    controlType: TextControlHandle, // TODO: constrain to valid identifiers
     defaultValue: '',
 });
 export const floatSocket = createSocket('Float', {

@@ -8,29 +8,33 @@
   }
 }
 
-$any-color: #f5a;
 $void-color: #333;
+$any-color: #f5a;
 $value-color: #8fa;
 $type-color: #2aa;
 $effect-color: #ccc;
 $member-color: #8af;
+$parameter-color: #a8f;
 $actor-color: #fa8;
 $module-color: #888;
 
+$identifier-color: #eee;
 $bool-color: #a6f;
 $float-color: #5df;
 $int-color: #6fd;
 $nat-color: #58f;
 
-@include node-color("any", $any-color); // `any` socket could use rainbow colors
-@include node-color("void", $void-color); // `any` socket could use rainbow colors
+@include node-color("void", $void-color);
+@include node-color("category-default", $any-color); // `any` socket could use rainbow colors
 @include node-color("category-values", $value-color);
 @include node-color("category-types", $type-color);
 @include node-color("category-effects", $effect-color);
 @include node-color("category-members", $member-color);
 @include node-color("category-actors", $actor-color);
 @include node-color("category-modules", $module-color);
+@include node-color("category-parameters", $parameter-color);
 
+@include node-color("identifier", $identifier-color);
 @include node-color("bool", $bool-color);
 @include node-color("float", $float-color);
 @include node-color("category-integers", $int-color);

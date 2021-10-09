@@ -23,7 +23,6 @@ export default class Compiler {
         return BLOCK_MAP.get(node.name);
     }
 
-    // TODO: dry all this
     getInput(node, key) {
         node = this.getNode(node);
         let block = this.getBlock(node);
@@ -34,7 +33,7 @@ export default class Compiler {
         if(!getSocket(prop.type).data.reversed) {
             let input = this._input(node, key);
             if(prop.multi) {
-                return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
+                return this._sortConnections(input.connections, 'output').map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
             }
             if(input.connections.length) {
                 let c = input.connections[0];
@@ -47,7 +46,7 @@ export default class Compiler {
         else {
             let output = this._output(node, key);
             if(prop.multi) {
-                return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
+                return this._sortConnections(output.connections, 'input').map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
             }
             if(output.connections.length) {
                 let c = output.connections[0];
@@ -61,21 +60,21 @@ export default class Compiler {
         return this._control(node, key).getValue();
     }
 
-    _compileConnection(connection, from, to, list) {
-        let prop = this._getProp(to.node, /*list*/'outputs', to.key);
+    _sortConnections(connections, sideKey) {
+        return [...connections].sort((a, b) => a[sideKey].node.position[1] - b[sideKey].node.position[1]);
+    }
+
+    _compileConnection(connection, from, to) {
+        let prop = this._getProp(to.node, 'outputs', to.key);
         if(!prop.compile) {
             throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
         }
-        console.log(to.node.name, to.key);
         return this.compile(to.node, to.key);
     }
 
     _getProp(node, listKey, key) {
         let block = this.getBlock(node);
-        if(!block.hasOwnProperty(listKey)) {
-            throw new Error(`${node.name} does not have ${listKey}, searching for '${key}'`);
-        }
-        let prop = block[listKey].find(p => p.key === key);
+        let prop = block[listKey]?.find(p => p.key === key);
         if(!prop) {
             throw new Error(`Prop does not exist in ${node.name} ${listKey}: ${key}`);
         }

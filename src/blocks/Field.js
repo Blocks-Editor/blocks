@@ -3,24 +3,24 @@ exports.default = {
         key: 'name',
         type: 'Identifier',
     }, {
-        key: 'params',
-        type: 'Param',
-        multi: true,
-    }, {
-        key: 'body',
-        type: 'Effect',
-    }, {
-        key: 'returnType',
-        type: 'Type',
+        //     key: 'type',
+        //     type: 'Type',
+        // }, {
+        key: 'defaultValue',
+        type: 'Value',
     }],
     outputs: [{
-        key: 'lambda',
+        key: 'value',
         type: 'Value',
-        compile,
+        compile({name}) {
+            return name;
+        },
     }, {
         key: 'member',
         type: 'Member',
-        compile,
+        compile({name, defaultValue}) {
+            return `var ${name} = ${defaultValue};`;
+        },
     }],
 };
 

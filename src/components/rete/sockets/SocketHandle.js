@@ -19,7 +19,7 @@ export function SocketHandle(props) {
                 socket.data.category && 'category-' + paramCase(socket.data.category),
             )}
             title={socket.name}
-            ref={el => createRef(el)} // force update for new IO with a same key
+            ref={el => createRef(el)} // force update for new IO with the same key
         />
     );
 }

@@ -32,7 +32,7 @@ export default function Editor({onSetup, onChange}) {
             await engine.abort();
             await engine.process(editor.toJSON());
 
-            events.emit(EDITOR_CHANGE_EVENT);////
+            events.emit(EDITOR_CHANGE_EVENT);
         }
     });
 
@@ -68,15 +68,17 @@ export default function Editor({onSetup, onChange}) {
         }
 
         editor.on(['nodecreated', 'noderemoved', 'connectioncreated', 'connectionremoved'], async () => {
-            await engine.abort();
+            // await engine.abort();
+            //
+            // let state = editor.toJSON();
+            // // console.log('State:', state);
+            // await engine.process(state);
+            //
+            // // await editor.trigger('process');
+            //
+            // events.emit(EDITOR_CHANGE_EVENT, state);
 
-            let state = editor.toJSON();
-            // console.log('State:', state);
-            await engine.process(state);
-
-            // await editor.trigger('process');
-
-            events.emit(EDITOR_CHANGE_EVENT, state);
+            events.emit(ENGINE_NOTIFY_EVENT);
         });
         editor.on('zoom', ({source}) => {
             return source !== 'dblclick';
@@ -85,13 +87,30 @@ export default function Editor({onSetup, onChange}) {
             let state = editor.toJSON();
             events.emit(EDITOR_CHANGE_EVENT, state);
         });
-        editor.on(['renderconnection'/*, 'updateconnection'*/], ({el, connection}) => {
+        editor.on(['renderconnection'], ({el, connection}) => {
             el.querySelector('.connection').classList.add(
                 `socket-input-category-${connection.input.socket.data.category}`,
                 `socket-output-category-${connection.output.socket.data.category}`,
             );
         });
+        // editor.on(['renderconnection', 'updateconnection'], ({el, connection}) => {
+        //     // Fade out distant connections
+        //     setTimeout(() => {
+        //         let minDistance = 500;
+        //         let opacityFalloff = 200;
+        //         let pathElement = el.querySelector('.main-path');
+        //         let bounds = pathElement.getBoundingClientRect();
+        //         let distance = bounds.width;
+        //         pathElement.style.opacity = 1 / (1 + Math.sqrt(Math.max(distance - minDistance, 0) / opacityFalloff));
+        //     });
+        // });
         editor.on('error', err => events.emit(ERROR_EVENT, err));
+
+        let lastTranslate;
+        editor.on('nodetranslated', () => {
+            clearTimeout(lastTranslate);
+            lastTranslate = setTimeout(() => events.emit(EDITOR_CHANGE_EVENT), 200);
+        });
 
         async function loadState(state) {
             if(!state) {

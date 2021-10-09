@@ -3,6 +3,7 @@ import {getSocket} from '../sockets';
 import TypeControl from '../controls/TypeControl';
 import BaseComponent from './BaseComponent';
 import getDefaultLabel from '../../utils/getDefaultLabel';
+import BaseControl from '../controls/BaseControl';
 
 export default class BlockComponent extends BaseComponent {
 
@@ -13,21 +14,6 @@ export default class BlockComponent extends BaseComponent {
     }
 
     async builder(node) {
-        // if(this.block.props) {
-        //     for(let [key, prop] of Object.entries(this.block.props)) {
-        //         let socket = getSocket(prop.type);
-        //
-        //         if(prop.input) {
-        //             node.addInput(new Rete.Input(key, key, socket, false));
-        //         }
-        //         if(prop.output) {
-        //             node.addOutput(new Rete.Output(key, key, socket, true));
-        //         }
-        //         if(prop.control) {
-        //             node.addControl(new TypeControl(this.editor, key, socket));
-        //         }
-        //     }
-        // }
 
         if(this.block.title) {
             node.data.title = this.block.title;
@@ -78,9 +64,16 @@ export default class BlockComponent extends BaseComponent {
 
         if(this.block.controls) {
             for(let prop of this.block.controls) {
-                let socket = getSocket(prop.type);
+                let control;
+                if(prop.type) {
+                    let socket = getSocket(prop.type);
 
-                node.addControl(new TypeControl(this.editor, prop.key, socket));
+                    control = new TypeControl(this.editor, prop.key, socket);
+                }
+                else {
+                    control = new BaseControl(this.editor, prop.key, prop.config || {});
+                }
+                node.addControl(control);
             }
         }
 

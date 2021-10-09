@@ -25,15 +25,6 @@ export default class NodeHandle extends Node {
                         />
                     </div>
                 ))}
-                {/* Controls */}
-                {controls.map(control => (
-                    <Control
-                        className="control"
-                        key={control.key}
-                        control={control}
-                        innerRef={bindControl}
-                    />
-                ))}
                 {/* Inputs */}
                 {inputs.map(input => (
                     <div className="input" key={input.key}>
@@ -53,6 +44,15 @@ export default class NodeHandle extends Node {
                             <div className="input-title">{input.name}</div>
                         )}
                     </div>
+                ))}
+                {/* Controls */}
+                {controls.map(control => (
+                    <Control
+                        className="control"
+                        key={control.key}
+                        control={control}
+                        innerRef={bindControl}
+                    />
                 ))}
             </div>
         );
