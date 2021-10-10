@@ -22,10 +22,10 @@ export default class BlockComponent extends BaseComponent {
         const addProp = (prop, isOutput) => {
             let socket = getSocket(prop.type);
             if(!!socket.data.reversed === isOutput) {
-                addPropInput(prop, socket, isOutput);
+                return addPropInput(prop, socket, isOutput);
             }
             else {
-                addPropOutput(prop, socket, isOutput);
+                return addPropOutput(prop, socket, isOutput);
             }
         };
 
@@ -35,13 +35,16 @@ export default class BlockComponent extends BaseComponent {
                 input.addControl(new TypeControl(this.editor, prop.key, socket));
             }
             node.addInput(input);
+            return input;
         };
 
         const addPropOutput = (prop, socket, isOutput) => {
-            node.addOutput(new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, !isOutput || prop.multi));
+            let output = new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, !isOutput || prop.multi);
+            node.addOutput(output);
             if(hasPropControl(prop, socket, isOutput)) {
                 node.addControl(new TypeControl(this.editor, prop.key, socket));
             }
+            return output;
         };
 
         const hasPropControl = (prop, socket, isOutput) => {
@@ -52,13 +55,15 @@ export default class BlockComponent extends BaseComponent {
 
         if(this.block.inputs) {
             for(let prop of this.block.inputs) {
-                addProp(prop, false);
+                let io = addProp(prop, false);
+                io._prop = prop; /////
             }
         }
 
         if(this.block.outputs) {
             for(let prop of this.block.outputs) {
-                addProp(prop, true);
+                let io = addProp(prop, true);
+                io._prop = prop; /////
             }
         }
 

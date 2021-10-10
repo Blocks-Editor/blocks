@@ -9,12 +9,15 @@ export function SocketHandle(props) {
 
     const createRef = el => el && innerRef(el, type, io);
 
+    console.log(io._prop)
+
     return (
         <div
             className={classNames(
                 'socket',
                 type,
                 paramCase(socket.name),
+                io._prop?.multi && 'multi',
                 socket.data.reversed && 'reversed',
                 socket.data.category && 'category-' + paramCase(socket.data.category),
             )}

@@ -50,8 +50,13 @@ $nat-color: #58f;
     background: #333;
     border-color: #333;
 
+    &.multi {
+      // Multiple-input sockets should have a different appearance
+      border-width: 2px;
+    }
+
     &.reversed {
-      //  `.reversed` sockets should look like right-facing arrows
+      // Reversed sockets should look like right-facing arrows
       border-radius: 0;
     }
   }

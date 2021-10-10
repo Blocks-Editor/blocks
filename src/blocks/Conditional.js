@@ -1,21 +1,20 @@
-exports.default = {
+const {statement} = require('../block-patterns/statements');
+
+exports.default = statement({
     inputs: [{
         key: 'condition',
         type: 'Bool',
     }, {
-        key: 'true',
+        key: 'trueCase',
+        title: 'True',
         type: 'Effect',
     }, {
-        key: 'false',
+        key: 'falseCase',
+        title: 'False',
         type: 'Effect',
         optional: true,
     }],
-    outputs: [{
-        key: 'statement',
-        type: 'Effect',
-        compile({condition, trueCase, falseCase}) {
-            let falsePart = falseCase ? ` else {${falseCase}}` : '';
-            return `if(${condition}) {${trueCase}}${falsePart};`;
-        },
-    }],
-};
+}, ({condition, trueCase, falseCase}) => {
+    let falsePart = falseCase ? ` else {${falseCase}}` : '';
+    return `if(${condition}) {${trueCase}}${falsePart};`;
+});
