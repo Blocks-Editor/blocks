@@ -51,8 +51,6 @@ export default class BlockComponent extends BaseComponent {
             return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType);
         };
 
-        // TODO: dry
-
         if(this.block.inputs) {
             for(let prop of this.block.inputs) {
                 let io = addProp(prop, false);

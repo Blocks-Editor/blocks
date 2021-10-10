@@ -9,8 +9,6 @@ export function SocketHandle(props) {
 
     const createRef = el => el && innerRef(el, type, io);
 
-    console.log(io._prop)
-
     return (
         <div
             className={classNames(
