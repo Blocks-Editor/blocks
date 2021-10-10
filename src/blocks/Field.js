@@ -1,4 +1,4 @@
-exports.default = {
+const block = {
     inputs: [{
         key: 'name',
         type: 'Identifier',
@@ -8,6 +8,7 @@ exports.default = {
         // }, {
         key: 'defaultValue',
         type: 'Value',
+        optional: true,
     }],
     outputs: [{
         key: 'value',
@@ -19,11 +20,8 @@ exports.default = {
         key: 'member',
         type: 'Member',
         compile({name, defaultValue}) {
-            return `var ${name} = ${defaultValue};`;
+            return `var ${name}${defaultValue ? ' = ' + defaultValue : ''};`;
         },
     }],
 };
-
-function compile({name, params, returnType, body}) {
-    return `func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== 'Void' ? ' ' + returnType : ''} {${body}}`;
-}
+export default block;

@@ -1,3 +1,4 @@
-const {unaryOperator} = require('../block-patterns/operators');
+import {unaryOperator} from '../block-patterns/members';
 
-exports.default = unaryOperator('Bool', '!', (a) => !a);
+const block = unaryOperator('Bool', '!', (a) => !a);
+export default block;

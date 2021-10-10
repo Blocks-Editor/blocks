@@ -1,4 +1,4 @@
-exports.default = {
+const block = {
     inputs: [{
         key: 'condition',
         type: 'Bool',
@@ -23,3 +23,4 @@ exports.default = {
         },
     }],
 };
+export default block;

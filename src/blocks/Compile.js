@@ -1,7 +1,7 @@
-const OutputControlHandle = require('../components/rete/controls/OutputControlHandle').default;
-const Compiler = require('../editor/utils/Compiler').default;
+import OutputControlHandle from '../components/rete/controls/OutputControlHandle';
+import Compiler from '../editor/utils/Compiler';
 
-exports.default = {
+const block = {
     inputs: [{
         key: 'input',
         type: 'Any',
@@ -38,3 +38,4 @@ exports.default = {
         reversed.setValue(reversedValue);
     },
 };
+export default block;

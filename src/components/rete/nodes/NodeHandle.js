@@ -75,10 +75,9 @@ export default class NodeHandle extends Node {
                 ))}
                 {/* Controls */}
                 {controls.map(control => (
-                    <ControlWrapper>
+                    <ControlWrapper key={control.key}>
                         <Control
                             className="control"
-                            key={control.key}
                             control={control}
                             innerRef={bindControl}
                         />

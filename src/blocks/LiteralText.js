@@ -1,3 +1,4 @@
-const {literalValue} = require('../block-patterns/literals');
+import {literalValue} from '../block-patterns/literals';
 
-exports.default = literalValue('Text', 'Text', JSON.stringify);
+const block = literalValue('Text', 'Text', JSON.stringify);
+export default block;

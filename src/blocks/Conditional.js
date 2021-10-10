@@ -1,6 +1,6 @@
-const {statement} = require('../block-patterns/statements');
+import {statement} from '../block-patterns/statements';
 
-exports.default = statement({
+const block = statement({
     inputs: [{
         key: 'condition',
         type: 'Bool',
@@ -18,3 +18,4 @@ exports.default = statement({
     let falsePart = falseCase ? ` else {${falseCase}}` : '';
     return `if(${condition}) {${trueCase}}${falsePart};`;
 });
+export default block;

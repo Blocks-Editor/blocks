@@ -1,6 +1,6 @@
-const {statement} = require('../block-patterns/statements');
+import {statement} from '../block-patterns/statements';
 
-exports.default = statement({
+const block = statement({
     title: 'Update Variable',
     inputs: [{
         key: 'name',
@@ -19,4 +19,4 @@ exports.default = statement({
 }, ({name, value, after}) => {
     return `${name} := ${value};`;
 });
-
+export default block;

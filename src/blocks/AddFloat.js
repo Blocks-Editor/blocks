@@ -1,3 +1,4 @@
-const {binaryOperator} = require('../block-patterns/operators');
+import {binaryOperator} from '../block-patterns/members';
 
-exports.default = binaryOperator('Float', '+', (a, b) => a + b);
+const block = binaryOperator('Float', '+', (a, b) => a + b);
+export default block;

@@ -12,6 +12,7 @@ import NodeHandle from './nodes/NodeHandle';
 import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/useListener';
+import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
 
 export default function Editor({onSetup, onChange}) {
     let name = process.env.REACT_APP_EDITOR_NAME;
@@ -47,7 +48,7 @@ export default function Editor({onSetup, onChange}) {
 
         let id = name + '@' + version;
 
-        editor = new Rete.NodeEditor(id, element);
+        editor = new BlocksNodeEditor(id, element);
         editor.use(ReactRenderPlugin, {
             component: NodeHandle,
         });

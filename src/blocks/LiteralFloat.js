@@ -1,3 +1,4 @@
-const {literalValue} = require('../block-patterns/literals');
+import {literalValue} from '../block-patterns/literals';
 
-exports.default = literalValue('Float', 'Float');
+const block = literalValue('Float', 'Float');
+export default block;

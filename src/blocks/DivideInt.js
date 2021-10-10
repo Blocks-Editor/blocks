@@ -1,3 +1,4 @@
-const {binaryOperator} = require('../block-patterns/operators');
+import {binaryOperator} from '../block-patterns/members';
 
-exports.default = binaryOperator('Int', '/', (a, b) => Math.floor(a / b));
+const block = binaryOperator('Int', '/', (a, b) => Math.floor(a / b));
+export default block;

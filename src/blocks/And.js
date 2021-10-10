@@ -1,3 +1,4 @@
-const { binaryOperator} = require('../block-patterns/operators');
+import {binaryOperator} from '../block-patterns/members';
 
-exports.default = binaryOperator('Bool', '&&', (a, b) => a && b);
+const block = binaryOperator('Bool', '&&', (a, b) => a && b);
+export default block;

@@ -1,3 +1,4 @@
-const {literalValue} = require('../block-patterns/literals');
+import {literalValue} from '../block-patterns/literals';
 
-exports.default = literalValue('Boolean', 'Bool');
+const block = literalValue('Boolean', 'Bool');
+export default block;
