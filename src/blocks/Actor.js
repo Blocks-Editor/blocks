@@ -14,9 +14,5 @@ const block = {
             return `actor ${name} { ${members.join('; ')} }`;
         },
     }],
-    controls: [{
-        key: 'name',
-        type: 'Identifier',
-    }],
 };
 export default block;
