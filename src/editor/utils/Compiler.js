@@ -55,9 +55,44 @@ export default class Compiler {
         }
     }
 
+    getOutput(node, key) {
+        node = this.getNode(node);
+        let block = this.getBlock(node);
+        let prop = block.outputs?.find(prop => prop.key === key);
+        if(!prop) {
+            throw new Error(`Output not found on ${node.name}: ${key}`);
+        }
+        let args = {};
+        if(block.inputs) {
+            for(let prop of block.inputs) {
+                let value = this.getInput(node, prop.key);
+                if(value === undefined && !prop.optional) {
+                    console.warn('Missing input:', prop.key);
+                    return;
+                }
+                args[prop.key] = value;
+            }
+        }
+        if(block.controls) {
+            for(let prop of block.controls) {
+                let value = this.getControl(node, prop.key);
+                if(value === undefined && !prop.optional) {
+                    console.warn('Missing control value:', prop.key);
+                    return;
+                }
+                args[prop.key] = value;
+            }
+        }
+        return prop?.compile.apply(this, args, node);
+    }
+
     getControl(node, key) {
         node = this.getNode(node);
         return this._control(node, key).getValue();
+    }
+
+    getType(node, key) {
+        // TODO: implement type inference
     }
 
     _sortConnections(connections, sideKey) {
@@ -65,14 +100,14 @@ export default class Compiler {
     }
 
     _compileConnection(connection, from, to) {
-        let prop = this._getProp(to.node, 'outputs', to.key);
+        let prop = this._prop(to.node, 'outputs', to.key);
         if(!prop.compile) {
             throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
         }
-        return this.compile(to.node, to.key);
+        return this.getOutput(to.node, to.key);
     }
 
-    _getProp(node, listKey, key) {
+    _prop(node, listKey, key) {
         let block = this.getBlock(node);
         let prop = block[listKey]?.find(p => p.key === key);
         if(!prop) {
@@ -101,45 +136,4 @@ export default class Compiler {
         }
         return node.controls.get(key);
     }
-
-    compile(id, key) {
-        let node = this.getNode(id);
-        let block = this.getBlock(node);
-        let prop = block.outputs?.find(prop => prop.key === key);
-        if(!prop) {
-            throw new Error(`Output not found on ${node.name}: ${key}`);
-        }
-        let args = {};
-        if(block.inputs) {
-            for(let prop of block.inputs) {
-                let value = this.getInput(node, prop.key);
-                if(value === undefined && !prop.optional) {
-                    console.warn('Missing input:', prop.key);
-                    return;
-                }
-                args[prop.key] = value;
-            }
-        }
-        if(block.controls) {
-            for(let prop of block.controls) {
-                let value = this.getControl(node, prop.key);
-                if(value === undefined && !prop.optional) {
-                    console.warn('Missing control value:', prop.key);
-                    return;
-                }
-                args[prop.key] = value;
-            }
-        }
-        return prop?.compile(args, this);
-    }
-
-    // _compile(functionName, id) {
-    //     let node = this.getNode(id);
-    //     if(!node.data.block?.compile) {
-    //         throw new Error(`Cannot compile node: ${node.name}`);
-    //     }
-    //     return node.block[functionName](node, this);
-    //     // return this._reduce(node, (n, data) => n.block.compile(data, n, this));
-    // }
-
 }
