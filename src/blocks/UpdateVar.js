@@ -10,13 +10,13 @@ const block = statement({
         type: 'Value',
     }],
     outputs: [{
-        key: 'value',
+        key: 'newValue',
         type: 'Value',
         compile({name, value}) {
             return `(${name} := ${value})`;
         },
     }],
-}, ({name, value, after}) => {
+}, ({name, value}) => {
     return `${name} := ${value};`;
 });
 export default block;

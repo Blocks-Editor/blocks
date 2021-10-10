@@ -26,6 +26,6 @@ const block = {
 export default block;
 
 function compile({name, params, body}, node, compiler) {
-    let returnType = compiler.getType(node, 'value') || '?';
+    let returnType = compiler.inferType(node, 'body') || '?';
     return `func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== 'Void' ? ': ' + returnType : ''} {${body}}`;
 }

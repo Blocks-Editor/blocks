@@ -30,7 +30,7 @@ export default class BlockComponent extends BaseComponent {
         };
 
         const addPropInput = (prop, socket, isOutput) => {
-            let input = new Rete.Input(prop.key, prop.title || getDefaultLabel(prop.key), socket, isOutput || prop.multi);
+            let input = new Rete.Input(prop.key, prop.title || getDefaultLabel(prop.key), socket, isOutput === !!prop.multi);
             if(hasPropControl(prop, socket, isOutput)) {
                 input.addControl(new TypeControl(this.editor, prop.key, socket));
             }
@@ -39,7 +39,7 @@ export default class BlockComponent extends BaseComponent {
         };
 
         const addPropOutput = (prop, socket, isOutput) => {
-            let output = new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, !isOutput || prop.multi);
+            let output = new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, isOutput === !prop.multi);
             node.addOutput(output);
             if(hasPropControl(prop, socket, isOutput)) {
                 node.addControl(new TypeControl(this.editor, prop.key, socket));

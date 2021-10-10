@@ -6,6 +6,7 @@ export function statement(block, compile) {
                 key: 'after',
                 type: 'Effect',
                 optional: true,
+                // multi: true,
             },
         ],
         outputs: [
@@ -15,6 +16,7 @@ export function statement(block, compile) {
                 compile(props) {
                     let {after} = props;
                     return `${compile(props)}${after ? ' ' + after : ''}`;
+                    // return `${compile(props)}${after.map(effect => ' ' + effect)}`;
                 },
             },
         ],

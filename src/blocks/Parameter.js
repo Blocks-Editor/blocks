@@ -2,15 +2,14 @@ const block = {
     inputs: [{
         key: 'name',
         type: 'Identifier',
-        // }, {
-        //     key: 'type',
-        //     type: 'Type',
+        }, {
+            key: 'type',
+            type: 'Type',
     }],
     outputs: [{
         key: 'param',
         type: 'Param',
-        compile({name}, node, compiler) {
-            let type = compiler.getType(node, 'value') || '?';
+        compile({name, type}) {
             return `${name}: ${type}`;
         },
     }, {

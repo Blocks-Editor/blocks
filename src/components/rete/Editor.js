@@ -136,6 +136,7 @@ export default function Editor({onSetup, onChange}) {
             // events.emit(PROCESS_EVENT);
             // await engine.abort();
             // await engine.process(editor.toJSON());
+            events.emit(ENGINE_NOTIFY_EVENT);
         })().catch(err => events.emit(ERROR_EVENT, err));
     };
 

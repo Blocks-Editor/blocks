@@ -83,7 +83,7 @@ export default class Compiler {
                 args[prop.key] = value;
             }
         }
-        return prop?.compile.apply(this, args, node);
+        return prop?.compile(args, node, this);
     }
 
     getControl(node, key) {
@@ -91,7 +91,7 @@ export default class Compiler {
         return this._control(node, key).getValue();
     }
 
-    getType(node, key) {
+    inferType(node, key) {
         // TODO: implement type inference
     }
 
@@ -100,20 +100,19 @@ export default class Compiler {
     }
 
     _compileConnection(connection, from, to) {
-        let prop = this._prop(to.node, 'outputs', to.key);
+        let prop = this._prop(to.node, to.key);
         if(!prop.compile) {
             throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
         }
         return this.getOutput(to.node, to.key);
     }
 
-    _prop(node, listKey, key) {
+    _prop(node, key) {
         let block = this.getBlock(node);
-        let prop = block[listKey]?.find(p => p.key === key);
-        if(!prop) {
-            throw new Error(`Prop does not exist in ${node.name} ${listKey}: ${key}`);
+        if(!block.props.hasOwnProperty(key)) {
+            throw new Error(`Prop does not exist in ${node.name}: ${key}`);
         }
-        return prop;
+        return block.props[key];
     }
 
     _input(node, key) {
