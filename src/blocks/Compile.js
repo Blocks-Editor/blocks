@@ -25,7 +25,7 @@ const block = {
     // async builder(node) {
     // },
     async worker(node, inputs, outputs, ...args) {
-        let compiler = new Compiler(this.editor);
+        let compiler = new Compiler(this.editor, 'compile');
 
         let controls = this.getControls(node);
 

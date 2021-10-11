@@ -1,10 +1,12 @@
 import {BLOCK_MAP} from '../blocks';
 import Rete from 'rete';
-import {getSocket} from '../sockets';
+import {getType} from '../../block-types/types';
 
 export default class Compiler {
-    constructor(editor) {
+    constructor(editor, compileKey, defaultCompile) {
         this.editor = editor;
+        this.compileKey = compileKey;
+        this.defaultCompile = defaultCompile;
     }
 
     getNode(node) {
@@ -30,7 +32,8 @@ export default class Compiler {
         if(!prop) {
             throw new Error(`Input not found on ${node.name}: ${key}`);
         }
-        if(!getSocket(prop.type).data.reversed) {
+        let type = getType(prop.type);
+        if(!type.data.reversed) {
             let input = this._input(node, key);
             if(prop.multi) {
                 return this._sortConnections(input.connections, 'output').map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
@@ -83,7 +86,14 @@ export default class Compiler {
                 args[prop.key] = value;
             }
         }
-        return prop?.compile(args, node, this);
+        if(prop) {
+            if(prop[this.compileKey]) {
+                return prop[this.compileKey](args, node, this);
+            }
+            else if(this.defaultCompile) {
+                return this.defaultCompile(prop, args, node, this);
+            }
+        }
     }
 
     getControl(node, key) {

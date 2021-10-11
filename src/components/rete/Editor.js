@@ -3,9 +3,8 @@ import Rete from 'rete';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionMasteryPlugin from 'rete-connection-mastery-plugin';
-import ContextMenuPlugin from '../../plugins/rete-react-contextmenu-plugin';
+import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
 import HistoryPlugin from 'rete-history-plugin';
-import CommentPlugin from 'rete-comment-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import EventsContext, {EDITOR_CHANGE_EVENT, ENGINE_NOTIFY_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
 import NodeHandle from './nodes/NodeHandle';
@@ -53,10 +52,10 @@ export default function Editor({onSetup, onChange}) {
             component: NodeHandle,
         });
         editor.use(HistoryPlugin);
-        editor.use(CommentPlugin);
         editor.use(ConnectionPlugin);
         editor.use(ConnectionMasteryPlugin);
-        editor.use(ContextMenuPlugin, {});
+        // editor.use(CommentPlugin);
+        editor.use(ContextMenuPlugin);
 
         engine = new Rete.Engine(id);
 

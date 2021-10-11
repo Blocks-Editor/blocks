@@ -127,7 +127,7 @@ export const COMPONENT_CONTEXT = 'context';
 export const COMPONENT_CONTEXT_CONTAINER = 'context-container';
 
 const ContextMenuPlugin = {
-    name: 'context-menu',
+    name: 'blocks-contextmenu',
     install,
 };
 export default ContextMenuPlugin;

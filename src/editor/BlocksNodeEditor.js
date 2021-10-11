@@ -1,6 +1,17 @@
 import Rete from 'rete';
+import Compiler from './utils/Compiler';
+import {getType} from '../block-types/types';
 
 export default class BlocksNodeEditor extends Rete.NodeEditor {
+    constructor(...args) {
+        super(...args);
+
+        this.compilers = {
+            motoko: new Compiler(this, 'compile'),
+            type: new Compiler(this, 'inferType', (prop) => getType(prop.type)),
+        };
+    }
+
 
     async fromJSON(json) {
         if(!this.beforeImport(json)) return false;

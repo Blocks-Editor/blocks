@@ -1,9 +1,10 @@
 import Rete from 'rete';
-import {getSocket} from '../sockets';
 import TypeControl from '../controls/TypeControl';
 import BaseComponent from './BaseComponent';
 import getDefaultLabel from '../../utils/getDefaultLabel';
 import BaseControl from '../controls/BaseControl';
+import TypeSocket from '../sockets/TypeSocket';
+import {getType} from '../../block-types/types';
 
 export default class BlockComponent extends BaseComponent {
 
@@ -20,8 +21,9 @@ export default class BlockComponent extends BaseComponent {
         }
 
         const addProp = (prop, isOutput) => {
-            let socket = getSocket(prop.type);
-            if(!!socket.data.reversed === isOutput) {
+            let type = getType(prop.type);
+            let socket = new TypeSocket(type);
+            if(!!type.data.reversed === isOutput) {
                 return addPropInput(prop, socket, isOutput);
             }
             else {
@@ -69,7 +71,7 @@ export default class BlockComponent extends BaseComponent {
             for(let prop of this.block.controls) {
                 let control;
                 if(prop.type) {
-                    let socket = getSocket(prop.type);
+                    let socket = new TypeSocket(prop.type);
 
                     control = new TypeControl(this.editor, prop.key, socket);
                 }
