@@ -16,7 +16,6 @@ export default function NumberControlHandle(props) {
             step={step}
             value={value || 0}
             onChange={event => setValue(event.target.value)}
-            onDrag={event => event.stopPropagation()}
         />
     );
 }

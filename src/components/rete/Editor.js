@@ -40,6 +40,7 @@ export default function Editor({onSetup, onChange}) {
         if(editor) {
             console.log('CLEANUP--EDITOR');
             editor.clear();
+            editor.components.clear();
             editor.destroy();
             engine.destroy();
         }

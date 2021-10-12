@@ -5,6 +5,7 @@ import getDefaultLabel from '../../utils/getDefaultLabel';
 import BaseControl from '../controls/BaseControl';
 import TypeSocket from '../sockets/TypeSocket';
 import {getType} from '../../block-types/types';
+import {sentenceCase} from 'change-case';
 
 export default class BlockComponent extends BaseComponent {
 
@@ -12,8 +13,11 @@ export default class BlockComponent extends BaseComponent {
         super(block.name);
 
         this.block = block;
-
-        this.keywords = [block.name, ...block.keywords || [], ...block.title?.split(' ').filter(s => s) || []];
+        this.keywords = [
+            ...sentenceCase(block.name).toLowerCase().split(' ').filter(s => s),
+            ...block.title?.split(' ').filter(s => s) || [],
+            ...block.keywords || [],
+        ];
     }
 
     async builder(node) {
@@ -74,6 +78,7 @@ export default class BlockComponent extends BaseComponent {
                 let control;
                 if(prop.type) {
                     let socket = new TypeSocket(prop.type);
+                    console.log(socket.type.toTypeString())
 
                     control = new TypeControl(this.editor, prop.key, socket);
                 }

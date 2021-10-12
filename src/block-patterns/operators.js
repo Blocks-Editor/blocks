@@ -1,7 +1,10 @@
+import {getType} from '../block-types/types';
+
 export function unaryOperator(type, symbol, evaluate) {
+    type = getType(type);
     return {
         topRight: 'result',
-        title: `${symbol}${type.toLowerCase()}`,
+        title: `${symbol}${type.name.toLowerCase()}`,
         inputs: [{
             key: 'input',
             type,
@@ -17,9 +20,10 @@ export function unaryOperator(type, symbol, evaluate) {
 }
 
 export function binaryOperator(type, symbol, evaluate) {
+    type = getType(type);
     return {
         topRight: 'result',
-        title: `${type.toLowerCase()} ${symbol} ${type.toLowerCase()}`,
+        title: `${type.name.toLowerCase()} ${symbol} ${type.name.toLowerCase()}`,
         inputs: [{
             key: 'a',
             type,

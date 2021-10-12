@@ -23,12 +23,13 @@ export default class BaseControl extends Rete.Control {
         this.events = new EventEmitter();
     }
 
+    getDefaultValue() {
+        return undefined;
+    }
+
     getValue() {
         let value = this.getData(this.key);
-        if(value === undefined) {
-            return this.config.defaultValue;
-        }
-        return value;
+        return value === undefined ? this.getDefaultValue() : value;
     }
 
     setValue(value) {

@@ -13,7 +13,6 @@ export default function OutputControlHandle(props) {
             readOnly
             ref={bindInput}
             value={value || ''}
-            onDrag={event => event.stopPropagation()}
         />
     );
 }

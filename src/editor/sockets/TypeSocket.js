@@ -20,10 +20,10 @@ export default class TypeSocket extends Rete.Socket {
             return false;
         }
         let self = this;
-        if(reversed) {
+        if(!reversed) {
             [self, socket] = [socket, self];
         }
         // return (self.name === socket.name) /*super.compatibleWith(socket)*/ || (!!self.data.parent && self.data.parent.compatibleWith(socket));
-        return self.data.type.isAssignableFrom(socket.data.type);
+        return self.data.type.isSubtype(socket.data.type);
     }
 }

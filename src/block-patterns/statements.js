@@ -1,3 +1,5 @@
+import {effectType, valueType} from '../block-types/types';
+
 export function statement(block, compile) {
     return {
         topLeft: 'before',
@@ -6,7 +8,7 @@ export function statement(block, compile) {
         inputs: [
             ...block.inputs || [], {
                 key: 'after',
-                type: 'Effect',
+                type: effectType.of(valueType),
                 optional: true,
                 // multi: true,
             },
@@ -14,11 +16,13 @@ export function statement(block, compile) {
         outputs: [
             ...block.outputs || [], {
                 key: 'before',
-                type: 'Effect',
+                type: effectType.of(valueType),
                 compile(props) {
                     let {after} = props;
                     return `${compile(props)}${after ? ' ' + after : ''}`;
-                    // return `${compile(props)}${after.map(effect => ' ' + effect)}`;
+                },
+                inferType({after}) {
+                    return after || effectType.of(valueType);
                 },
             },
         ],

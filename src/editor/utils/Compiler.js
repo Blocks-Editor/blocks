@@ -102,7 +102,8 @@ export default class Compiler {
     }
 
     inferType(node, key) {
-        // TODO: implement type inference
+        /////
+        return this.editor.compilers.type.getOutput(node, key);
     }
 
     _sortConnections(connections, sideKey) {

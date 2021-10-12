@@ -1,24 +1,29 @@
+import {identifierType, paramType, typeType, valueType} from '../block-types/types';
+
 const block = {
     topLeft: 'param',
     // topRight: 'value',
     inputs: [{
         key: 'name',
-        type: 'Identifier',
+        type: identifierType,
     }, {
         key: 'type',
-        type: 'Type',
+        type: typeType.of(valueType),
     }],
     outputs: [{
         key: 'param',
-        type: 'Param',
+        type: paramType,
         compile({name, type}) {
             return `${name}: ${type}`;
         },
     }, {
         key: 'value',
-        type: 'Value',
+        type: valueType,
         compile({name}) {
             return name;
+        },
+        inferType({type}) {
+            return type;
         },
     }],
 };

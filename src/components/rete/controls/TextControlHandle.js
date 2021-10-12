@@ -5,7 +5,7 @@ import getDefaultLabel from '../../../utils/getDefaultLabel';
 
 export default function TextControlHandle(props) {
     let [value, setValue] = useControlState(props);
-    let {bindInput, control, maxLength} = props;
+    let {bindInput, control, minLength, maxLength} = props;
 
     return (
         <input
@@ -17,9 +17,9 @@ export default function TextControlHandle(props) {
             ref={bindInput}
             value={value || ''}
             placeholder={getDefaultLabel(control.key)}
+            minLength={minLength}
             maxLength={maxLength}
             onChange={event => setValue(event.target.value)}
-            onDrag={event => event.stopPropagation()}
         />
     );
 }

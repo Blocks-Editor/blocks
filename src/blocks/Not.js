@@ -1,4 +1,5 @@
 import {unaryOperator} from '../block-patterns/operators';
+import {boolType} from '../block-types/types';
 
-const block = unaryOperator('Bool', '!', (a) => !a);
+const block = unaryOperator(boolType, '!', (a) => !a);
 export default block;

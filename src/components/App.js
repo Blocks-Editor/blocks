@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactTooltip from 'react-tooltip';
 import './App.scss';
 import Editor from './rete/Editor';
+import {FormCheck} from 'react-bootstrap';
 
+// Temporary localStorage keys
+const STORAGE_AUTOSAVE = 'blocks.autosave';
+const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
 export default function App() {
 
-    // TODO: reset after clicking error notification
-    let preventSave = null;
-
     const onEditorSetup = async (loadState, editor, engine) => {
 
-        let stateString = localStorage.getItem('editorState')/* || {
+        let stateString = localStorage[STORAGE_EDITOR_STATE]/* || {
             id: editor.id,
             nodes: {
                 '1': {
@@ -36,18 +37,15 @@ export default function App() {
             let state = JSON.parse(stateString);
             if(!await loadState(state)) {
                 console.warn('Load error');
-                preventSave = true;
-                // localStorage.removeItem('editorState');////
+                // localStorage.removeItem(STORAGE_EDITOR_STATE);////
             }
         }
     };
 
     const onEditorChange = async (state, editor, engine) => {
-        if(preventSave) {
-            console.warn('Preventing changes due to load error');
-            return;
+        if(localStorage[STORAGE_AUTOSAVE]) {
+            localStorage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
         }
-        localStorage.setItem('editorState', JSON.stringify(state));
     };
 
     // TODO: add react-router
@@ -56,6 +54,20 @@ export default function App() {
         <>
             <ReactTooltip backgroundColor="#444"/>
             <Editor onSetup={onEditorSetup} onChange={onEditorChange}/>
+            {/* Temporary autosave panel */}
+            <div style={{position: 'absolute', left: 0, top: 0, background: '#0002', padding: '.5em'}}>
+                <FormCheck>
+                    <FormCheck.Input
+                        id="autosave-input"
+                        ref={el => el && (el.checked = !!localStorage[STORAGE_AUTOSAVE])}
+                        onChange={event => {
+                            // event.target.checked = !event.target.checked;
+                            localStorage[STORAGE_AUTOSAVE] = event.target.checked ? 'yes' : '';
+                        }}
+                    />
+                    <FormCheck.Label htmlFor="autosave-input">Autosave</FormCheck.Label>
+                </FormCheck>
+            </div>
         </>
     );
 };

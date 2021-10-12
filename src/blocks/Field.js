@@ -1,25 +1,31 @@
+import {identifierType, memberType, valueType} from '../block-types/types';
+
 const block = {
     topLeft: 'member',
+    topRight: 'value',
     inputs: [{
         key: 'name',
-        type: 'Identifier',
+        type: identifierType,
     }, {
         //     key: 'type',
         //     type: 'Type',
         // }, {
         key: 'defaultValue',
-        type: 'Value',
+        type: valueType,
         optional: true,
     }],
     outputs: [{
         key: 'value',
-        type: 'Value',
+        type: valueType,
         compile({name}) {
             return name;
         },
+        inferType({defaultValue}) {
+            return defaultValue;
+        },
     }, {
         key: 'member',
-        type: 'Member',
+        type: memberType,
         compile({name, defaultValue}) {
             return `var ${name}${defaultValue ? ' = ' + defaultValue : ''};`;
         },

@@ -7,7 +7,7 @@ export default function MenuSearch({value, onChange, onAction, onKeyDown,childre
             return;
         }
         el.focus();
-        el.select();
+        // el.select();
     }, [{}/* Force redraw in order to refocus */]); /* eslint-disable-line react-hooks/exhaustive-deps */
 
     const handleKeyDown = (onKeyDown || onAction) && (event => {

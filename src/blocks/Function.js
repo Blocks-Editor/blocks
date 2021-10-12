@@ -1,32 +1,34 @@
+import {effectType, identifierType, memberType, paramType, unitType, valueType} from '../block-types/types';
+
 const block = {
     topLeft: 'member',
     topRight: 'body',
     inputs: [{
         key: 'name',
-        type: 'Identifier',
+        type: identifierType,
     }, {
         key: 'params',
-        type: 'Param',
+        type: paramType,
         multi: true,
     }, {
         key: 'body',
-        type: 'Effect',
+        type: effectType,
     }/*, {
         key: 'returnType',
-        type: 'Type',
+        type: typeType,
     }*/],
     outputs: [{
         key: 'reference',
-        type: 'Value',
+        type: valueType,
         compile({name}) {
             return name;
         },
     }, {
         key: 'member',
-        type: 'Member',
+        type: memberType,
         compile({name, params, body}, node, compiler) {
             let returnType = compiler.inferType(node, 'body') || '?';
-            return `func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== 'Void' ? ': ' + returnType : ''} {${body}}`;
+            return `func${name ? ' ' + name : ''}(${params.join(', ')})${unitType.isSubtype(returnType) ? ': ' + returnType : ''} {${body}}`;
         },
     }],
 };

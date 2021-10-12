@@ -1,17 +1,18 @@
 import {statement} from '../block-patterns/statements';
+import {boolType, effectType} from '../block-types/types';
 
 const block = statement({
     inputs: [{
         key: 'condition',
-        type: 'Bool',
+        type: boolType,
     }, {
         key: 'trueCase',
         title: 'True',
-        type: 'Effect',
+        type: effectType,
     }, {
         key: 'falseCase',
         title: 'False',
-        type: 'Effect',
+        type: effectType,
         optional: true,
     }],
 }, ({condition, trueCase, falseCase}) => {

@@ -11,7 +11,7 @@ export default function CheckboxControlHandle(props) {
             <input
                 type="checkbox"
                 ref={bindInput}
-                value={!!value}
+                checked={!!value}
                 onChange={event => setValue(event.target.checked)}
             />
         </label>

@@ -1,24 +1,53 @@
 import TextControlHandle from '../components/rete/controls/TextControlHandle';
 import CheckboxControlHandle from '../components/rete/controls/CheckboxControlHandle';
 import NumberControlHandle from '../components/rete/controls/NumberControlHandle';
+import TypeControlHandle from '../components/rete/controls/TypeControlHandle';
 
 class Type {
+    // static fromJSON(json) {
+    //     return getType(json);
+    // }
+
     constructor(name, parent, generics, data = {}) {
+        if(name instanceof Type) {
+            throw new Error(`Type cannot be named ${name}`);
+        }
         this.name = name;
         this.parent = parent;
-        this.generics = generics;
+        this.generics = generics.map(type => getType(type));
         this.data = data;
+    }
+
+    toJSON() {
+        return {
+            name: this.name,
+            generics: this.generics.map(t => t.toJSON()),
+        };
+    }
+
+    of(...generics) {
+        return getType(this, generics);
+    }
+
+    getDefaultValue() {
+        let value = this.data.defaultValue;
+        console.log(this.toTypeString(), typeof value === 'function' ? value(this) : value);
+        return typeof value === 'function' ? value(this) : value;
     }
 
     equals(other) {
         return this.name === other.name && this.generics.length === other.generics.length && this.generics.every((t, i) => t.equals(other.generics[i]));
     }
 
-    isAssignableFrom(other) {
+    isSubtype(other) {
         if(this.name === other.name) {
-            return this.generics.length === other.generics.length && this.generics.every((t, i) => t.isAssignableFrom(other.generics[i]));
+            if(this.generics.length) {
+                ///
+                console.log(this.generics.map(t => t.toTypeString()), other.generics.map(t => t.toTypeString()));//////
+            }
+            return this.generics.length === other.generics.length && this.generics.every((t, i) => t.isSubtype(other.generics[i]));
         }
-        return !!this.data.parent && this.data.parent.isAssignableFrom(other);
+        return !!other.data.parent && this.isSubtype(other.data.parent);
     }
 
     toTypeString() {
@@ -40,9 +69,12 @@ export const anyReversedType = createType('AnyReversed', {
     reversed: true,
 });
 
-// Void type
-export const voidType = createType('Void', {
-    category: 'void',
+export const typeType = createType('Type', {
+    parent: anyType,
+    category: 'types',
+    controlType: TypeControlHandle,
+    defaultValue: type => type.generics[0],
+    generics: [anyType],
 });
 
 // High-level type categories
@@ -50,20 +82,22 @@ export const valueType = createType('Value', {
     parent: anyType,
     category: 'values',
 });
-export const typeType = createType('Type', {
-    parent: anyType,
-    category: 'types',
-    controlType: TextControlHandle,
-    defaultValue: 'Void',
+export const unitType = createType('Unit', {
+    parent: valueType,
 });
 export const identifierType = createType('Identifier', {
     parent: anyType,
-    controlType: TextControlHandle, // TODO: constrain to valid identifiers
+    controlType: TextControlHandle,
     defaultValue: '',
+    controlProps: {
+        minLength: 1,
+        // TODO: constrain to valid identifiers
+    },
 });
 export const effectType = createType('Effect', {
     parent: anyReversedType,
     category: 'effects',
+    generics: [valueType],
 });
 export const memberType = createType('Member', {
     parent: anyReversedType,
@@ -86,11 +120,13 @@ export const paramType = createType('Param', {
 export const boolType = createType('Bool', {
     parent: valueType,
     controlType: CheckboxControlHandle,
+    defaultValue: false,
 });
 export const charType = createType('Char', {
     parent: valueType,
     controlType: TextControlHandle,
     controlProps: {
+        minLength: 1,
         maxLength: 1,
     },
 });
@@ -193,22 +229,24 @@ function createType(name, data) {
     return type;
 }
 
-function getGenericType(name, generics) {
-    if(name instanceof Type) {
-        return name;
+function getGenericType(parent, generics) {
+    if(!generics || !generics.length) {
+        return getType(parent);
     }
-    if(!generics) {
-        return getType(name);
+    if(typeof parent === 'string') {
+        parent = getType(parent);
     }
-    let parent = getType(name);
-    let type = new Type(name, parent, generics, parent.data);
-    if(!parent.isAssignableFrom(type)) {
-        throw new Error(`Generics not assignable to type: ${type}`);
+    let type = new Type(parent.name, parent, generics, parent.data);
+    if(!parent.isSubtype(type)) {
+        throw new Error(`Generics not assignable to ${parent} from ${type}`);
     }
     return type;
 }
 
-export function getType(name) {
+export function getType(name, generics) {
+    if(arguments.length > 1) {
+        return getGenericType(name, generics);
+    }
     if(name instanceof Type) {
         return name;
     }

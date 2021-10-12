@@ -1,16 +1,17 @@
 import OutputControlHandle from '../components/rete/controls/OutputControlHandle';
 import Compiler from '../editor/utils/Compiler';
+import {anyReversedType, anyType} from '../block-types/types';
 
 const block = {
     topLeft: 'input',
     topRight: 'reversed',
     inputs: [{
         key: 'input',
-        type: 'Any',
+        type: anyType,
     }, {
         key: 'reversed',
         title: 'Input',
-        type: 'AnyReversed',
+        type: anyReversedType,
     }],
     controls: [{
         key: 'reversedDisplay',

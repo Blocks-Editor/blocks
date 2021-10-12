@@ -6,4 +6,8 @@ export default class TypeControl extends BaseControl {
 
         // this.component = socket.data.control || TextFieldControlHandle;
     }
+
+    getDefaultValue() {
+       return this.config.type.getDefaultValue();
+    }
 }

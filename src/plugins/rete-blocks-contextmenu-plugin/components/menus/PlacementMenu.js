@@ -30,7 +30,7 @@ export default function PlacementMenu() {
 
     if(searchText) {
         let lower = searchText.toLowerCase();
-        components = components.filter(c => c.keywords?.some(k => k.startsWith(lower)) || c.name.toLowerCase().startsWith(lower));
+        components = components.filter(c => c.keywords?.some(k => k.toLowerCase().startsWith(lower)) || c.name.toLowerCase().startsWith(lower));
     }
 
     // Arrow keys pressed
@@ -45,7 +45,6 @@ export default function PlacementMenu() {
 
     // Enter key pressed
     async function handleSearchAction() {
-        setSearchText('');
         if(components.length) {
             await handleCreateNode(components[index]);
         }
@@ -53,6 +52,7 @@ export default function PlacementMenu() {
 
     // Create node from component
     const handleCreateNode = useCallback(async (component) => {
+        setSearchText('');
         editor.trigger('hidecontextmenu');
 
         const node = await createNode(component, {...mouse});
