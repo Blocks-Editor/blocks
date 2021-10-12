@@ -16,18 +16,19 @@ const block = {
         type: 'Type',
     }*/],
     outputs: [{
-        key: 'lambda',
+        key: 'reference',
         type: 'Value',
-        compile,
+        compile({name}) {
+            return name;
+        },
     }, {
         key: 'member',
         type: 'Member',
-        compile,
+        compile({name, params, body}, node, compiler) {
+            let returnType = compiler.inferType(node, 'body') || '?';
+            return `func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== 'Void' ? ': ' + returnType : ''} {${body}}`;
+        },
     }],
 };
 export default block;
 
-function compile({name, params, body}, node, compiler) {
-    let returnType = compiler.inferType(node, 'body') || '?';
-    return `func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== 'Void' ? ': ' + returnType : ''} {${body}}`;
-}

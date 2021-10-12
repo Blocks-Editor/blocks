@@ -36,12 +36,12 @@ export default function Editor({onSetup, onChange}) {
         }
     });
 
-    let setupEditor = (element) => {
+    let bindEditor = (element) => {
+        if(editor) {
+            editor.clear();
+            editor.destroy();
+        }
         if(!element) {
-            if(editor) {
-                editor.clear();
-                editor.destroy();
-            }
             return;
         }
 
@@ -114,7 +114,7 @@ export default function Editor({onSetup, onChange}) {
 
         async function loadState(state) {
             if(!state) {
-                return;
+                return false;
             }
             // for(let [key, node] of Object.entries(state.nodes)) {
             //     if(!BLOCK_MAP.has(node.name)) {
@@ -141,7 +141,7 @@ export default function Editor({onSetup, onChange}) {
 
     return (
         <div style={{width: '100%', height: '100vh'}}>
-            <div ref={setupEditor}/>
+            <div ref={bindEditor}/>
         </div>
     );
 }

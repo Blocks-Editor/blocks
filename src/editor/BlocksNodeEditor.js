@@ -12,11 +12,11 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         };
     }
 
-
     async fromJSON(json) {
         if(!this.beforeImport(json)) return false;
         const nodes = {};
 
+        let hadError = false;
         try {
             await Promise.all(Object.entries(json.nodes).map(async ([id, node]) => {
                 try {
@@ -26,8 +26,8 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                     this.addNode(nodes[id]);
                 }
                 catch(e) {
-                    // console.error(`Unable to load node: ${node.name}`, e.stack || e);
-                    this.trigger('warn', e);
+                    hadError = true;
+                    return this.trigger('error', e);
                 }
             }));
 
@@ -40,9 +40,15 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                         const nodeId = jsonConnection.node;
                         const data = jsonConnection.data;
                         const targetOutput = node.outputs.get(key);
-                        const targetInput = nodes[nodeId].inputs.get(jsonConnection.input);
+                        const otherNode = nodes[nodeId];
+                        if(!otherNode) {
+                            hadError = true;
+                            return this.trigger('error', `Tried to connect to unknown node ${node.id}`);
+                        }
+                        const targetInput = otherNode.inputs.get(jsonConnection.input);
 
                         if(!targetOutput || !targetInput) {
+                            hadError = true;
                             return this.trigger('error', `IO not found for node ${node.id}`);
                         }
 
@@ -54,9 +60,8 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         }
         catch(e) {
             this.trigger('warn', e);
-            return !this.afterImport();
+            hadError = true;
         }
-
-        return this.afterImport();
+        return this.afterImport() && !hadError;
     }
 }

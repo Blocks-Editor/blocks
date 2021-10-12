@@ -37,7 +37,7 @@ export default function App() {
             if(!await loadState(state)) {
                 console.warn('Load error');
                 preventSave = true;
-                localStorage.removeItem('editorState');////
+                // localStorage.removeItem('editorState');////
             }
         }
     };
