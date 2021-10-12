@@ -21,6 +21,10 @@ export default function PlacementMenu() {
 
     let {editor, mouse, context} = useContext(MenuContext);
 
+    if(context) {
+        console.log('Context:', context);//
+    }
+
     let components = useEditorComponents(editor, c => c.data.title || c.name);
     index = Math.min(components.length - 1, index);
 
