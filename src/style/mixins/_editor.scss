@@ -65,3 +65,38 @@ $nat-color: #58f;
 .connection .main-path {
   stroke: #333 !important;
 }
+
+.context-menu {
+  display: inline-block;
+  min-width: 10em;
+  max-height: 25em;
+  overflow-y: auto;
+  background: #000A;
+  z-index: -100;
+
+  .context-menu-action {
+    color: #FFF;
+    cursor: pointer;
+    padding: .25em;
+
+    &:hover {
+      background: #0005;
+    }
+
+    &.selected {
+      background: #0003;
+    }
+  }
+
+  .context-menu-search {
+    color: #FFF;
+    background: none;
+    position: sticky;
+  }
+
+  .context-menu-icon {
+    margin-right: .25em;
+    vertical-align: text-bottom;
+    opacity: .8;
+  }
+}

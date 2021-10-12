@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {compatibleSocketInputComparator, compatibleSocketOutputComparator} from '../../utils/socketComparators';
+import {compatibleSocketInputComparator, compatibleSocketOutputComparator} from '../../../utils/socketComparators';
 
 export function deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj));

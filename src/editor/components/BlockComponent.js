@@ -12,6 +12,8 @@ export default class BlockComponent extends BaseComponent {
         super(block.name);
 
         this.block = block;
+
+        this.keywords = [block.name, ...block.keywords || [], ...block.title?.split(' ').filter(s => s) || []];
     }
 
     async builder(node) {

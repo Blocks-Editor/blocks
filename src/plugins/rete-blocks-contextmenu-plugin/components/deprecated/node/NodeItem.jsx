@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
-import getDefaultLabel from '../../../../utils/getDefaultLabel';
+import getDefaultLabel from '../../../../../utils/getDefaultLabel';
 
 
 const NodeItem = ({component, onCreateNode, style}) => {

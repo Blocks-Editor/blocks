@@ -5,7 +5,7 @@ import getDefaultLabel from '../../../utils/getDefaultLabel';
 
 export default function TextControlHandle(props) {
     let [value, setValue] = useControlState(props);
-    let {control, maxLength} = props;
+    let {bindInput, control, maxLength} = props;
 
     return (
         <input
@@ -14,6 +14,7 @@ export default function TextControlHandle(props) {
             autoComplete="blocks-app"
             autoCorrect="off"
             // autoCapitalize="off"
+            ref={bindInput}
             value={value || ''}
             placeholder={getDefaultLabel(control.key)}
             maxLength={maxLength}

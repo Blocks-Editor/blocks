@@ -1,9 +1,7 @@
 import React from 'react';
 import MenuPositioner from '../MenuPositioner';
-import useComponents from '../../utils/useComponents';
+import useComponents from '../../../utils/useComponents';
 import NodeItem from '../node/NodeItem';
-
-// TODO: migrate to SCSS?
 
 let style = {
     background: '#FFF',

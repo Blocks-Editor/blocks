@@ -8,7 +8,7 @@ import {
     COMPONENT_CONTEXT_CONTAINER,
     COMPONENT_NODE,
     COMPONENT_NODE_CONTAINER,
-} from '..';
+} from '../../index';
 
 const MenuContainer = ({root, node, editor, x, y, mousePosition, mousePositionStart, components, context}) => {
     const Component = node

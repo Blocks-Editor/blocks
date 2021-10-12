@@ -6,15 +6,15 @@ import {BLOCK_MAP} from '../../../editor/blocks';
 import classNames from 'classnames';
 import {paramCase} from 'change-case';
 
-// Prevents dragging node when highlighting control text
 function ControlWrapper({children}) {
-    return (
-        <div
-            style={{display: 'inline', cursor: 'default'}}
-            ref={ref => ref && ref.addEventListener('pointerdown', event => event.stopPropagation())}>
-            {children}
-        </div>
-    );
+    // return (
+    //     <div
+    //         style={{display: 'inline', cursor: 'default'}}
+    //         ref={ref => ref && ref.addEventListener('pointerdown', event => event.stopPropagation())}>
+    //         {children}
+    //     </div>
+    // );
+    return children;
 }
 
 // function IOHandle({type, io, bindSocket, bindControl}) {

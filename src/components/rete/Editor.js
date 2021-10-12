@@ -38,8 +38,10 @@ export default function Editor({onSetup, onChange}) {
 
     let bindEditor = (element) => {
         if(editor) {
+            console.log('CLEANUP--EDITOR');
             editor.clear();
             editor.destroy();
+            engine.destroy();
         }
         if(!element) {
             return;
@@ -83,11 +85,16 @@ export default function Editor({onSetup, onChange}) {
         editor.on('zoom', ({source}) => {
             return source !== 'dblclick';
         });
+        // Deselect on click background
+        editor.on('click', () => {
+            editor.selected.clear();
+            editor.nodes.map(node => node.update());
+        });
         editor.on('process', (...args) => {
             let state = editor.toJSON();
             events.emit(EDITOR_CHANGE_EVENT, state);
         });
-        editor.on(['renderconnection'], ({el, connection}) => {
+        editor.on('renderconnection', ({el, connection}) => {
             el.querySelector('.connection').classList.add(
                 `socket-input-category-${connection.input.socket.data.category}`,
                 `socket-output-category-${connection.output.socket.data.category}`,
@@ -140,7 +147,7 @@ export default function Editor({onSetup, onChange}) {
     };
 
     return (
-        <div style={{width: '100%', height: '100vh'}}>
+        <div className="blocks-editor" style={{width: '100%', height: '100vh'}}>
             <div ref={bindEditor}/>
         </div>
     );

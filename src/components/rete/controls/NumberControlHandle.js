@@ -4,12 +4,13 @@ import useControlState from '../../../hooks/useControlState';
 
 export default function NumberControlHandle(props) {
     let [value, setValue] = useControlState(props);
-    let {min, max, step} = props;
+    let {bindInput, min, max, step} = props;
 
     return (
         <input
             type="number"
             style={{width: '4em'}}
+            ref={bindInput}
             min={min}
             max={max}
             step={step}
