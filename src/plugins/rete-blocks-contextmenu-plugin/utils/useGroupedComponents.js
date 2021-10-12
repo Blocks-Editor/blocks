@@ -1,9 +1,9 @@
 import {useMemo} from 'react';
 
-import useComponents from './useComponents';
+import useEditorComponents from '../hooks/useEditorComponents';
 
 export default function useGroupedComponents(editor, context) {
-    const components = useComponents(editor, context);
+    const components = useEditorComponents(editor, context);
 
     return useMemo(() => {
         let retVal = {};

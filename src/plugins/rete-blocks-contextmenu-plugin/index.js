@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ContextMenu from './components/ContextMenu';
-import AbsolutePosition from './components/AbsolutePosition';
 import {MenuContext} from './contexts/MenuContext';
+import SelectionMenu from './components/menus/SelectionMenu';
+import PlacementMenu from './components/menus/PlacementMenu';
 
 // Derived from: https://github.com/michael-braun/rete-react-contextmenu-plugin
 
@@ -39,7 +40,7 @@ function install(editor, config = {}) {
             }
         }
         else {
-            editor.selected.clear();
+            // editor.selected.clear();
         }
 
         const [x, y] = [e.clientX, e.clientY];
@@ -50,14 +51,18 @@ function install(editor, config = {}) {
         }
         menu.style.display = 'block';
         ReactDOM.render((
-            <AbsolutePosition
+            <ContextMenu
                 x={x + offsetX}
                 y={y + offsetY}
                 onClick={() => editor.trigger('hidecontextmenu')}>
                 <MenuContext.Provider value={{editor, mouse, node, context}}>
-                    <ContextMenu/>
+                    {node ? (
+                        <SelectionMenu/>
+                    ) : (
+                        <PlacementMenu/>
+                    )}
                 </MenuContext.Provider>
-            </AbsolutePosition>
+            </ContextMenu>
         ), menu);
     });
 

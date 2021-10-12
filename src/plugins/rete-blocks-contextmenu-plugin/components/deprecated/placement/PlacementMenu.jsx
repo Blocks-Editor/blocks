@@ -1,6 +1,6 @@
 import React from 'react';
 import MenuPositioner from '../MenuPositioner';
-import useComponents from '../../../utils/useComponents';
+import useEditorComponents from '../../../hooks/useEditorComponents';
 import NodeItem from '../node/NodeItem';
 
 let style = {
@@ -14,7 +14,7 @@ let itemStyle = {
 };
 
 const PlacementMenu = ({x, y, root, editor, onCreateNode, context}) => {
-    const components = useComponents(editor, context);
+    const components = useEditorComponents(editor, context);
 
     return (
         <MenuPositioner

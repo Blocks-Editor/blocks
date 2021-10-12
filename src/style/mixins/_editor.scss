@@ -67,6 +67,7 @@ $nat-color: #58f;
 }
 
 .context-menu {
+  font-size: 14px;
   display: inline-block;
   min-width: 10em;
   max-height: 25em;
@@ -91,7 +92,6 @@ $nat-color: #58f;
   .context-menu-search {
     color: #FFF;
     background: none;
-    position: sticky;
   }
 
   .context-menu-icon {

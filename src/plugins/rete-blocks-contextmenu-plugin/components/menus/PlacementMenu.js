@@ -2,6 +2,7 @@ import React, {useCallback, useContext, useState} from 'react';
 import MenuNode from '../MenuNode';
 import {MenuContext} from '../../contexts/MenuContext';
 import MenuSearch from '../MenuSearch';
+import useEditorComponents from '../../hooks/useEditorComponents';
 
 function deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -15,13 +16,12 @@ async function createNode(component, {data = {}, meta = {}, x = 0, y = 0}) {
 }
 
 export default function PlacementMenu() {
-
     const [searchText, setSearchText] = useState('');
     let [index, setIndex] = useState(0);
 
     let {editor, mouse, context} = useContext(MenuContext);
 
-    let components = [...editor.components.values()];
+    let components = useEditorComponents(editor, c => c.data.title || c.name);
     index = Math.min(components.length - 1, index);
 
     if(searchText) {
@@ -69,14 +69,16 @@ export default function PlacementMenu() {
     }, [editor, mouse, context]);
 
     return (
-        <div className="d-flex flex-column">
-            <MenuSearch
-                value={searchText}
-                onChange={setSearchText}
-                onKeyDown={handleSearchKeyDown}
-                onAction={handleSearchAction}
-            />
-            <div className="flex-grow-1">
+        <div className="d-flex flex-column" style={{minHeight: 0, maxHeight: '100%'}}>
+            <div className="flex-shrink-0">
+                <MenuSearch
+                    value={searchText}
+                    onChange={setSearchText}
+                    onKeyDown={handleSearchKeyDown}
+                    onAction={handleSearchAction}
+                />
+            </div>
+            <div className="flex-shrink-0" style={{overflowY: 'auto'}}>
                 {components.map((component, i) => (
                     <MenuNode
                         key={component.name}
