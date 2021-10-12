@@ -1,4 +1,6 @@
 const block = {
+    topLeft: 'actor',
+    // topRight: 'members',
     inputs: [{
         key: 'name',
         type: 'Identifier',
@@ -12,7 +14,7 @@ const block = {
         key: 'actor',
         type: 'Actor',
         compile({name, members}) {
-            return `actor${name ? ' ' + name : ''} { ${members.join('; ')} }`;
+            return `actor${name ? ' ' + name : ''} { ${members.join(' ')} }`;
         },
     }],
 };

@@ -1,5 +1,6 @@
 export function literalValue(title, type, stringifier) {
     return {
+        topRight: 'value',
         title: title,
         outputs: [{
             key: 'value',

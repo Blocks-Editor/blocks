@@ -1,4 +1,5 @@
 const block = {
+    topLeft: 'member',
     inputs: [{
         key: 'name',
         type: 'Identifier',

@@ -7,7 +7,7 @@ import Editor from './rete/Editor';
 export default function App() {
 
     // TODO: reset after clicking error notification
-    // let preventSave = null;
+    let preventSave = null;
 
     const onEditorSetup = async (loadState, editor, engine) => {
 
@@ -36,17 +36,17 @@ export default function App() {
             let state = JSON.parse(stateString);
             if(!await loadState(state)) {
                 console.warn('Load error');
-                // preventSave = true;
+                preventSave = true;
                 localStorage.removeItem('editorState');////
             }
         }
     };
 
     const onEditorChange = async (state, editor, engine) => {
-        // if(preventSave) {
-        //     console.warn('Preventing changes due to load error');
-        //     return;
-        // }
+        if(preventSave) {
+            console.warn('Preventing changes due to load error');
+            return;
+        }
         localStorage.setItem('editorState', JSON.stringify(state));
     };
 

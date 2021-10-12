@@ -1,5 +1,6 @@
-export function unaryOperator(type, symbol, evaluator) {
+export function unaryOperator(type, symbol, evaluate) {
     return {
+        topRight: 'result',
         title: `${symbol}${type.toLowerCase()}`,
         inputs: [{
             key: 'input',
@@ -15,8 +16,9 @@ export function unaryOperator(type, symbol, evaluator) {
     };
 }
 
-export function binaryOperator(type, symbol, evaluator) {
+export function binaryOperator(type, symbol, evaluate) {
     return {
+        topRight: 'result',
         title: `${type.toLowerCase()} ${symbol} ${type.toLowerCase()}`,
         inputs: [{
             key: 'a',

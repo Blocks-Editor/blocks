@@ -11,6 +11,9 @@ export default function TextControlHandle(props) {
         <input
             type="text"
             className="w-100"
+            autoComplete="blocks-app"
+            autoCorrect="off"
+            // autoCapitalize="off"
             value={value || ''}
             placeholder={getDefaultLabel(control.key)}
             maxLength={maxLength}

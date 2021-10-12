@@ -1,10 +1,12 @@
 const block = {
+    topLeft: 'param',
+    // topRight: 'value',
     inputs: [{
         key: 'name',
         type: 'Identifier',
-        }, {
-            key: 'type',
-            type: 'Type',
+    }, {
+        key: 'type',
+        type: 'Type',
     }],
     outputs: [{
         key: 'param',

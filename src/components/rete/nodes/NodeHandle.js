@@ -46,12 +46,12 @@ function ControlWrapper({children}) {
 //     );
 // }
 
-function PropHandle({prop, node, block, bindSocket, bindControl}) {
+function PropHandle({prop, node, block, hideLeft, hideRight, bindSocket, bindControl}) {
     let input = node.inputs.get(prop.key);
     let output = node.outputs.get(prop.key);
     let control = node.controls.get(prop.key) || (input?.showControl() && input.control);
 
-    let inputSocket = input && (
+    let leftSocket = input && !hideLeft && (
         <SocketHandle
             type="input"
             socket={input.socket}
@@ -59,7 +59,7 @@ function PropHandle({prop, node, block, bindSocket, bindControl}) {
             innerRef={bindSocket}
         />
     );
-    let outputSocket = output && (
+    let rightSocket = output && !hideRight && (
         <SocketHandle
             type="output"
             socket={output.socket}
@@ -80,16 +80,16 @@ function PropHandle({prop, node, block, bindSocket, bindControl}) {
     return (
         <div className={classNames('prop', 'key-' + paramCase(prop.key))}>
             <div className="input">
-                {inputSocket}
-                {controlField || (input && (
+                {leftSocket}
+                {controlField || (leftSocket && (
                     <div className="input-title">{prop.title || getDefaultLabel(prop.key)}</div>
                 ))}
             </div>
             <div className="output">
-                {!input && (output && (
+                {!input && (rightSocket && (
                     <div className="output-title">{prop.title || getDefaultLabel(prop.key)}</div>
                 ))}
-                {outputSocket}
+                {rightSocket}
             </div>
         </div>
     );
@@ -105,15 +105,15 @@ export default class NodeHandle extends Node {
             throw new Error(`Block does not exist: ${node.name}`);
         }
 
-        // TODO: icons for different node/connection categories? ('react-icons' includes a lot of options)
-
         let topLeft = block.topLeft && node.inputs.get(block.topLeft);
         let topRight = block.topRight && node.outputs.get(block.topRight);
+
+        // TODO: icons for different node/connection categories? ('react-icons' includes a lot of options)
 
         return (
             <div className={classNames('node', selected)}>
                 <>
-                    {topRight && (
+                    {topLeft && (
                         <div style={{float: 'left'}}>
                             <SocketHandle
                                 type="input"
@@ -123,7 +123,7 @@ export default class NodeHandle extends Node {
                             />
                         </div>
                     )}
-                    {topLeft && (
+                    {topRight && (
                         <div style={{float: 'right'}}>
                             <SocketHandle
                                 type="output"
@@ -136,13 +136,15 @@ export default class NodeHandle extends Node {
                     <div className="title">{node.data.title || getDefaultLabel(node.name)}</div>
                 </>
                 {Object.values(block.props)
-                    .filter(prop => (!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight))
+                    .filter(prop => prop.control || ((!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight)))
                     .map(prop => (
                         <PropHandle
                             key={prop.key}
                             prop={prop}
                             node={node}
                             block={block}
+                            hideLeft={prop.key === block.topLeft}
+                            hideRight={prop.key === block.topRight}
                             bindSocket={bindSocket}
                             bindControl={bindControl}
                         />

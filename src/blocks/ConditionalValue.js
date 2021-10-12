@@ -1,4 +1,5 @@
 const block = {
+    topRight: 'result',
     inputs: [{
         key: 'condition',
         type: 'Bool',

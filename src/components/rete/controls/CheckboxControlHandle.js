@@ -6,10 +6,12 @@ export default function CheckboxControlHandle(props) {
     let [value, setValue] = useControlState(props);
 
     return (
-        <input
-            type="checkbox"
-            value={!!value}
-            onChange={event => setValue(event.target.checked)}
-        />
+        <label>
+            <input
+                type="checkbox"
+                value={!!value}
+                onChange={event => setValue(event.target.checked)}
+            />
+        </label>
     );
 }
