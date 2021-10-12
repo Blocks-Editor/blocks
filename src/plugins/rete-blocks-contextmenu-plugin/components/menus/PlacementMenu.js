@@ -73,16 +73,12 @@ export default function PlacementMenu() {
     }, [editor, mouse, context]);
 
     return (
-        <div className="d-flex flex-column" style={{minHeight: 0, maxHeight: '100%'}}>
-            <div className="flex-shrink-0">
-                <MenuSearch
-                    value={searchText}
-                    onChange={setSearchText}
-                    onKeyDown={handleSearchKeyDown}
-                    onAction={handleSearchAction}
-                />
-            </div>
-            <div className="flex-shrink-0" style={{overflowY: 'auto'}}>
+        <>
+            <MenuSearch
+                value={searchText}
+                onChange={setSearchText}
+                onKeyDown={handleSearchKeyDown}
+                onAction={handleSearchAction}>
                 {components.map((component, i) => (
                     <MenuNode
                         key={component.name}
@@ -91,7 +87,7 @@ export default function PlacementMenu() {
                         onAction={() => handleCreateNode(component)}
                     />
                 ))}
-            </div>
-        </div>
+            </MenuSearch>
+        </>
     );
 }

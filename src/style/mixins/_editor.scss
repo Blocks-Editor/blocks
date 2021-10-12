@@ -69,9 +69,6 @@ $nat-color: #58f;
 .context-menu {
   font-size: 14px;
   display: inline-block;
-  min-width: 10em;
-  max-height: 25em;
-  overflow-y: auto;
   background: #000A;
   z-index: -100;
 
@@ -92,6 +89,12 @@ $nat-color: #58f;
   .context-menu-search {
     color: #FFF;
     background: none;
+  }
+
+  .context-menu-search-area {
+    min-width: 10em;
+    max-height: 25em;
+    overflow-y: auto;
   }
 
   .context-menu-icon {
