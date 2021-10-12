@@ -2,6 +2,7 @@ const block = {
     inputs: [{
         key: 'name',
         type: 'Identifier',
+        optional: true,
     }, {
         key: 'members',
         type: 'Member',
@@ -11,7 +12,7 @@ const block = {
         key: 'actor',
         type: 'Actor',
         compile({name, members}) {
-            return `actor ${name} { ${members.join('; ')} }`;
+            return `actor${name ? ' ' + name : ''} { ${members.join('; ')} }`;
         },
     }],
 };

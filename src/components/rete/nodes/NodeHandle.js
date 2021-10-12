@@ -9,11 +9,11 @@ import {paramCase} from 'change-case';
 // Prevents dragging node when highlighting control text
 function ControlWrapper({children}) {
     return (
-        <span
-            style={{cursor: 'default'}}
+        <div
+            style={{display: 'inline', cursor: 'default'}}
             ref={ref => ref && ref.addEventListener('pointerdown', event => event.stopPropagation())}>
             {children}
-        </span>
+        </div>
     );
 }
 
@@ -107,49 +107,46 @@ export default class NodeHandle extends Node {
 
         // TODO: icons for different node/connection categories? ('react-icons' includes a lot of options)
 
+        let topLeft = block.topLeft && node.inputs.get(block.topLeft);
+        let topRight = block.topRight && node.outputs.get(block.topRight);
+
         return (
-            <div className={`node ${selected}`}>
-                <div className="title">{node.data.title || getDefaultLabel(node.name)}</div>
-                {/*/!* Outputs *!/*/}
-                {/*{outputs.map(output => (*/}
-                {/*    <IOHandle*/}
-                {/*        key={output.key}*/}
-                {/*        type="output"*/}
-                {/*        io={output}*/}
-                {/*        bindSocket={bindSocket}*/}
-                {/*        bindControl={bindControl}*/}
-                {/*    />*/}
-                {/*))}*/}
-                {/*/!* Inputs *!/*/}
-                {/*{inputs.map(input => (*/}
-                {/*    <IOHandle*/}
-                {/*        key={input.key}*/}
-                {/*        type="input"*/}
-                {/*        io={input}*/}
-                {/*        bindSocket={bindSocket}*/}
-                {/*        bindControl={bindControl}*/}
-                {/*    />*/}
-                {/*))}*/}
-                {/*/!* Controls *!/*/}
-                {/*{controls.map(control => (*/}
-                {/*    <ControlWrapper key={control.key}>*/}
-                {/*        <Control*/}
-                {/*            className="control"*/}
-                {/*            control={control}*/}
-                {/*            innerRef={bindControl}*/}
-                {/*        />*/}
-                {/*    </ControlWrapper>*/}
-                {/*))}*/}
-                {Object.values(block.props).map(prop => (
-                    <PropHandle
-                        key={prop.key}
-                        prop={prop}
-                        node={node}
-                        block={block}
-                        bindSocket={bindSocket}
-                        bindControl={bindControl}
-                    />
-                ))}
+            <div className={classNames('node', selected)}>
+                <>
+                    {topRight && (
+                        <div style={{float: 'left'}}>
+                            <SocketHandle
+                                type="input"
+                                socket={topLeft.socket}
+                                io={topLeft}
+                                innerRef={bindSocket}
+                            />
+                        </div>
+                    )}
+                    {topLeft && (
+                        <div style={{float: 'right'}}>
+                            <SocketHandle
+                                type="output"
+                                socket={topRight.socket}
+                                io={topRight}
+                                innerRef={bindSocket}
+                            />
+                        </div>
+                    )}
+                    <div className="title">{node.data.title || getDefaultLabel(node.name)}</div>
+                </>
+                {Object.values(block.props)
+                    .filter(prop => (!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight))
+                    .map(prop => (
+                        <PropHandle
+                            key={prop.key}
+                            prop={prop}
+                            node={node}
+                            block={block}
+                            bindSocket={bindSocket}
+                            bindControl={bindControl}
+                        />
+                    ))}
             </div>
         );
     }

@@ -2,6 +2,8 @@ import OutputControlHandle from '../components/rete/controls/OutputControlHandle
 import Compiler from '../editor/utils/Compiler';
 
 const block = {
+    topLeft: 'input',
+    topRight: 'reversed',
     inputs: [{
         key: 'input',
         type: 'Any',

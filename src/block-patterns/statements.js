@@ -1,5 +1,7 @@
 export function statement(block, compile) {
     return {
+        topLeft: 'before',
+        topRight: 'after',
         ...block,
         inputs: [
             ...block.inputs || [], {

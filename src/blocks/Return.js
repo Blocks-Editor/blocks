@@ -1,4 +1,5 @@
 const block = {
+    topLeft: 'statement',
     inputs: [{
         key: 'value',
         type: 'Value',
