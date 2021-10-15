@@ -9,7 +9,7 @@ export default function OutputControlHandle(props) {
     return (value || null) && (
         <input
             type="text"
-            className="w-100"
+            className="w-100 small"
             readOnly
             ref={bindInput}
             value={value || ''}

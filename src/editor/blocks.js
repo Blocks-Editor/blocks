@@ -13,10 +13,10 @@ blockContext.keys().forEach(path => {
             console.error(`Duplicate block name: ${name}`);
             return;
         }
+        block.inputs = block.inputs || [];
+        block.outputs = block.outputs || [];
+        block.controls = block.controls || [];
         if(block.props) {
-            block.inputs = block.inputs || [];
-            block.outputs = block.outputs || [];
-            block.controls = block.controls || [];
             for(let [key, prop] of Object.entries(block.props)) {
                 prop.key = key;
                 // `output` prioritized over `input`

@@ -1,6 +1,6 @@
 import {effectType, valueType} from '../block-types/types';
 
-export function statement(block, compile) {
+export function statementBlock(block, compile) {
     return {
         topLeft: 'before',
         topRight: 'after',

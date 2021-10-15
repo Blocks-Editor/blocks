@@ -1,4 +1,4 @@
-export function literalValue(title, type, stringifier) {
+export function literalBlock(title, type, stringifier) {
     return {
         topRight: 'value',
         title: title,

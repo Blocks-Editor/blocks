@@ -13,7 +13,8 @@ export default class Compiler {
         if(node instanceof Rete.Node) {
             return node;
         }
-        let id = typeof node === 'string' ? node : node.id;
+        // console.log(node);///
+        let id = typeof node === 'string' || typeof node === 'number' ? node : node.id;
         return this.editor.nodes.find(node => node.id === id);
     }
 
@@ -101,9 +102,14 @@ export default class Compiler {
         return this._control(node, key).getValue();
     }
 
+    getTypeString(type) {
+        // console.log('/////', type);///
+        type = getType(type);
+        return type?.data[this.compileKey]?.(type.generics.map(t => this.getTypeString(t)), this) || type.toTypeString();
+    }
+
     inferType(node, key) {
-        /////
-        return this.editor.compilers.type.getOutput(node, key);
+        return this.editor.compilers.type.getInput(node, key);
     }
 
     _sortConnections(connections, sideKey) {

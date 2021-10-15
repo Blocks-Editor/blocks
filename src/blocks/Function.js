@@ -1,4 +1,4 @@
-import {effectType, identifierType, memberType, paramType, unitType, valueType} from '../block-types/types';
+import {effectType, identifierType, memberType, paramType, valueType} from '../block-types/types';
 
 const block = {
     topLeft: 'member',
@@ -10,13 +10,13 @@ const block = {
         key: 'params',
         type: paramType,
         multi: true,
-    }, {
-        key: 'body',
-        type: effectType,
     }/*, {
         key: 'returnType',
-        type: typeType,
-    }*/],
+        type: typeType.of(valueType),
+    }*/, {
+        key: 'body',
+        type: effectType,
+    }],
     outputs: [{
         key: 'reference',
         type: valueType,
@@ -27,8 +27,12 @@ const block = {
         key: 'member',
         type: memberType,
         compile({name, params, body}, node, compiler) {
-            let returnType = compiler.inferType(node, 'body') || '?';
-            return `func${name ? ' ' + name : ''}(${params.join(', ')})${unitType.isSubtype(returnType) ? ': ' + returnType : ''} {${body}}`;
+            let bodyType = compiler.inferType(node, 'body');
+            if(!bodyType) {
+                return;
+            }
+            let returnType = compiler.getTypeString(bodyType.generics[0]) || '?';
+            return `func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== '()' ? ': ' + returnType : ''} {${body}}`;
         },
     }],
 };

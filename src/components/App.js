@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import './App.scss';
 import Editor from './rete/Editor';

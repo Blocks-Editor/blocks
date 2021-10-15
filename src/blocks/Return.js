@@ -1,19 +1,20 @@
-import {effectType, valueType} from '../block-types/types';
+import {effectType, unitType, valueType} from '../block-types/types';
 
 const block = {
     topLeft: 'statement',
     inputs: [{
         key: 'value',
         type: valueType,
+        optional: true,
     }],
     outputs: [{
         key: 'statement',
         type: effectType,
         compile({value}) {
-            return `return ${value};`;
+            return `return${value ? ' ' + value : ''};`;
         },
         inferType({value}) {
-            return effectType.of(value);
+            return effectType.of(value || unitType);
         },
     }],
 };

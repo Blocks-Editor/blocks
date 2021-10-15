@@ -38,7 +38,7 @@ export default function Editor({onSetup, onChange}) {
 
     let bindEditor = (element) => {
         if(editor) {
-            console.log('CLEANUP--EDITOR');
+            console.log('CLEANUP--EDITOR');///
             editor.clear();
             editor.components.clear();
             editor.destroy();
@@ -143,7 +143,9 @@ export default function Editor({onSetup, onChange}) {
             // events.emit(PROCESS_EVENT);
             // await engine.abort();
             // await engine.process(editor.toJSON());
-            events.emit(ENGINE_NOTIFY_EVENT);
+            setTimeout(() => {
+                events.emit(ENGINE_NOTIFY_EVENT);
+            });
         })().catch(err => events.emit(ERROR_EVENT, err));
     };
 

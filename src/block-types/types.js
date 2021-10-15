@@ -31,7 +31,6 @@ class Type {
 
     getDefaultValue() {
         let value = this.data.defaultValue;
-        console.log(this.toTypeString(), typeof value === 'function' ? value(this) : value);
         return typeof value === 'function' ? value(this) : value;
     }
 
@@ -40,11 +39,10 @@ class Type {
     }
 
     isSubtype(other) {
+        if(!other) {
+            return false;
+        }
         if(this.name === other.name) {
-            if(this.generics.length) {
-                ///
-                console.log(this.generics.map(t => t.toTypeString()), other.generics.map(t => t.toTypeString()));//////
-            }
             return this.generics.length === other.generics.length && this.generics.every((t, i) => t.isSubtype(other.generics[i]));
         }
         return !!other.data.parent && this.isSubtype(other.data.parent);
@@ -84,6 +82,9 @@ export const valueType = createType('Value', {
 });
 export const unitType = createType('Unit', {
     parent: valueType,
+    compile() {
+        return `()`;
+    },
 });
 export const identifierType = createType('Identifier', {
     parent: anyType,
@@ -98,6 +99,9 @@ export const effectType = createType('Effect', {
     parent: anyReversedType,
     category: 'effects',
     generics: [valueType],
+    compile([value]) {
+        return value;
+    },
 });
 export const memberType = createType('Member', {
     parent: anyReversedType,
@@ -164,6 +168,13 @@ export const principalType = createType('Principal', {
 });
 export const errorType = createType('Error', {
     parent: valueType,
+});
+export const optionalType = createType('Optional', {
+    parent: valueType,
+    generics: [valueType],
+    compile([value]) {
+        return `?${value}`;
+    },
 });
 
 // Fixed-size int values

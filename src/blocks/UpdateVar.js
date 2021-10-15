@@ -1,6 +1,6 @@
-import {statement} from '../block-patterns/statements';
+import {statementBlock} from '../block-patterns/statement-patterns';
 
-const block = statement({
+const block = statementBlock({
     title: 'Update Variable',
     inputs: [{
         key: 'name',

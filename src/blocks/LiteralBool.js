@@ -1,5 +1,5 @@
-import {literalValue} from '../block-patterns/literals';
+import {literalBlock} from '../block-patterns/literal-patterns';
 import {boolType} from '../block-types/types';
 
-const block = literalValue('Boolean', boolType);
+const block = literalBlock('Boolean', boolType);
 export default block;

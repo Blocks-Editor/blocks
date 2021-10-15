@@ -1,5 +1,5 @@
-import {unaryOperator} from '../block-patterns/operators';
+import {unaryOperatorBlock} from '../block-patterns/operator-patterns';
 import {boolType} from '../block-types/types';
 
-const block = unaryOperator(boolType, '!', (a) => !a);
+const block = unaryOperatorBlock(boolType, '!', (a) => !a);
 export default block;

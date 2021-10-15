@@ -1,6 +1,6 @@
 import {getType} from '../block-types/types';
 
-export function unaryOperator(type, symbol, evaluate) {
+export function unaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
     return {
         topRight: 'result',
@@ -19,7 +19,7 @@ export function unaryOperator(type, symbol, evaluate) {
     };
 }
 
-export function binaryOperator(type, symbol, evaluate) {
+export function binaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
     return {
         topRight: 'result',

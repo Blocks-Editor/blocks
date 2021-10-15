@@ -1,7 +1,7 @@
-import {statement} from '../block-patterns/statements';
+import {statementBlock} from '../block-patterns/statement-patterns';
 import {boolType, effectType} from '../block-types/types';
 
-const block = statement({
+const block = statementBlock({
     inputs: [{
         key: 'condition',
         type: boolType,

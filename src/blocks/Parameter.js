@@ -13,8 +13,10 @@ const block = {
     outputs: [{
         key: 'param',
         type: paramType,
-        compile({name, type}) {
-            return `${name}: ${type}`;
+        compile({name, type}, node, compiler) {
+            // console.log(type)//
+            let typeString = compiler.getTypeString(type) || '?';
+            return `${name}: ${typeString}`;
         },
     }, {
         key: 'value',

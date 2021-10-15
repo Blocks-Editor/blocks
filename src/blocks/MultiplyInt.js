@@ -1,5 +1,5 @@
-import {binaryOperator} from '../block-patterns/operators';
+import {binaryOperatorBlock} from '../block-patterns/operator-patterns';
 import {intType} from '../block-types/types';
 
-const block = binaryOperator(intType, '*', (a, b) => a * b);
+const block = binaryOperatorBlock(intType, '*', (a, b) => a * b);
 export default block;

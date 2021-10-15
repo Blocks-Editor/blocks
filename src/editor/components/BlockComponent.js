@@ -6,6 +6,7 @@ import BaseControl from '../controls/BaseControl';
 import TypeSocket from '../sockets/TypeSocket';
 import {getType} from '../../block-types/types';
 import {sentenceCase} from 'change-case';
+import NodeOutputSocket from '../sockets/NodeOutputSocket';
 
 export default class BlockComponent extends BaseComponent {
 
@@ -22,13 +23,15 @@ export default class BlockComponent extends BaseComponent {
 
     async builder(node) {
 
-        if(this.block.title) {
-            node.data.title = this.block.title;
-        }
+        // noinspection JSUnresolvedVariable
+        let typeCompiler = this.editor.compilers.type;
 
         const addProp = (prop, isOutput) => {
             let type = getType(prop.type);
-            let socket = new TypeSocket(type);
+            let socket = /*isOutput ? new NodeOutputSocket(node.id, prop.key, typeCompiler, {
+                ...type.data,
+                type, /!*** TEMP ***!/
+            }) : */ new TypeSocket(type);
             if(!!type.data.reversed === isOutput) {
                 return addPropInput(prop, socket, isOutput);
             }
@@ -59,45 +62,38 @@ export default class BlockComponent extends BaseComponent {
             return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType);
         };
 
-        if(this.block.inputs) {
-            for(let prop of this.block.inputs) {
-                let io = addProp(prop, false);
-                io._prop = prop; /////
+        if(this.block.title) {
+            node.data.title = this.block.title;
+        }
+
+        for(let prop of this.block.inputs) {
+            let io = addProp(prop, false);
+            io._prop = prop; /////
+        }
+        for(let prop of this.block.outputs) {
+            let io = addProp(prop, true);
+            io._prop = prop; /////
+        }
+
+        for(let prop of this.block.controls) {
+            let control;
+            if(prop.type) {
+                let socket = new TypeSocket(prop.type);
+                console.log(socket.type.toTypeString());
+
+                control = new TypeControl(this.editor, prop.key, socket);
             }
-        }
-
-        if(this.block.outputs) {
-            for(let prop of this.block.outputs) {
-                let io = addProp(prop, true);
-                io._prop = prop; /////
+            else {
+                control = new BaseControl(this.editor, prop.key, prop.config || {});
             }
+            node.addControl(control);
         }
 
-        if(this.block.controls) {
-            for(let prop of this.block.controls) {
-                let control;
-                if(prop.type) {
-                    let socket = new TypeSocket(prop.type);
-                    console.log(socket.type.toTypeString())
-
-                    control = new TypeControl(this.editor, prop.key, socket);
-                }
-                else {
-                    control = new BaseControl(this.editor, prop.key, prop.config || {});
-                }
-                node.addControl(control);
-            }
-        }
-
-        if(this.block.builder) {
-            this.block.builder.apply(this, arguments);
-        }
+        this.block.builder?.apply(this, arguments);
     }
 
     async worker(node, inputs, outputs, ...args) {
 
-        if(this.block.worker) {
-            await this.block.worker.apply(this, arguments);
-        }
+        await this.block.worker?.apply(this, arguments);
     }
 }

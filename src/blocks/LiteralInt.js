@@ -1,5 +1,5 @@
-import {literalValue} from '../block-patterns/literals';
+import {literalBlock} from '../block-patterns/literal-patterns';
 import {intType} from '../block-types/types';
 
-const block = literalValue('Integer', intType);
+const block = literalBlock('Integer', intType);
 export default block;
