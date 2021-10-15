@@ -6,7 +6,6 @@ import BaseControl from '../controls/BaseControl';
 import TypeSocket from '../sockets/TypeSocket';
 import {getType} from '../../block-types/types';
 import {sentenceCase} from 'change-case';
-import NodeOutputSocket from '../sockets/NodeOutputSocket';
 
 export default class BlockComponent extends BaseComponent {
 
@@ -24,7 +23,7 @@ export default class BlockComponent extends BaseComponent {
     async builder(node) {
 
         // noinspection JSUnresolvedVariable
-        let typeCompiler = this.editor.compilers.type;
+        // let typeCompiler = this.editor.compilers.type;
 
         const addProp = (prop, isOutput) => {
             let type = getType(prop.type);
