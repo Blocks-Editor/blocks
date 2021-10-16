@@ -63,7 +63,8 @@ export const anyType = createType('Any', {
     category: 'default',
 });
 export const anyReversedType = createType('AnyReversed', {
-    parent: anyType,
+    category: 'default',
+    // parent: anyType,
     reversed: true,
 });
 

@@ -14,30 +14,34 @@ blockContext.keys().forEach(path => {
             console.error(`Duplicate block name: ${name}`);
             return;
         }
+        block.props = block.props || {};
         block.inputs = block.inputs || [];
         block.outputs = block.outputs || [];
         block.controls = block.controls || [];
-        if(block.props) {
-            for(let [key, prop] of Object.entries(block.props)) {
-                prop.key = key;
-                // `output` prioritized over `input`
-                if(prop.output) {
+
+        // `outputs` prioritized over `inputs`
+        addProps(block, block.outputs, 'output');
+        addProps(block, block.inputs, 'input');
+        addProps(block, block.controls, 'control');
+
+        for(let [key, prop] of Object.entries(block.props)) {
+            prop.key = key;
+            // `output` prioritized over `input`
+            if(prop.output) {
+                if(!block.outputs.includes(prop)) {
                     block.outputs.push(prop);
                 }
-                else if(prop.input) {
+            }
+            else if(prop.input) {
+                if(!block.inputs.includes(prop)) {
                     block.inputs.push(prop);
                 }
-                else if(prop.control) {
+            }
+            else if(prop.control) {
+                if(!block.controls.includes(prop)) {
                     block.controls.push(prop);
                 }
             }
-        }
-        else {
-            block.props = {};
-            // `outputs` prioritized over `inputs`
-            addProps(block, block.outputs, 'output');
-            addProps(block, block.inputs, 'input');
-            addProps(block, block.controls, 'control');
         }
 
         // Type deserialization

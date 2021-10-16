@@ -5,7 +5,7 @@ import {MenuContext} from './contexts/MenuContext';
 import SelectionMenu from './components/menus/SelectionMenu';
 import PlacementMenu from './components/menus/PlacementMenu';
 
-// Derived from: https://github.com/michael-braun/rete-react-contextmenu-plugin
+// Adapted from https://github.com/michael-braun/rete-react-contextmenu-plugin
 
 function install(editor, config = {}) {
     editor.bind('hidecontextmenu');

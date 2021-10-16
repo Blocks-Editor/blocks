@@ -3,10 +3,11 @@ import Rete from 'rete';
 import {getType} from '../../block-types/types';
 
 export default class Compiler {
-    constructor(editor, compileKey, defaultCompile) {
+    constructor(editor, compileKey, {defaultCompile, postCompile} = {}) {
         this.editor = editor;
         this.compileKey = compileKey;
         this.defaultCompile = defaultCompile;
+        this.postCompile = postCompile;
     }
 
     getNode(node) {
@@ -89,7 +90,8 @@ export default class Compiler {
         }
         if(prop) {
             if(prop[this.compileKey]) {
-                return prop[this.compileKey](args, node, this);
+                let result = prop[this.compileKey](args, node, this);
+                return this.postCompile ? this.postCompile(result, args, node, this) : result;
             }
             else if(this.defaultCompile) {
                 return this.defaultCompile(prop, args, node, this);
@@ -117,10 +119,10 @@ export default class Compiler {
     }
 
     _compileConnection(connection, from, to) {
-        let prop = this._prop(to.node, to.key);
-        if(!prop.compile) {
-            throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
-        }
+        // let prop = this._prop(to.node, to.key);
+        // if(!prop[this.compileKey]) {
+        //     throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
+        // }
         return this.getOutput(to.node, to.key);
     }
 

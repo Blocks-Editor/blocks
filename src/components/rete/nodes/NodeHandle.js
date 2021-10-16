@@ -6,46 +6,6 @@ import {BLOCK_MAP} from '../../../editor/blocks';
 import classNames from 'classnames';
 import {paramCase} from 'change-case';
 
-function ControlWrapper({children}) {
-    // return (
-    //     <div
-    //         style={{display: 'inline', cursor: 'default'}}
-    //         ref={ref => ref && ref.addEventListener('pointerdown', event => event.stopPropagation())}>
-    //         {children}
-    //     </div>
-    // );
-    return children;
-}
-
-// function IOHandle({type, io, bindSocket, bindControl}) {
-//     return (
-//         <div className={type}>
-//             {type === 'output' && (
-//                 <div className="output-title">{io.name}</div>
-//             )}
-//             <SocketHandle
-//                 type={type}
-//                 socket={io.socket}
-//                 io={io}
-//                 innerRef={bindSocket}
-//             />
-//             {type === 'input' && (
-//                 io.showControl() ? (
-//                     <ControlWrapper>
-//                         <Control
-//                             className="input-control"
-//                             control={io.control}
-//                             innerRef={bindControl}
-//                         />
-//                     </ControlWrapper>
-//                 ) : (
-//                     <div className="input-title">{io.name}</div>
-//                 )
-//             )}
-//         </div>
-//     );
-// }
-
 function PropHandle({prop, node, block, hideLeft, hideRight, bindSocket, bindControl}) {
     let input = node.inputs.get(prop.key);
     let output = node.outputs.get(prop.key);
@@ -68,13 +28,11 @@ function PropHandle({prop, node, block, hideLeft, hideRight, bindSocket, bindCon
         />
     );
     let controlField = control && (
-        <ControlWrapper>
-            <Control
-                className={input ? 'input-control' : 'control'}
-                control={control}
-                innerRef={bindControl}
-            />
-        </ControlWrapper>
+        <Control
+            className={input ? 'input-control' : 'control'}
+            control={control}
+            innerRef={bindControl}
+        />
     );
 
     return (

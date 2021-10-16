@@ -1,7 +1,7 @@
 import {anyType, getType, TYPE_MAP} from '../../block-types/types';
 import React from 'react';
 
-export default function TypeSelect({value, constraintType, onChange, forwardedRef, ...others}) {
+export default function TypeSelect({value, constraintType, onChange, ...others}) {
 
     constraintType = constraintType || anyType;
 
@@ -26,8 +26,7 @@ export default function TypeSelect({value, constraintType, onChange, forwardedRe
     return (
         <>
             <select
-                ref={forwardedRef}
-                className="w-100"
+                // className="w-100"
                 value={value?.name}
                 onChange={event => onChange(getType(event.target.value))}
                 {...others}>

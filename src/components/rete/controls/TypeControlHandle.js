@@ -10,13 +10,12 @@ export default function TypeControlHandle(props) {
     let constraintType = control.config.type.generics[0];
 
     return (
-        <>
+        <div ref={bindInput}>
             <TypeSelect
-                forwardedRef={bindInput}
                 value={value?.name}
                 constraintType={constraintType}
                 onChange={setValue}>
             </TypeSelect>
-        </>
+        </div>
     );
 }

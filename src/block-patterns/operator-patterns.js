@@ -4,7 +4,7 @@ export function unaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
     return {
         topRight: 'result',
-        title: `${symbol}${type.name.toLowerCase()}`,
+        title: `(${symbol}${type.name})`,
         inputs: [{
             key: 'input',
             type,
@@ -23,7 +23,7 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
     return {
         topRight: 'result',
-        title: `${type.name.toLowerCase()} ${symbol} ${type.name.toLowerCase()}`,
+        title: `(${type.name} ${symbol} ${type.name})`,
         inputs: [{
             key: 'a',
             type,

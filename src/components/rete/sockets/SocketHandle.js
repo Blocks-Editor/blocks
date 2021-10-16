@@ -7,8 +7,6 @@ import classNames from 'classnames';
 export function SocketHandle(props) {
     const {type, socket, innerRef, io} = props;
 
-    const createRef = el => el && innerRef(el, type, io);
-
     return (
         <div
             className={classNames(
@@ -20,7 +18,7 @@ export function SocketHandle(props) {
                 socket.data.category && 'category-' + paramCase(socket.data.category),
             )}
             title={socket.name}
-            ref={el => createRef(el)} // force update for new IO with the same key
+            ref={el => el && innerRef(el, type, io)}
         />
     );
 }

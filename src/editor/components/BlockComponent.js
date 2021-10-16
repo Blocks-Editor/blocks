@@ -78,7 +78,6 @@ export default class BlockComponent extends BaseComponent {
             let control;
             if(prop.type) {
                 let socket = new TypeSocket(prop.type);
-                console.log(socket.type.toTypeString());
 
                 control = new TypeControl(this.editor, prop.key, socket);
             }

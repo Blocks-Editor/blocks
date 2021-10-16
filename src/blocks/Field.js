@@ -1,7 +1,8 @@
-import {identifierType, memberType, valueType} from '../block-types/types';
+import {identifierType, valueType} from '../block-types/types';
+import {memberBlock} from '../block-patterns/member-patterns';
 
-const block = {
-    topLeft: 'member',
+const block = memberBlock({
+    // topLeft: 'member',
     topRight: 'value',
     inputs: [{
         key: 'name',
@@ -23,12 +24,12 @@ const block = {
         inferType({defaultValue}) {
             return defaultValue;
         },
-    }, {
-        key: 'member',
-        type: memberType,
-        compile({name, defaultValue}) {
-            return `var ${name}${defaultValue ? ' = ' + defaultValue : ''};`;
-        },
     }],
-};
+}, {
+    compile({visibility, stable, name, defaultValue}) {
+        let modifiers = [visibility, stable && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
+
+        return `${modifiers && modifiers + ' '}var ${name}${defaultValue ? ' = ' + defaultValue : ''};`;
+    },
+});
 export default block;

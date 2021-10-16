@@ -3,11 +3,10 @@ import BaseControl from './BaseControl';
 export default class TypeControl extends BaseControl {
     constructor(emitter, key, socket) {
         super(emitter, key, socket.data);
-
-        // this.component = socket.data.control || TextFieldControlHandle;
     }
 
     getDefaultValue() {
-       return this.config.type.getDefaultValue();
+        let value = super.getDefaultValue();
+        return value !== undefined ? value : this.config.type.getDefaultValue();
     }
 }

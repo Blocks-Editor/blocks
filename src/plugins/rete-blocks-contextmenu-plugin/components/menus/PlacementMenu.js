@@ -17,15 +17,14 @@ async function createNode(component, {data = {}, meta = {}, x = 0, y = 0}) {
 }
 
 function findRelevantComponents(io, components) {
-    let propKey = io instanceof Rete.Input ? 'input' : io instanceof Rete.Output ? 'output' : null;
+    let arrayKey = io instanceof Rete.Input ? 'inputs' : io instanceof Rete.Output ? 'outputs' : null;
     let socketType = io.socket.findType?.();
-    if(!propKey || !socketType) {
+    if(!arrayKey || !socketType) {
         return [];
     }
     // Find compatible inputs/outputs
     return components.filter(c =>
-        Object.values(c.block?.props)
-            .some(prop => prop[propKey] && (socketType.isSubtype(prop.type) || prop.type.isSubtype(socketType))));
+        c.block[arrayKey].some(prop => (socketType.isSubtype(prop.type) || prop.type.isSubtype(socketType))));
 }
 
 export default function PlacementMenu() {
