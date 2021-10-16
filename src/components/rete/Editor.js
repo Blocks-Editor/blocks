@@ -2,9 +2,9 @@ import React, {useContext} from 'react';
 import Rete from 'rete';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
-import ConnectionMasteryPlugin from 'rete-connection-mastery-plugin';
 import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
 import HistoryPlugin from 'rete-history-plugin';
+import AutoArrangePlugin from 'rete-auto-arrange-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import EventsContext, {EDITOR_CHANGE_EVENT, ENGINE_NOTIFY_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
 import NodeHandle from './nodes/NodeHandle';
@@ -56,7 +56,8 @@ export default function Editor({onSetup, onChange}) {
         });
         editor.use(HistoryPlugin);
         editor.use(ConnectionPlugin);
-        editor.use(ConnectionMasteryPlugin);
+        // noinspection JSCheckFunctionSignatures
+        editor.use(AutoArrangePlugin);
         // editor.use(CommentPlugin);
         editor.use(ContextMenuPlugin);
 
@@ -113,6 +114,14 @@ export default function Editor({onSetup, onChange}) {
         //     });
         // });
         editor.on('error', err => events.emit(ERROR_EVENT, err));
+
+        let onKeyPress = (e) => {
+            if(e.code === 'KeyF') {
+                editor.trigger('arrange');
+            }
+        };
+        document.addEventListener('keypress', onKeyPress);
+        editor.on('destroy', () => document.removeEventListener('keypress', onKeyPress));
 
         let lastTranslate;
         editor.on('nodetranslated', () => {

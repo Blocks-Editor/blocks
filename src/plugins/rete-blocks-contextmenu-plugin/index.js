@@ -26,8 +26,8 @@ function install(editor, config = {}) {
     });
 
     editor.on('contextmenu', ({e, node, context}) => {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault?.();
+        e.stopPropagation?.();
 
         if(!editor.trigger('showcontextmenu', {e, node, context})) {
             return;
@@ -74,66 +74,32 @@ function install(editor, config = {}) {
         }
     });
 
-    const mouse = {x: 0, y: 0};
+    let mouse;
+    let mouseEvent;
 
-    editor.on('mousemove', ({x, y}) => {
-        mouse.x = x;
-        mouse.y = y;
+    editor.view.container.addEventListener('mousemove', e => mouseEvent = e);
+
+    editor.on('mousemove', (m) => mouse = m);
+
+    editor.on('connectiondrop', io => {
+
+        let prevConnections = [...io.connections];
+
+        setTimeout(() => {
+            // Prevent activating if connections changed
+            if(io.connections.length !== prevConnections.length || io.connections.some((conn, i) =>
+                (conn.input !== prevConnections[i].input) || (conn.output !== prevConnections[i].output))) {
+                return;
+            }
+
+            editor.trigger('contextmenu', {
+                e: mouseEvent,
+                context: {
+                    io,
+                },
+            });
+        });
     });
-
-    //
-    // let lastConnectionStart = null;
-    // editor.on('rendersocket', ({el, socket, input, output}) => {
-    //     const connected = {
-    //         current: input?.hasConnection?.() || false,
-    //     };
-    //
-    //     if(input) {
-    //         editor.on('connectioncreated', (connection) => {
-    //             if(connection.input === input) {
-    //                 connected.current = connection.input.hasConnection();
-    //             }
-    //         });
-    //     }
-    //
-    //     el.addEventListener('pointerdown', () => {
-    //         if(lastConnectionStart) {
-    //             lastConnectionStart = null;
-    //         }
-    //         else {
-    //             lastConnectionStart = {
-    //                 socket,
-    //                 input: input || null,
-    //                 output: output || null,
-    //                 node: input?.node || output?.node,
-    //                 connected,
-    //             };
-    //         }
-    //     });
-    //
-    //     el.addEventListener('pointerup', () => {
-    //         if(input && lastConnectionStart) {
-    //             lastConnectionStart.connected.current = input.hasConnection();
-    //         }
-    //
-    //         lastConnectionStart = null;
-    //     });
-    // });
-    //
-    // editor.view.container.addEventListener('pointerup', (e) => {
-    //     if(!lastConnectionStart || lastConnectionStart.connected.current) {
-    //         if(lastConnectionStart?.input) {
-    //             lastConnectionStart.connected.current = lastConnectionStart.input.hasConnection();
-    //         }
-    //
-    //         lastConnectionStart = null;
-    //         return;
-    //     }
-    //
-    //     const connectionStart = lastConnectionStart;
-    //     lastConnectionStart = null;
-    //     editor.trigger('contextmenu', {e, node: null, context: connectionStart});
-    // });
 }
 
 const ContextMenuPlugin = {

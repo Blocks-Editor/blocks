@@ -18,7 +18,7 @@
     "react-tooltip": "^4.2.21",
     "rete": "^1.4.5",
     "rete-area-plugin": "^0.2.1",
-    "rete-connection-mastery-plugin": "^0.2.4",
+    "rete-auto-arrange-plugin": "^0.4.0",
     "rete-connection-plugin": "^0.9.0",
     "rete-history-plugin": "^0.2.2",
     "rete-react-render-plugin": "^0.2.1",

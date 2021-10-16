@@ -1,4 +1,5 @@
 import {basename} from 'path';
+import {getType} from '../block-types/types';
 
 const allBlocks = [];
 const blockNames = new Set();
@@ -38,6 +39,17 @@ blockContext.keys().forEach(path => {
             addProps(block, block.inputs, 'input');
             addProps(block, block.controls, 'control');
         }
+
+        // Type deserialization
+        for(let prop of Object.values(block.props)) {
+            if(prop.input || prop.output) {
+                if(!prop.type) {
+                    throw new Error(`Type not found for ${block.name} : ${prop.key}`);
+                }
+                prop.type = getType(prop.type);
+            }
+        }
+
         blockNames.add(block.name);
         allBlocks.push(block);
     }
