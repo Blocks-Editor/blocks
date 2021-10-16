@@ -23,7 +23,7 @@ export default function Editor({onSetup, onChange}) {
 
     useListener(events, EDITOR_CHANGE_EVENT, () => {
         if(onChange) {
-            onChange(editor.toJSON(), editor, engine);
+            onChange(editor, engine);
         }
     });
 

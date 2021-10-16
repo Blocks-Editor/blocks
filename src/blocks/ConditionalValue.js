@@ -1,4 +1,5 @@
 const block = {
+    title: 'Map Bool',
     topRight: 'result',
     inputs: [{
         key: 'condition',

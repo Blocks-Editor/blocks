@@ -81,6 +81,10 @@ function install(editor, config = {}) {
 
     editor.on('mousemove', (m) => mouse = m);
 
+    editor.on('connectionpick', io => {
+        console.log(';;', io);
+    });
+
     editor.on('connectiondrop', io => {
 
         let prevConnections = [...io.connections];

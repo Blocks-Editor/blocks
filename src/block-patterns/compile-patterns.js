@@ -1,9 +1,9 @@
 import {anyReversedType, anyType} from '../block-types/types';
 import OutputControlHandle from '../components/rete/controls/OutputControlHandle';
 
-export function compileBlock(title, compilerKey) {
+export function compileBlock(name, compilerKey, displayFn) {
     return {
-        title,
+        title: `Compile ${name}`,
         topLeft: 'input',
         topRight: 'reversed',
         inputs: [{
@@ -35,8 +35,8 @@ export function compileBlock(title, compilerKey) {
 
             let display = controls.get('display');
             try {
-                let displayValue = compiler.getInput(node, 'input');
-                display.setValue(displayValue);
+                let value = compiler.getInput(node, 'input');
+                display.setValue(displayFn ? displayFn(value) : value);
             }
             catch(err) {
                 console.warn(err.stack || err);
@@ -45,8 +45,8 @@ export function compileBlock(title, compilerKey) {
 
             let reversed = controls.get('reversedDisplay');
             try {
-                let reversedValue = compiler.getInput(node, 'reversed');
-                reversed.setValue(reversedValue);
+                let value = compiler.getInput(node, 'reversed');
+                reversed.setValue(displayFn ? displayFn(value) : value);
             }
             catch(err) {
                 console.warn(err.stack || err);

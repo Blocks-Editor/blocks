@@ -1,4 +1,4 @@
 import {compileBlock} from '../block-patterns/compile-patterns';
 
-const block = compileBlock('Infer Type', 'type');
+const block = compileBlock('Type', 'type', type => type?.toTypeString());
 export default block;
