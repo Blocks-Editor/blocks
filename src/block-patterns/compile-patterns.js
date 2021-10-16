@@ -3,7 +3,7 @@ import OutputControlHandle from '../components/rete/controls/OutputControlHandle
 
 export function compileBlock(name, compilerKey, displayFn) {
     return {
-        title: `Compile ${name}`,
+        title: `<${name}>`,
         topLeft: 'input',
         topRight: 'reversed',
         inputs: [{
