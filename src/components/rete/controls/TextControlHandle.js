@@ -1,6 +1,5 @@
 import React from 'react';
 import useControlState from '../../../hooks/useControlState';
-import getDefaultLabel from '../../../utils/getDefaultLabel';
 
 
 export default function TextControlHandle(props) {
