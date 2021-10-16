@@ -6,9 +6,10 @@ import EventEmitter from 'events';
 const bindInput = ref => ref && ref.addEventListener('pointerdown', event => event.stopPropagation());
 
 export default class BaseControl extends Rete.Control {
-    constructor(emitter, key, config = {}) {
+    constructor(emitter, key, name, config = {}) {
         super(key);
 
+        this.name = name;
         this.config = config;
         this.emitter = emitter;
         this.render = 'react';

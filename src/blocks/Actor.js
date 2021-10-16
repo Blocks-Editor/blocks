@@ -16,7 +16,7 @@ const block = {
         key: 'actor',
         type: actorType,
         compile({name, members}) {
-            return `actor${name ? ' ' + name : ''} { ${members.join(' ')} }`;
+            return `actor${name ? ' ' + name : ''} { ${members.join(' ')} };`;
         },
     }],
 };

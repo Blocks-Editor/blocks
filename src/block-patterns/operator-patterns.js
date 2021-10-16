@@ -4,9 +4,10 @@ export function unaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
     return {
         topRight: 'result',
-        title: `(${symbol}${type.name})`,
+        title: `(${symbol}a)`,
         inputs: [{
             key: 'input',
+            title: 'a',
             type,
         }],
         outputs: [{
@@ -23,12 +24,14 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
     return {
         topRight: 'result',
-        title: `(${type.name} ${symbol} ${type.name})`,
+        title: `(a ${symbol} b)`,
         inputs: [{
-            key: 'a',
+            key: 'left',
+            title: 'a',
             type,
         }, {
-            key: 'b',
+            key: 'right',
+            title: 'b',
             type,
         }],
         outputs: [{

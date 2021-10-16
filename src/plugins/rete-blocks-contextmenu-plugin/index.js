@@ -54,7 +54,7 @@ function install(editor, config = {}) {
             <ContextMenu
                 x={x + offsetX}
                 y={y + offsetY}
-                onClick={() => editor.trigger('hidecontextmenu')}>
+                handleCloseMenu={() => editor.trigger('hidecontextmenu')}>
                 <MenuContext.Provider value={{editor, mouse, node, context}}>
                     {node ? (
                         <SelectionMenu/>

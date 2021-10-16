@@ -1,6 +1,6 @@
 import React, {useMemo, useCallback} from 'react';
 
-export default function ContextMenu({x, y, children, style: styleProp, ...others}) {
+export default function ContextMenu({x, y, children, style: styleProp, handleCloseMenu, ...others}) {
 
     const style = useMemo(() => ({
         position: 'absolute',
@@ -38,6 +38,8 @@ export default function ContextMenu({x, y, children, style: styleProp, ...others
             className="context-menu-screen"
             style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, pointerEvents: 'all'}}
             ref={bindScreen}
+            onKeyDown={e => e.keyCode === 27 /* escape */ && handleCloseMenu()}
+            onMouseDown={() => handleCloseMenu()}
             {...others}>
             <div className="context-menu-container" style={style} ref={bindContainer}>
                 <div className="context-menu">

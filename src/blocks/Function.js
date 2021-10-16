@@ -48,8 +48,7 @@ const block = memberBlock({
         if(async) {
             returnType = `async ${returnType}`;
         }
-        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== '()' ? ': ' + returnType : ''} {${body}}`;
+        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== '()' ? ': ' + returnType : ''} {${body}};`;
     },
 });
 export default block;
-

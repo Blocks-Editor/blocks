@@ -40,19 +40,21 @@ export default class BlockComponent extends BaseComponent {
         };
 
         const addPropInput = (prop, socket, isOutput) => {
-            let input = new Rete.Input(prop.key, prop.title || getDefaultLabel(prop.key), socket, isOutput === !!prop.multi);
+            let title = prop.title || getDefaultLabel(prop.key);
+            let input = new Rete.Input(prop.key, title, socket, isOutput === !!prop.multi);
             if(hasPropControl(prop, socket, isOutput)) {
-                input.addControl(new TypeControl(this.editor, prop.key, socket));
+                input.addControl(new TypeControl(this.editor, prop.key, title, socket));
             }
             node.addInput(input);
             return input;
         };
 
         const addPropOutput = (prop, socket, isOutput) => {
-            let output = new Rete.Output(prop.key, prop.title || getDefaultLabel(prop.key), socket, isOutput === !prop.multi);
+            let title = prop.title || getDefaultLabel(prop.key);
+            let output = new Rete.Output(prop.key, title, socket, isOutput === !prop.multi);
             node.addOutput(output);
             if(hasPropControl(prop, socket, isOutput)) {
-                node.addControl(new TypeControl(this.editor, prop.key, socket));
+                node.addControl(new TypeControl(this.editor, prop.key, title, socket));
             }
             return output;
         };
@@ -75,14 +77,14 @@ export default class BlockComponent extends BaseComponent {
         }
 
         for(let prop of this.block.controls) {
+            let title = prop.title || getDefaultLabel(prop.key);
             let control;
             if(prop.type) {
                 let socket = new TypeSocket(prop.type);
-
-                control = new TypeControl(this.editor, prop.key, socket);
+                control = new TypeControl(this.editor, prop.key, title, socket);
             }
             else {
-                control = new BaseControl(this.editor, prop.key, prop.config || {});
+                control = new BaseControl(this.editor, prop.key, title, prop.config || {});
             }
             node.addControl(control);
         }

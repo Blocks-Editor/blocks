@@ -13,10 +13,9 @@ export default function TextControlHandle(props) {
             className="w-100"
             autoComplete="blocks-app"
             autoCorrect="off"
-            // autoCapitalize="off"
             ref={bindInput}
             value={value || ''}
-            placeholder={getDefaultLabel(control.key)}
+            placeholder={control.name}
             minLength={minLength}
             maxLength={maxLength}
             onChange={event => setValue(event.target.value)}
