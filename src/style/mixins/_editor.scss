@@ -1,13 +1,3 @@
-@mixin node-color($name, $color) {
-  .node .socket.#{$name} {
-    background: $color;
-  }
-
-  .connection.socket-output-#{$name} .main-path {
-    stroke: $color !important;
-  }
-}
-
 $void-color: #333;
 $any-color: #f5a;
 $value-color: #8fa;
@@ -23,6 +13,16 @@ $bool-color: #a6f;
 $float-color: #5df;
 $int-color: #6fd;
 $nat-color: #58f;
+
+@mixin node-color($name, $color) {
+  .node .socket.#{$name} {
+    background: $color !important;
+  }
+
+  .connection.socket-output-#{$name} .main-path {
+    stroke: $color !important;
+  }
+}
 
 @include node-color("void", $void-color);
 @include node-color("category-default", $any-color); // `any` socket could use rainbow colors
@@ -40,66 +40,101 @@ $nat-color: #58f;
 @include node-color("category-integers", $int-color);
 @include node-color("category-naturals", $nat-color);
 
-.node {
-  &.selected {
-    background: #AAA !important;
-    border-color: #555 !important;
+$grid-color: #FFF2;
+$grid-size: 32px;
+$grid-area: $grid-size * 10000;
+
+.node-editor {
+  background: #555;
+
+  .grid {
+    display: table;
+    z-index: -5;
+    position: absolute;
+    top: -$grid-area;
+    left: -$grid-area;
+    width: 2 * $grid-area;
+    height: 2 * $grid-area;
+    background-size: $grid-size $grid-size;
+    background-image: linear-gradient(to right, $grid-color 1px, transparent 1px), linear-gradient(to bottom, $grid-color 1px, transparent 1px);
   }
 
-  .socket {
-    background: #333;
-    border-color: #333;
-
-    &.multi {
-      // Multiple-input sockets should have a different appearance
-      border-width: 2px;
-    }
-
-    &.reversed {
-      // Reversed sockets should look like right-facing triangles/carets
-      border-radius: 0;
-    }
-  }
-}
-
-.connection .main-path {
-  stroke: #333 !important;
-}
-
-.context-menu {
-  font-size: 14px;
-  display: inline-block;
-  background: #000A;
-  z-index: -100;
-
-  .context-menu-action {
-    color: #FFF;
-    cursor: pointer;
-    padding: .25em;
+  .node {
+    background: #222;
+    border-color: #555;
 
     &:hover {
-      background: #0005;
+      background: #333;
     }
 
     &.selected {
-      background: #0003;
+      background: #AAA !important;
+      border-color: #555 !important;
+    }
+
+    input, select {
+      background-color: #0002;
+      color: white;
+      border: 1px solid #AAA;
+    }
+
+    .socket {
+      background: #444;
+      border-color: #222 !important;
+
+      &.multiple {
+        // Multiple-input sockets should have a different appearance
+        border-width: 2px;
+      }
+
+      &.reversed {
+        // Reversed sockets should look like right-facing triangles/carets
+        border-radius: 0;
+      }
     }
   }
 
-  .context-menu-search {
-    color: #FFF;
-    background: none;
+  .connection .main-path {
+    stroke: #333;
+    stroke-width: 3px;
   }
 
-  .context-menu-search-area {
-    min-width: 10em;
-    max-height: 25em;
-    overflow-y: auto;
-  }
+  .context-menu {
+    font-size: 14px;
+    display: inline-block;
+    background: #000A;
+    z-index: -100;
 
-  .context-menu-icon {
-    margin-right: .25em;
-    vertical-align: text-bottom;
-    opacity: .8;
+    .context-menu-action {
+      color: #FFF;
+      cursor: pointer;
+      padding: .25em;
+
+      &:hover {
+        background: #0005;
+      }
+
+      &.selected {
+        background: #0003;
+      }
+    }
+
+    .context-menu-search {
+      color: #FFF;
+      background: none;
+    }
+
+    .context-menu-search-area {
+      min-width: 10em;
+      max-height: 25em;
+      overflow-y: auto;
+    }
+
+    .context-menu-icon {
+      margin-right: .25em;
+      vertical-align: text-bottom;
+      opacity: .8;
+    }
   }
 }
+

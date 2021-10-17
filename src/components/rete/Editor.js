@@ -57,9 +57,19 @@ export default function Editor({onSetup, onChange}) {
         });
         editor.use(HistoryPlugin);
         editor.use(ConnectionPlugin);
+        // editor.use(CommentPlugin);
         // noinspection JSCheckFunctionSignatures
         editor.use(AutoArrangePlugin);
-        // editor.use(CommentPlugin);
+        // noinspection JSCheckFunctionSignatures
+        editor.use(AreaPlugin, {
+            background: (() => {
+                let background = document.createElement('div');
+                background.classList.add('grid');
+                background.style.pointerEvents = 'none';
+                return background;
+            })(),
+            snap: {size: 16, dynamic: true},
+        });
         editor.use(ContextMenuPlugin);
         editor.use(VerticalSortPlugin);
 
@@ -148,7 +158,7 @@ export default function Editor({onSetup, onChange}) {
     };
 
     return (
-        <div className="blocks-editor" style={{width: '100%', height: '100vh'}}>
+        <div className="node-editor" style={{width: '100%', height: '100vh'}}>
             <div ref={bindEditor}/>
         </div>
     );

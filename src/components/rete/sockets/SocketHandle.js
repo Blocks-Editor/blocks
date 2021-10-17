@@ -13,7 +13,7 @@ export function SocketHandle(props) {
                 'socket',
                 type,
                 paramCase(socket.name),
-                io._prop?.multi && 'multi',
+                io._prop?.multi && 'multiple',
                 socket.data.reversed && 'reversed',
                 socket.data.category && 'category-' + paramCase(socket.data.category),
             )}

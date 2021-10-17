@@ -61,7 +61,7 @@ export default function App() {
             if(key === 's') {
                 event.preventDefault();
                 saveEditorState();
-                console.log('Manual save');
+                console.log('Saved successfully');
                 // TODO: confirmation popup
             }
         }
