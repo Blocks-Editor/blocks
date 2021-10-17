@@ -15,12 +15,14 @@ $int-color: #6fd;
 $nat-color: #58f;
 
 @mixin node-color($name, $color) {
-  .node .socket.#{$name} {
-    background: $color !important;
-  }
+  .node-editor {
+    .node .socket.#{$name} {
+      background: $color !important;
+    }
 
-  .connection.socket-output-#{$name} .main-path {
-    stroke: $color !important;
+    .connection.socket-output-#{$name} .main-path {
+      stroke: $color !important;
+    }
   }
 }
 
@@ -72,14 +74,8 @@ $grid-area: $grid-size * 10000;
       border-color: #AAA !important;
     }
 
-    input, select {
-      background-color: #0002;
-      color: white;
-      border: 1px solid #AAA;
-
-      option {
-        background-color: #222;
-      }
+    &:not(.selected) .header {
+      background: #333;
     }
 
     .socket {
@@ -139,6 +135,16 @@ $grid-area: $grid-size * 10000;
       margin-right: .25em;
       vertical-align: text-bottom;
       opacity: .8;
+    }
+  }
+
+  input, select {
+    background-color: #0002;
+    color: white;
+    border: 1px solid #AAA;
+
+    option {
+      background-color: #222;
     }
   }
 }

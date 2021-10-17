@@ -74,7 +74,7 @@ export default function App() {
             <ReactTooltip backgroundColor="#444"/>
             <Editor onSetup={onEditorSetup} onChange={() => localStorage[STORAGE_AUTOSAVE] && saveEditorState()}/>
             {/* Temporary autosave panel */}
-            <div style={{position: 'absolute', left: 0, top: 0, background: '#0002', padding: '.5em'}}>
+            <div style={{position: 'absolute', left: 0, top: 0, background: '#0005', color: 'white', padding: '.5em'}}>
                 <FormCheck>
                     <FormCheck.Input
                         id="autosave-input"

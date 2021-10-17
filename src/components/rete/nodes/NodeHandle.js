@@ -70,7 +70,7 @@ export default class NodeHandle extends Node {
 
         return (
             <div className={classNames('node', selected)}>
-                <>
+                <div className="header">
                     {topLeft && (
                         <div style={{float: 'left'}}>
                             <SocketHandle
@@ -92,7 +92,7 @@ export default class NodeHandle extends Node {
                         </div>
                     )}
                     <div className="title">{node.data.title || getDefaultLabel(node.name)}</div>
-                </>
+                </div>
                 {Object.values(block.props)
                     .filter(prop => prop.control || ((!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight)))
                     .map(prop => (
