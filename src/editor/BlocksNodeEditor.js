@@ -12,6 +12,15 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             }),
             type: new Compiler(this, 'inferType', {
                 defaultCompile: (prop) => getType(prop.type),
+                postCompile: function(type) {
+                    if(type) {
+                        type = getType(type);
+                        if(type.isAbstract()) {
+                            throw new Error(`Abstract inferred type: ${type.toTypeString()}`);
+                        }
+                    }
+                    return type;
+                },
             }),
         };
     }

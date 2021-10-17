@@ -16,6 +16,9 @@ export function unaryOperatorBlock(type, symbol, evaluate) {
             compile({input}) {
                 return `${symbol}(${input})`;
             },
+            // inferType({input}) {
+            //     return input;
+            // },
         }],
     };
 }
@@ -40,6 +43,9 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
             compile({a, b}) {
                 return `(${a} ${symbol} ${b})`;
             },
+            // inferType({left, right}) {
+            //     return left.getSharedType(right);
+            // },
         }],
     };
 }

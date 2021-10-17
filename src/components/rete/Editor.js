@@ -96,6 +96,11 @@ export default function Editor({onSetup, onChange}) {
             let state = editor.toJSON();
             events.emit(EDITOR_CHANGE_EVENT, state);
         });
+        editor.on('connectioncreated', connection => {
+            // Sort connections by Y position
+            connection.input.connections.sort((a, b) => a.output.node.position[1] - b.output.node.position[1]);
+            connection.output.connections.sort((a, b) => a.input.node.position[1] - b.input.node.position[1]);
+        });
         editor.on('renderconnection', ({el, connection}) => {
             el.querySelector('.connection').classList.add(
                 `socket-input-category-${connection.input.socket.data.category}`,

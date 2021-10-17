@@ -29,6 +29,10 @@ class Type {
         return getType(this, generics);
     }
 
+    isAbstract() {
+        return this.data.abstract || this.generics.some(type => type.isAbstract());
+    }
+
     getDefaultValue() {
         let value = this.data.defaultValue;
         return typeof value === 'function' ? value(this) : value;
@@ -46,6 +50,24 @@ class Type {
             return this.generics.length === other.generics.length && this.generics.every((t, i) => t.isSubtype(other.generics[i]));
         }
         return !!other.data.parent && this.isSubtype(other.data.parent);
+    }
+
+    getSharedType(other) {
+        if(!other) {
+            return;
+        }
+        if(this === other) {
+            return this;
+        }
+        if(this.isSubtype(other)) {
+            return this;
+        }
+        if(other.isSubtype(this)) {
+            return other;
+        }
+        if(this.parent) {
+            return this.parent.getSharedType(other);
+        }
     }
 
     toTypeString() {
@@ -80,6 +102,7 @@ export const typeType = createType('Type', {
 export const valueType = createType('Value', {
     parent: anyType,
     category: 'values',
+    abstract: true,
 });
 export const unitType = createType('Unit', {
     parent: valueType,
@@ -179,39 +202,39 @@ export const optionalType = createType('Optional', {
 });
 
 // Fixed-size int values
-export const int8Type = createType('Int8', {
-    parent: intType,
-    controlProps: getIntProps(8),
-});
-export const int16Type = createType('Int16', {
-    parent: intType,
-    controlProps: getIntProps(16),
-});
-export const int32Type = createType('Int32', {
-    parent: intType,
-    controlProps: getIntProps(32),
-});
 export const int64Type = createType('Int64', {
     parent: intType,
     controlProps: getIntProps(64),
 });
+export const int32Type = createType('Int32', {
+    parent: int64Type,
+    controlProps: getIntProps(32),
+});
+export const int16Type = createType('Int16', {
+    parent: int32Type,
+    controlProps: getIntProps(16),
+});
+export const int8Type = createType('Int8', {
+    parent: int16Type,
+    controlProps: getIntProps(8),
+});
 
 // Fixed-size nat values
-export const nat8Type = createType('Nat8', {
-    parent: natType,
-    controlProps: getNatProps(8),
-});
-export const nat16Type = createType('Nat16', {
-    parent: natType,
-    controlProps: getNatProps(16),
-});
-export const nat32Type = createType('Nat32', {
-    parent: natType,
-    controlProps: getNatProps(32),
-});
 export const nat64Type = createType('Nat64', {
     parent: natType,
     controlProps: getNatProps(64),
+});
+export const nat32Type = createType('Nat32', {
+    parent: nat64Type,
+    controlProps: getNatProps(32),
+});
+export const nat16Type = createType('Nat16', {
+    parent: nat32Type,
+    controlProps: getNatProps(16),
+});
+export const nat8Type = createType('Nat8', {
+    parent: nat16Type,
+    controlProps: getNatProps(8),
 });
 
 function getNatProps(n) {
@@ -233,7 +256,9 @@ function getIntProps(n) {
 function createType(name, data) {
     let parent = data.parent;
     if(parent) {
-        data = {...parent.data, ...data};
+        // `abstract` is special case for data inheritance
+        let {abstract, ...parentData} = parent.data;
+        data = {...parentData, ...data};
     }
     let {generics = [], ...other} = data;
     let type = new Type(name, parent, generics, other);

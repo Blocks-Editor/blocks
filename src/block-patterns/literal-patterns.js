@@ -7,6 +7,9 @@ export function literalBlock(title, type, stringifier) {
             type,
             control: true,
             compile({value}) {
+                if(value === undefined) {
+                    return;
+                }
                 return String(stringifier ? stringifier(value) : value);
             },
         }],

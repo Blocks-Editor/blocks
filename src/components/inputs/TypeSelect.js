@@ -1,7 +1,7 @@
 import {anyType, getType, TYPE_MAP} from '../../block-types/types';
 import React from 'react';
 
-export default function TypeSelect({value, constraintType, onChange, ...others}) {
+export default function TypeSelect({value, constraintType, abstract, onChange, ...others}) {
 
     constraintType = constraintType || anyType;
 
@@ -19,7 +19,7 @@ export default function TypeSelect({value, constraintType, onChange, ...others})
     // console.log('Control type:', control.config.type.toTypeString());////
 
     const types = [...TYPE_MAP.values()]
-        .filter(type => constraintType.isSubtype(type));
+        .filter(type => (abstract || !type.isAbstract()) && constraintType.isSubtype(type));
 
     // console.log(value?.name,value?.generics);////
 

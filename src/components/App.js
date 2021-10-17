@@ -57,12 +57,12 @@ export default function App() {
 
     useListener(window, 'keydown', (event) => {
         if(event.ctrlKey || event.metaKey) {
-            switch(String.fromCharCode(event.which).toLowerCase()) {
-                case 's':
-                    event.preventDefault();
-                    saveEditorState();
-                    // TODO: confirmation popup
-                    break;
+            let key = String.fromCharCode(event.which).toLowerCase();
+            if(key === 's') {
+                event.preventDefault();
+                saveEditorState();
+                console.log('Manual save');
+                // TODO: confirmation popup
             }
         }
     });

@@ -76,26 +76,34 @@ function install(editor, config = {}) {
 
     let mouse;
     let mouseEvent;
+    let removingConnection = false;
 
     editor.view.container.addEventListener('mousemove', e => mouseEvent = e);
 
     editor.on('mousemove', (m) => mouse = m);
 
     editor.on('connectionpick', io => {
-        console.log(';;', io);
+        let prevConnections = [...io.connections];
+        setTimeout(() => {
+            if(io.connections.length < prevConnections.length) {
+                // Connection is being removed
+                removingConnection = true;
+            }
+        });
     });
 
     editor.on('connectiondrop', io => {
-
+        if(removingConnection) {
+            removingConnection = false;
+            return;
+        }
         let prevConnections = [...io.connections];
-
         setTimeout(() => {
             // Prevent activating if connections changed
             if(io.connections.length !== prevConnections.length || io.connections.some((conn, i) =>
                 (conn.input !== prevConnections[i].input) || (conn.output !== prevConnections[i].output))) {
                 return;
             }
-
             editor.trigger('contextmenu', {
                 e: mouseEvent,
                 context: {

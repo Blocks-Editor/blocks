@@ -30,33 +30,44 @@ export default class Compiler {
     getInput(node, key) {
         node = this.getNode(node);
         let block = this.getBlock(node);
-        let prop = block.inputs?.find(prop => prop.key === key);
-        if(!prop) {
-            throw new Error(`Input not found on ${node.name}: ${key}`);
+        if(!block.props.hasOwnProperty(key)) {
+            throw new Error(`Prop not found on ${node.name}: ${key}`);
         }
-        let type = getType(prop.type);
-        if(!type.data.reversed) {
-            let input = this._input(node, key);
-            if(prop.multi) {
-                return this._sortConnections(input.connections, 'output').map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
+        let prop = block.props[key];
+        try {
+            if(prop.input) {
+                if(!prop.type.data.reversed) {
+                    let input = this._input(node, key);
+                    if(prop.multi) {
+                        return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
+                    }
+                    if(input.connections.length) {
+                        let c = input.connections[0];
+                        return this._compileConnection(c, c.input, c.output, 'outputs');
+                    }
+                    if(input.control) {
+                        return input.control.getValue();
+                    }
+                }
+                else {
+                    let output = this._output(node, key);
+                    if(prop.multi) {
+                        return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
+                    }
+                    if(output.connections.length) {
+                        let c = output.connections[0];
+                        return this._compileConnection(c, c.output, c.input, 'inputs');
+                    }
+                }
             }
-            if(input.connections.length) {
-                let c = input.connections[0];
-                return this._compileConnection(c, c.input, c.output, 'outputs');
-            }
-            if(input.control) {
-                return input.control.getValue();
+
+            if(prop.control) {
+                let control = this._control(node, prop.key);
+                return control.getValue();
             }
         }
-        else {
-            let output = this._output(node, key);
-            if(prop.multi) {
-                return this._sortConnections(output.connections, 'input').map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
-            }
-            if(output.connections.length) {
-                let c = output.connections[0];
-                return this._compileConnection(c, c.output, c.input, 'inputs');
-            }
+        catch(err) {
+            console.error(key, '::::', err);
         }
     }
 
@@ -68,8 +79,8 @@ export default class Compiler {
             throw new Error(`Output not found on ${node.name}: ${key}`);
         }
         let args = {};
-        if(block.inputs) {
-            for(let prop of block.inputs) {
+        for(let prop of Object.values(block.props)) {
+            if(prop.input || prop.control) {
                 let value = this.getInput(node, prop.key);
                 if(value === undefined && !prop.optional) {
                     console.warn('Missing input:', prop.key);
@@ -78,16 +89,14 @@ export default class Compiler {
                 args[prop.key] = value;
             }
         }
-        if(block.controls) {
-            for(let prop of block.controls) {
-                let value = this.getControl(node, prop.key);
-                if(value === undefined && !prop.optional) {
-                    console.warn('Missing control value:', prop.key);
-                    return;
-                }
-                args[prop.key] = value;
-            }
-        }
+        // for(let prop of block.controls) {
+        //     let value = this.getControl(node, prop.key);
+        //     if(value === undefined && !prop.optional) {
+        //         console.warn('Missing control value:', prop.key);
+        //         return;
+        //     }
+        //     args[prop.key] = value;
+        // }
         if(prop) {
             if(prop[this.compileKey]) {
                 let result = prop[this.compileKey](args, node, this);
@@ -99,10 +108,10 @@ export default class Compiler {
         }
     }
 
-    getControl(node, key) {
-        node = this.getNode(node);
-        return this._control(node, key).getValue();
-    }
+    // getControl(node, key) {
+    //     node = this.getNode(node);
+    //     return this._control(node, key).getValue();
+    // }
 
     getTypeString(type) {
         // console.log('/////', type);///
@@ -112,10 +121,6 @@ export default class Compiler {
 
     inferType(node, key) {
         return this.editor.compilers.type.getInput(node, key);
-    }
-
-    _sortConnections(connections, sideKey) {
-        return [...connections].sort((a, b) => a[sideKey].node.position[1] - b[sideKey].node.position[1]);
     }
 
     _compileConnection(connection, from, to) {
