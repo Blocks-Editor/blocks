@@ -24,9 +24,9 @@ const block = {
         inferType({type}) {
             return type;
         },
-    }, {
+    }],
+    controls: [{
         key: 'type',
-        control: true,
         type: typeType.of(valueType),
     }],
 };
