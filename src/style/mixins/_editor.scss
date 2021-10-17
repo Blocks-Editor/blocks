@@ -64,6 +64,7 @@ $grid-area: $grid-size * 10000;
   .node {
     background: #111A;
     border-color: #111 !important;
+    box-shadow: 0 4px 8px #000A;
 
     &:hover {
       background: #333;
