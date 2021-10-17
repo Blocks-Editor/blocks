@@ -22,7 +22,7 @@ function install(editor, config = {}) {
 }
 
 const VerticalSortPlugin = {
-    name: 'connection-sort',
+    name: 'vertical-sort',
     install,
 };
 export default VerticalSortPlugin;
