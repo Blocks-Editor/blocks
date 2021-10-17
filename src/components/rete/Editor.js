@@ -12,6 +12,7 @@ import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/useListener';
 import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
+import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
 
 export default function Editor({onSetup, onChange}) {
     let name = process.env.REACT_APP_EDITOR_NAME;
@@ -60,6 +61,7 @@ export default function Editor({onSetup, onChange}) {
         editor.use(AutoArrangePlugin);
         // editor.use(CommentPlugin);
         editor.use(ContextMenuPlugin);
+        editor.use(VerticalSortPlugin);
 
         engine = new Rete.Engine(id);
 
@@ -71,35 +73,19 @@ export default function Editor({onSetup, onChange}) {
             engine.register(node);
         }
 
-        editor.on(['nodecreated', 'noderemoved', 'connectioncreated', 'connectionremoved'], async () => {
-            // await engine.abort();
-            //
-            // let state = editor.toJSON();
-            // // console.log('State:', state);
-            // await engine.process(state);
-            //
-            // // await editor.trigger('process');
-            //
-            // events.emit(EDITOR_CHANGE_EVENT, state);
-
+        editor.on(['nodecreated', 'noderemoved', 'nodedragged', 'connectioncreated', 'connectionremoved'], async () => {
             events.emit(ENGINE_NOTIFY_EVENT);
         });
         editor.on('zoom', ({source}) => {
             return source !== 'dblclick';
         });
-        // Deselect on click background
         editor.on('click', () => {
+            // Deselect on click background
             editor.selected.clear();
             editor.nodes.map(node => node.update());
         });
         editor.on('process', (...args) => {
-            let state = editor.toJSON();
-            events.emit(EDITOR_CHANGE_EVENT, state);
-        });
-        editor.on('connectioncreated', connection => {
-            // Sort connections by Y position
-            connection.input.connections.sort((a, b) => a.output.node.position[1] - b.output.node.position[1]);
-            connection.output.connections.sort((a, b) => a.input.node.position[1] - b.input.node.position[1]);
+            events.emit(EDITOR_CHANGE_EVENT);
         });
         editor.on('renderconnection', ({el, connection}) => {
             el.querySelector('.connection').classList.add(
@@ -128,11 +114,9 @@ export default function Editor({onSetup, onChange}) {
         document.addEventListener('keypress', onKeyPress);
         editor.on('destroy', () => document.removeEventListener('keypress', onKeyPress));
 
-        let lastTranslate;
-        editor.on('nodetranslated', () => {
-            clearTimeout(lastTranslate);
-            lastTranslate = setTimeout(() => events.emit(EDITOR_CHANGE_EVENT), 200);
-        });
+        // editor.on('nodedragged', (node) => {
+        //     events.emit(EDITOR_CHANGE_EVENT);
+        // });
 
         async function loadState(state) {
             if(!state) {
