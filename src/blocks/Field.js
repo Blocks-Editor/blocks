@@ -11,7 +11,7 @@ const block = memberBlock({
         //     key: 'type',
         //     type: 'Type',
         // }, {
-        key: 'defaultValue',
+        key: 'initialValue',
         type: valueType,
         optional: true,
     }],
@@ -21,15 +21,15 @@ const block = memberBlock({
         compile({name}) {
             return name;
         },
-        inferType({defaultValue}) {
-            return defaultValue;
+        inferType({initialValue}) {
+            return initialValue;
         },
     }],
 }, {
-    compile({visibility, stable, name, defaultValue}) {
+    compile({visibility, stable, name, initialValue}) {
         let modifiers = [visibility, stable && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
 
-        return `${modifiers && modifiers + ' '}var ${name}${defaultValue ? ' = ' + defaultValue : ''};`;
+        return `${modifiers && modifiers + ' '}var ${name}${initialValue ? ' = ' + initialValue : ''};`;
     },
 });
 export default block;
