@@ -6,9 +6,6 @@ const block = {
     inputs: [{
         key: 'name',
         type: identifierType,
-    }, {
-        key: 'type',
-        type: typeType.of(valueType),
     }],
     outputs: [{
         key: 'param',
@@ -27,6 +24,10 @@ const block = {
         inferType({type}) {
             return type;
         },
+    }, {
+        key: 'type',
+        control: true,
+        type: typeType.of(valueType),
     }],
 };
 export default block;

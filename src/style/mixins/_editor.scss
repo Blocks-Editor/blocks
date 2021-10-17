@@ -76,6 +76,10 @@ $grid-area: $grid-size * 10000;
       background-color: #0002;
       color: white;
       border: 1px solid #AAA;
+
+      option {
+        background-color: #222;
+      }
     }
 
     .socket {

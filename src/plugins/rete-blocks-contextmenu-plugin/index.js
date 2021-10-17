@@ -67,7 +67,6 @@ function install(editor, config = {}) {
     });
 
     editor.on('destroy', () => {
-        console.log('CLEANUP');/////
         if(menu) {
             menu.remove();
             menu = null;

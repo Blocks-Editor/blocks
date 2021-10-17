@@ -17,11 +17,11 @@ async function createNode(component, {data = {}, meta = {}, x = 0, y = 0}) {
 }
 
 function findRelevantComponents(io, components) {
-    let arrayKey = io instanceof Rete.Input ? 'inputs' : io instanceof Rete.Output ? 'outputs' : null;
     let socketType = io.socket.findType?.();
-    if(!arrayKey || !socketType) {
+    if(!socketType) {
         return [];
     }
+    let arrayKey = (io instanceof Rete.Input) === !!socketType.data.reversed ? 'inputs' : 'outputs';
     // Find compatible inputs/outputs
     return components.filter(c =>
         c.block[arrayKey].some(prop => (socketType.isSubtype(prop.type) || prop.type.isSubtype(socketType))));

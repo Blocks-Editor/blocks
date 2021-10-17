@@ -39,7 +39,6 @@ export default function Editor({onSetup, onChange}) {
 
     let bindEditor = (element) => {
         if(editor) {
-            console.log('CLEANUP--EDITOR');///
             editor.clear();
             editor.components.clear();
             editor.destroy();
@@ -66,6 +65,7 @@ export default function Editor({onSetup, onChange}) {
                 let background = document.createElement('div');
                 background.classList.add('grid');
                 background.style.pointerEvents = 'none';
+                editor.on('destroy', () => background.remove());
                 return background;
             })(),
             snap: {size: 16, dynamic: true},
@@ -90,7 +90,6 @@ export default function Editor({onSetup, onChange}) {
             return source !== 'dblclick';
         });
         editor.on('click', ({e}) => {
-            console.log(e)
             // Deselect on click background
             editor.selected.clear();
             editor.nodes.map(node => node.update());
