@@ -40,8 +40,8 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
         outputs: [{
             key: 'result',
             type,
-            compile({a, b}) {
-                return `(${a} ${symbol} ${b})`;
+            compile({left, right}) {
+                return `(${left} ${symbol} ${right})`;
             },
             // inferType({left, right}) {
             //     return left.getSharedType(right);
