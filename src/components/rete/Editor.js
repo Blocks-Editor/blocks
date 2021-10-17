@@ -89,7 +89,8 @@ export default function Editor({onSetup, onChange}) {
         editor.on('zoom', ({source}) => {
             return source !== 'dblclick';
         });
-        editor.on('click', () => {
+        editor.on('click', ({e}) => {
+            console.log(e)
             // Deselect on click background
             editor.selected.clear();
             editor.nodes.map(node => node.update());

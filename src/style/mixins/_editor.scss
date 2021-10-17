@@ -60,16 +60,16 @@ $grid-area: $grid-size * 10000;
   }
 
   .node {
-    background: #222;
-    border-color: #555;
+    background: #111A;
+    border-color: #111 !important;
 
     &:hover {
       background: #333;
     }
 
     &.selected {
-      background: #AAA !important;
-      border-color: #555 !important;
+      background: #777E !important;
+      border-color: #AAA !important;
     }
 
     input, select {
@@ -81,6 +81,7 @@ $grid-area: $grid-size * 10000;
     .socket {
       background: #444;
       border-color: #222 !important;
+      transform: scale(.8);
 
       &.multiple {
         // Multiple-input sockets should have a different appearance
@@ -102,7 +103,7 @@ $grid-area: $grid-size * 10000;
   .context-menu {
     font-size: 14px;
     display: inline-block;
-    background: #000A;
+    background: #111D;
     z-index: -100;
 
     .context-menu-action {
