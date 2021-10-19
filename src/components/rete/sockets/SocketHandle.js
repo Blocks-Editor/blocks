@@ -1,11 +1,14 @@
 import React from 'react';
 import {paramCase} from 'change-case';
 import classNames from 'classnames';
+import Rete from 'rete';
 
 // Adapted from https://github.com/retejs/react-render-plugin/blob/master/src/Socket.jsx
 
 export function SocketHandle(props) {
     const {type, socket, innerRef, io} = props;
+
+    let reversed = !!socket.data.reversed;
 
     return (
         <div
@@ -13,8 +16,8 @@ export function SocketHandle(props) {
                 'socket',
                 type,
                 paramCase(socket.name),
-                io._prop?.multi && 'multiple',
-                socket.data.reversed && 'reversed',
+                io.multipleConnections && (io instanceof Rete.Input) === !socket.data.reversed && 'multiple',
+                reversed && 'reversed',
                 socket.data.category && 'category-' + paramCase(socket.data.category),
             )}
             title={socket.name}

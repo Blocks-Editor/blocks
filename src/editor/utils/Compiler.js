@@ -67,7 +67,7 @@ export default class Compiler {
             }
         }
         catch(err) {
-            console.error(key, '::::', err);
+            console.error(`${node.name}.${key}`, '::', err);
         }
     }
 

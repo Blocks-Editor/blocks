@@ -9,8 +9,8 @@ export function statementBlock(block, compile) {
             ...block.inputs || [], {
                 key: 'after',
                 type: effectType.of(valueType),
-                optional: true,
-                // multi: true,
+                // optional: true,
+                multi: true,
             },
         ],
         outputs: [
@@ -19,7 +19,8 @@ export function statementBlock(block, compile) {
                 type: effectType.of(valueType),
                 compile(props) {
                     let {after} = props;
-                    return `${compile(props)}${after ? ' ' + after : ''}`;
+                    console.log(after);//////
+                    return `${compile(props)}${after.map(s => ` ${s}`)/*after ? ' ' + after : ''*/}`;
                 },
                 inferType({after}) {
                     return after || effectType.of(valueType);

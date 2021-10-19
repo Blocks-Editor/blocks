@@ -1,5 +1,5 @@
 import Rete from 'rete';
-import TypeControl from '../controls/TypeControl';
+import PropControl from '../controls/PropControl';
 import BaseComponent from './BaseComponent';
 import getDefaultLabel from '../../utils/getDefaultLabel';
 import BaseControl from '../controls/BaseControl';
@@ -22,16 +22,9 @@ export default class BlockComponent extends BaseComponent {
 
     async builder(node) {
 
-        // noinspection JSUnresolvedVariable
-        // let typeCompiler = this.editor.compilers.type;
-
         const addProp = (prop, isOutput) => {
-            let type = getType(prop.type);
-            let socket = /*isOutput ? new NodeOutputSocket(node.id, prop.key, typeCompiler, {
-                ...type.data,
-                type, /!*** TEMP ***!/
-            }) : */ new TypeSocket(type);
-            if(!!type.data.reversed === isOutput) {
+            let socket = new TypeSocket(prop.type);
+            if(!!prop.type.data.reversed === isOutput) {
                 return addPropInput(prop, socket, isOutput);
             }
             else {
@@ -41,9 +34,9 @@ export default class BlockComponent extends BaseComponent {
 
         const addPropInput = (prop, socket, isOutput) => {
             let title = prop.title || getDefaultLabel(prop.key);
-            let input = new Rete.Input(prop.key, title, socket, isOutput || !!prop.multi);
-            if(hasPropControl(prop, socket, isOutput)) {
-                input.addControl(new TypeControl(this.editor, prop.key, title, socket));
+            let input = new Rete.Input(prop.key, title, socket, !isOutput === !!prop.type.data.reversed || !!prop.multi);
+            if(shouldHavePropControl(prop, socket, isOutput)) {
+                input.addControl(new PropControl(this.editor, prop, title, socket));
             }
             node.addInput(input);
             return input;
@@ -51,15 +44,15 @@ export default class BlockComponent extends BaseComponent {
 
         const addPropOutput = (prop, socket, isOutput) => {
             let title = prop.title || getDefaultLabel(prop.key);
-            let output = new Rete.Output(prop.key, title, socket, !isOutput || !!prop.multi);
+            let output = new Rete.Output(prop.key, title, socket, isOutput === !!prop.type.data.reversed || !!prop.multi);
             node.addOutput(output);
-            if(hasPropControl(prop, socket, isOutput)) {
-                node.addControl(new TypeControl(this.editor, prop.key, title, socket));
+            if(shouldHavePropControl(prop, socket, isOutput)) {
+                node.addControl(new PropControl(this.editor, prop, title, socket));
             }
             return output;
         };
 
-        const hasPropControl = (prop, socket, isOutput) => {
+        const shouldHavePropControl = (prop, socket, isOutput) => {
             return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType);
         };
 
@@ -68,12 +61,10 @@ export default class BlockComponent extends BaseComponent {
         }
 
         for(let prop of this.block.inputs) {
-            let io = addProp(prop, false);
-            io._prop = prop; /////
+            addProp(prop, false);
         }
         for(let prop of this.block.outputs) {
-            let io = addProp(prop, true);
-            io._prop = prop; /////
+            addProp(prop, true);
         }
 
         for(let prop of this.block.controls) {
@@ -81,7 +72,7 @@ export default class BlockComponent extends BaseComponent {
             let control;
             if(prop.type) {
                 let socket = new TypeSocket(prop.type);
-                control = new TypeControl(this.editor, prop.key, title, socket);
+                control = new PropControl(this.editor, prop, title, socket);
             }
             else {
                 control = new BaseControl(this.editor, prop.key, title, prop.config || {});

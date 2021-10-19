@@ -79,9 +79,6 @@ export default function Editor({onSetup, onChange}) {
             editor.selected.clear();
             editor.nodes.map(node => node.update());
         });
-        // editor.on('process', (...args) => {
-        //     events.emit(EDITOR_CHANGE_EVENT);
-        // });
         editor.on('renderconnection', ({el, connection}) => {
             el.querySelector('.connection').classList.add(
                 `socket-input-category-${connection.input.socket.data.category}`,
@@ -109,10 +106,6 @@ export default function Editor({onSetup, onChange}) {
         // document.addEventListener('keypress', onKeyPress);
         // editor.on('destroy', () => document.removeEventListener('keypress', onKeyPress));
 
-        // editor.on('nodedragged', (node) => {
-        //     events.emit(EDITOR_CHANGE_EVENT);
-        // });
-
         async function loadState(state) {
             if(!state) {
                 return false;
@@ -123,17 +116,19 @@ export default function Editor({onSetup, onChange}) {
             //         console.warn('Unknown block:', node.name);
             //     }
             // }
-            return await editor.fromJSON(state);
+            let result = await editor.fromJSON(state);
+            if(result) {
+                editor.view.resize();
+                AreaPlugin.zoomAt(editor);
+                events.emit(EDITOR_CHANGE_EVENT);
+            }
+            return result;
         }
 
         (async () => {
             if(onSetup) {
                 await onSetup(loadState, editor);
             }
-
-            editor.view.resize();
-            AreaPlugin.zoomAt(editor);
-            events.emit(EDITOR_CHANGE_EVENT);////
         })().catch(err => events.emit(ERROR_EVENT, err));
     };
 
