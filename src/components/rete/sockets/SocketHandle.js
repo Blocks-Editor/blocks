@@ -9,6 +9,7 @@ export function SocketHandle(props) {
     const {type, socket, innerRef, io} = props;
 
     let reversed = !!socket.data.reversed;
+    let multiple = io.multipleConnections && (io instanceof Rete.Input) === !reversed;
 
     return (
         <div
@@ -16,8 +17,9 @@ export function SocketHandle(props) {
                 'socket',
                 type,
                 paramCase(socket.name),
-                io.multipleConnections && (io instanceof Rete.Input) === !socket.data.reversed && 'multiple',
+                multiple && 'multiple',
                 reversed && 'reversed',
+                !multiple && io.connections.length && 'occupied',
                 socket.data.category && 'category-' + paramCase(socket.data.category),
             )}
             title={socket.name}

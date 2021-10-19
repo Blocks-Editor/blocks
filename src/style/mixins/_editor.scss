@@ -93,6 +93,11 @@ $grid-area: $grid-size * 10000;
         // Reversed sockets should look like right-facing triangles/carets
         border-radius: 0;
       }
+
+      &.occupied {
+        // Occupied sockets could look slightly different
+        //opacity: .8;
+      }
     }
   }
 
