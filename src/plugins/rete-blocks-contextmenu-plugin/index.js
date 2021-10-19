@@ -67,6 +67,7 @@ function install(editor, config = {}) {
     });
 
     editor.on('destroy', () => {
+        editor.trigger('hidecontextmenu');
         if(menu) {
             menu.remove();
             menu = null;
