@@ -2,9 +2,8 @@ import React from 'react';
 import useControlState from '../../../hooks/useControlState';
 
 
-export default function TextControlHandle(props) {
-    let [value, setValue] = useControlState(props);
-    let {bindInput, control, minLength, maxLength} = props;
+export default function TextControlHandle({control, bindInput, minLength, maxLength}) {
+    let [value, setValue] = useControlState(control);
 
     return (
         <input

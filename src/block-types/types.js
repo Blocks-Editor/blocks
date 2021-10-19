@@ -83,6 +83,7 @@ export const TYPE_MAP = new Map();
 
 export const anyType = createType('Any', {
     category: 'default',
+    reversed: false,
 });
 export const anyReversedType = createType('AnyReversed', {
     category: 'default',

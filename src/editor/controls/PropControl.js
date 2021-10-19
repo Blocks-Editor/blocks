@@ -1,17 +1,22 @@
 import BaseControl from './BaseControl';
 
 export default class PropControl extends BaseControl {
-    constructor(emitter, prop, name, socket) {
-        super(emitter, prop.key, name, socket.data);
-
-        // this.prop = prop;
+    constructor(editor, prop, name) {
+        super(editor, prop.key, name, {
+            ...prop.type?.data || {},
+            ...prop.config || {},
+            prop,
+            type: prop.type,
+        });
     }
 
     getDefaultValue() {
-        // :: collision between socket type config and prop config
-        // let value = super.getDefaultValue();
-        // return value !== undefined ? value : this.config.type.getDefaultValue();
+        let value = super.getDefaultValue();
+        return value !== undefined ? value : this.config.type?.getDefaultValue();
+    }
 
-        return this.config.type.getDefaultValue();
+    // Called every EDITOR_CHANGE_EVENT when control is visible
+    notifyEditorChange() {
+        // this.config.prop.onUpdateControl?.(this, this.getNode(), this.editor);
     }
 }

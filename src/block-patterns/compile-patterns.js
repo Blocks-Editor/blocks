@@ -2,16 +2,10 @@ import {anyReversedType, anyType} from '../block-types/types';
 import OutputControlHandle from '../components/rete/controls/OutputControlHandle';
 
 export function compileBlock(name, compilerKey, displayFn) {
-    function onUpdateBuilder(inputKey) {
-        return async function onUpdate(control, node, editor) {
-            try {
-                let value = editor.compilers[compilerKey].getInput(node, inputKey);
-                control.setValue(displayFn ? displayFn(value) : value);
-            }
-            catch(err) {
-                console.warn(err.stack || err);
-                control.setValue(`<${err}>`);
-            }
+    function queryFor(inputKey) {
+        return async function(control, node, editor) {
+            let value = editor.compilers[compilerKey].getInput(node, inputKey);
+            return displayFn ? displayFn(value) : value;
         };
     }
 
@@ -33,14 +27,18 @@ export function compileBlock(name, compilerKey, displayFn) {
             title: 'Display',
             config: {
                 controlType: OutputControlHandle,
+                controlProps: {
+                    query: queryFor('reversed'),
+                },
             },
-            onUpdate: onUpdateBuilder('reversed'),
         }, {
             key: 'display',
             config: {
                 controlType: OutputControlHandle,
+                controlProps: {
+                    query: queryFor('input'),
+                },
             },
-            onUpdate: onUpdateBuilder('input'),
         }],
     };
 }

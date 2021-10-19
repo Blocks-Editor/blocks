@@ -2,9 +2,8 @@ import React from 'react';
 import useControlState from '../../../hooks/useControlState';
 
 
-export default function SelectControlHandle(props) {
-    let [value, setValue] = useControlState(props);
-    let {bindInput, options, findLabel} = props;
+export default function SelectControlHandle({control, bindInput, options, findLabel}) {
+    let [value, setValue] = useControlState(control);
 
     return (
         <select

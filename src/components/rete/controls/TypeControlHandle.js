@@ -3,9 +3,8 @@ import useControlState from '../../../hooks/useControlState';
 import TypeSelect from '../../inputs/TypeSelect';
 
 
-export default function TypeControlHandle(props) {
-    let [value, setValue] = useControlState(props);
-    let {control, bindInput} = props;
+export default function TypeControlHandle({control, bindInput}) {
+    let [value, setValue] = useControlState(control);
 
     let constraintType = control.config.type.generics[0];
 
