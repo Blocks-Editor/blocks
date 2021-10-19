@@ -18,7 +18,14 @@ const block = statementBlock({
         optional: true,
     }],
 }, ({condition, trueCase, falseCase}) => {
+    if(String(condition) === 'true') {
+        return trueCase;
+    }
+    if(String(condition) === 'false') {
+        return falseCase;
+    }
+
     let falsePart = falseCase ? ` else {${falseCase}}` : '';
-    return `if(${condition}) {${trueCase}}${falsePart};`;
+    return `if(${condition}) {${trueCase || ''}}${falsePart};`;
 });
 export default block;

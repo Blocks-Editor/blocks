@@ -1,4 +1,6 @@
-import {effectType} from '../block-types/types';
+import {effectType, unitType} from '../block-types/types';
+
+let defaultType = effectType.of(unitType);
 
 export function statementBlock(block, compile) {
     return {
@@ -22,7 +24,7 @@ export function statementBlock(block, compile) {
                     return `${compile(props)}${after ? ' ' + after : ''}`;
                 },
                 inferType({after}) {
-                    return after || effectType;
+                    return after || defaultType;
                 },
             },
         ],

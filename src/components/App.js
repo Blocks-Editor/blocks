@@ -67,7 +67,7 @@ export default function App() {
         }
     });
 
-    // TODO: add react-router
+    // TODO: add react-router?
     // TODO: set up ErrorBanner or similar
     return (
         <>

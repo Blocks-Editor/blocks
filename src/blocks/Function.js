@@ -1,4 +1,4 @@
-import {boolType, effectType, identifierType, paramType, unitType, valueType} from '../block-types/types';
+import {boolType, effectType, identifierType, paramType, unitType} from '../block-types/types';
 import {memberBlock} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
 import {stringSelectProp} from '../block-patterns/control-patterns';
@@ -30,13 +30,13 @@ const block = memberBlock({
         type: effectType,
         optional: true,
     }],
-    outputs: [{
-        key: 'reference',
-        type: valueType,
-        compile({name}) {
-            return name;
-        },
-    }],
+    // outputs: [{
+    //     key: 'reference',
+    //     type: valueType,
+    //     compile({name}) {
+    //         return name;
+    //     },
+    // }],
     controls: [{
         key: 'shared',
         type: boolType,
