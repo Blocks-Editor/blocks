@@ -1,5 +1,5 @@
 import {boolType, memberType} from '../block-types/types';
-import SelectControlHandle from '../components/rete/controls/SelectControlHandle';
+import {stringSelectProp} from './control-patterns';
 
 
 export function memberBlock(block, memberProp) {
@@ -16,17 +16,10 @@ export function memberBlock(block, memberProp) {
             ...block.outputs || [],
         ],
         controls: [
-            {
+            stringSelectProp({
                 key: 'visibility',
-                config: {
-                    controlType: SelectControlHandle,
-                    controlProps: {
-                        options: [undefined, 'public', 'private'],
-                        findLabel: (option) => option ? option.charAt(0).toUpperCase() + option.substring(1) : '--',
-                    },
-                },
                 optional: true,
-            },
+            }, ['public', 'private']),
             {
                 key: 'stable',
                 type: boolType,

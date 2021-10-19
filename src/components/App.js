@@ -13,7 +13,7 @@ export default function App() {
 
     let editorRef;
 
-    const onEditorSetup = async (loadState, editor, engine) => {
+    const onEditorSetup = async (loadState, editor) => {
 
         editorRef = editor;
 
@@ -55,7 +55,7 @@ export default function App() {
         localStorage[STORAGE_EDITOR_STATE] = JSON.stringify(editorRef.toJSON());
     };
 
-    useListener(window, 'keydown', (event) => {
+    useListener(window, 'keydown', event => {
         if(event.ctrlKey || event.metaKey) {
             let key = String.fromCharCode(event.which).toLowerCase();
             if(key === 's') {

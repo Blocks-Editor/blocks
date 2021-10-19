@@ -1,21 +1,18 @@
 import {useContext, useState} from 'react';
 import useListener from './useListener';
-import EventsContext, {ENGINE_NOTIFY_EVENT} from '../contexts/EventsContext';
+import EventsContext, {EDITOR_CHANGE_EVENT} from '../contexts/EventsContext';
 
 export default function useControlState({control}) {
     let value = control.getValue();
     let [, updateVisualValue] = useState(value); // Redraw component if value changed
 
     let events = useContext(EventsContext);
-    // useListener(events, EDITOR_CHANGE_EVENT, () => updateVisualValue(control.getValue()));
+    useListener(events, EDITOR_CHANGE_EVENT, () => updateVisualValue(control.getValue()));
 
-    useListener(control.events, 'update', () => updateVisualValue(control.getValue()));
+    useListener(control.events, 'update', () => events.emit(EDITOR_CHANGE_EVENT, control, value));
 
     return [
         value,
-        value => {
-            control.setValue(value);
-            events.emit(ENGINE_NOTIFY_EVENT, control, value);
-        },
+        value => control.setValue(value),
     ];
 }

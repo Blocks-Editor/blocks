@@ -1,5 +1,6 @@
 import {basename} from 'path';
 import {getType} from '../block-types/types';
+import {defaultCategory, getCategory} from '../block-categories/categories';
 
 const allBlocks = [];
 const blockNames = new Set();
@@ -8,12 +9,14 @@ const blockContext = require.context('../blocks', true, /\.js$/);
 blockContext.keys().forEach(path => {
     let name = basename(path, '.js');
     let block = blockContext(path).default;
+    block = {...block}; // Enable hot-reload
     if(block) {
         block.name = name;
         if(blockNames.has(name)) {
             console.error(`Duplicate block name: ${name}`);
             return;
         }
+        block.category = block.category ? getCategory(block.category) : defaultCategory;
         block.props = block.props || {};
         block.inputs = block.inputs || [];
         block.outputs = block.outputs || [];

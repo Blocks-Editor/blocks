@@ -78,8 +78,12 @@ function install(editor, config = {}) {
     let removingConnection = false;
 
     editor.view.container.addEventListener('mousemove', e => mouseEvent = e);
+    // editor.view.container.addEventListener('drag', e => {
+    //     console.log(123)
+    //     mouseEvent = e
+    // });
 
-    editor.on('mousemove', (m) => mouse = m);
+    editor.on('mousemove', m => mouse = m);
 
     editor.on('connectionpick', io => {
         let prevConnections = [...io.connections];

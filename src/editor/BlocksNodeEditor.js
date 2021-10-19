@@ -26,7 +26,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
     }
 
     async fromJSON(json) {
-        if(!this.beforeImport(json)) return false;
+        if(!this.beforeImport(json)) {
+            return false;
+        }
         const nodes = {};
 
         let hadError = false;

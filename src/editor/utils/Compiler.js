@@ -73,39 +73,33 @@ export default class Compiler {
 
     getOutput(node, key) {
         node = this.getNode(node);
-        let block = this.getBlock(node);
-        let prop = block.outputs?.find(prop => prop.key === key);
-        if(!prop) {
-            throw new Error(`Output not found on ${node.name}: ${key}`);
+        // let block = this.getBlock(node);
+        let prop = this._prop(node, key);
+        let args = this.getInputArgs(node);
+        if(prop[this.compileKey]) {
+            let result = prop[this.compileKey](args, node, this);
+            return this.postCompile ? this.postCompile(result, args, node, this) : result;
         }
+        else if(this.defaultCompile) {
+            return this.defaultCompile(prop, args, node, this);
+        }
+    }
+
+    getInputArgs(node) {
+        node = this.getNode(node);
+        let block = this.getBlock(node);
         let args = {};
         for(let prop of Object.values(block.props)) {
             if(prop.input || prop.control) {
                 let value = this.getInput(node, prop.key);
                 if(value === undefined && !prop.optional) {
-                    console.warn('Missing input:', prop.key);
+                    this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
                     return;
                 }
                 args[prop.key] = value;
             }
         }
-        // for(let prop of block.controls) {
-        //     let value = this.getControl(node, prop.key);
-        //     if(value === undefined && !prop.optional) {
-        //         console.warn('Missing control value:', prop.key);
-        //         return;
-        //     }
-        //     args[prop.key] = value;
-        // }
-        if(prop) {
-            if(prop[this.compileKey]) {
-                let result = prop[this.compileKey](args, node, this);
-                return this.postCompile ? this.postCompile(result, args, node, this) : result;
-            }
-            else if(this.defaultCompile) {
-                return this.defaultCompile(prop, args, node, this);
-            }
-        }
+        return args;
     }
 
     // getControl(node, key) {
