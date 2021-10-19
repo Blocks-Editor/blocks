@@ -18,14 +18,22 @@ blockContext.keys().forEach(path => {
         }
         block.category = block.category ? getCategory(block.category) : defaultCategory;
         block.props = block.props || {};
-        block.inputs = block.inputs || [];
-        block.outputs = block.outputs || [];
-        block.controls = block.controls || [];
+        for(let [key, prop] of Object.entries(block.props)) {
+            if(prop.key && prop.key !== key) {
+                throw new Error(`Prop key mismatch: ${key} != ${prop.key}`);
+            }
+            prop.key = key;
+        }
 
         // `outputs` prioritized over `inputs`
         addProps(block, block.outputs, 'output');
         addProps(block, block.inputs, 'input');
         addProps(block, block.controls, 'control');
+
+        // Rearrange block inputs/outputs/controls
+        block.inputs = [];
+        block.outputs = [];
+        block.controls = [];
 
         for(let [key, prop] of Object.entries(block.props)) {
             prop.key = key;

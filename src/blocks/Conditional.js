@@ -10,6 +10,7 @@ const block = statementBlock({
         key: 'trueCase',
         title: 'True',
         type: effectType,
+        optional: true,
     }, {
         key: 'falseCase',
         title: 'False',

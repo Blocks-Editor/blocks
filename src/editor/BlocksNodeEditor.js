@@ -12,7 +12,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             }),
             type: new Compiler(this, 'inferType', {
                 defaultCompile: (prop) => getType(prop.type),
-                postCompile: function(type) {
+                postCompile(type) {
                     if(type) {
                         type = getType(type);
                         if(type.isAbstract()) {
@@ -29,10 +29,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         if(!this.beforeImport(json)) {
             return false;
         }
-        const nodes = {};
-
         let hadError = false;
         try {
+            const nodes = {};
             await Promise.all(Object.entries(json.nodes).map(async ([id, node]) => {
                 try {
                     const component = this.getComponent(node.name);

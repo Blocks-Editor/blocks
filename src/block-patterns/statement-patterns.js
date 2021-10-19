@@ -1,4 +1,4 @@
-import {effectType, valueType} from '../block-types/types';
+import {effectType} from '../block-types/types';
 
 export function statementBlock(block, compile) {
     return {
@@ -8,22 +8,21 @@ export function statementBlock(block, compile) {
         inputs: [
             ...block.inputs || [], {
                 key: 'after',
-                type: effectType.of(valueType),
-                // optional: true,
-                multi: true,
+                type: effectType,
+                optional: true,
+                // multi: true,
             },
         ],
         outputs: [
             ...block.outputs || [], {
                 key: 'before',
-                type: effectType.of(valueType),
+                type: effectType,
                 compile(props) {
                     let {after} = props;
-                    console.log(after);//////
-                    return `${compile(props)}${after.map(s => ` ${s}`)/*after ? ' ' + after : ''*/}`;
+                    return `${compile(props)}${after ? ' ' + after : ''}`;
                 },
                 inferType({after}) {
-                    return after || effectType.of(valueType);
+                    return after || effectType;
                 },
             },
         ],

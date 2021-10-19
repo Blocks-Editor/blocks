@@ -62,12 +62,13 @@ $grid-area: $grid-size * 10000;
   }
 
   .node {
+    width: 189px; // TODO: exorcise magic number
     background: #111A;
     border-color: #111 !important;
     box-shadow: 0 4px 8px #000A;
 
     &:hover {
-      background: #333;
+      background: #222A;
     }
 
     &.selected {
@@ -145,7 +146,7 @@ $grid-area: $grid-size * 10000;
   }
 
   input, select {
-    background-color: #0002;
+    background-color: #111A;
     color: white;
     border: 1px solid #AAA;
 

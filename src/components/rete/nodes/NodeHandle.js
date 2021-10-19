@@ -5,7 +5,7 @@ import getDefaultLabel from '../../../utils/getDefaultLabel';
 import {BLOCK_MAP} from '../../../editor/blocks';
 import classNames from 'classnames';
 import {paramCase} from 'change-case';
-import DynamicTitle from './DynamicTitle';
+import DynamicTitle from './parts/DynamicTitle';
 
 function PropHandle({prop, node, block, hideLeft, hideRight, bindSocket, bindControl}) {
     let input = node.inputs.get(prop.key);
@@ -67,8 +67,10 @@ export default class NodeHandle extends Node {
         let topLeft = block.topLeft && node.inputs.get(block.topLeft);
         let topRight = block.topRight && node.outputs.get(block.topRight);
 
-        let title = (block.computeTitle && <DynamicTitle editor={editor} node={node} block={block}/>)
-            || node.data.title || getDefaultLabel(node.name);
+        let title = node.data.title || getDefaultLabel(node.name);
+        if(block.computeTitle) {
+            title = <DynamicTitle editor={editor} node={node} block={block} fallback={title}/>;
+        }
 
         // TODO: icons for different node/connection categories? ('react-icons' includes a lot of options)
 

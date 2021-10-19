@@ -12,7 +12,7 @@ const block = {
         type: paramType,
         compile({name, type}, node, compiler) {
             // console.log(type)//
-            let typeString = compiler.getTypeString(type) || '?';
+            let typeString = compiler.getTypeString(type) || '??';
             return `${name}: ${typeString}`;
         },
     }, {

@@ -25,7 +25,7 @@ export default class BaseControl extends Rete.Control {
     }
 
     getDefaultValue() {
-        return this.config.defaultValue;
+        // return this.config.defaultValue;
     }
 
     getValue() {

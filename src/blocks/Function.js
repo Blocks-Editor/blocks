@@ -1,7 +1,9 @@
-import {boolType, effectType, identifierType, paramType, valueType} from '../block-types/types';
+import {boolType, effectType, identifierType, paramType, unitType, valueType} from '../block-types/types';
 import {memberBlock} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
 import {stringSelectProp} from '../block-patterns/control-patterns';
+
+const defaultReturnType = effectType.of(unitType);
 
 const block = memberBlock({
     // topLeft: 'member',
@@ -11,7 +13,7 @@ const block = memberBlock({
         let {name, params} = editor.compilers.motoko.getInputArgs(node) || {};
         let {body} = editor.compilers.type.getInputArgs(node) || {};
         let returnType = body?.generics[0];
-        return name && params && body && body.generics[0] && `${name}(${params.join(', ')})${returnType ? ': ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
+        return name && params && `${name}(${params.join(', ')})${returnType ? ': ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
     },
     inputs: [{
         key: 'name',
@@ -26,6 +28,7 @@ const block = memberBlock({
     }*/, {
         key: 'body',
         type: effectType,
+        optional: true,
     }],
     outputs: [{
         key: 'reference',
@@ -46,15 +49,18 @@ const block = memberBlock({
         // TODO: dry with Field
         let modifiers = [visibility, stable && 'stable', shared && 'shared', asyncType === 'query' && asyncType].filter(m => m).join(' '); //TODO: combine into single control
 
-        let bodyType = compiler.inferType(node, 'body');
-        if(!bodyType) {
+        let returnType = body ? compiler.inferType(node, 'body') : defaultReturnType;
+        if(!returnType) {
             return;
         }
-        let returnType = compiler.getTypeString(bodyType.generics[0]) || '()';
-        if(asyncType) {
-            returnType = `async ${returnType}`;
+        let returnString = compiler.getTypeString(returnType.generics[0]);
+        if(!returnString) {
+            return;///
         }
-        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnType !== '()' ? ': ' + returnType : ''} {${body}};`;
+        if(asyncType) {
+            returnString = `async ${returnString}`;
+        }
+        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ': ' + returnString : ''} {${body || ''}};`;
     },
 });
 export default block;

@@ -11,8 +11,10 @@ export default class PropControl extends BaseControl {
     }
 
     getDefaultValue() {
-        let value = super.getDefaultValue();
-        return value !== undefined ? value : this.config.type?.getDefaultValue();
+        // let value = super.getDefaultValue();
+        // return value !== undefined ? value : this.config.type?.getDefaultValue();
+
+        return this.config.type?.getDefaultValue();
     }
 
     // Called every EDITOR_CHANGE_EVENT when control is visible

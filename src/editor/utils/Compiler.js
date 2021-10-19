@@ -76,6 +76,9 @@ export default class Compiler {
         // let block = this.getBlock(node);
         let prop = this._prop(node, key);
         let args = this.getInputArgs(node);
+        if(!args) {
+            return;
+        }
         if(prop[this.compileKey]) {
             let result = prop[this.compileKey](args, node, this);
             return this.postCompile ? this.postCompile(result, args, node, this) : result;
