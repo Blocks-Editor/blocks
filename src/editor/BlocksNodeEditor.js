@@ -32,12 +32,12 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         let hadError = false;
         try {
             const nodes = {};
-            await Promise.all(Object.entries(json.nodes).map(async ([id, node]) => {
+            await Promise.all(Object.entries(json.nodes).map(async ([id, jsonNode]) => {
                 try {
-                    const component = this.getComponent(node.name);
-
-                    nodes[id] = await component.build(Rete.Node.fromJSON(node));
-                    this.addNode(nodes[id]);
+                    const component = this.getComponent(jsonNode.name);
+                    const node = await component.build(Rete.Node.fromJSON(jsonNode));
+                    nodes[id] = node;
+                    this.addNode(node);
                 }
                 catch(e) {
                     hadError = true;

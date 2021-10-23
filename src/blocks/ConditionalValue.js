@@ -1,19 +1,21 @@
+import {boolType, valueType} from '../block-types/types';
+
 const block = {
     title: 'Map Bool',
     topRight: 'result',
     inputs: [{
         key: 'condition',
-        type: 'Bool',
+        type: boolType,
     }, {
         key: 'true',
-        type: 'Value',
+        type: valueType,
     }, {
         key: 'false',
-        type: 'Value',
+        type: valueType,
     }],
     outputs: [{
         key: 'result',
-        type: 'Value',
+        type: valueType,
         toMotoko({condition, trueCase, falseCase}) {
             if(condition === true) {
                 return trueCase;

@@ -25,11 +25,15 @@ const block = memberBlock({
             return initialValue;
         },
     }],
+    controls: [{
+        key: 'readonly',
+        type: 'Bool',
+    }],
 }, {
-    toMotoko({visibility, stable, name, initialValue}) {
+    toMotoko({visibility, stable, name, initialValue, readonly}) {
         let modifiers = [visibility, stable && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
 
-        return `${modifiers && modifiers + ' '}var ${name}${initialValue ? ' = ' + initialValue : ''};`;
+        return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${initialValue ? ' = ' + initialValue : ''};`;
     },
 });
 export default block;

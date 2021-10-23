@@ -130,14 +130,17 @@ export const effectType = createType('Effect', {
 });
 export const memberType = createType('Member', {
     parent: anyReversedType,
+    singleOutput: true,
     category: 'members',
 });
 export const actorType = createType('Actor', {
     parent: anyReversedType,
+    singleOutput: true,
     category: 'actors',
 });
 export const moduleType = createType('Module', {
     parent: anyReversedType,
+    singleOutput: true,
     category: 'modules',
 });
 export const paramType = createType('Param', {

@@ -67,12 +67,10 @@ export default class NodeHandle extends Node {
         let topLeft = block.topLeft && node.inputs.get(block.topLeft);
         let topRight = block.topRight && node.outputs.get(block.topRight);
 
-        let title = node.data.title || getDefaultLabel(node.name);
+        let title = node.meta.title || getDefaultLabel(node.name);
         if(block.computeTitle) {
             title = <DynamicTitle editor={editor} node={node} block={block} fallback={title}/>;
         }
-
-        // TODO: icons for different node/connection categories? ('react-icons' includes a lot of options)
 
         return (
             <div className={classNames('node', selected)}>

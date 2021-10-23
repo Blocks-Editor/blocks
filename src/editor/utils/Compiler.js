@@ -14,9 +14,11 @@ export default class Compiler {
         if(node instanceof Rete.Node) {
             return node;
         }
-        // console.log(node);///
-        let id = typeof node === 'string' || typeof node === 'number' ? node : node.id;
-        return this.editor.nodes.find(node => node.id === id);
+        if(!node) {
+            throw new Error(`Node cannot be ${JSON.stringify(node)}`);
+        }
+        let id = typeof node === 'string' || typeof node === 'number' ? String(node) : node.id;
+        return this.editor.nodes.find(node => String(node.id) === id);
     }
 
     getBlock(node) {
@@ -34,57 +36,56 @@ export default class Compiler {
             throw new Error(`Prop not found on ${node.name}: ${key}`);
         }
         let prop = block.props[key];
-        try {
-            if(prop.input) {
-                if(!prop.type.data.reversed) {
-                    let input = this._input(node, key);
-                    if(prop.multi) {
-                        return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
-                    }
-                    if(input.connections.length) {
-                        let c = input.connections[0];
-                        return this._compileConnection(c, c.input, c.output, 'outputs');
-                    }
-                    if(input.control) {
-                        return input.control.getValue();
-                    }
+        if(prop.input) {
+            if(!prop.type.data.reversed) {
+                let input = this._input(node, key);
+                if(prop.multi) {
+                    return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
                 }
-                else {
-                    let output = this._output(node, key);
-                    if(prop.multi) {
-                        return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
-                    }
-                    if(output.connections.length) {
-                        let c = output.connections[0];
-                        return this._compileConnection(c, c.output, c.input, 'inputs');
-                    }
+                if(input.connections.length) {
+                    let c = input.connections[0];
+                    return this._compileConnection(c, c.input, c.output, 'outputs');
+                }
+                if(input.control) {
+                    return input.control.getValue();
                 }
             }
-
-            if(prop.control) {
-                let control = this._control(node, prop.key);
-                return control.getValue();
+            else {
+                let output = this._output(node, key);
+                if(prop.multi) {
+                    return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
+                }
+                if(output.connections.length) {
+                    let c = output.connections[0];
+                    return this._compileConnection(c, c.output, c.input, 'inputs');
+                }
             }
         }
-        catch(err) {
-            console.error(`${node.name}.${key}`, '::', err);
+
+        if(prop.control) {
+            let control = this._control(node, prop.key);
+            return control.getValue();
         }
     }
 
     getOutput(node, key) {
         node = this.getNode(node);
-        // let block = this.getBlock(node);
         let prop = this._prop(node, key);
-        let args = this.getInputArgs(node);
-        if(!args) {
-            return;
+        try {
+            let args = this.getInputArgs(node);
+            if(!args) {
+                return;
+            }
+            if(prop[this.compileKey]) {
+                let result = prop[this.compileKey](args, node, this);
+                return this.postCompile ? this.postCompile(result, args, node, this) : result;
+            }
+            else if(this.defaultCompile) {
+                return this.defaultCompile(prop, args, node, this);
+            }
         }
-        if(prop[this.compileKey]) {
-            let result = prop[this.compileKey](args, node, this);
-            return this.postCompile ? this.postCompile(result, args, node, this) : result;
-        }
-        else if(this.defaultCompile) {
-            return this.defaultCompile(prop, args, node, this);
+        catch(err) {
+            console.error(`${node.name}.${key}`, '::', err);
         }
     }
 

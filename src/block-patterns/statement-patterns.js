@@ -11,9 +11,13 @@ export function statementBlock(block, compileObject) {
         },
     };
     for(let [key, fn] of Object.entries(compileObject)) {
-        beforeProp[key] = function(props) {
+        beforeProp[key] = function(props, ...args) {
+            let result = fn(props, ...args);
+            if(result === undefined) {
+                return;
+            }
             let {after} = props;
-            return `${fn(props)}${after ? ' ' + after : ''}`;
+            return `${result}${after ? ' ' + after : ''}`;
         };
     }
 

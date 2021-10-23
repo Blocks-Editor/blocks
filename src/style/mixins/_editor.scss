@@ -1,5 +1,5 @@
-$void-color: #333;
-$any-color: #f5a;
+//$any-color: #f5a;
+$unit-color: #333;
 $value-color: #8fa;
 $type-color: #2aa;
 $effect-color: #ccc;
@@ -14,6 +14,8 @@ $float-color: #5df;
 $int-color: #6fd;
 $nat-color: #58f;
 
+$any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, violet, orange);
+
 @mixin node-color($name, $color) {
   .node-editor {
     .node .socket.#{$name} {
@@ -26,8 +28,8 @@ $nat-color: #58f;
   }
 }
 
-@include node-color("void", $void-color);
-@include node-color("category-default", $any-color); // `any` socket could use rainbow colors
+@include node-color("unit", $unit-color);
+@include node-color("category-default", $any-gradient);
 @include node-color("category-values", $value-color);
 @include node-color("category-types", $type-color);
 @include node-color("category-effects", $effect-color);

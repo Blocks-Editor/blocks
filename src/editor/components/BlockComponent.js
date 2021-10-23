@@ -55,7 +55,10 @@ export default class BlockComponent extends BaseComponent {
         };
 
         if(this.block.title) {
-            node.data.title = this.block.title;
+            node.meta.title = this.block.title;
+        }
+        else {
+            delete node.meta.title;
         }
 
         for(let prop of this.block.inputs) {
