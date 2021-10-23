@@ -10,7 +10,7 @@ const block = {
     outputs: [{
         key: 'param',
         type: paramType,
-        compile({name, type}, node, compiler) {
+        toMotoko({name, type}, node, compiler) {
             // console.log(type)//
             let typeString = compiler.getTypeString(type) || '??';
             return `${name}: ${typeString}`;
@@ -18,7 +18,7 @@ const block = {
     }, {
         key: 'value',
         type: valueType,
-        compile({name}) {
+        toMotoko({name}) {
             return name;
         },
         inferType({type}) {

@@ -15,7 +15,7 @@ const block = {
     outputs: [{
         key: 'actor',
         type: actorType,
-        compile({name, members}) {
+        toMotoko({name, members}) {
             return `actor${name ? ' ' + name : ''} { ${members.join(' ')} };`;
         },
     }],

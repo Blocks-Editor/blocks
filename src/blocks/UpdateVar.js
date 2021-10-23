@@ -12,11 +12,13 @@ const block = statementBlock({
     outputs: [{
         key: 'newValue',
         type: 'Value',
-        compile({name, value}) {
+        toMotoko({name, value}) {
             return `(${name} := ${value})`;
         },
     }],
-}, ({name, value}) => {
-    return `${name} := ${value};`;
+}, {
+    toMotoko({name, value}) {
+        return `${name} := ${value};`;
+    },
 });
 export default block;

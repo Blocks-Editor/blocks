@@ -10,7 +10,7 @@ const block = {
     outputs: [{
         key: 'statement',
         type: effectType,
-        compile({value}) {
+        toMotoko({value}) {
             return `return${value ? ' ' + value : ''};`;
         },
         inferType({value}) {

@@ -33,7 +33,7 @@ const block = memberBlock({
     // outputs: [{
     //     key: 'reference',
     //     type: valueType,
-    //     compile({name}) {
+    //     toMotoko({name}) {
     //         return name;
     //     },
     // }],
@@ -45,7 +45,7 @@ const block = memberBlock({
         optional: true,
     }, ['async', 'query'])],
 }, {
-    compile({visibility, shared, stable, asyncType, name, params, body}, node, compiler) {
+    toMotoko({visibility, shared, stable, asyncType, name, params, body}, node, compiler) {
         // TODO: dry with Field
         let modifiers = [visibility, stable && 'stable', shared && 'shared', asyncType === 'query' && asyncType].filter(m => m).join(' '); //TODO: combine into single control
 

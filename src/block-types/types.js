@@ -107,7 +107,7 @@ export const valueType = createType('Value', {
 });
 export const unitType = createType('Unit', {
     parent: valueType,
-    compile() {
+    toMotoko() {
         return `()`;
     },
 });
@@ -124,7 +124,7 @@ export const effectType = createType('Effect', {
     parent: anyReversedType,
     category: 'effects',
     generics: [valueType],
-    compile([value]) {
+    toMotoko([value]) {
         return value;
     },
 });
@@ -197,7 +197,7 @@ export const errorType = createType('Error', {
 export const optionalType = createType('Optional', {
     parent: valueType,
     generics: [valueType],
-    compile([value]) {
+    toMotoko([value]) {
         return `?${value}`;
     },
 });

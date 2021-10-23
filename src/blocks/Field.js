@@ -18,7 +18,7 @@ const block = memberBlock({
     outputs: [{
         key: 'value',
         type: valueType,
-        compile({name}) {
+        toMotoko({name}) {
             return name;
         },
         inferType({initialValue}) {
@@ -26,7 +26,7 @@ const block = memberBlock({
         },
     }],
 }, {
-    compile({visibility, stable, name, initialValue}) {
+    toMotoko({visibility, stable, name, initialValue}) {
         let modifiers = [visibility, stable && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
 
         return `${modifiers && modifiers + ' '}var ${name}${initialValue ? ' = ' + initialValue : ''};`;

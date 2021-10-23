@@ -13,7 +13,7 @@ export function unaryOperatorBlock(type, symbol, evaluate) {
         outputs: [{
             key: 'result',
             type,
-            compile({input}) {
+            toMotoko({input}) {
                 return `${symbol}(${input})`;
             },
             // inferType({input}) {
@@ -40,7 +40,7 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
         outputs: [{
             key: 'result',
             type,
-            compile({left, right}) {
+            toMotoko({left, right}) {
                 return `(${left} ${symbol} ${right})`;
             },
             // inferType({left, right}) {

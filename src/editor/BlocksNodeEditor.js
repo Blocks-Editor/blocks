@@ -7,9 +7,6 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         super(...args);
 
         this.compilers = {
-            motoko: new Compiler(this, 'compile', {
-                postCompile: (result) => Array.isArray(result) ? result.join(' ') : result,///
-            }),
             type: new Compiler(this, 'inferType', {
                 defaultCompile: (prop) => getType(prop.type),
                 postCompile(type) {
@@ -21,6 +18,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                     }
                     return type;
                 },
+            }),
+            motoko: new Compiler(this, 'toMotoko', {
+                postCompile: (result) => Array.isArray(result) ? result.join(' ') : result,///
             }),
         };
     }

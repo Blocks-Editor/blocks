@@ -14,7 +14,7 @@ const block = {
     outputs: [{
         key: 'result',
         type: 'Value',
-        compile({condition, trueCase, falseCase}) {
+        toMotoko({condition, trueCase, falseCase}) {
             if(condition === true) {
                 return trueCase;
             }

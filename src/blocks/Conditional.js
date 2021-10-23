@@ -17,15 +17,17 @@ const block = statementBlock({
         type: effectType,
         optional: true,
     }],
-}, ({condition, trueCase, falseCase}) => {
-    if(String(condition) === 'true') {
-        return trueCase;
-    }
-    if(String(condition) === 'false') {
-        return falseCase;
-    }
+}, {
+    toMotoko({condition, trueCase, falseCase}) {
+        if(String(condition) === 'true') {
+            return trueCase;
+        }
+        if(String(condition) === 'false') {
+            return falseCase;
+        }
 
-    let falsePart = falseCase ? ` else {${falseCase}}` : '';
-    return `if(${condition}) {${trueCase || ''}}${falsePart};`;
+        let falsePart = falseCase ? ` else {${falseCase}}` : '';
+        return `if(${condition}) {${trueCase || ''}}${falsePart};`;
+    },
 });
 export default block;

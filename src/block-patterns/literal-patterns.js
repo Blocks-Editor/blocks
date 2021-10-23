@@ -6,7 +6,7 @@ export function literalBlock(title, type, stringifier) {
             key: 'value',
             type,
             control: true,
-            compile({value}) {
+            toMotoko({value}) {
                 if(value === undefined) {
                     return;
                 }
