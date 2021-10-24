@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
+import './Editor.scss';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
-import SelectionPlugin from 'rete-drag-selection-plugin';
 import HistoryPlugin from 'rete-history-plugin';
 import AutoArrangePlugin from 'rete-auto-arrange-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
@@ -28,9 +28,9 @@ function createEditor(element) {
     editor.use(HistoryPlugin);
     editor.use(ConnectionPlugin);
     // editor.use(CommentPlugin);
-    editor.use(SelectionPlugin, {
-        enabled: true,
-    });
+    // editor.use(SelectionPlugin, {
+    //     enabled: true,
+    // });
     // noinspection JSCheckFunctionSignatures
     editor.use(AutoArrangePlugin);
     // noinspection JSCheckFunctionSignatures
@@ -79,7 +79,8 @@ function createEditor(element) {
 
     let onKeyPress = (e) => {
         if(e.code === 'Escape') {
-            editor.trigger('connectiondrop');
+            // TODO: drop connection
+            // editor.trigger('connectiondrop');
         }
         // if(e.code === 'KeyF') {
         //     editor.trigger('arrange');

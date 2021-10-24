@@ -4,6 +4,7 @@ import BaseComponent from './BaseComponent';
 import getDefaultLabel from '../../utils/getDefaultLabel';
 import TypeSocket from '../sockets/TypeSocket';
 import {sentenceCase} from 'change-case';
+import getPropLabel from '../../utils/getPropLabel';
 
 export default class BlockComponent extends BaseComponent {
 
@@ -31,7 +32,7 @@ export default class BlockComponent extends BaseComponent {
         };
 
         const addPropInput = (prop, socket, isOutput) => {
-            let title = prop.title || getDefaultLabel(prop.key);
+            let title = getPropLabel(prop);
             let input = new Rete.Input(prop.key, title, socket, prop.type.data.reversed || !!prop.multi);
             if(shouldPropHaveControl(prop, socket, isOutput)) {
                 input.addControl(new PropControl(this.editor, prop, title));
@@ -41,7 +42,7 @@ export default class BlockComponent extends BaseComponent {
         };
 
         const addPropOutput = (prop, socket, isOutput) => {
-            let title = prop.title || getDefaultLabel(prop.key);
+            let title = getPropLabel(prop);
             let output = new Rete.Output(prop.key, title, socket, !prop.type.data.reversed || !!prop.multi);
             node.addOutput(output);
             if(shouldPropHaveControl(prop, socket, isOutput)) {
@@ -69,7 +70,7 @@ export default class BlockComponent extends BaseComponent {
         }
 
         for(let prop of this.block.controls) {
-            let title = prop.title || getDefaultLabel(prop.key);
+            let title = getPropLabel(prop);
             node.addControl(new PropControl(this.editor, prop, title));
         }
 

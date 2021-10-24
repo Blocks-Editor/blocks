@@ -1,3 +1,5 @@
+import {FaCode, FaDatabase} from 'react-icons/all';
+
 class Category {
     constructor(name, data = {}) {
         this.name = name;
@@ -26,8 +28,21 @@ export function getCategory(name) {
 
 export const defaultCategory = createCategory('Default', {});
 export const stateCategory = createCategory('State', {
-    color: '#3FD',
+    color: '#3fd',
+    icon: FaDatabase,
 });
 export const functionCategory = createCategory('Function', {
-    color: '#FD3',
+    color: '#fd3',
+    // icon: FaLambda,
+});
+export const typeCategory = createCategory('Type', {
+    color: '#2af',
+    // icon: ,
+});
+export const compilerCategory = createCategory('Compiler', {
+    color: '#f5a',
+    icon: FaCode,
+});
+export const operatorCategory = createCategory('Operator', {
+    // color: '#57f',
 });

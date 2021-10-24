@@ -1,10 +1,12 @@
 import {boolType, floatType, getType} from '../block-types/types';
+import {operatorCategory} from '../block-categories/categories';
 
 export function unaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
     return {
         topRight: 'result',
         title: `(${symbol}a)`,
+        category: operatorCategory,
         inputs: [{
             key: 'input',
             title: 'a',
@@ -32,6 +34,7 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
     return {
         topRight: 'result',
         title: `(a ${symbol} b)`,
+        category: operatorCategory,
         inputs: [{
             key: 'left',
             title: 'a',

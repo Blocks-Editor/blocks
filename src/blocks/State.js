@@ -3,7 +3,6 @@ import {memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 
 const block = memberBlock({
-    // topLeft: 'member',
     topRight: 'value',
     category: stateCategory,
     computeTitle(node, editor) {

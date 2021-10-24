@@ -15,6 +15,7 @@ class Type {
         this.name = name;
         this.parent = parent;
         this.generics = generics.map(type => getType(type));
+        this.genericNames = null;//
         this.data = data;
     }
 
@@ -71,7 +72,7 @@ class Type {
     }
 
     toTypeString() {
-        return this.name + (this.generics.length ? '<' + this.generics.map(g => g.toTypeString()).join(', ') + '>' : '');
+        return this.data.toTypeString?.call(this) ?? this.name + (this.generics.length ? '<' + this.generics.map(g => g.toTypeString()).join(', ') + '>' : '');
     }
 
     toString() {
@@ -101,15 +102,9 @@ export const typeType = createType('Type', {
 
 // High-level type categories
 export const valueType = createType('Value', {
+    abstract: true,
     parent: anyType,
     category: 'values',
-    abstract: true,
-});
-export const unitType = createType('Unit', {
-    parent: valueType,
-    toMotoko() {
-        return `()`;
-    },
 });
 export const identifierType = createType('Identifier', {
     parent: anyType,
@@ -148,7 +143,60 @@ export const paramType = createType('Param', {
     category: 'parameters',
 });
 
-// Value types
+// Generic value types
+export const tupleType = createType('Tuple', {
+    abstract: true,
+    parent: valueType,
+    category: 'tuples',
+    // controlType: ,
+    toTypeString() {
+        return `(${this.generics.map(t => t.toTypeString()).join(', ')})`;
+    },
+});
+export const objectType = createType('Object', {
+    abstract: true,
+    parent: valueType,
+    category: 'objects',
+    // controlType: ,
+    toTypeString() {
+        return `(${this.generics.map((t, i) => `${this.genericNames[i]}: ${t.toTypeString()}`).join(', ')})`;
+    },
+});
+export const functionType = createType('Function', {
+    parent: valueType,
+    generics: [],
+    category: 'functions',
+    // controlType: ,
+    toTypeString() {
+        return `(${this.generics.map(t => t.toTypeString()).join(', ')})`;
+    },
+});
+export const optionalType = createType('Optional', {
+    parent: valueType,
+    generics: [valueType],
+    toMotoko([value]) {
+        return `?${value}`;
+    },
+});
+export const asyncType = createType('Async', {
+    parent: valueType,
+    generics: [valueType],
+    toMotoko([value]) {
+        return `async ${value}`;
+    },
+});
+// export const andType = createType('And', {
+//     parent: valueType,
+//     generics: [valueType, valueType],
+//     toMotoko([a, b]) {
+//         return `(${a} and ${b})`;
+//     },
+// });
+
+// Primitive value types
+export const unitType = createType('Unit', {
+    parent: tupleType,
+});
 export const boolType = createType('Bool', {
     parent: valueType,
     controlType: CheckboxControlHandle,
@@ -196,13 +244,6 @@ export const principalType = createType('Principal', {
 });
 export const errorType = createType('Error', {
     parent: valueType,
-});
-export const optionalType = createType('Optional', {
-    parent: valueType,
-    generics: [valueType],
-    toMotoko([value]) {
-        return `?${value}`;
-    },
 });
 
 // Fixed-size int values

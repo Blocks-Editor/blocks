@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import useControlState from '../../../hooks/useControlState';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContext';
 import useListener from '../../../hooks/useListener';
-import getNodeTitle from '../../../utils/getNodeTitle';
+import getNodeLabel from '../../../utils/getNodeLabel';
 
 
 export default function NodeControlHandle({editor, control, bindInput, component}) {
@@ -32,7 +32,7 @@ export default function NodeControlHandle({editor, control, bindInput, component
             onChange={event => setValue(event.target.value || undefined)}>
             <option key={-1} label={'(Select a Node)'} value={undefined}/>
             {nodes.map(node => (
-                <option key={node.id} label={getNodeTitle(node, editor)} value={node.id}/>
+                <option key={node.id} label={getNodeLabel(node, editor)} value={node.id}/>
             ))}
         </select>
     );

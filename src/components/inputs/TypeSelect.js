@@ -7,7 +7,6 @@ export default function TypeSelect({value, constraintType, abstract, onChange, .
 
     if(value) {
         try {
-            // console.log(value);
             value = getType(value);
         }
         catch(err) {
@@ -16,12 +15,8 @@ export default function TypeSelect({value, constraintType, abstract, onChange, .
     }
     value = value || constraintType;
 
-    // console.log('Control type:', control.config.type.toTypeString());////
-
     const types = [...TYPE_MAP.values()]
         .filter(type => (abstract || !type.isAbstract()) && constraintType.isSubtype(type));
-
-    // console.log(value?.name,value?.generics);////
 
     return (
         <>

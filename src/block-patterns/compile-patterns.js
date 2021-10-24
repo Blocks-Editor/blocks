@@ -1,5 +1,6 @@
 import {anyReversedType, anyType} from '../block-types/types';
 import OutputControlHandle from '../components/rete/controls/OutputControlHandle';
+import {compilerCategory} from '../block-categories/categories';
 
 export function compileBlock(name, compilerKey, displayFn) {
     function queryFor(inputKey) {
@@ -13,6 +14,7 @@ export function compileBlock(name, compilerKey, displayFn) {
         title: `<${name}>`,
         topLeft: 'input',
         topRight: 'reversed',
+        category: compilerCategory,
         inputs: [{
             key: 'input',
             title: 'Input',

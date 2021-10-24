@@ -6,7 +6,6 @@ import {stringSelectProp} from '../block-patterns/control-patterns';
 const defaultReturnType = effectType.of(unitType);
 
 const block = memberBlock({
-    // topLeft: 'member',
     topRight: 'body',
     category: functionCategory,
     computeTitle(node, editor) {

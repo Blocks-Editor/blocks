@@ -2,7 +2,7 @@ import {statementBlock} from '../block-patterns/statement-patterns';
 import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
 
 const block = statementBlock({
-    title: 'Update state',
+    title: 'Write State',
     inputs: [{
         key: 'value',
         type: 'Value',

@@ -2,7 +2,7 @@ import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
 import {valueType} from '../block-types/types';
 
 const block = {
-    title: 'Get State Value',
+    title: 'Read State',
     topRight: 'value',
     outputs: [{
         key: 'value',
