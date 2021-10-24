@@ -2,7 +2,7 @@ import {anyReversedType, anyType} from '../block-types/types';
 import OutputControlHandle from '../components/rete/controls/OutputControlHandle';
 import {compilerCategory} from '../block-categories/categories';
 
-export function compileBlock(name, compilerKey, displayFn) {
+export function compileBlock(title, compilerKey, displayFn) {
     function queryFor(inputKey) {
         return async function(control, node, editor) {
             let value = editor.compilers[compilerKey].getInput(node, inputKey);
@@ -11,7 +11,8 @@ export function compileBlock(name, compilerKey, displayFn) {
     }
 
     return {
-        title: `<${name}>`,
+        title,
+        showIcon: true,/////
         topLeft: 'input',
         topRight: 'reversed',
         category: compilerCategory,

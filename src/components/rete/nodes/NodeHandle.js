@@ -98,7 +98,12 @@ export default class NodeHandle extends Node {
                             />
                         </div>
                     )}
-                    <div className="title" style={{color: block.category.data.color}}>{title}</div>
+                    <div className="title d-inline-block" style={{color: block.category.data.color}}>
+                        {block.showIcon && (
+                            <>{React.createElement(block.category.data.icon)}&nbsp;</>
+                        )}
+                        {title}
+                    </div>
                 </div>
                 {Object.values(block.props)
                     .filter(prop => prop.control || ((!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight)))
