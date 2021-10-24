@@ -1,4 +1,3 @@
-import {sentenceCase} from 'change-case';
 import getDefaultLabel from './getDefaultLabel';
 
 export default function getPropLabel(prop) {

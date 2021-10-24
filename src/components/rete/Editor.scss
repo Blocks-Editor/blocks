@@ -33,7 +33,7 @@ $any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, vi
 
 @include node-color("unit", $unit-color);
 @include node-color("category-default", $any-color);
-@include node-color("category-default", $any-gradient);
+@include node-color("category-default", $any-gradient); // Prioritize gradient
 @include node-color("category-values", $value-color);
 @include node-color("category-tuples", $tuple-color);
 @include node-color("category-functions", $function-color);

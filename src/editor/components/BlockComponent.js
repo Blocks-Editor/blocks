@@ -1,7 +1,6 @@
 import Rete from 'rete';
 import PropControl from '../controls/PropControl';
 import BaseComponent from './BaseComponent';
-import getDefaultLabel from '../../utils/getDefaultLabel';
 import TypeSocket from '../sockets/TypeSocket';
 import {sentenceCase} from 'change-case';
 import getPropLabel from '../../utils/getPropLabel';

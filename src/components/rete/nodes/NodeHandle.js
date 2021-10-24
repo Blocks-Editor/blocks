@@ -1,7 +1,6 @@
 import React from 'react';
 import {Control, Node} from 'rete-react-render-plugin';
 import {SocketHandle} from '../sockets/SocketHandle';
-import getDefaultLabel from '../../../utils/getDefaultLabel';
 import {BLOCK_MAP} from '../../../editor/blocks';
 import classNames from 'classnames';
 import {paramCase} from 'change-case';

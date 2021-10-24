@@ -1,4 +1,5 @@
 import {effectType, unitType} from '../block-types/types';
+import {effectCategory} from '../block-categories/categories';
 
 let defaultType = effectType.of(unitType);
 
@@ -24,6 +25,7 @@ export function statementBlock(block, compileObject) {
     return {
         topLeft: 'before',
         topRight: 'after',
+        category: effectCategory,
         ...block,
         inputs: [
             ...block.inputs || [], {

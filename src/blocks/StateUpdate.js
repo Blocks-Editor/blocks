@@ -1,8 +1,11 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
+import {writeCategory} from '../block-categories/categories';
 
 const block = statementBlock({
     title: 'Write State',
+    category: writeCategory,
+    showIcon: true,//
     inputs: [{
         key: 'value',
         type: 'Value',

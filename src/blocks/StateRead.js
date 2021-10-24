@@ -1,8 +1,11 @@
 import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
 import {valueType} from '../block-types/types';
+import {readCategory} from '../block-categories/categories';
 
 const block = {
     title: 'Read State',
+    category: readCategory,
+    showIcon: true,//
     topRight: 'value',
     outputs: [{
         key: 'value',

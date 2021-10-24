@@ -1,6 +1,8 @@
 import {effectType, unitType, valueType} from '../block-types/types';
+import {effectCategory} from '../block-categories/categories';
 
 const block = {
+    category: effectCategory,
     topLeft: 'statement',
     inputs: [{
         key: 'value',
