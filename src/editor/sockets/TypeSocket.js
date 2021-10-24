@@ -16,22 +16,12 @@ export default class TypeSocket extends Rete.Socket {
     }
 
     compatibleWith(other) {
-        if(!other.data.type) {
+        if(!('findType' in other)) {
             return false;
         }
-        // let reversed = !!this.data.reversed;
-        // if(reversed === !other.data.reversed) {
-        //     return false;
-        // }
-        // let self = this;
-        // if(!reversed) {
-        //     [self, other] = [other, self];
-        // }
-        // let selfType = self.data.type;
-        // let otherType = other.data.type;
-        //
-        // return selfType.isSubtype(otherType);
+        let type = this.findType();
+        let otherType = other.findType();
 
-        return this.data.type.isSubtype(other.data.type) || other.data.type.isSubtype(this.data.type);
+        return type.isSubtype(otherType) || otherType.isSubtype(type);
     }
 }

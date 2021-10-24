@@ -8,7 +8,9 @@ import Rete from 'rete';
 export function SocketHandle(props) {
     const {type, socket, innerRef, io} = props;
 
-    let reversed = !!socket.data.reversed;
+    let socketType = socket.findType();
+    let reversed = !!socketType.data.reversed;
+
     let multiple = io.multipleConnections && (io instanceof Rete.Input) === !reversed;
 
     return (
@@ -20,7 +22,7 @@ export function SocketHandle(props) {
                 multiple && 'multiple',
                 reversed && 'reversed',
                 !multiple && io.connections.length && 'occupied',
-                socket.data.category && 'category-' + paramCase(socket.data.category),
+                'category-' + socketType.data.category,
             )}
             title={socket.name}
             ref={el => el && innerRef(el, type, io)}
