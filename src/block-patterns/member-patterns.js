@@ -1,9 +1,8 @@
-import {boolType, memberType} from '../block-types/types';
+import {memberType} from '../block-types/types';
 import {stringSelectProp} from './control-patterns';
 
 
 export function memberBlock(block, memberProp) {
-
     return {
         topLeft: 'member',
         ...block,
@@ -20,10 +19,6 @@ export function memberBlock(block, memberProp) {
                 key: 'visibility',
                 // optional: true,
             }, ['public', 'private', 'system']),
-            {
-                key: 'flexible',
-                type: boolType,
-            },
             ...block.controls || [],
         ],
     };

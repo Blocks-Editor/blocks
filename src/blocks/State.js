@@ -1,4 +1,4 @@
-import {identifierType, unitType, valueType} from '../block-types/types';
+import {boolType, identifierType, unitType, valueType} from '../block-types/types';
 import {memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 
@@ -33,6 +33,9 @@ const block = memberBlock({
         },
     }],
     controls: [{
+        key: 'flexible',
+        type: boolType,
+    }, {
         key: 'readonly',
         type: 'Bool',
     }],
