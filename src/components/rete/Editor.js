@@ -13,6 +13,7 @@ import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/useListener';
 import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
 import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
+import ConnectionOpacityPlugin from '../../plugins/rete-connection-opacity-plugin';
 
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
@@ -44,6 +45,7 @@ function createEditor(element) {
         snap: {size: 16, dynamic: true},
     });
     editor.use(ContextMenuPlugin);
+    editor.use(ConnectionOpacityPlugin);
     editor.use(VerticalSortPlugin);
 
     let mouseMoved = false;
@@ -74,25 +76,17 @@ function createEditor(element) {
             `socket-output-category-${outputSocket.data.category}`,
         );
     });
-    // editor.on(['renderconnection', 'updateconnection'], ({el, connection}) => {
-    //     // Fade out distant connections
-    //     setTimeout(() => {
-    //         let minDistance = 500;
-    //         let opacityFalloff = 200;
-    //         let pathElement = el.querySelector('.main-path');
-    //         let bounds = pathElement.getBoundingClientRect();
-    //         let distance = bounds.width;
-    //         pathElement.style.opacity = 1 / (1 + Math.sqrt(Math.max(distance - minDistance, 0) / opacityFalloff));
-    //     });
-    // });
 
-    // let onKeyPress = (e) => {
-    //     if(e.code === 'KeyF') {
-    //         editor.trigger('arrange');
-    //     }
-    // };
-    // document.addEventListener('keypress', onKeyPress);
-    // editor.on('destroy', () => document.removeEventListener('keypress', onKeyPress));
+    let onKeyPress = (e) => {
+        if(e.code === 'Escape') {
+            editor.trigger('connectiondrop');
+        }
+        // if(e.code === 'KeyF') {
+        //     editor.trigger('arrange');
+        // }
+    };
+    document.addEventListener('keypress', onKeyPress);
+    editor.on('destroy', () => document.removeEventListener('keypress', onKeyPress));
 
     window.EDITOR = editor;
 

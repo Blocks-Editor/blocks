@@ -77,6 +77,7 @@ function install(editor, config = {}) {
 
     let mouse;
     let mouseEvent;
+    let connectionMouseMoved = false;
     let removingConnection = false;
 
     editor.view.container.addEventListener('mousemove', e => mouseEvent = e);
@@ -85,9 +86,13 @@ function install(editor, config = {}) {
     //     mouseEvent = e
     // });
 
-    editor.on('mousemove', m => mouse = m);
+    editor.on('mousemove', m => {
+        mouse = m;
+        connectionMouseMoved = true;
+    });
 
     editor.on('connectionpick', io => {
+        connectionMouseMoved = false;
         let prevConnections = [...io.connections];
         setTimeout(() => {
             if(io.connections.length < prevConnections.length) {
@@ -98,6 +103,9 @@ function install(editor, config = {}) {
     });
 
     editor.on('connectiondrop', io => {
+        if(!connectionMouseMoved) {
+            return;
+        }
         if(removingConnection) {
             removingConnection = false;
             return;
