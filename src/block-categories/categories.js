@@ -1,12 +1,12 @@
 import {
     FaAngleDoubleRight,
     FaAngleRight,
-    FaCode,
+    FaCode, FaCodeBranch,
     FaCubes,
     FaDatabase,
     FaFilter,
     FaFont,
-    FaLongArrowAltRight,
+    FaLongArrowAltRight, FaNetworkWired,
     FaPlusCircle,
     FaStream,
     FaTextHeight,
@@ -74,7 +74,7 @@ export const writeCategory = createCategory('Write', {
     parent: stateCategory,
     icon: FaAngleDoubleRight,
 });
-export const actorCategory = createCategory('Effect', {
+export const actorCategory = createCategory('Actor', {
     color: '#fa8',
     icon: FaFont,
 });
@@ -85,4 +85,8 @@ export const effectCategory = createCategory('Effect', {
 export const literalCategory = createCategory('Literal', {
     // color: '#8fa',
     icon: FaPlusCircle,
+});
+export const decompositionCategory = createCategory('Decomposition', {
+    // color: '#8fa',
+    icon: FaNetworkWired,
 });

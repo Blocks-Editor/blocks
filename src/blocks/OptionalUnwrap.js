@@ -1,8 +1,10 @@
 import {optionalType} from '../block-types/types';
+import {decompositionCategory} from '../block-categories/categories';
 
 const block = {
     title: 'Unwrap Optional',
-    topRight: 'result',
+    category: decompositionCategory,
+    // topRight: 'result',
     inputs: [{
         key: 'input',
         type: optionalType,

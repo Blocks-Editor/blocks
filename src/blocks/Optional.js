@@ -1,8 +1,10 @@
 import {optionalType, valueType} from '../block-types/types';
+import {operatorCategory} from '../block-categories/categories';
 
 const block = {
-    title: 'Optional',
-    // topRight: 'result',
+    title: '(?a)',
+    category: operatorCategory,
+    topRight: 'result',
     inputs: [{
         key: 'input',
         type: valueType,
@@ -11,19 +13,10 @@ const block = {
         key: 'result',
         type: optionalType,
         inferType({input}) {
-            return input;
+            return optionalType.of(input);
         },
         toMotoko({input}) {
             return `?${input}`;
-        },
-    }, {
-        key: 'null',
-        type: optionalType,
-        // inferType({input}) {
-        //     return input;
-        // },
-        toMotoko({input}) {
-            return `null`;
         },
     }],
 };

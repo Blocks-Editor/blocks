@@ -1,7 +1,9 @@
 import {boolType, valueType} from '../block-types/types';
+import {decompositionCategory} from '../block-categories/categories';
 
 const block = {
     title: 'Map Bool',
+    category: decompositionCategory,
     topRight: 'result',
     inputs: [{
         key: 'condition',
