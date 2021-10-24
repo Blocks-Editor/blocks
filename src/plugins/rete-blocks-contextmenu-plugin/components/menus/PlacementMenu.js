@@ -23,9 +23,12 @@ function findRelevantComponents(input, output, components) {
     // if(!inputType && !outputType) {
     //     return [];
     // }
+    if(inputType?.data.reversed || outputType?.data.reversed) {
+        [inputType, outputType] = [outputType, inputType];
+    }
     return components.filter(c =>
-        (!inputType || c.block.inputs.some((prop) => inputType.isSubtype(prop.type) || prop.type.isSubtype(inputType))) &&
-        (!outputType || c.block.outputs.some((prop) => outputType.isSubtype(prop.type) || prop.type.isSubtype(outputType))));
+        (!inputType || c.block.outputs.some((prop) => inputType.isSubtype(prop.type) || prop.type.isSubtype(inputType))) &&
+        (!outputType || c.block.inputs.some((prop) => outputType.isSubtype(prop.type) || prop.type.isSubtype(outputType))));
 }
 
 export default function PlacementMenu() {
@@ -34,7 +37,7 @@ export default function PlacementMenu() {
 
     let {editor, mouse, context} = useContext(MenuContext);
 
-    let components = useEditorComponents(editor, c => c.data.title || c.name);
+    let components = useEditorComponents(editor, c => [c.block?.category.root.name, c.data.title || c.name]);
     if(context) {
         components = findRelevantComponents(context.input, context.output, components);
     }

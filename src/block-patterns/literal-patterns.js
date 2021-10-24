@@ -1,7 +1,10 @@
+import {literalCategory} from '../block-categories/categories';
+
 export function literalBlock(title, type, stringifier) {
     return {
-        topRight: 'value',
         title: title,
+        category: literalCategory,
+        topRight: 'value',
         outputs: [{
             key: 'value',
             type,

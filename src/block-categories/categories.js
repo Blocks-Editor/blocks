@@ -7,7 +7,8 @@ import {
     FaFilter,
     FaFont,
     FaLongArrowAltRight,
-    FaProjectDiagram,
+    FaPlusCircle,
+    FaStream,
     FaTextHeight,
 } from 'react-icons/all';
 
@@ -15,6 +16,7 @@ class Category {
     constructor(name, parent, data = {}) {
         this.name = name;
         this.parent = parent;
+        this.root = parent ? parent.root : this;
         this.data = data;
     }
 }
@@ -78,5 +80,9 @@ export const actorCategory = createCategory('Effect', {
 });
 export const effectCategory = createCategory('Effect', {
     // color: '#57f',
-    icon: FaProjectDiagram,
+    icon: FaStream,
+});
+export const literalCategory = createCategory('Literal', {
+    // color: '#8fa',
+    icon: FaPlusCircle,
 });

@@ -6,7 +6,20 @@ export default function useEditorComponents(editor, sortFn) {
     return useMemo(() => {
         return [...editor.components.values()]
             .map(v => [sortFn(v), v])
-            .sort(([a], [b]) => a.localeCompare(b))
+            .sort(([a], [b]) => {
+                if(Array.isArray(a)) {
+                    for(let i = 0; i < a.length; i++) {
+                        let compare = a[i].localeCompare(b[i]);
+                        if(compare !== 0) {
+                            return compare;
+                        }
+                    }
+                    return 0;
+                }
+                else {
+                    return a.localeCompare(b);
+                }
+            })
             .map(([, v]) => v);
     }, [hash]); /* eslint-disable-line react-hooks/exhaustive-deps */
 }
