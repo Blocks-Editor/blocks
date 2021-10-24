@@ -1,4 +1,4 @@
-import {optionalType, unitType, valueType} from '../block-types/types';
+import {optionalType, unitType} from '../block-types/types';
 import {literalCategory} from '../block-categories/categories';
 
 const block = {

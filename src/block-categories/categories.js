@@ -1,12 +1,14 @@
 import {
     FaAngleDoubleRight,
     FaAngleRight,
-    FaCode, FaCodeBranch,
+    FaCircle,
+    FaCode,
     FaCubes,
     FaDatabase,
     FaFilter,
     FaFont,
-    FaLongArrowAltRight, FaNetworkWired,
+    FaLongArrowAltRight,
+    FaNetworkWired, FaPlayCircle,
     FaPlusCircle,
     FaStream,
     FaTextHeight,
@@ -50,6 +52,11 @@ export const functionCategory = createCategory('Function', {
     color: '#fd3',
     icon: FaCubes,
 });
+export const callFunctionCategory = createCategory('FunctionCall', {
+    parent: functionCategory,
+    color: '#fd3',
+    icon: FaPlayCircle,
+});
 export const paramCategory = createCategory('Param', {
     color: '#a8f',
     icon: FaLongArrowAltRight,
@@ -66,11 +73,11 @@ export const operatorCategory = createCategory('Operator', {
     // color: '#57f',
     icon: FaFilter,
 });
-export const readCategory = createCategory('Read', {
+export const readStateCategory = createCategory('Read', {
     parent: stateCategory,
     icon: FaAngleRight,
 });
-export const writeCategory = createCategory('Write', {
+export const writeStateCategory = createCategory('Write', {
     parent: stateCategory,
     icon: FaAngleDoubleRight,
 });
