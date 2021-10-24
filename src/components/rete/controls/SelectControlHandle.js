@@ -5,6 +5,11 @@ import useControlState from '../../../hooks/useControlState';
 export default function SelectControlHandle({control, bindInput, options, findLabel}) {
     let [value, setValue] = useControlState(control);
 
+    if(!options.includes(value)) {
+        value = options[0];
+        setValue(value);
+    }
+
     return (
         <select
             // className="w-100"

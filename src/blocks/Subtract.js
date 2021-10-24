@@ -1,5 +1,4 @@
-import {binaryOperatorBlock} from '../block-patterns/operator-patterns';
-import {floatType} from '../block-types/types';
+import {arithmeticOperatorBlock} from '../block-patterns/operator-patterns';
 
-const block = binaryOperatorBlock(floatType, '-', (a, b) => a - b);
+const block = arithmeticOperatorBlock('-', (a, b) => a - b);
 export default block;

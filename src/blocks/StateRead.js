@@ -2,19 +2,16 @@ import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
 import {valueType} from '../block-types/types';
 
 const block = {
-    title: 'Get state',
+    title: 'Get State Value',
+    topRight: 'value',
     outputs: [{
         key: 'value',
         type: valueType,
         inferType({stateNode}, node, compiler) {
-            return compiler.getOutput(stateNode, '');
+            return compiler.getOutput(stateNode, 'initialValue');
         },
         toMotoko({stateNode, value}, node, compiler) {
-            let name = compiler.getOutput(stateNode, 'name');
-            if(!name) {
-                return;
-            }
-            return `${name}`;
+            return compiler.getOutput(stateNode, 'name');
         },
     }],
     controls: [{

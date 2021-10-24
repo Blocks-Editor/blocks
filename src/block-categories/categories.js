@@ -25,7 +25,9 @@ export function getCategory(name) {
 
 
 export const defaultCategory = createCategory('Default', {});
+export const stateCategory = createCategory('State', {
+    color: '#3FD',
+});
 export const functionCategory = createCategory('Function', {
     color: '#FD3',
 });
-

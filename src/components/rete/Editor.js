@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
+import SelectionPlugin from 'rete-drag-selection-plugin';
 import HistoryPlugin from 'rete-history-plugin';
 import AutoArrangePlugin from 'rete-auto-arrange-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
@@ -13,9 +14,93 @@ import useListener from '../../hooks/useListener';
 import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
 import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
 
+const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
+const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
+
+// noinspection JSCheckFunctionSignatures
+function createEditor(element) {
+
+    let editor = new BlocksNodeEditor(EDITOR_NAME + '@' + EDITOR_VERSION, element);
+    editor.use(ReactRenderPlugin, {
+        component: NodeHandle,
+    });
+    editor.use(HistoryPlugin);
+    editor.use(ConnectionPlugin);
+    // editor.use(CommentPlugin);
+    editor.use(SelectionPlugin, {
+        enabled: true,
+    });
+    // noinspection JSCheckFunctionSignatures
+    editor.use(AutoArrangePlugin);
+    // noinspection JSCheckFunctionSignatures
+    editor.use(AreaPlugin, {
+        background: (() => {
+            let background = document.createElement('div');
+            background.classList.add('grid');
+            background.style.pointerEvents = 'none';
+            editor.on('destroy', () => background.remove());
+            return background;
+        })(),
+        snap: {size: 16, dynamic: true},
+    });
+    editor.use(ContextMenuPlugin);
+    editor.use(VerticalSortPlugin);
+
+    let mouseMoved = false;
+    editor.view.container.addEventListener('mousedown', (e) => {
+        mouseMoved = false;
+    });
+    editor.on('mousemove', (e) => {
+        mouseMoved = true;
+    });
+    editor.on('click', ({e}) => {
+        // Deselect nodes when clicking background
+        if(!mouseMoved) {
+            editor.selected.clear();
+            editor.nodes.map(node => node.update());
+        }
+    });
+
+    editor.on('zoom', ({source}) => source !== 'dblclick'); // Prevent double-click zoom
+    editor.on('nodeselect', node => !editor.selected.contains(node)); // Allow dragging multiple nodes
+    editor.on('renderconnection', ({el, connection}) => {
+        let inputSocket = connection.input.socket;
+        let outputSocket = connection.output.socket;
+        if(inputSocket.data.reversed) {
+            [inputSocket, outputSocket] = [outputSocket, inputSocket];
+        }
+        el.querySelector('.connection').classList.add(
+            `socket-input-category-${inputSocket.data.category}`,
+            `socket-output-category-${outputSocket.data.category}`,
+        );
+    });
+    // editor.on(['renderconnection', 'updateconnection'], ({el, connection}) => {
+    //     // Fade out distant connections
+    //     setTimeout(() => {
+    //         let minDistance = 500;
+    //         let opacityFalloff = 200;
+    //         let pathElement = el.querySelector('.main-path');
+    //         let bounds = pathElement.getBoundingClientRect();
+    //         let distance = bounds.width;
+    //         pathElement.style.opacity = 1 / (1 + Math.sqrt(Math.max(distance - minDistance, 0) / opacityFalloff));
+    //     });
+    // });
+
+    // let onKeyPress = (e) => {
+    //     if(e.code === 'KeyF') {
+    //         editor.trigger('arrange');
+    //     }
+    // };
+    // document.addEventListener('keypress', onKeyPress);
+    // editor.on('destroy', () => document.removeEventListener('keypress', onKeyPress));
+
+    window.EDITOR = editor;
+
+    return editor;
+}
+
+
 export default function Editor({onSetup, onChange}) {
-    let name = process.env.REACT_APP_EDITOR_NAME;
-    let version = process.env.REACT_APP_EDITOR_VERSION;
 
     let events = useContext(EventsContext);
     let editor = null;
@@ -36,30 +121,7 @@ export default function Editor({onSetup, onChange}) {
             return;
         }
 
-        let id = name + '@' + version;
-
-        editor = new BlocksNodeEditor(id, element);
-        editor.use(ReactRenderPlugin, {
-            component: NodeHandle,
-        });
-        editor.use(HistoryPlugin);
-        editor.use(ConnectionPlugin);
-        // editor.use(CommentPlugin);
-        // noinspection JSCheckFunctionSignatures
-        editor.use(AutoArrangePlugin);
-        // noinspection JSCheckFunctionSignatures
-        editor.use(AreaPlugin, {
-            background: (() => {
-                let background = document.createElement('div');
-                background.classList.add('grid');
-                background.style.pointerEvents = 'none';
-                editor.on('destroy', () => background.remove());
-                return background;
-            })(),
-            snap: {size: 16, dynamic: true},
-        });
-        editor.use(ContextMenuPlugin);
-        editor.use(VerticalSortPlugin);
+        editor = createEditor(element);
 
         for(let block of BLOCK_MAP.values()) {
             let node = new BlockComponent(block);
@@ -71,40 +133,7 @@ export default function Editor({onSetup, onChange}) {
                 events.emit(EDITOR_CHANGE_EVENT);
             }
         });
-        editor.on('zoom', ({source}) => {
-            return source !== 'dblclick';
-        });
-        editor.on('click', ({e}) => {
-            // Deselect on click background
-            editor.selected.clear();
-            editor.nodes.map(node => node.update());
-        });
-        editor.on('renderconnection', ({el, connection}) => {
-            el.querySelector('.connection').classList.add(
-                `socket-input-category-${connection.input.socket.data.category}`,
-                `socket-output-category-${connection.output.socket.data.category}`,
-            );
-        });
-        // editor.on(['renderconnection', 'updateconnection'], ({el, connection}) => {
-        //     // Fade out distant connections
-        //     setTimeout(() => {
-        //         let minDistance = 500;
-        //         let opacityFalloff = 200;
-        //         let pathElement = el.querySelector('.main-path');
-        //         let bounds = pathElement.getBoundingClientRect();
-        //         let distance = bounds.width;
-        //         pathElement.style.opacity = 1 / (1 + Math.sqrt(Math.max(distance - minDistance, 0) / opacityFalloff));
-        //     });
-        // });
         editor.on('error', err => events.emit(ERROR_EVENT, err));
-
-        // let onKeyPress = (e) => {
-        //     if(e.code === 'KeyF') {
-        //         editor.trigger('arrange');
-        //     }
-        // };
-        // document.addEventListener('keypress', onKeyPress);
-        // editor.on('destroy', () => document.removeEventListener('keypress', onKeyPress));
 
         async function loadState(state) {
             if(!state) {

@@ -18,7 +18,11 @@ export default class Compiler {
             throw new Error(`Node cannot be ${JSON.stringify(node)}`);
         }
         let id = typeof node === 'string' || typeof node === 'number' ? String(node) : node.id;
-        return this.editor.nodes.find(node => String(node.id) === id);
+        node = this.editor.nodes.find(node => String(node.id) === id);
+        if(!node) {
+            throw new Error(`Node does not exist: ${id}`);
+        }
+        return node;
     }
 
     getBlock(node) {

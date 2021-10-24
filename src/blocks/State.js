@@ -1,9 +1,16 @@
-import {identifierType, valueType} from '../block-types/types';
+import {identifierType, unitType, valueType} from '../block-types/types';
 import {memberBlock} from '../block-patterns/member-patterns';
+import {stateCategory} from '../block-categories/categories';
 
 const block = memberBlock({
     // topLeft: 'member',
     topRight: 'value',
+    category: stateCategory,
+    computeTitle(node, editor) {
+        let name = editor.compilers.motoko.getInput(node, 'name');
+        let type = editor.compilers.type.getInput(node, 'initialValue') || unitType;
+        return name && `${name}: ${editor.compilers.motoko.getTypeString(type)}`;
+    },
     inputs: [{
         key: 'name',
         type: identifierType,
@@ -30,8 +37,8 @@ const block = memberBlock({
         type: 'Bool',
     }],
 }, {
-    toMotoko({visibility, stable, name, initialValue, readonly}) {
-        let modifiers = [visibility, stable && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
+    toMotoko({visibility, flexible, name, initialValue, readonly}) {
+        let modifiers = [visibility !== 'system' && visibility, !flexible && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
 
         return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${initialValue ? ' = ' + initialValue : ''};`;
     },

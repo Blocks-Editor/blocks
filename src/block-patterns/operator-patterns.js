@@ -1,4 +1,4 @@
-import {getType} from '../block-types/types';
+import {boolType, floatType, getType} from '../block-types/types';
 
 export function unaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
@@ -24,22 +24,26 @@ export function unaryOperatorBlock(type, symbol, evaluate) {
 }
 
 export function binaryOperatorBlock(type, symbol, evaluate) {
-    type = getType(type);
+    let [inputType, resultType] = Array.isArray(type) ? type : [type, type];
+
+    inputType = getType(inputType);
+    resultType = getType(resultType);
+
     return {
         topRight: 'result',
         title: `(a ${symbol} b)`,
         inputs: [{
             key: 'left',
             title: 'a',
-            type,
+            type: inputType,
         }, {
             key: 'right',
             title: 'b',
-            type,
+            type: inputType,
         }],
         outputs: [{
             key: 'result',
-            type,
+            type: resultType,
             toMotoko({left, right}) {
                 return `(${left} ${symbol} ${right})`;
             },
@@ -48,4 +52,12 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
             // },
         }],
     };
+}
+
+export function arithmeticOperatorBlock(...args) {
+    return binaryOperatorBlock(floatType, ...args);
+}
+
+export function numberComparisonOperatorBlock(...args) {
+    return binaryOperatorBlock([floatType, boolType], ...args);
 }

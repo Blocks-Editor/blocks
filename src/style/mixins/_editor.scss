@@ -1,4 +1,4 @@
-//$any-color: #f5a;
+$any-color: #f5a;
 $unit-color: #333;
 $value-color: #8fa;
 $type-color: #2aa;
@@ -29,6 +29,7 @@ $any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, vi
 }
 
 @include node-color("unit", $unit-color);
+@include node-color("category-default", $any-color);
 @include node-color("category-default", $any-gradient);
 @include node-color("category-values", $value-color);
 @include node-color("category-types", $type-color);

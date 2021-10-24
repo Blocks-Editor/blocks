@@ -4,6 +4,7 @@ import ContextMenu from './components/ContextMenu';
 import {MenuContext} from './contexts/MenuContext';
 import SelectionMenu from './components/menus/SelectionMenu';
 import PlacementMenu from './components/menus/PlacementMenu';
+import Rete from 'rete';
 
 // Adapted from https://github.com/michael-braun/rete-react-contextmenu-plugin
 
@@ -111,7 +112,8 @@ function install(editor, config = {}) {
             editor.trigger('contextmenu', {
                 e: mouseEvent,
                 context: {
-                    io,
+                    input: io instanceof Rete.Input ? io : null,
+                    output: io instanceof Rete.Output ? io : null,
                 },
             });
         });

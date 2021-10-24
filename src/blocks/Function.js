@@ -45,9 +45,9 @@ const block = memberBlock({
         optional: true,
     }, ['async', 'query'])],
 }, {
-    toMotoko({visibility, shared, stable, asyncType, name, params, body}, node, compiler) {
-        // TODO: dry with Field
-        let modifiers = [visibility, stable && 'stable', shared && 'shared', asyncType === 'query' && asyncType].filter(m => m).join(' '); //TODO: combine into single control
+    toMotoko({visibility, flexible, shared, asyncType, name, params, body}, node, compiler) {
+        // TODO: dry with State modifiers
+        let modifiers = [visibility !== 'system' && visibility, !flexible && 'stable', shared && 'shared', asyncType === 'query' && asyncType].filter(m => m).join(' '); //TODO: combine into single control
 
         let returnType = body ? compiler.inferType(node, 'body') : defaultReturnType;
         if(!returnType) {

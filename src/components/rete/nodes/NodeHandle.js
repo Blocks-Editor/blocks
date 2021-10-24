@@ -6,6 +6,7 @@ import {BLOCK_MAP} from '../../../editor/blocks';
 import classNames from 'classnames';
 import {paramCase} from 'change-case';
 import DynamicTitle from './parts/DynamicTitle';
+import getNodeTitle from '../../../utils/getNodeTitle';
 
 function PropHandle({prop, node, block, hideLeft, hideRight, bindSocket, bindControl}) {
     let input = node.inputs.get(prop.key);
@@ -67,7 +68,8 @@ export default class NodeHandle extends Node {
         let topLeft = block.topLeft && node.inputs.get(block.topLeft);
         let topRight = block.topRight && node.outputs.get(block.topRight);
 
-        let title = node.meta.title || getDefaultLabel(node.name);
+        // let title = node.meta.title || getDefaultLabel(node.name);
+        let title = getNodeTitle(node, editor, true);
         if(block.computeTitle) {
             title = <DynamicTitle editor={editor} node={node} block={block} fallback={title}/>;
         }

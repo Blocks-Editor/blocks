@@ -18,10 +18,10 @@ export function memberBlock(block, memberProp) {
         controls: [
             stringSelectProp({
                 key: 'visibility',
-                optional: true,
-            }, ['public', 'private']),
+                // optional: true,
+            }, ['public', 'private', 'system']),
             {
-                key: 'stable',
+                key: 'flexible',
                 type: boolType,
             },
             ...block.controls || [],

@@ -3,7 +3,6 @@ import MenuNode from '../MenuNode';
 import {MenuContext} from '../../contexts/MenuContext';
 import MenuSearch from '../MenuSearch';
 import useEditorComponents from '../../hooks/useEditorComponents';
-import Rete from 'rete';
 
 function deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -16,15 +15,17 @@ async function createNode(component, {data = {}, meta = {}, x = 0, y = 0}) {
     return node;
 }
 
-function findRelevantComponents(io, components) {
-    let socketType = io.socket.findType?.();
-    if(!socketType) {
-        return [];
+function findRelevantComponents(input, output, components) {
+    if(!input && !output) {
+        return components;
     }
-    let arrayKey = (io instanceof Rete.Input) === !!socketType.data.reversed ? 'inputs' : 'outputs';
-    // Find compatible inputs/outputs
+    let [inputType, outputType] = [input?.socket.findType?.(), output?.socket.findType?.()];
+    // if(!inputType && !outputType) {
+    //     return [];
+    // }
     return components.filter(c =>
-        c.block[arrayKey].some(prop => (socketType.isSubtype(prop.type) || prop.type.isSubtype(socketType))));
+        (!inputType || c.block.inputs.some((prop) => inputType.isSubtype(prop.type) || prop.type.isSubtype(inputType))) &&
+        (!outputType || c.block.outputs.some((prop) => outputType.isSubtype(prop.type) || prop.type.isSubtype(outputType))));
 }
 
 export default function PlacementMenu() {
@@ -33,13 +34,9 @@ export default function PlacementMenu() {
 
     let {editor, mouse, context} = useContext(MenuContext);
 
-    // if(context) {
-    //     console.log('Context:', context);//
-    // }
-
     let components = useEditorComponents(editor, c => c.data.title || c.name);
-    if(context?.io) {
-        components = findRelevantComponents(context.io, components);
+    if(context) {
+        components = findRelevantComponents(context.input, context.output, components);
     }
     index = Math.min(components.length - 1, index);
 
@@ -73,18 +70,18 @@ export default function PlacementMenu() {
         const node = await createNode(component, {...mouse});
         editor.addNode(node);
 
-        if(context?.io) {
-            const io = context.io;
-            if(io instanceof Rete.Input) {
-                const output = [...node.outputs.values()].find(output => io.socket.compatibleWith(output.socket));
+        if(context) {
+            let {input, output} = context;
+            if(input) {
+                const output = [...node.outputs.values()].find(output => input.socket.compatibleWith(output.socket));
                 if(output) {
-                    editor.connect(output, io);
+                    editor.connect(output, input);
                 }
             }
-            else if(io instanceof Rete.Output) {
-                const input = [...node.inputs.values()].find(input => input.socket.compatibleWith(io.socket));
+            if(output) {
+                const input = [...node.inputs.values()].find(input => input.socket.compatibleWith(output.socket));
                 if(input) {
-                    editor.connect(io, input);
+                    editor.connect(output, input);
                 }
             }
         }
