@@ -1,11 +1,12 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
-import {writeStateCategory} from '../block-categories/categories';
+import {stateCategory} from '../block-categories/categories';
+import {FaAngleDoubleRight} from 'react-icons/all';
 
 const block = statementBlock({
     title: 'Write State',
-    category: writeStateCategory,
-    showIcon: true,//
+    category: stateCategory,
+    icon: FaAngleDoubleRight,
     inputs: [{
         key: 'value',
         type: 'Value',

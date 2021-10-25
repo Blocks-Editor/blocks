@@ -12,10 +12,10 @@ export function compileBlock(title, compilerKey, displayFn) {
 
     return {
         title,
-        showIcon: true,/////
+        category: compilerCategory,
+        icon: compilerCategory.data.icon,
         topLeft: 'input',
         topRight: 'reversed',
-        category: compilerCategory,
         inputs: [{
             key: 'input',
             title: 'Input',

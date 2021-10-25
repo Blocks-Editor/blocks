@@ -1,11 +1,12 @@
 import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
 import {valueType} from '../block-types/types';
-import {readStateCategory} from '../block-categories/categories';
+import {stateCategory} from '../block-categories/categories';
+import {FaAngleRight} from 'react-icons/all';
 
 const block = {
     title: 'Read State',
-    category: readStateCategory,
-    showIcon: true,//
+    category: stateCategory,
+    icon: FaAngleRight,
     topRight: 'value',
     outputs: [{
         key: 'value',

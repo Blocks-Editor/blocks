@@ -1,12 +1,13 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
-import {callFunctionCategory} from '../block-categories/categories';
 import {valueType} from '../block-types/types';
+import {FaPlayCircle} from 'react-icons/all';
+import {functionCategory} from '../block-categories/categories';
 
 const block = statementBlock({
     title: 'Call Function',
-    category: callFunctionCategory,
-    showIcon: true,//
+    category: functionCategory,
+    icon: FaPlayCircle,
     inputs: [{
         key: 'args',
         type: valueType,

@@ -98,8 +98,8 @@ export default class NodeHandle extends Node {
                         </div>
                     )}
                     <div className="title d-inline-block" style={{color: block.category.data.color}}>
-                        {block.showIcon && (
-                            <>{React.createElement(block.category.data.icon)}&nbsp;</>
+                        {block.icon && (
+                            <>{React.createElement(block.icon)}&nbsp;</>
                         )}
                         {title}
                     </div>
