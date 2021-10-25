@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 
-export default function MenuSearch({value, onChange, onAction, onKeyDown,children, ...others}) {
+export default function MenuSearch({value, onChange, onAction, onKeyDown, children, ...others}) {
 
     const bindInput = useCallback(el => {
         if(!el) {
@@ -22,16 +22,16 @@ export default function MenuSearch({value, onChange, onAction, onKeyDown,childre
     return (
         <>
             <input
-            type="text"
-            className="context-menu-search"
-            autoFocus
-            ref={bindInput}
-            autoComplete="blocks-search"
-            value={value || ''}
-            onClick={event => event.stopPropagation()}
-            onChange={onChange && (event => onChange(event.target.value))}
-            onKeyDown={handleKeyDown}
-            {...others}/>
+                type="text"
+                className="context-menu-search"
+                autoFocus
+                ref={bindInput}
+                autoComplete="blocks-search"
+                value={value || ''}
+                onClick={event => event.stopPropagation()}
+                onChange={onChange && (event => onChange(event.target.value))}
+                onKeyDown={handleKeyDown}
+                {...others}/>
             <div className="context-menu-search-area">
                 {children}
             </div>

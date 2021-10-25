@@ -32,7 +32,7 @@ function findRelevantComponents(input, output, components) {
 }
 
 export default function PlacementMenu() {
-    const [searchText, setSearchText] = useState('');
+    let [searchText, setSearchText] = useState('');
     let [index, setIndex] = useState(0);
 
     let {editor, mouse, context} = useContext(MenuContext);

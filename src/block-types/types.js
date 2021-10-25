@@ -211,12 +211,12 @@ export const objectType = createType('Object', {
 });
 export const functionType = createType('Function', {
     parent: valueType,
-    generics: [],
+    generics: [valueType, valueType],
     category: 'functions',
     // controlType: ,
-    toTypeString() {
-        return `(${this.generics.map(t => t.toTypeString()).join(', ')})`;
-    },
+    // toTypeString() {
+    //     return `(${this.generics[0]} -> ${this.generics[1]})`;
+    // },
 });
 export const optionalType = createType('Optional', {
     parent: valueType,

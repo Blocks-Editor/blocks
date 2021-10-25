@@ -18,6 +18,10 @@ const block = statementBlock({
         optional: true,
     }],
 }, {
+    // inferType({after, trueCase, falseCase}) {
+    //     let defaultType = effectType.of(unitType);
+    //     return (after || defaultType).getSharedType(trueCase || defaultType).getSharedType(falseCase || defaultType);
+    // },
     toMotoko({condition, trueCase, falseCase}) {
         if(String(condition) === 'true') {
             return trueCase;
