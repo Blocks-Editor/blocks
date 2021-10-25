@@ -159,6 +159,10 @@ $grid-area: $grid-size * 10000;
     color: white;
     border: 1px solid #AAA;
 
+    &.invalid {
+      border-color: #f55;
+    }
+
     option {
       background-color: #222;
     }

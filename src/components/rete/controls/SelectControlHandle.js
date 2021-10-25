@@ -1,18 +1,21 @@
 import React from 'react';
 import useControlState from '../../../hooks/useControlState';
+import classNames from 'classnames';
 
 
 export default function SelectControlHandle({control, bindInput, options, findLabel}) {
     let [value, setValue] = useControlState(control);
 
-    if(!options.includes(value)) {
-        value = options[0];
-        setValue(value);
-    }
+    // if(!options.includes(value)) {
+    //     value = options[0];
+    //     setValue(value);
+    // }
+
+    let invalid = !options.includes(value);
 
     return (
         <select
-            // className="w-100"
+            className={classNames(invalid && 'invalid')}
             ref={bindInput}
             value={value}
             onChange={event => setValue(event.target.value)}>

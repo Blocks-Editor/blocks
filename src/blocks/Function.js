@@ -1,4 +1,4 @@
-import {boolType, effectType, identifierType, paramType, unitType} from '../block-types/types';
+import {asyncType, boolType, effectType, identifierType, paramType, unitType} from '../block-types/types';
 import {memberBlock} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
 import {stringSelectProp} from '../block-patterns/control-patterns';
@@ -40,24 +40,24 @@ const block = memberBlock({
         key: 'shared',
         type: boolType,
     }, stringSelectProp({
-        key: 'asyncType',
+        key: 'asyncKind',
         optional: true,
     }, ['async', 'query'])],
 }, {
-    toMotoko({visibility, shared, asyncType, name, params, body}, node, compiler) {
+    toMotoko({visibility, shared, asyncKind, name, params, body}, node, compiler) {
         // TODO: dry with State modifiers
-        let modifiers = [visibility !== 'system' && visibility, shared && 'shared', asyncType === 'query' && asyncType].filter(m => m).join(' '); //TODO: combine into single control
+        let modifiers = [visibility !== 'system' && visibility, shared && 'shared', asyncKind === 'query' && asyncKind].filter(m => m).join(' '); //TODO: combine into single control
 
         let returnType = body ? compiler.inferType(node, 'body') : defaultReturnType;
         if(!returnType) {
             return;
         }
+        if(asyncKind) {
+            returnType = asyncType.of(returnType);
+        }
         let returnString = compiler.getTypeString(returnType.generics[0]);
         if(!returnString) {
             return;///
-        }
-        if(asyncType) {
-            returnString = `async ${returnString}`;
         }
         return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ': ' + returnString : ''} {${body || ''}};`;
     },
