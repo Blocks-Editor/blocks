@@ -3,7 +3,6 @@ import useListener from '../../hooks/useListener';
 import Editor from '../rete/Editor';
 import {FormCheck} from 'react-bootstrap';
 import React from 'react';
-import {toast} from 'react-toastify';
 
 const STORAGE_AUTOSAVE = 'blocks.autosave';
 const STORAGE_EDITOR_STATE = 'blocks.editorState';

@@ -2,7 +2,7 @@ import React from 'react';
 import useControlState from '../../../hooks/useControlState';
 
 
-export default function NumberControlHandle({control, bindInput, min, max, step}) {
+export default function NumberControlHandle({control, bindInput, validation: {min, max, step}}) {
     let [value, setValue] = useControlState(control);
 
     return (

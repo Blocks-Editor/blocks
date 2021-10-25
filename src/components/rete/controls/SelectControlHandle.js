@@ -11,7 +11,7 @@ export default function SelectControlHandle({control, bindInput, options, findLa
     //     setValue(value);
     // }
 
-    let invalid = !options.includes(value);
+    let invalid = !control.validate(value) || !options.includes(value);
 
     return (
         <select

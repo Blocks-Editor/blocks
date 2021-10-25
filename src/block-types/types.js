@@ -105,9 +105,9 @@ export const valueType = createType('Value', {
 export const identifierType = createType('Identifier', {
     parent: anyType,
     controlType: TextControlHandle,
-    defaultValue: '',
-    controlProps: {
-        // minLength: 1,
+    // defaultValue: '',
+    validation: {
+        minLength: 1,
         // TODO: constrain to valid identifiers
     },
 });
@@ -160,7 +160,7 @@ export const boolType = createType('Bool', {
 export const charType = createType('Char', {
     parent: valueType,
     controlType: TextControlHandle,
-    controlProps: {
+    validation: {
         minLength: 1,
         maxLength: 1,
     },
@@ -179,14 +179,14 @@ export const intType = createType('Int', {
     parent: floatType,
     category: 'integers',
     controlType: NumberControlHandle,
-    controlProps: {
+    validation: {
         step: 1,
     },
 });
 export const natType = createType('Nat', {
     parent: floatType,
     category: 'naturals',
-    controlProps: {
+    validation: {
         step: 1,
         min: 0,
     },
@@ -245,50 +245,50 @@ export const asyncType = createType('Async', {
 // Fixed-size int values
 export const int64Type = createType('Int64', {
     parent: intType,
-    controlProps: getIntProps(64),
+    validation: getIntValidation(64),
 });
 export const int32Type = createType('Int32', {
     parent: int64Type,
-    controlProps: getIntProps(32),
+    validation: getIntValidation(32),
 });
 export const int16Type = createType('Int16', {
     parent: int32Type,
-    controlProps: getIntProps(16),
+    validation: getIntValidation(16),
 });
 export const int8Type = createType('Int8', {
     parent: int16Type,
-    controlProps: getIntProps(8),
+    validation: getIntValidation(8),
 });
 
 // Fixed-size nat values
 export const nat64Type = createType('Nat64', {
     parent: natType,
-    controlProps: getNatProps(64),
+    validation: getNatValidation(64),
 });
 export const nat32Type = createType('Nat32', {
     parent: nat64Type,
-    controlProps: getNatProps(32),
+    validation: getNatValidation(32),
 });
 export const nat16Type = createType('Nat16', {
     parent: nat32Type,
-    controlProps: getNatProps(16),
+    validation: getNatValidation(16),
 });
 export const nat8Type = createType('Nat8', {
     parent: nat16Type,
-    controlProps: getNatProps(8),
+    validation: getNatValidation(8),
 });
 
-function getNatProps(n) {
+function getNatValidation(n) {
     return {
-        ...intType.data.controlProps,
+        ...natType.data.validation,
         max: 2 ** n - 1,
     };
 }
 
-function getIntProps(n) {
+function getIntValidation(n) {
     let x = 2 ** (n - 1);
     return {
-        ...intType.data.controlProps,
+        ...intType.data.validation,
         min: -x,
         max: x - 1,
     };

@@ -16,12 +16,43 @@ export default class BaseControl extends Rete.Control {
         this.component = config.controlType || TextControlHandle;
         this.props = {
             ...config.controlProps,
+            validation: config.validation || {},
             control: this,
             editor,
             bindInput,
         };
 
         this.events = new EventEmitter();
+    }
+
+    validate(value) {
+        if(value === undefined && !this.config.optional) {
+            return false;
+        }
+        if(value !== null && value !== undefined) {
+            let validation = this.config.validation;
+            if(validation) {
+                if('custom' in validation && !validation.custom(value)) {
+                    return false;
+                }
+                if('minLength' in validation && value.length < validation.minLength) {
+                    return false;
+                }
+                if('maxLength' in validation && value.length > validation.maxLength) {
+                    return false;
+                }
+                if('min' in validation && value < validation.min) {
+                    return false;
+                }
+                if('max' in validation && value > validation.max) {
+                    return false;
+                }
+                if('step' in validation && value - (validation.min || 0) % validation.step !== 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     getDefaultValue() {

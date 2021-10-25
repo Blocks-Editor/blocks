@@ -3,12 +3,10 @@ import useControlState from '../../../hooks/useControlState';
 import classNames from 'classnames';
 
 
-export default function TextControlHandle({control, bindInput, minLength, maxLength}) {
+export default function TextControlHandle({control, bindInput, validation: {minLength, maxLength}}) {
     let [value, setValue] = useControlState(control);
 
-    value = value || '';
-
-    let invalid = value.length < minLength || value.length > maxLength;
+    let invalid = !control.validate(value);
 
     return (
         <input
@@ -17,11 +15,11 @@ export default function TextControlHandle({control, bindInput, minLength, maxLen
             autoComplete="blocks-app"
             autoCorrect="off"
             ref={bindInput}
-            value={value}
+            value={value || ''}
             placeholder={control.name}
             minLength={minLength}
             maxLength={maxLength}
-            onChange={event => setValue(event.target.value)}
+            onChange={event => setValue(event.target.value || (control.config.optional && minLength > 0 ? undefined : ''))}
         />
     );
 }

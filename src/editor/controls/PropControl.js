@@ -7,6 +7,7 @@ export default class PropControl extends BaseControl {
             ...prop.config || {},
             prop,
             type: prop.type,
+            optional: prop.optional,
         });
     }
 
