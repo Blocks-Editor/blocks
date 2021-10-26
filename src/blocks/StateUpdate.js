@@ -32,13 +32,11 @@ const block = statementBlock({
             },
         },
     }],
-}, {
-    toMotoko({stateNode, value}, node, compiler) {
-        let name = compiler.getOutput(stateNode, 'name');
-        if(!name) {
-            return;
-        }
-        return `${name} := ${value};`;
-    },
+}, ({stateNode, value}, node, compiler) => {
+    let name = compiler.getOutput(stateNode, 'name');
+    if(!name) {
+        return;
+    }
+    return `${name} := ${value};`;
 });
 export default block;

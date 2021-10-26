@@ -5,7 +5,7 @@ import TypeSocket from '../sockets/TypeSocket';
 import {sentenceCase} from 'change-case';
 import getPropLabel from '../../utils/getPropLabel';
 
-export default class BlockComponent extends BaseComponent {
+export default class blockComponent extends BaseComponent {
 
     constructor(block) {
         super(block.name);

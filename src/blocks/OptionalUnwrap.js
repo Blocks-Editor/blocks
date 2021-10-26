@@ -23,24 +23,18 @@ const block = statementBlock({
         inferType({input}) {
             return input;
         },
-        toMotoko({input}, node, editor) {
-            return `value_${node.id}`;
+        toMotoko({input}, node) {
+            return `__${node.id}`;
         },
     }],
-}, {
-    // inferType({after, trueCase, falseCase}) {
-    //     let defaultType = effectType.of(unitType);
-    //     return (after || defaultType).getSharedType(trueCase || defaultType).getSharedType(falseCase || defaultType);
-    // },
-    toMotoko({input, valueCase, nullCase}, node, editor) {
-        if(String(input) === 'null') {
-            return nullCase;
-        }
+}, ({input, valueCase, nullCase}, node) => {
+    if(String(input) === 'null') {
+        return nullCase;
+    }
 
-        let valuePart = valueCase ? `case (?value_${node.id}) {${valueCase}};` : '';
-        let nullPart = nullCase ? `case null {${nullCase}};` : '';
+    let valuePart = valueCase ? `case (?__${node.id}) {${valueCase}};` : '';
+    let nullPart = nullCase ? `case null {${nullCase}};` : '';
 
-        return `switch(${input}) {${valuePart}${nullPart && ' ' + nullPart}};`;
-    },
+    return `switch(${input}) {${valuePart}${nullPart && ' ' + nullPart}};`;
 });
 export default block;

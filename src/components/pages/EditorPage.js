@@ -1,7 +1,6 @@
 // Temporary localStorage keys
 import useListener from '../../hooks/useListener';
 import Editor from '../rete/Editor';
-import {FormCheck} from 'react-bootstrap';
 import React from 'react';
 
 const STORAGE_AUTOSAVE = 'blocks.autosave';

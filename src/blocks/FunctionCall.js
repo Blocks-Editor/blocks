@@ -33,13 +33,11 @@ const block = statementBlock({
             },
         },
     }],
-}, {
-    toMotoko({functionNode, args}, node, compiler) {
-        let name = compiler.getOutput(functionNode, 'name');
-        if(!name) {
-            return;
-        }
-        return `${name}(${args.join(', ')});`;
-    },
+}, ({functionNode, args}, node, compiler) => {
+    let name = compiler.getOutput(functionNode, 'name');
+    if(!name) {
+        return;
+    }
+    return `${name}(${args.join(', ')});`;
 });
 export default block;

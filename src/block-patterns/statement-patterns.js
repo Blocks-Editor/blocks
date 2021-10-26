@@ -1,31 +1,39 @@
-import {effectType, unitType} from '../block-types/types';
+import {effectType, unitType, valueType} from '../block-types/types';
 import {effectCategory} from '../block-categories/categories';
 
 let defaultType = effectType.of(unitType);
 
-export function statementBlock(block, compileObject) {
+export function statementBlock(block, compileFn) {
     let beforeProp = {
         key: 'before',
         type: effectType,
         inferType({after}) {
             return after || defaultType;
         },
-    };
-    for(let [key, fn] of Object.entries(compileObject)) {
-        beforeProp[key] = function(props, ...args) {
-            let result = fn(props, ...args);
+        toMotoko(props, ...args) {
+            let result = compileFn(props, ...args);
             if(result === undefined) {
                 return;
             }
             let {after} = props;
             return `${result}${after ? ' ' + after : ''}`;
-        };
-    }
+        },
+    };
+    // for(let [key, fn] of Object.entries(compileObject)) {
+    //     beforeProp[key] = typeof fn === 'function' ? function(props, ...args) {
+    //         let result = fn(props, ...args);
+    //         if(result === undefined) {
+    //             return;
+    //         }
+    //         let {after} = props;
+    //         return `${result}${after ? ' ' + after : ''}`;
+    //     } : fn;
+    // }
 
     return {
+        category: effectCategory,
         topLeft: 'before',
         topRight: 'after',
-        category: effectCategory,
         ...block,
         inputs: [
             ...block.inputs || [], {
@@ -39,5 +47,18 @@ export function statementBlock(block, compileObject) {
             ...block.outputs || [],
             beforeProp,
         ],
+    };
+}
+
+export function endStatementBlock(block, statementProp) {
+    return {
+        category: effectCategory,
+        topLeft: 'statement',
+        ...block,
+        outputs: [...block.outputs || [], {
+            key: 'statement',
+            type: effectType,
+            ...statementProp,
+        }],
     };
 }

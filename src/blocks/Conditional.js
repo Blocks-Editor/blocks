@@ -17,21 +17,15 @@ const block = statementBlock({
         type: effectType,
         optional: true,
     }],
-}, {
-    // inferType({after, trueCase, falseCase}) {
-    //     let defaultType = effectType.of(unitType);
-    //     return (after || defaultType).getSharedType(trueCase || defaultType).getSharedType(falseCase || defaultType);
-    // },
-    toMotoko({condition, trueCase, falseCase}) {
-        if(String(condition) === 'true') {
-            return trueCase;
-        }
-        if(String(condition) === 'false') {
-            return falseCase;
-        }
+}, ({condition, trueCase, falseCase}) => {
+    if(String(condition) === 'true') {
+        return trueCase;
+    }
+    if(String(condition) === 'false') {
+        return falseCase;
+    }
 
-        let falsePart = falseCase ? ` else {${falseCase}}` : '';
-        return `if(${condition}) {${trueCase || ''}}${falsePart};`;
-    },
+    let falsePart = falseCase ? ` else {${falseCase}}` : '';
+    return `if(${condition}) {${trueCase || ''}}${falsePart};`;
 });
 export default block;
