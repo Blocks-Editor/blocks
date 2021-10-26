@@ -97,6 +97,12 @@ export default class Compiler {
     getInputArgs(node) {
         node = this.getNode(node);
         let block = this.getBlock(node);
+        // if(block.__inputArgs?.[this.compileKey]) {
+        //     for(let key in block.__inputCache[this.compileKey]) {
+        //         delete block.__inputCache[this.compileKey][key];
+        //     }// TODO: proper cache invalidation
+        //     return block.__inputArgs[this.compileKey];
+        // }
         let args = {};
         for(let prop of Object.values(block.props)) {
             if(prop.input || prop.control) {
@@ -112,16 +118,20 @@ export default class Compiler {
 
                 Object.defineProperty(args, prop.key, {
                     get: () => {
+                        // let cache = block.__inputCache[this.compileKey];
+                        // if(cache.hasOwnProperty(prop.key)) {
+                        //     return cache[prop.key];
+                        // }
                         if(cached) {
                             return cachedValue;
                         }
-                        cached = true;
                         let value = this.getInput(node, prop.key);
                         if(value === undefined && !prop.optional) {
                             this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
                             return undefined; // Appease linter
                         }
-                        cachedValue = value;
+                        // cache[prop.key] = value;
+                        cached = true;
                         return value;
                     },
                 });
@@ -129,8 +139,9 @@ export default class Compiler {
         }
         if(process.env.NODE_ENV !== 'production') {
             // Throw error on missing key
-            return new Proxy(args, {
-                get: (target, key) => {
+            let target = args;
+            args = new Proxy({}, {
+                get: (_, key) => {
                     if(!target.hasOwnProperty(key)) {
                         throw new Error(`Unknown input on ${block.name}: ${key}`);
                     }
@@ -138,6 +149,14 @@ export default class Compiler {
                 },
             });
         }
+        // TODO: refactor caching
+        // [block.__inputArgs || (block.__inputArgs = {})][this.compileKey] = args;
+        // [block.__inputCache || (block.__inputCache = {})][this.compileKey] = {};
+        // this.editor.on('process', ()=>{
+        //     for(let key in block.__inputCache) {
+        //         delete block.__inputCache[key];
+        //     }
+        // })///
         return args;
     }
 

@@ -1,4 +1,4 @@
-import {effectType, unitType, valueType} from '../block-types/types';
+import {effectType, unitType} from '../block-types/types';
 import {effectCategory} from '../block-categories/categories';
 
 let defaultType = effectType.of(unitType);

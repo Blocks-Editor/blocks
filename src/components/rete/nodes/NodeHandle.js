@@ -99,7 +99,10 @@ export default class NodeHandle extends Node {
                     )}
                     <div className="title d-inline-block" style={{color: block.category.data.color}}>
                         {block.icon && (
-                            <>{React.createElement(block.icon)}&nbsp;</>
+                            // TODO: improve icon render logic
+                            <span className="d-inline-block" style={{transform: 'translateY(-.125em)'}}>
+                                {React.createElement(block.icon)}&nbsp;
+                            </span>
                         )}
                         {title}
                     </div>

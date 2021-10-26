@@ -1,9 +1,11 @@
+// TODO: move to JS categories?
 $any-color: #f5a;
 $unit-color: #333;
 $value-color: #8fa;
 $tuple-color: #38c;
 $function-color: #fd3;
 $object-color: #af8;
+$optional-color: #384;
 $type-color: #2aa;
 $effect-color: #ccc;
 $member-color: #8af;
@@ -38,6 +40,7 @@ $any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, vi
 @include node-color("category-tuples", $tuple-color);
 @include node-color("category-functions", $function-color);
 @include node-color("category-objects", $object-color);
+@include node-color("category-optionals", $optional-color);
 @include node-color("category-types", $type-color);
 @include node-color("category-effects", $effect-color);
 @include node-color("category-members", $member-color);
