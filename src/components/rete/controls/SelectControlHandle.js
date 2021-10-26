@@ -6,10 +6,10 @@ import classNames from 'classnames';
 export default function SelectControlHandle({control, bindInput, options, findLabel}) {
     let [value, setValue] = useControlState(control);
 
-    // if(!options.includes(value)) {
-    //     value = options[0];
-    //     setValue(value);
-    // }
+    if(value === undefined && !options.includes(value)) {
+        value = options[0];
+        setValue(value);
+    }
 
     let invalid = !control.validate(value) || !options.includes(value);
 

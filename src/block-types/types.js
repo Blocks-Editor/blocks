@@ -46,7 +46,7 @@ class Type {
         if(this.name === other.name) {
             return this.generics.length === other.generics.length && this.generics.every((t, i) => t.isSubtype(other.generics[i]));
         }
-        return !!other.data.parent && this.isSubtype(other.data.parent);
+        return !!other.parent && this.isSubtype(other.parent);
     }
 
     getSharedType(other) {
@@ -140,18 +140,6 @@ export const paramType = createType('Param', {
 });
 
 // Value types
-export const tupleType = createType('Tuple', {
-    abstract: true,
-    parent: valueType,
-    category: 'tuples',
-    // controlType: ,
-    toTypeString() {
-        return `(${this.generics.map(t => t.toTypeString()).join(', ')})`;
-    },
-});
-export const unitType = createType('Unit', {
-    parent: tupleType,
-});
 export const boolType = createType('Bool', {
     parent: valueType,
     controlType: CheckboxControlHandle,
@@ -200,8 +188,23 @@ export const principalType = createType('Principal', {
 export const errorType = createType('Error', {
     parent: valueType,
 });
+export const tupleType = createType('Tuple', {
+    abstract: true,
+    arbitraryGenerics: true,
+    parent: valueType,
+    category: 'tuples',
+    // controlType: ,
+    toTypeString() {
+        return this === tupleType ? this.name : `(${this.generics.map(t => t.toTypeString()).join(', ')})`;
+    },
+});
+// export const unitType = createType('Unit', {
+//     parent: tupleType,
+// });
+export const unitType = tupleType.of();
 export const objectType = createType('Object', {
     abstract: true,
+    arbitraryGenerics: true,
     parent: valueType,
     category: 'objects',
     // controlType: ,
@@ -298,7 +301,7 @@ function createType(name, data) {
     let parent = data.parent;
     if(parent) {
         // `abstract` is special case for data inheritance
-        let {abstract, ...parentData} = parent.data;
+        let {abstract, arbitraryGenerics, ...parentData} = parent.data;
         data = {...parentData, ...data};
     }
     let {generics = [], ...other} = data;
@@ -308,13 +311,14 @@ function createType(name, data) {
 }
 
 function getGenericType(parent, generics) {
-    if(!generics || !generics.length) {
-        return getType(parent);
-    }
     if(typeof parent === 'string') {
         parent = getType(parent);
     }
-    let type = new Type(parent.name, parent, generics, parent.data);
+    if((!generics || !generics.length) && !parent.data.arbitraryGenerics) {
+        return getType(parent);
+    }
+    let {abstract, arbitraryGenerics, ...parentData} = parent.data;
+    let type = new Type(parent.name, parent, generics, parentData);
     if(!parent.isSubtype(type)) {
         throw new Error(`Generics not assignable to ${parent} from ${type}`);
     }
