@@ -19,6 +19,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                     return type;
                 },
             }),
+            node: new Compiler(this, 'toNode', {
+                defaultCompile: (prop, args, node) => node,
+            }),
             motoko: new Compiler(this, 'toMotoko', {
                 postCompile: (result) => Array.isArray(result) ? result.join(' ') : result,///
             }),

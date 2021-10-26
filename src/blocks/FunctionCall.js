@@ -8,6 +8,16 @@ const block = statementBlock({
     title: 'Call Function',
     category: functionCategory,
     icon: FaPlayCircle,
+    computeTitle(node, editor) {
+        let functionNode = node.data['functionNode'];
+        if(!functionNode) {
+            return;
+        }
+        let name = editor.compilers.motoko.getInput(functionNode, 'name');
+        let paramNames = editor.compilers.node.getInput(functionNode, 'params')
+            .map(n => editor.compilers.motoko.getInput(n, 'name'));
+        return name && `${name}(${paramNames.join(', ')})`;
+    },
     inputs: [{
         key: 'args',
         type: valueType,
