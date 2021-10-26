@@ -8,7 +8,7 @@ import AutoArrangePlugin from 'rete-auto-arrange-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import EventsContext, {EDITOR_CHANGE_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
 import NodeHandle from './nodes/NodeHandle';
-import blockComponent from '../../editor/components/BlockComponent';
+import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/useListener';
 import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
@@ -120,7 +120,7 @@ export default function Editor({onSetup, onChange, className, style, ...others})
         editor = createEditor(element);
 
         for(let block of BLOCK_MAP.values()) {
-            let node = new blockComponent(block);
+            let node = new BlockComponent(block);
             editor.register(node);
         }
 

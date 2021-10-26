@@ -8,9 +8,11 @@ function deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
-async function createNode(component, {data = {}, meta = {}, x = 0, y = 0}) {
-    const node = await component.createNode(deepCopy(data));
-    node.meta = Object.assign(deepCopy(meta), node.meta);
+export async function createNode(component, {data, meta, position: {x, y} = {}}) {
+    const node = await component.createNode(data ? deepCopy(data) : {});
+    if(node.meta) {
+        node.meta = Object.assign(deepCopy(meta), node.meta);
+    }
     [node.position[0], node.position[1]] = [x, y];
     return node;
 }
@@ -70,7 +72,7 @@ export default function PlacementMenu() {
         setSearchText('');
         editor.trigger('hidecontextmenu');
 
-        const node = await createNode(component, {...mouse});
+        const node = await createNode(component, {position: mouse});
         editor.addNode(node);
 
         if(context) {
@@ -91,21 +93,19 @@ export default function PlacementMenu() {
     }, [editor, mouse, context]);
 
     return (
-        <>
-            <MenuSearch
-                value={searchText}
-                onChange={setSearchText}
-                onKeyDown={handleSearchKeyDown}
-                onAction={handleSearchAction}>
-                {components.map((component, i) => (
-                    <MenuNode
-                        key={component.name}
-                        component={component}
-                        selected={index === i}
-                        onAction={() => handleCreateNode(component)}
-                    />
-                ))}
-            </MenuSearch>
-        </>
+        <MenuSearch
+            value={searchText}
+            onChange={setSearchText}
+            onKeyDown={handleSearchKeyDown}
+            onAction={handleSearchAction}>
+            {components.map((component, i) => (
+                <MenuNode
+                    key={component.name}
+                    component={component}
+                    selected={index === i}
+                    onAction={() => handleCreateNode(component)}
+                />
+            ))}
+        </MenuSearch>
     );
 }

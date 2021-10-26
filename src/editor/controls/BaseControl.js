@@ -1,9 +1,7 @@
 import * as Rete from 'rete';
 import TextControlHandle from '../../components/rete/controls/TextControlHandle';
 import EventEmitter from 'events';
-
-// Enable selecting input fields without dragging node
-const bindInput = ref => ref && ref.addEventListener('pointerdown', event => event.stopPropagation());
+import {bindNodeInput} from '../../utils/bindNodeInput';
 
 export default class BaseControl extends Rete.Control {
     constructor(editor, key, name, config = {}) {
@@ -19,7 +17,7 @@ export default class BaseControl extends Rete.Control {
             validation: config.validation || {},
             control: this,
             editor,
-            bindInput,
+            bindInput: bindNodeInput,
         };
 
         this.events = new EventEmitter();

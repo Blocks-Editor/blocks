@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
-import ReactTooltip from 'react-tooltip';
 import './App.scss';
 import EditorPage from './pages/EditorPage';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventsContext, {ERROR_EVENT} from '../contexts/EventsContext';
 import useListener from '../hooks/useListener';
+import ReactTooltip from 'react-tooltip';
 
 export default function App() {
 
@@ -21,7 +21,7 @@ export default function App() {
     // TODO: add react-router?
     return (
         <>
-            <ReactTooltip backgroundColor="#444"/>
+            <ReactTooltip backgroundColor="#111" className="tooltip"/>
             <ToastContainer/>
             <EditorPage/>
         </>

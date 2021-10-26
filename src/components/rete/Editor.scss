@@ -119,6 +119,15 @@ $grid-area: $grid-size * 10000;
     stroke-width: 3px;
   }
 
+  .node-shortcut-button {
+    background: #222 !important;
+
+    &:hover {
+      z-index: 10;
+      transform: scale(1.1);
+    }
+  }
+
   .context-menu {
     font-size: 14px;
     display: inline-block;

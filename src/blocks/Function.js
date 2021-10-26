@@ -14,6 +14,12 @@ const block = memberBlock({
         let returnType = body?.generics[0];
         return name && params && `${name}(${params.join(', ')})${returnType ? ': ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
     },
+    shortcuts: [{
+        block: 'Return',
+    },{
+        block: 'FunctionCall',
+        nodeKey: 'functionNode',
+    }],
     inputs: [{
         key: 'name',
         type: identifierType,

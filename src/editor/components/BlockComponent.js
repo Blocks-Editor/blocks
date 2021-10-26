@@ -5,7 +5,7 @@ import TypeSocket from '../sockets/TypeSocket';
 import {sentenceCase} from 'change-case';
 import getPropLabel from '../../utils/getPropLabel';
 
-export default class blockComponent extends BaseComponent {
+export default class BlockComponent extends BaseComponent {
 
     constructor(block) {
         super(block.name);
@@ -54,12 +54,13 @@ export default class blockComponent extends BaseComponent {
             return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType);
         };
 
-        if(this.block.title) {
-            node.meta.title = this.block.title;
-        }
-        else {
-            delete node.meta.title;
-        }
+        delete node.meta.title;
+        // if(this.block.title) {
+        //     node.meta.title = this.block.title;
+        // }
+        // else {
+        //     delete node.meta.title;
+        // }
 
         for(let prop of this.block.inputs) {
             addProp(prop, false);

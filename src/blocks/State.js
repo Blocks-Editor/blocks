@@ -10,6 +10,13 @@ const block = memberBlock({
         let type = editor.compilers.type.getInput(node, 'initialValue') || unitType;
         return name && `${name}: ${editor.compilers.motoko.getTypeString(type)}`;
     },
+    shortcuts: [{
+        block: 'StateRead',
+        nodeKey: 'stateNode',
+    }, {
+        block: 'StateUpdate',
+        nodeKey: 'stateNode',
+    }],
     inputs: [{
         key: 'name',
         type: identifierType,

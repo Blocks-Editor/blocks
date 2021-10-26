@@ -87,3 +87,28 @@ function addProps(block, propList, type) {
 }
 
 export const BLOCK_MAP = new Map(allBlocks.map(block => [block.name, block]));
+
+// Post-initialization
+for(let block of BLOCK_MAP.values()) {
+    if(block.shortcuts) {
+        block.shortcuts.forEach(s => {
+            s.block = getBlock(s.block);
+        });
+    }
+    else {
+        block.shortcuts = [];
+    }
+}
+
+export function getBlock(name) {
+    if(!name) {
+        throw new Error(`Block cannot be ${name}`);
+    }
+    if(typeof name === 'string') {
+        if(!BLOCK_MAP.has(name)) {
+            throw new Error(`Block does not exist: ${name}`);
+        }
+        return BLOCK_MAP.get(name);
+    }
+    return name;
+}

@@ -56,6 +56,7 @@ function install(editor, config = {}) {
                 x={x + offsetX}
                 y={y + offsetY}
                 handleCloseMenu={() => editor.trigger('hidecontextmenu')}>
+                {/*<AppTooltip/>*/}
                 <MenuContext.Provider value={{editor, mouse, node, context}}>
                     {node ? (
                         <SelectionMenu/>

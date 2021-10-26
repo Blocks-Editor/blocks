@@ -1,6 +1,7 @@
 import React from 'react';
 import MenuAction from './MenuAction';
 import {FaRegStickyNote} from 'react-icons/all';
+import getBlockLabel from '../../../utils/getBlockLabel';
 
 
 export default function MenuNode({component, ...others}) {
@@ -8,7 +9,7 @@ export default function MenuNode({component, ...others}) {
     return (
         <MenuAction {...others} icon={React.createElement(component.block?.icon || category?.data.icon || FaRegStickyNote)}
             color={category?.data.color}>
-            {component.block?.title || component.name}
+            {getBlockLabel(component.block)||component.name}
         </MenuAction>
     );
 }

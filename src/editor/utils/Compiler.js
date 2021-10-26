@@ -1,4 +1,4 @@
-import {BLOCK_MAP} from '../blocks';
+import {getBlock} from '../blocks';
 import Rete from 'rete';
 import {getType} from '../../block-types/types';
 
@@ -27,10 +27,7 @@ export default class Compiler {
 
     getBlock(node) {
         node = this.getNode(node);
-        if(!BLOCK_MAP.has(node.name)) {
-            throw new Error(`Node is not a block: ${node.name}`);
-        }
-        return BLOCK_MAP.get(node.name);
+        return getBlock(node.name);
     }
 
     getInput(node, key) {
