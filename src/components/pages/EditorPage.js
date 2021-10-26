@@ -45,31 +45,38 @@ export default function EditorPage() {
     });
 
     return (
-        <>
-            <Editor onSetup={onEditorSetup} onChange={() => localStorage[STORAGE_AUTOSAVE] && saveEditorState()}/>
-            {/* Temporary autosave panel */}
-            <div style={{position: 'absolute', left: 0, top: 0, background: '#0005', color: 'white', padding: '.5em'}}>
-                <FormCheck>
-                    <FormCheck.Input
-                        id="autosave-input"
-                        ref={el => el && (el.checked = !!localStorage[STORAGE_AUTOSAVE])}
-                        onChange={event => {
-                            // event.target.checked = !event.target.checked;
-                            let autosave = event.target.checked;
-                            if(autosave) {
-                                localStorage[STORAGE_AUTOSAVE] = 'yes';
-                            }
-                            else {
-                                delete localStorage[STORAGE_AUTOSAVE];
-                            }
-                            if(autosave) {
-                                saveEditorState();
-                            }
-                        }}
-                    />
-                    <FormCheck.Label htmlFor="autosave-input">Autosave</FormCheck.Label>
-                </FormCheck>
+        <div className="d-flex flex-column">
+            <div className="node-editor-menu">
+                {/*TODO: menu*/}
             </div>
-        </>
+            <Editor
+                className="flex-grow-1"
+                onSetup={onEditorSetup}
+                onChange={() => localStorage[STORAGE_AUTOSAVE] && saveEditorState()}
+            />
+            {/* Temporary autosave panel */}
+            {/*<div style={{position: 'absolute', left: 0, top: 0, background: '#0005', color: 'white', padding: '.5em'}}>*/}
+            {/*    <FormCheck>*/}
+            {/*        <FormCheck.Input*/}
+            {/*            id="autosave-input"*/}
+            {/*            ref={el => el && (el.checked = !!localStorage[STORAGE_AUTOSAVE])}*/}
+            {/*            onChange={event => {*/}
+            {/*                // event.target.checked = !event.target.checked;*/}
+            {/*                let autosave = event.target.checked;*/}
+            {/*                if(autosave) {*/}
+            {/*                    localStorage[STORAGE_AUTOSAVE] = 'yes';*/}
+            {/*                }*/}
+            {/*                else {*/}
+            {/*                    delete localStorage[STORAGE_AUTOSAVE];*/}
+            {/*                }*/}
+            {/*                if(autosave) {*/}
+            {/*                    saveEditorState();*/}
+            {/*                }*/}
+            {/*            }}*/}
+            {/*        />*/}
+            {/*        <FormCheck.Label htmlFor="autosave-input">Autosave</FormCheck.Label>*/}
+            {/*    </FormCheck>*/}
+            {/*</div>*/}
+        </div>
     );
 }

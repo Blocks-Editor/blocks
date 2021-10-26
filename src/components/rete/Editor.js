@@ -14,6 +14,7 @@ import useListener from '../../hooks/useListener';
 import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
 import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
 import ConnectionOpacityPlugin from '../../plugins/rete-connection-opacity-plugin';
+import classNames from 'classnames';
 
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
@@ -95,7 +96,7 @@ function createEditor(element) {
 }
 
 
-export default function Editor({onSetup, onChange}) {
+export default function Editor({onSetup, onChange, className, style, ...others}) {
 
     let events = useContext(EventsContext);
     let editor = null;
@@ -157,7 +158,10 @@ export default function Editor({onSetup, onChange}) {
     };
 
     return (
-        <div className="node-editor" style={{width: '100%', height: '100vh'}}>
+        <div
+            className={classNames('node-editor', className)}
+            style={{width: '100%', height: '100vh', ...style}}
+            {...others}>
             <div ref={bindEditor}/>
         </div>
     );
