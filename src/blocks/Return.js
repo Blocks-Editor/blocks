@@ -12,15 +12,15 @@ const block = endStatementBlock({
         type: valueType,
         optional: true,
     }],
-    controls: [{
-        key: 'functionNode',
-        config: {
-            controlType: NodeControlHandle,
-            controlProps: {
-                component: 'Function',
-            },
-        },
-    }],
+    // controls: [{
+    //     key: 'functionNode',
+    //     config: {
+    //         controlType: NodeControlHandle,
+    //         controlProps: {
+    //             component: 'Function',
+    //         },
+    //     },
+    // }],
 }, {
     inferType({value}) {
         return effectType.of(value || unitType);
