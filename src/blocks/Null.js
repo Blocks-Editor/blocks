@@ -1,4 +1,4 @@
-import {optionalType, unitType} from '../block-types/types';
+import {optionalType, valueType} from '../block-types/types';
 import {literalCategory} from '../block-categories/categories';
 
 const block = {
@@ -6,7 +6,7 @@ const block = {
     topRight: 'value',
     outputs: [{
         key: 'value',
-        type: optionalType.of(unitType),// TODO: Option<*> or null type
+        type: optionalType.of(valueType),// TODO: Option<*> or null type
         // inferType() {
         //     return ;
         // },

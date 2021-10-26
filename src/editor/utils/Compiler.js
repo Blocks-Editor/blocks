@@ -89,7 +89,8 @@ export default class Compiler {
             }
         }
         catch(err) {
-            console.error(`${node.name}.${key}`, '::', err);
+            console.error(`[${node.name}.${key}]`, err);
+            this.editor.trigger('warn', `[${node.name}.${key}] ${err}`);
         }
     }
 
@@ -99,13 +100,43 @@ export default class Compiler {
         let args = {};
         for(let prop of Object.values(block.props)) {
             if(prop.input || prop.control) {
-                let value = this.getInput(node, prop.key);
-                if(value === undefined && !prop.optional) {
-                    this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
-                    return;
-                }
-                args[prop.key] = value;
+                // let value = this.getInput(node, prop.key);
+                // if(value === undefined && !prop.optional) {
+                //     this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
+                //     return;
+                // }
+                // args[prop.key] = value;
+
+                let cached = false;
+                let cachedValue;
+
+                Object.defineProperty(args, prop.key, {
+                    get: () => {
+                        if(cached) {
+                            return cachedValue;
+                        }
+                        cached = true;
+                        let value = this.getInput(node, prop.key);
+                        if(value === undefined && !prop.optional) {
+                            this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
+                            return undefined; // Appease linter
+                        }
+                        cachedValue = value;
+                        return value;
+                    },
+                });
             }
+        }
+        if(process.env.NODE_ENV !== 'production') {
+            // Throw error on missing key
+            return new Proxy(args, {
+                get: (target, key) => {
+                    if(!target.hasOwnProperty(key)) {
+                        throw new Error(`Unknown input on ${block.name}: ${key}`);
+                    }
+                    return target[key];
+                },
+            });
         }
         return args;
     }
