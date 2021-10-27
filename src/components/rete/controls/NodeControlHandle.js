@@ -22,10 +22,10 @@ export default function NodeControlHandle({editor, control, bindInput, component
     });
 
     if(componentFilter) {
-        nodes = nodes.filter(n => !componentFilter || componentFilter.some(name => n.name === name));
+        nodes = nodes.filter(n => !componentFilter || componentFilter.includes(n.name));
     }
 
-    let invalid = !value || !nodes.some(n => String(n.id) === String(value));
+    let invalid = !value || !nodes.some(n => String(n.id) === String(value) && (!componentFilter || componentFilter.includes(n.name)));
 
     // TODO: cleanly prevent number -> string id conversion
     return (
@@ -35,7 +35,7 @@ export default function NodeControlHandle({editor, control, bindInput, component
             value={value}
             onChange={event => setValue(event.target.value || undefined)}>
             <option key={-1} label={'(Select a Node)'} value={undefined}/>
-            {nodes.map((node, index) => (
+            {nodes.map(node => (
                 <option key={node.id} label={getNodeLabel(node, editor)} value={node.id}/>
             ))}
         </select>

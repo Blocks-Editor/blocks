@@ -1,12 +1,13 @@
-import {boolType, identifierType, unitType, valueType} from '../block-types/types';
-import {memberBlock} from '../block-patterns/member-patterns';
+import {boolType, unitType, valueType} from '../block-types/types';
+import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 
 const block = memberBlock({
     topRight: 'value',
     category: stateCategory,
     computeTitle(node, editor) {
-        let name = editor.compilers.motoko.getInput(node, 'name');
+        let name = computeMemberName(node, editor);
+        // let name = editor.compilers.motoko.getInput(node, 'name');
         let type = editor.compilers.type.getInput(node, 'initialValue') || unitType;
         return name && `${name}: ${editor.compilers.motoko.getTypeString(type)}`;
     },
@@ -18,9 +19,6 @@ const block = memberBlock({
         nodeKey: 'stateNode',
     }],
     inputs: [{
-        key: 'name',
-        type: identifierType,
-    }, {
         //     key: 'type',
         //     type: 'Type',
         // }, {

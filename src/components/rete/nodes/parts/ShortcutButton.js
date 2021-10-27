@@ -36,7 +36,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
         }
     };
 
-    // TODO: optimize
+    // TODO: optimize?
     useEffect(() => {
         setTimeout(() => ReactTooltip.rebuild());
     }, [block]);

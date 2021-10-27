@@ -3,8 +3,8 @@ import {actorCategory} from '../block-categories/categories';
 
 const block = {
     category: actorCategory,
-    // showIcon: true,
     topLeft: 'actor',
+    topRight: 'members',
     computeTitle(node, editor) {
         let {name, params} = editor.compilers.motoko.getInputArgs(node);
         return name && (params.length ? `${name}(${params.join(', ')})` : name);
@@ -14,19 +14,19 @@ const block = {
         type: identifierType,
         optional: true,
     }, {
-        key: 'params',
-        type: paramType,
-        multi: true,
-    }, {
         key: 'members',
         type: memberType,
+        multi: true,
+    }, {
+        key: 'params',
+        type: paramType,
         multi: true,
     }],
     outputs: [{
         key: 'actor',
         type: actorType,
         toMotoko({name, params, members}) {
-            return `actor${params.length ? ' class' : ''}${name ? ' ' + name : ''}(${params.join(', ')}) { ${members.join(' ')} };`;
+            return `actor${params.length ? ' class' : ''}${name ? ' ' + name : ''}${params.length ? `(${params.join(', ')})` : ''} { ${members.join(' ')} };`;
         },
     }],
 };

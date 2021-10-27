@@ -4,7 +4,15 @@ import useListener from '../../../../hooks/useListener';
 
 export default function DynamicTitle({editor, node, block, fallback}) {
 
-    let computeTitle = () => block.computeTitle(node, editor);
+    let computeTitle = () => {
+        try {
+            return block.computeTitle(node, editor);
+        }
+        catch(err) {
+            console.error(err);
+            return '<Error>';
+        }
+    };
 
     let [title, setTitle] = useState(computeTitle);
 

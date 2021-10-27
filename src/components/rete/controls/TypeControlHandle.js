@@ -11,7 +11,7 @@ export default function TypeControlHandle({control, bindInput}) {
     return (
         <div ref={bindInput}>
             <TypeSelect
-                value={value?.name}
+                value={value}
                 constraintType={constraintType}
                 onChange={setValue}>
             </TypeSelect>

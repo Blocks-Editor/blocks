@@ -10,7 +10,7 @@ function deepCopy(obj) {
 
 export async function createNode(component, {data, meta, position: {x, y} = {}}) {
     const node = await component.createNode(data ? deepCopy(data) : {});
-    if(node.meta) {
+    if(meta) {
         node.meta = Object.assign(deepCopy(meta), node.meta);
     }
     [node.position[0], node.position[1]] = [x, y];

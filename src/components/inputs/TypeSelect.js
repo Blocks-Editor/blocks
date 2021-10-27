@@ -1,22 +1,29 @@
 import {anyType, getType, TYPE_MAP} from '../../block-types/types';
-import React from 'react';
+import React, {useContext} from 'react';
+import EventsContext, {ERROR_EVENT} from '../../contexts/EventsContext';
 
 export default function TypeSelect({value, constraintType, abstract, onChange, ...others}) {
 
     constraintType = constraintType || anyType;
+
+    const types = [...TYPE_MAP.values()]
+        .filter(type => (abstract || !type.isAbstract()) && constraintType.isSubtype(type));
+
+    let events = useContext(EventsContext);
 
     if(value) {
         try {
             value = getType(value);
         }
         catch(err) {
-            console.error(err.stack || err);
+            // console.error(err);
+            events.emit(ERROR_EVENT, err);
         }
     }
-    value = value || constraintType;
-
-    const types = [...TYPE_MAP.values()]
-        .filter(type => (abstract || !type.isAbstract()) && constraintType.isSubtype(type));
+    else if(types.length) {
+        onChange(value = types[0]);
+        // value = constraintType;
+    }
 
     return (
         <>

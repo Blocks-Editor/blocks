@@ -3,7 +3,7 @@ import {paramCategory} from '../block-categories/categories';
 
 const block = {
     topLeft: 'param',
-    // topRight: 'value',
+    topRight: 'value',
     category: paramCategory,
     computeTitle(node, editor) {
         let name = editor.compilers.motoko.getInput(node, 'name');
@@ -13,6 +13,9 @@ const block = {
     inputs: [{
         key: 'name',
         type: identifierType,
+    }, {
+        key: 'type',
+        type: typeType.of(valueType),
     }],
     outputs: [{
         key: 'param',
@@ -31,10 +34,6 @@ const block = {
         inferType({type}) {
             return type;
         },
-    }],
-    controls: [{
-        key: 'type',
-        type: typeType.of(valueType),
     }],
 };
 export default block;

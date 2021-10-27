@@ -1,29 +1,27 @@
-import {asyncType, boolType, effectType, identifierType, paramType, unitType} from '../block-types/types';
-import {memberBlock} from '../block-patterns/member-patterns';
+import {asyncType, boolType, effectType, paramType, unitType} from '../block-types/types';
+import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
 import {stringSelectProp} from '../block-patterns/control-patterns';
 
 const defaultReturnType = effectType.of(unitType);
 
 const block = memberBlock({
-    topRight: 'body',
     category: functionCategory,
+    topRight: 'body',
     computeTitle(node, editor) {
-        let {name, params} = editor.compilers.motoko.getInputArgs(node);
+        let name = computeMemberName(node, editor);
+        let {params} = editor.compilers.motoko.getInputArgs(node);
         let {body} = editor.compilers.type.getInputArgs(node);
         let returnType = body?.generics[0];
         return name && params && `${name}(${params.join(', ')})${returnType ? ': ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
     },
     shortcuts: [{
         block: 'Return',
-    },{
+    }, {
         block: 'FunctionCall',
         nodeKey: 'functionNode',
     }],
     inputs: [{
-        key: 'name',
-        type: identifierType,
-    }, {
         key: 'params',
         type: paramType,
         multi: true,

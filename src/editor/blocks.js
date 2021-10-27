@@ -92,6 +92,9 @@ export const BLOCK_MAP = new Map(allBlocks.map(block => [block.name, block]));
 for(let block of BLOCK_MAP.values()) {
     if(block.shortcuts) {
         block.shortcuts.forEach(s => {
+            if(!s.block) {
+                throw new Error(`Shortcut in ${block.name} requires a \`block\` attribute`);
+            }
             s.block = getBlock(s.block);
         });
     }

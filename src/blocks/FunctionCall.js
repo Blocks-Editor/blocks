@@ -9,7 +9,7 @@ const block = statementBlock({
     category: functionCategory,
     icon: FaPlayCircle,
     computeTitle(node, editor) {
-        let functionNode = node.data['functionNode'];
+        let functionNode = editor.compilers.node.getInput(node, 'functionNode');
         if(!functionNode) {
             return;
         }

@@ -1,23 +1,30 @@
-import {identifierType, typeType, valueType} from '../block-types/types';
-import {memberBlock} from '../block-patterns/member-patterns';
+import {typeType, valueType} from '../block-types/types';
+import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
 import {typeCategory} from '../block-categories/categories';
 
 const block = memberBlock({
     title: 'Named Type',
-    topRight: 'type',
     category: typeCategory,
-    computeTitle(node, editor) {
-        let name = editor.compilers.motoko.getInput(node, 'name');
-        let type = editor.compilers.type.getInput(node, 'type');
-        return name && `${name} = ${editor.compilers.motoko.getTypeString(type)}`;
-    },
-    inputs: [{
-        key: 'name',
-        type: identifierType,
+    topRight: 'type',
+    shortcuts: [{
+        block: 'TypeMemberReference',
+        nodeKey: 'typeNode',
     }],
-    controls: [{
+    computeTitle(node, editor) {
+        let name = computeMemberName(node, editor);
+        let type = editor.compilers.type.getInput(node, 'type');
+        let typeString = editor.compilers.motoko.getTypeString(type);
+        return `${name || '(?)'} = ${typeString}`;
+    },
+    outputs: [{
         key: 'type',
         type: typeType.of(valueType),
+        control: true,
+        inferType({type}) {
+            if(!type.isAbstract()) {
+                return type;
+            }
+        },
     }],
 }, {
     toMotoko({visibility, name, type}) {
