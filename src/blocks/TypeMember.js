@@ -22,7 +22,7 @@ const block = memberBlock({
         control: true,
         inferType({type}) {
             if(!type.isAbstract()) {
-                return type;
+                return typeType.of(type);
             }
             // if(!type) {
             //     return;
