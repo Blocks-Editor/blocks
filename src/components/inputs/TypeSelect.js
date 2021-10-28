@@ -7,7 +7,7 @@ export default function TypeSelect({value, constraintType, abstract, onChange, .
     constraintType = constraintType || anyType;
 
     const types = [...TYPE_MAP.values()]
-        .filter(type => (abstract || !type.isAbstract()) && constraintType.isSubtype(type));
+        .filter(type => (abstract || !type.data.abstract) && constraintType.isSubtype(type));
 
     let events = useContext(EventsContext);
 
@@ -16,12 +16,17 @@ export default function TypeSelect({value, constraintType, abstract, onChange, .
             value = getType(value);
         }
         catch(err) {
+            value = null;
             // console.error(err);
             events.emit(ERROR_EVENT, err);
         }
     }
-    else if(types.length) {
-        onChange(value = types[0]);
+
+    if((!value || !types.some(t => t.isSubtype(value))) && types.length) {
+        let firstType = types[0];
+        if(firstType) {
+            onChange(value = firstType);
+        }
         // value = constraintType;
     }
 

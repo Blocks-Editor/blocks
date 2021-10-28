@@ -14,6 +14,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                         type = getType(type);
                         if(type.isAbstract()) {
                             console.warn(`[${node.name}.${key}]`, 'Abstract inferred type:', type.toTypeString());
+                            // return;
                         }
                     }
                     return type;

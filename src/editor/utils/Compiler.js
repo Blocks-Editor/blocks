@@ -78,11 +78,11 @@ export default class Compiler {
                 return;
             }
             let result;
-            if(this.defaultCompile) {
-                result = this.defaultCompile(prop, node, key, this);
-            }
-            else if(prop[this.compileKey]) {
+            if(prop[this.compileKey]) {
                 result = prop[this.compileKey](args, node, this);
+            }
+            else if(this.defaultCompile) {
+                result = this.defaultCompile(prop, node, key, this);
             }
             return this._processOutput(result, node, key);
         }

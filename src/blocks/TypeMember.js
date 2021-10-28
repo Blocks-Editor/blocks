@@ -24,6 +24,14 @@ const block = memberBlock({
             if(!type.isAbstract()) {
                 return type;
             }
+            // if(!type) {
+            //     return;
+            // }
+            // let valueType = type.generics[0];
+            // console.log(valueType)
+            // // if(!valueType.isAbstract()) {
+            // return valueType;
+            // // }
         },
     }],
 }, {
