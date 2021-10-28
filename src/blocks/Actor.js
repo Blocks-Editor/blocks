@@ -26,7 +26,7 @@ const block = {
         key: 'actor',
         type: actorType,
         toMotoko({name, params, members}) {
-            return `actor${params.length ? ' class' : ''}${name ? ' ' + name : ''}${params.length ? `(${params.join(', ')})` : ''} { ${members.join(' ')} };`;
+            return `actor${params.length ? ' class' : ''}${name ? ' ' + name : ''}${params.length ? `(${params.join(', ')})` : ''} {${members.join(' ')}};`;
         },
     }],
 };

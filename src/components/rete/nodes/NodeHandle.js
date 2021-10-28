@@ -60,14 +60,14 @@ function PropHandle({prop, node, hideLeft, hideRight, bindSocket, bindControl}) 
 export default class NodeHandle extends Node {
     render() {
         const {editor, node, bindSocket, bindControl} = this.props;
-        const {/*outputs, controls, inputs, */selected} = this.state;
+        const {selected} = this.state;
 
         let block = getBlock(node.name);
 
+        // Properties for the top left/right corners
         let topLeft = block.topLeft && node.inputs.get(block.topLeft);
         let topRight = block.topRight && node.outputs.get(block.topRight);
 
-        // let title = node.meta.title || getDefaultLabel(node.name);
         let title = getNodeLabel(node, editor, true);
         if(block.computeTitle) {
             title = <DynamicTitle editor={editor} node={node} block={block} fallback={title}/>;

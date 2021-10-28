@@ -19,6 +19,10 @@ import classNames from 'classnames';
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
 
+function findCategory(socket) {
+    return socket.findType?.().data.category ?? socket.data.category ?? 'none';
+}
+
 // noinspection JSCheckFunctionSignatures
 function createEditor(element) {
 
@@ -67,14 +71,14 @@ function createEditor(element) {
     editor.on('zoom', ({source}) => source !== 'dblclick'); // Prevent double-click zoom
     editor.on('nodeselect', node => !editor.selected.contains(node)); // Allow dragging multiple nodes
     editor.on('renderconnection', ({el, connection}) => {
-        let inputSocket = connection.input.socket;
-        let outputSocket = connection.output.socket;
-        if(inputSocket.data.reversed) {
-            [inputSocket, outputSocket] = [outputSocket, inputSocket];
+        let inputCategory = findCategory(connection.input.socket);
+        let outputCategory = findCategory(connection.output.socket);
+        if(connection.input.socket.data.reversed) {
+            [inputCategory, outputCategory] = [outputCategory, inputCategory];
         }
         el.querySelector('.connection').classList.add(
-            `socket-input-category-${inputSocket.data.category}`,
-            `socket-output-category-${outputSocket.data.category}`,
+            `socket-input-category-${inputCategory}`,
+            `socket-output-category-${outputCategory}`,
         );
     });
 

@@ -28,7 +28,18 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                 },
             }),
             motoko: new Compiler(this, 'toMotoko', {
-                postCompile: (result) => Array.isArray(result) ? result.join(' ') : result,///
+                postCompile: (result) => {
+                    if(Array.isArray(result)) {
+                        return result.filter(s => s).join(' ');
+                    }
+                    if(typeof result === 'string') {
+                        return result;
+                    }
+                    if(!result) {
+                        return;
+                    }
+                    console.warn('Unexpected Motoko expression:', result);
+                },///
             }),
         };
     }
