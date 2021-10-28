@@ -2,17 +2,18 @@ import TextControlHandle from '../components/rete/controls/TextControlHandle';
 import CheckboxControlHandle from '../components/rete/controls/CheckboxControlHandle';
 import NumberControlHandle from '../components/rete/controls/NumberControlHandle';
 import TypeControlHandle from '../components/rete/controls/TypeControlHandle';
+import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
 
 class Type {
-    constructor(name, parent, generics, data = {}) {
+    constructor(name, parent, generics, data = {}, meta = {}) {
         if(name instanceof Type) {
             throw new Error(`Type cannot be named ${name}`);
         }
         this.name = name;
         this.parent = parent;
         this.generics = generics.map(type => getType(type));
-        this.genericNames = null;//
         this.data = data;
+        this.meta = meta;
     }
 
     toJSON() {
@@ -24,6 +25,12 @@ class Type {
 
     of(...generics) {
         return getType(this, generics);
+    }
+
+    withMeta(meta) {
+        let type = getType(this, this.generics);
+        Object.assign(type.meta, meta);
+        return type;
     }
 
     isAbstract() {
@@ -94,6 +101,11 @@ export const typeType = createType('Type', {
     controlType: TypeControlHandle,
     defaultValue: type => type.generics[0],
     generics: [anyType],
+});
+export const nodeType = createType('Node', {
+    parent: anyType,
+    category: 'nodes',
+    controlType: NodeControlHandle,
 });
 
 // High-level type categories
@@ -298,14 +310,15 @@ function getIntValidation(n) {
 }
 
 function createType(name, data) {
-    let parent = data.parent;
-    if(parent) {
-        // `abstract` is special case for data inheritance
-        let {abstract, arbitraryGenerics, ...parentData} = parent.data;
-        data = {...parentData, ...data};
-    }
-    let {generics = [], ...other} = data;
-    let type = new Type(name, parent, generics, other);
+    let {parent} = data;
+    // if(parent) {
+    //     // Special cases for data inheritance, TODO consolidate
+    //     let {abstract, arbitraryGenerics, ...parentData} = parent.data;
+    //     data = {...parentData, ...data};
+    // }
+    let {generics = [], meta = {}, ...other} = data;
+    // let type = new Type(name, parent, generics, other, {...parent.meta, ...meta});
+    let type = buildType(name, parent, generics, other, meta);
     TYPE_MAP.set(name, type);
     return type;
 }
@@ -314,15 +327,27 @@ function getGenericType(parent, generics) {
     if(typeof parent === 'string') {
         parent = getType(parent);
     }
-    if((!generics || !generics.length) && !parent.data.arbitraryGenerics) {
+    if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenerics) {
         return getType(parent);
     }
-    let {abstract, arbitraryGenerics, ...parentData} = parent.data;
-    let type = new Type(parent.name, parent, generics, parentData);
+    // let {abstract, arbitraryGenerics, ...parentData} = parent.data;
+    // let type = new Type(parent.name, parent, generics, parentData, {...parent.meta});
+    let type = buildType(parent.name, parent, generics);
     if(!parent.isSubtype(type)) {
         throw new Error(`Generics not assignable to ${parent} from ${type}`);
     }
     return type;
+}
+
+function buildType(name, parent, generics = [], data = {}, meta = {}) {
+    // Special cases for data inheritance
+    let {
+        abstract,
+        arbitraryGenerics,
+        ...parentData
+    } = parent ? parent.data : {};
+    let parentMeta = parent ? parent.meta : {};
+    return new Type(name, parent || null, generics, {...parentData, ...data}, {...parentMeta, ...meta});
 }
 
 export function getType(name, generics) {

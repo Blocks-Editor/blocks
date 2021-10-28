@@ -33,12 +33,12 @@ html, body {
 .clickable {
   cursor: pointer;
   //transition: .1s ease-out;
-  transition-property: color, background, opacity;
+  //transition-property: color, background, opacity;
 }
 
-.clickable:hover {
-  transition: .2s ease-out;
-}
+//.clickable:hover {
+//  transition: .2s ease-out;
+//}
 
 .grabbable {
   cursor: grabbing !important;

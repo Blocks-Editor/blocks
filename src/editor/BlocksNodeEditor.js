@@ -9,18 +9,22 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         this.compilers = {
             type: new Compiler(this, 'inferType', {
                 defaultCompile: (prop) => getType(prop.type),
-                postCompile(type) {
+                postCompile(type, node, key) {
                     if(type) {
                         type = getType(type);
                         if(type.isAbstract()) {
-                            throw new Error(`Abstract inferred type: ${type.toTypeString()}`);
+                            console.warn(`[${node.name}.${key}]`, 'Abstract inferred type:', type.toTypeString());
                         }
                     }
                     return type;
                 },
             }),
             node: new Compiler(this, 'toNode', {
-                defaultCompile: (prop, args, node) => node,
+                defaultCompile: (prop, node) => node,
+                postCompile(result) {
+                    let id = String(result.id);
+                    return this.editor.nodes.find(n => String(n.id) === id);
+                },
             }),
             motoko: new Compiler(this, 'toMotoko', {
                 postCompile: (result) => Array.isArray(result) ? result.join(' ') : result,///

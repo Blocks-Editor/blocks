@@ -4,9 +4,10 @@ import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContex
 import useListener from '../../../hooks/useListener';
 import getNodeLabel from '../../../utils/getNodeLabel';
 import classNames from 'classnames';
+import {BLOCK_MAP} from '../../../editor/blocks';
 
 
-export default function NodeControlHandle({editor, control, bindInput, component}) {
+export default function NodeControlHandle({editor, control, bindInput}) {
     let [value, setValue] = useControlState(control);
 
     let [nodes, setNodes] = useState(() => [...editor.nodes]);
@@ -14,18 +15,20 @@ export default function NodeControlHandle({editor, control, bindInput, component
     let events = useContext(EventsContext);
     useListener(events, EDITOR_CHANGE_EVENT, () => setNodes([...editor.nodes]));
 
-    let componentFilter = component && (Array.isArray(component) ? component : [component]).map(name => {
-        // if(!editor.components.has(name)) {
-        //     throw new Error(`Component not found: ${name}`);
-        // }
+    let blockName = control.config.type?.meta.block;///
+    let blockFilter = blockName && (Array.isArray(blockName) ? blockName : [blockName]).map(block => {
+        let name = typeof block === 'string' ? block : block.name;
+        if(!BLOCK_MAP.has(name)) {
+            throw new Error(`Block not found: ${name}`);
+        }
         return name;
     });
 
-    if(componentFilter) {
-        nodes = nodes.filter(n => !componentFilter || componentFilter.includes(n.name));
+    if(blockFilter) {
+        nodes = nodes.filter(n => !blockFilter || blockFilter.includes(n.name));
     }
 
-    let invalid = !value || !nodes.some(n => String(n.id) === String(value) && (!componentFilter || componentFilter.includes(n.name)));
+    let invalid = !value || !nodes.some(n => String(n.id) === String(value) && (!blockFilter || blockFilter.includes(n.name)));
 
     // TODO: cleanly prevent number -> string id conversion
     return (

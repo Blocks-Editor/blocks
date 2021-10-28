@@ -1,7 +1,8 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
-import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
 import {stateCategory} from '../block-categories/categories';
 import {FaAngleDoubleRight} from 'react-icons/all';
+import {nodeType} from '../block-types/types';
+import State from './State';
 
 const block = statementBlock({
     title: 'Write State',
@@ -25,12 +26,7 @@ const block = statementBlock({
     // }],
     controls: [{
         key: 'stateNode',
-        config: {
-            controlType: NodeControlHandle,
-            controlProps: {
-                component: 'State',
-            },
-        },
+        type: nodeType.withMeta({block: 'State'}),
     }],
 }, ({stateNode, value}, node, compiler) => {
     let name = compiler.getOutput(stateNode, 'name');

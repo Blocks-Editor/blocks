@@ -8,6 +8,7 @@ export function statementBlock(block, compileFn) {
         key: 'before',
         type: effectType,
         inferType({after}) {
+            console.log(after)//////
             return after || defaultType;
         },
         toMotoko(props, ...args) {

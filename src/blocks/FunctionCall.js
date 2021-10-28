@@ -1,6 +1,5 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
-import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
-import {valueType} from '../block-types/types';
+import {nodeType, valueType} from '../block-types/types';
 import {FaPlayCircle} from 'react-icons/all';
 import {functionCategory} from '../block-categories/categories';
 
@@ -10,6 +9,7 @@ const block = statementBlock({
     icon: FaPlayCircle,
     computeTitle(node, editor) {
         let functionNode = editor.compilers.node.getInput(node, 'functionNode');
+        console.log(functionNode)/////
         if(!functionNode) {
             return;
         }
@@ -36,12 +36,7 @@ const block = statementBlock({
     }],
     controls: [{
         key: 'functionNode',
-        config: {
-            controlType: NodeControlHandle,
-            controlProps: {
-                component: 'Function',
-            },
-        },
+        type: nodeType.withMeta({block: 'Function'}),
     }],
 }, ({functionNode, args}, node, compiler) => {
     let name = compiler.getOutput(functionNode, 'name');

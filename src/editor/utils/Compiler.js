@@ -17,7 +17,7 @@ export default class Compiler {
         if(!node) {
             throw new Error(`Node cannot be ${JSON.stringify(node)}`);
         }
-        let id = typeof node === 'string' || typeof node === 'number' ? String(node) : node.id;
+        let id = String(typeof node === 'string' || typeof node === 'number' ? node : node.id);
         node = this.editor.nodes.find(node => String(node.id) === id);
         if(!node) {
             throw new Error(`Node does not exist: ${id}`);
@@ -65,7 +65,7 @@ export default class Compiler {
 
         if(prop.control) {
             let control = this._control(node, prop.key);
-            return control.getValue();
+            return this._processOutput(control.getValue(), node, key);
         }
     }
 
@@ -77,13 +77,14 @@ export default class Compiler {
             if(!args) {
                 return;
             }
-            if(prop[this.compileKey]) {
-                let result = prop[this.compileKey](args, node, this);
-                return this.postCompile ? this.postCompile(result, args, node, this) : result;
+            let result;
+            if(this.defaultCompile) {
+                result = this.defaultCompile(prop, node, key, this);
             }
-            else if(this.defaultCompile) {
-                return this.defaultCompile(prop, args, node, this);
+            else if(prop[this.compileKey]) {
+                result = prop[this.compileKey](args, node, this);
             }
+            return this._processOutput(result, node, key);
         }
         catch(err) {
             console.error(`[${node.name}.${key}]`, err);
@@ -178,6 +179,10 @@ export default class Compiler {
         //     throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
         // }
         return this.getOutput(to.node, to.key);
+    }
+
+    _processOutput(result, node, key) {
+        return this.postCompile ? this.postCompile(result, node, key, this) : result;
     }
 
     _prop(node, key) {

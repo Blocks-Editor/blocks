@@ -1,7 +1,7 @@
-import {typeType, valueType} from '../block-types/types';
+import {nodeType, typeType, valueType} from '../block-types/types';
 import {typeCategory} from '../block-categories/categories';
 import {FaAngleRight} from 'react-icons/all';
-import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
+import TypeMember from './TypeMember';
 
 const block = {
     title: 'Type Reference',
@@ -24,12 +24,7 @@ const block = {
     }],
     controls: [{
         key: 'typeNode',
-        config: {
-            controlType: NodeControlHandle,
-            controlProps: {
-                component: 'TypeMember',
-            },
-        },
+        type: nodeType.withMeta({block: 'TypeMember'}),
     }],
 };
 export default block;

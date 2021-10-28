@@ -3,16 +3,17 @@ import {stringSelectProp} from './control-patterns';
 
 
 export function computeMemberName(node, editor) {
-    let name = editor.compilers.motoko.getInput(node, 'name');
-    if(!name) {
-        return;
-    }
-    let actorNode = editor.compilers.node.getInput(node, 'member');
-    if(!actorNode) {
-        return name;
-    }
-    let actorName = editor.compilers.motoko.getInput(actorNode, 'name');
-    return `${actorName}.${name}`;
+    return editor.compilers.motoko.getInput(node, 'name');
+
+    // let name = editor.compilers.motoko.getInput(node, 'name');
+    // if(!name) {
+    //     return;
+    // }
+    // if(!parentNode) {
+    //     return name;
+    // }
+    // let actorName = editor.compilers.motoko.getInput(parentNode, 'name');
+    // return actorName?`${actorName}.${name}`:name;
 }
 
 export function memberBlock(block, memberProp) {

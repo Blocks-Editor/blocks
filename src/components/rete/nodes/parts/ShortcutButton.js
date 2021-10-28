@@ -46,7 +46,6 @@ export default function ShortcutButton({editor, node, shortcut}) {
             ref={bindNodeInput}
             className="node-shortcut-button px-1 pt-0 pb-1"
             data-tip={getBlockLabel(block)}
-            data-place="bottom"
             data-delay-show={100}
             style={{
                 background: 'none',

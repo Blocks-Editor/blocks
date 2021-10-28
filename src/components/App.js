@@ -21,7 +21,7 @@ export default function App() {
     // TODO: add react-router?
     return (
         <>
-            <ReactTooltip backgroundColor="#111" className="tooltip"/>
+            <ReactTooltip className="tooltip" backgroundColor="#111" place="bottom"/>
             <ToastContainer/>
             <EditorPage/>
         </>

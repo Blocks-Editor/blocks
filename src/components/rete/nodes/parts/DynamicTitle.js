@@ -9,6 +9,7 @@ export default function DynamicTitle({editor, node, block, fallback}) {
             return block.computeTitle(node, editor);
         }
         catch(err) {
+            console.error(`Unable to compute title for node: ${node.name}`);
             console.error(err);
             return '<Error>';
         }

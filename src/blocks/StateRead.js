@@ -1,7 +1,7 @@
-import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
-import {valueType} from '../block-types/types';
+import {nodeType, valueType} from '../block-types/types';
 import {stateCategory} from '../block-categories/categories';
 import {FaAngleRight} from 'react-icons/all';
+import State from './State';
 
 const block = {
     title: 'Read State',
@@ -20,12 +20,7 @@ const block = {
     }],
     controls: [{
         key: 'stateNode',
-        config: {
-            controlType: NodeControlHandle,
-            controlProps: {
-                component: 'State',
-            },
-        },
+        type: nodeType.withMeta({block: 'State'}),
     }],
 };
 export default block;
