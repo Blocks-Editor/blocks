@@ -43,6 +43,6 @@ const block = statementBlock({
     if(!name) {
         return;
     }
-    return `${name}(${args.join(', ')});`;
+    return `ignore ${name}(${args.join(', ')});`;
 });
 export default block;

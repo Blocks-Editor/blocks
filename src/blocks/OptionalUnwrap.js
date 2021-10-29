@@ -1,8 +1,10 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {effectType, optionalType, valueType} from '../block-types/types';
+import {decompositionCategory} from '../block-categories/categories';
 
 const block = statementBlock({
     title: 'Unwrap Optional',
+    category: decompositionCategory,
     inputs: [{
         key: 'input',
         type: optionalType,

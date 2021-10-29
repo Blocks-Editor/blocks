@@ -6,8 +6,8 @@ const block = {
     topLeft: 'actor',
     topRight: 'members',
     computeTitle(node, editor) {
-        let {name, params} = editor.compilers.motoko.getInputArgs(node);
-        return name && (params.length ? `${name}(${params.join(', ')})` : name);
+        let {name} = editor.compilers.motoko.getInputArgs(node);
+        return name
     },
     inputs: [{
         key: 'name',
@@ -17,16 +17,12 @@ const block = {
         key: 'members',
         type: memberType,
         multi: true,
-    }, {
-        key: 'params',
-        type: paramType,
-        multi: true,
     }],
     outputs: [{
         key: 'actor',
         type: actorType,
-        toMotoko({name, params, members}) {
-            return `actor${params.length ? ' class' : ''}${name ? ' ' + name : ''}${params.length ? `(${params.join(', ')})` : ''} { ${members.join(' ')} };`;
+        toMotoko({name, members}) {
+            return `actor${name ? ' ' + name : ''} { ${members.join(' ')} };`;
         },
     }],
 };

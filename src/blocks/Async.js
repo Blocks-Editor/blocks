@@ -1,8 +1,8 @@
-import {optionalType, valueType} from '../block-types/types';
+import {asyncType, optionalType, valueType} from '../block-types/types';
 import {operatorCategory} from '../block-categories/categories';
 
 const block = {
-    title: '(?a)',
+    title: '(async a)',
     category: operatorCategory,
     topRight: 'result',
     inputs: [{
@@ -11,12 +11,12 @@ const block = {
     }],
     outputs: [{
         key: 'result',
-        type: optionalType,
+        type: asyncType,
         inferType({input}) {
-            return optionalType.of(input);
+            return asyncType.of(input);
         },
         toMotoko({input}) {
-            return `(?${input})`;
+            return `(async ${input})`;
         },
     }],
 };

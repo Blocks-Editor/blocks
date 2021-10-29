@@ -257,68 +257,63 @@ export const asyncType = createType('Async', {
 //     },
 // });
 
-// Fixed-size int values
-export const int64Type = createType('Int64', {
-    parent: intType,
-    validation: getIntValidation(64),
-});
-export const int32Type = createType('Int32', {
-    parent: int64Type,
-    validation: getIntValidation(32),
-});
-export const int16Type = createType('Int16', {
-    parent: int32Type,
-    validation: getIntValidation(16),
-});
-export const int8Type = createType('Int8', {
-    parent: int16Type,
-    validation: getIntValidation(8),
-});
+// // Fixed-size int values
+// export const int64Type = createType('Int64', {
+//     parent: intType,
+//     validation: getIntValidation(64),
+// });
+// export const int32Type = createType('Int32', {
+//     parent: int64Type,
+//     validation: getIntValidation(32),
+// });
+// export const int16Type = createType('Int16', {
+//     parent: int32Type,
+//     validation: getIntValidation(16),
+// });
+// export const int8Type = createType('Int8', {
+//     parent: int16Type,
+//     validation: getIntValidation(8),
+// });
+//
+// // Fixed-size nat values
+// export const nat64Type = createType('Nat64', {
+//     parent: natType,
+//     validation: getNatValidation(64),
+// });
+// export const nat32Type = createType('Nat32', {
+//     parent: nat64Type,
+//     validation: getNatValidation(32),
+// });
+// export const nat16Type = createType('Nat16', {
+//     parent: nat32Type,
+//     validation: getNatValidation(16),
+// });
+// export const nat8Type = createType('Nat8', {
+//     parent: nat16Type,
+//     validation: getNatValidation(8),
+// });
 
-// Fixed-size nat values
-export const nat64Type = createType('Nat64', {
-    parent: natType,
-    validation: getNatValidation(64),
-});
-export const nat32Type = createType('Nat32', {
-    parent: nat64Type,
-    validation: getNatValidation(32),
-});
-export const nat16Type = createType('Nat16', {
-    parent: nat32Type,
-    validation: getNatValidation(16),
-});
-export const nat8Type = createType('Nat8', {
-    parent: nat16Type,
-    validation: getNatValidation(8),
-});
-
-function getNatValidation(n) {
-    return {
-        ...natType.data.validation,
-        max: 2 ** n - 1,
-    };
-}
-
-function getIntValidation(n) {
-    let x = 2 ** (n - 1);
-    return {
-        ...intType.data.validation,
-        min: -x,
-        max: x - 1,
-    };
-}
+// function getNatValidation(n) {
+//     return {
+//         ...natType.data.validation,
+//         max: 2 ** n - 1,
+//     };
+// }
+//
+// function getIntValidation(n) {
+//     let x = 2 ** (n - 1);
+//     return {
+//         ...intType.data.validation,
+//         min: -x,
+//         max: x - 1,
+//     };
+// }
 
 function createType(name, data) {
     let {parent} = data;
-    // if(parent) {
-    //     // Special cases for data inheritance, TODO consolidate
-    //     let {abstract, arbitraryGenerics, ...parentData} = parent.data;
-    //     data = {...parentData, ...data};
-    // }
     let {generics = [], meta = {}, ...other} = data;
-    // let type = new Type(name, parent, generics, other, {...parent.meta, ...meta});
     let type = buildType(name, parent, generics, other, meta);
+    type.data.baseType = type;///
     TYPE_MAP.set(name, type);
     return type;
 }
@@ -330,8 +325,6 @@ function getGenericType(parent, generics) {
     if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenerics) {
         return getType(parent);
     }
-    // let {abstract, arbitraryGenerics, ...parentData} = parent.data;
-    // let type = new Type(parent.name, parent, generics, parentData, {...parent.meta});
     let type = buildType(parent.name, parent, generics);
     if(!parent.isSubtype(type)) {
         throw new Error(`Generics not assignable to ${parent} from ${type}`);

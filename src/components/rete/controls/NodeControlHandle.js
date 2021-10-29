@@ -33,8 +33,9 @@ export default function NodeControlHandle({editor, control, bindInput}) {
     // TODO: cleanly prevent number -> string id conversion
     return (
         <select
-            className={classNames(invalid && 'invalid')}
             ref={bindInput}
+            className={classNames(invalid && 'invalid')}
+            style={{maxWidth: '100%'}}
             value={value}
             onChange={event => setValue(event.target.value || undefined)}>
             <option key={-1} label={'(Select a Node)'} value={undefined}/>
