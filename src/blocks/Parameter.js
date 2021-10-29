@@ -8,7 +8,7 @@ const block = {
     computeTitle(node, editor) {
         let name = editor.compilers.motoko.getInput(node, 'name');
         let type = editor.compilers.type.getInput(node, 'type');
-        return name && `${name}: ${type ? editor.compilers.motoko.getTypeString(type) : 'Any'}`;
+        return name && `${name} : ${type ? editor.compilers.motoko.getTypeString(type) : 'Any'}`;
     },
     inputs: [{
         key: 'name',

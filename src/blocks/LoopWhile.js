@@ -9,9 +9,9 @@ const block = statementBlock({
     }, {
         key: 'loop',
         type: effectType,
-        // optional: true,
+        optional: true,
     }],
 }, ({condition, loop}) => {
-    return `while(${condition}) {${loop}};`;
+    return `while (${condition}) { ${loop ?? ''} };`;
 });
 export default block;

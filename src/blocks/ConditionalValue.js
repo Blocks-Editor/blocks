@@ -25,7 +25,7 @@ const block = {
             else if(condition === false) {
                 return falseCase;
             }
-            return `if (${condition}) {${trueCase}} else {${falseCase}}`;
+            return `(if (${condition}) {${trueCase}} else { ${falseCase} })`;
         },
     }],
 };

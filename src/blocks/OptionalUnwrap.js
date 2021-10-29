@@ -35,6 +35,6 @@ const block = statementBlock({
     let valuePart = valueCase ? `case (?value__${node.id}) {${valueCase}};` : '';
     let nullPart = nullCase ? `case null {${nullCase}};` : '';
 
-    return `switch(${input}) { ${valuePart}${nullPart && ' ' + nullPart} };`;
+    return `switch (${input}) { ${valuePart}${nullPart && ' ' + nullPart} };`;
 });
 export default block;
