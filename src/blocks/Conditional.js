@@ -25,7 +25,7 @@ const block = statementBlock({
         return falseCase;
     }
 
-    let falsePart = falseCase ? ` else {${falseCase}}` : '';
-    return `if(${condition}) {${trueCase || ''}}${falsePart};`;
+    let falsePart = falseCase ? ` else { ${falseCase} }` : '';
+    return `if(${condition}) { ${trueCase || ''} }${falsePart};`;
 });
 export default block;

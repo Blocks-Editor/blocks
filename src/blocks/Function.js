@@ -63,7 +63,7 @@ const block = memberBlock({
         if(!returnString) {
             return;///
         }
-        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ': ' + returnString : ''} {${body || ''}};`;
+        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ': ' + returnString : ''} { ${body || ''} };`;
     },
 });
 export default block;
