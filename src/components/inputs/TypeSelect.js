@@ -2,6 +2,7 @@ import {anyType, getType, TYPE_MAP} from '../../block-types/types';
 import React, {useContext} from 'react';
 import EventsContext, {ERROR_EVENT} from '../../contexts/EventsContext';
 import classNames from 'classnames';
+import useReactTooltip from '../../hooks/useReactTooltip';
 
 export default function TypeSelect({value, constraintType, abstract, onChange, ...others}) {
 
@@ -33,6 +34,8 @@ export default function TypeSelect({value, constraintType, abstract, onChange, .
     //     // value = constraintType;
     // }
 
+    useReactTooltip();
+
     return (
         <>
             <select
@@ -47,21 +50,19 @@ export default function TypeSelect({value, constraintType, abstract, onChange, .
             </select>
             <div className="ps-2">
                 {value?.generics?.map((type, i) => (
-                    <>
-                        <TypeSelect
-                            key={i}
-                            value={type}
-                            constraintType={value.data.baseType.generics[i]}
-                            onChange={t => {
-                                let generics = [...value.generics];
-                                generics.splice(i, 1, t);
-                                onChange(getType({
-                                    ...value.toJSON(),
-                                    generics,
-                                }));
-                            }}/>
-                        <span></span>
-                    </>
+                    <TypeSelect
+                        key={i}
+                        value={type}
+                        constraintType={value.data.baseType.generics[i]}
+                        data-tip={value.data.genericNames?.[i]}
+                        onChange={t => {
+                            let generics = [...value.generics];
+                            generics.splice(i, 1, t);
+                            onChange(getType({
+                                ...value.toJSON(),
+                                generics,
+                            }));
+                        }}/>
                 ))}
             </div>
         </>

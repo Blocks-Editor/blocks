@@ -1,4 +1,4 @@
-import {actorType, identifierType, memberType, paramType} from '../block-types/types';
+import {actorType, identifierType, memberType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
 
 const block = {

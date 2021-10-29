@@ -24,6 +24,7 @@
     "rete-connection-plugin": "^0.9.0",
     "rete-history-plugin": "^0.2.2",
     "rete-react-render-plugin": "^0.2.1",
+    "styled-components": "^5.3.3",
     "web-vitals": "^2.1.2"
   },
   "devDependencies": {

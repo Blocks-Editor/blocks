@@ -1,4 +1,4 @@
-import {asyncType, optionalType, valueType} from '../block-types/types';
+import {asyncType, valueType} from '../block-types/types';
 import {operatorCategory} from '../block-categories/categories';
 
 const block = {

@@ -1,9 +1,17 @@
-import {literalBlock} from '../block-patterns/literal-patterns';
-import {typeType, valueType} from '../block-types/types';
 import {typeCategory} from '../block-categories/categories';
+import {typeType, valueType} from '../block-types/types';
 
-const block = literalBlock({
+const block = {
     title: 'Type',
     category: typeCategory,
-}, typeType.of(valueType));
+    topRight: 'value',
+    outputs: [{
+        key: 'value',
+        type: typeType.of(valueType),
+        control: true,
+        inferType({value}) {
+            return value;
+        },
+    }],
+};
 export default block;

@@ -227,6 +227,7 @@ export const objectType = createType('Object', {
 export const functionType = createType('Function', {
     parent: valueType,
     generics: [valueType, valueType],
+    genericNames: ['input', 'output'],
     category: 'functions',
     // controlType: ,
     // toTypeString() {

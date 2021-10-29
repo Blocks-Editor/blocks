@@ -2,6 +2,7 @@ import {
     FaCode,
     FaCubes,
     FaDatabase,
+    FaEject,
     FaFilter,
     FaFont,
     FaLongArrowAltRight,
@@ -60,6 +61,10 @@ export const typeCategory = createCategory('Type', {
 export const compilerCategory = createCategory('Compiler', {
     color: '#f5a',
     icon: FaCode,
+});
+export const codeCategory = createCategory('Code', {
+    color: '#aaa',
+    icon: FaEject,
 });
 export const operatorCategory = createCategory('Operator', {
     // color: '#57f',

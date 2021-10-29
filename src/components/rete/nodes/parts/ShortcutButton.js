@@ -1,9 +1,9 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {bindNodeInput} from '../../../../utils/bindNodeInput';
 import getBlockLabel from '../../../../utils/getBlockLabel';
 import {Button} from 'react-bootstrap';
 import EventsContext, {ERROR_EVENT} from '../../../../contexts/EventsContext';
-import ReactTooltip from 'react-tooltip';
+import useReactTooltip from '../../../../hooks/useReactTooltip';
 
 export default function ShortcutButton({editor, node, shortcut}) {
     let {block} = shortcut;
@@ -36,10 +36,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
         }
     };
 
-    // TODO: optimize?
-    useEffect(() => {
-        setTimeout(() => ReactTooltip.rebuild());
-    }, [block]);
+    useReactTooltip([block]);
 
     return (
         <Button
