@@ -24,7 +24,7 @@ const block = statementBlock({
             return input;
         },
         toMotoko({input}, node) {
-            return `__${node.id}`;
+            return `value__${node.id}`;
         },
     }],
 }, ({input, valueCase, nullCase}, node) => {
@@ -32,7 +32,7 @@ const block = statementBlock({
         return nullCase;
     }
 
-    let valuePart = valueCase ? `case (?__${node.id}) {${valueCase}};` : '';
+    let valuePart = valueCase ? `case (?value__${node.id}) {${valueCase}};` : '';
     let nullPart = nullCase ? `case null {${nullCase}};` : '';
 
     return `switch(${input}) {${valuePart}${nullPart && ' ' + nullPart}};`;

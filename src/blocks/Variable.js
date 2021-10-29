@@ -20,10 +20,10 @@ const block = statementBlock({
             return initialValue;
         },
         toMotoko({name}, node) {
-            return name || `__${node.id}`;
+            return name || `var__${node.id}`;
         },
     }],
 }, ({name, initialValue}, node) => {
-    return `var ${name || `__${node.id}`} = ${initialValue};`;
+    return `var ${name || `var__${node.id}`} = ${initialValue};`;
 });
 export default block;
