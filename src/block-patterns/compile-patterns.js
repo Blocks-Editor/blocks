@@ -4,7 +4,7 @@ import {compilerCategory} from '../block-categories/categories';
 
 export function compileBlock(title, compilerKey, displayFn) {
     function queryFor(inputKey) {
-        return async function(control, node, editor) {
+        return function(control, node, editor) {
             let value = editor.compilers[compilerKey].getInput(node, inputKey);
             return displayFn ? displayFn(value) : value;
         };

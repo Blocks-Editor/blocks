@@ -35,10 +35,14 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                     if(typeof result === 'string') {
                         return result;
                     }
-                    if(!result) {
+                    if(typeof result === 'number' || typeof result === 'boolean') {
+                        return result.toString();
+                    }
+                    if(result === undefined) {
                         return;
                     }
                     console.warn('Unexpected Motoko expression:', result);
+                    return String(result);
                 },///
             }),
         };
