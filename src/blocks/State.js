@@ -39,12 +39,13 @@ const block = memberBlock({
     controls: [{
         key: 'flexible',
         type: boolType,
-    }, {
-        key: 'readonly',
-        type: 'Bool',
+        // }, {
+        //     key: 'readonly',
+        //     type: 'Bool',
     }],
 }, {
-    toMotoko({visibility, flexible, name, initialValue, readonly}) {
+    toMotoko({visibility, flexible, name, initialValue}) {
+        let readonly = false;/// TODO: infer and/or adjust shortcuts
         let modifiers = [visibility !== 'system' && visibility, !flexible && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
 
         return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${initialValue ? ' = ' + initialValue : ''};`;

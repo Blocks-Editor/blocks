@@ -5,7 +5,7 @@ export function unaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
     return {
         topRight: 'result',
-        title: `(${symbol}a)`,
+        title: `(${symbol} a)`,
         category: operatorCategory,
         inputs: [{
             key: 'input',
