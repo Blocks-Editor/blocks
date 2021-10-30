@@ -23,6 +23,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             node: new Compiler(this, 'toNode', {
                 defaultCompile: (prop, node) => node,
                 postCompile(result) {
+                    if(!result) {
+                        return;
+                    }
                     let id = String(result.id);
                     return this.editor.nodes.find(n => String(n.id) === id);
                 },

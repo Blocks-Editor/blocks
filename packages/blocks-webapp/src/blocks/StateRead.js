@@ -1,7 +1,6 @@
 import {nodeType, valueType} from '../block-types/types';
 import {stateCategory} from '../block-categories/categories';
-import {FaAngleRight} from 'react-icons/all';
-import State from './State';
+import {FaAngleRight} from 'react-icons/fa';
 
 const block = {
     title: 'Read State',

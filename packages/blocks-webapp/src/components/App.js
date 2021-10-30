@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import EventsContext, {ERROR_EVENT} from '../contexts/EventsContext';
 import useListener from '../hooks/useListener';
 import ReactTooltip from 'react-tooltip';
+import {HashRouter, Route, Switch} from 'react-router-dom';
+import HomePage from './pages/HomePage';
 
 export default function App() {
 
@@ -18,12 +20,18 @@ export default function App() {
         });
     });
 
-    // TODO: add react-router?
     return (
-        <>
+        <HashRouter>
             <ReactTooltip className="tooltip" backgroundColor="#111" place="bottom"/>
             <ToastContainer/>
-            <EditorPage/>
-        </>
+            <Switch>
+                <Route path="/editor">
+                    <EditorPage/>
+                </Route>
+                <Route path="/">
+                    <HomePage/>
+                </Route>
+            </Switch>
+        </HashRouter>
     );
 };

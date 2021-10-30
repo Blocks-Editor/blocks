@@ -82,25 +82,11 @@ function createEditor(element) {
         );
     });
 
-    let onKeyPress = (e) => {
-        if(e.code === 'Escape') {
-            // TODO: drop connection
-            // editor.trigger('connectiondrop');
-        }
-        // if(e.code === 'KeyF') {
-        //     editor.trigger('arrange');
-        // }
-    };
-    document.addEventListener('keypress', onKeyPress);
-    editor.on('destroy', () => document.removeEventListener('keypress', onKeyPress));
-
-    window.EDITOR = editor;
-
     return editor;
 }
 
 
-export default function Editor({onSetup, onChange, className, style, ...others}) {
+export default function Editor({onSetup, onChange, onSave, className, style, ...others}) {
 
     let events = useContext(EventsContext);
     let editor = null;
@@ -122,6 +108,30 @@ export default function Editor({onSetup, onChange, className, style, ...others})
         }
 
         editor = createEditor(element);
+
+        window.EDITOR = editor; // Browser debugging
+
+        let onKeyDown = (event) => {
+            let key = String.fromCharCode(event.which).toLowerCase();
+
+            if(key === 'Escape') {
+                console.log('esc');///
+                // TODO: drop connection
+                // editor.trigger('connectiondrop');
+            }
+            // if(e.code === 'KeyF') {
+            //     editor.trigger('arrange');
+            // }
+
+            if(key === 's') {
+                event.preventDefault();
+                onSave?.(editor.toJSON(), editor);
+                console.log('Saved successfully');
+                // TODO: subtle animation
+            }
+        };
+        document.addEventListener('keydown', onKeyDown);
+        editor.on('destroy', () => document.removeEventListener('keydown', onKeyDown));
 
         for(let block of BLOCK_MAP.values()) {
             let node = new BlockComponent(block);

@@ -1,7 +1,6 @@
 import {nodeType, typeType, valueType} from '../block-types/types';
 import {typeCategory} from '../block-categories/categories';
-import {FaAngleRight} from 'react-icons/all';
-import TypeMember from './TypeMember';
+import {FaAngleRight} from 'react-icons/fa';
 
 const block = {
     title: 'Type Reference',

@@ -3,7 +3,7 @@ import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContex
 import useListener from '../../../hooks/useListener';
 import Loading from '../../Loading';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
-import {FaCopy} from 'react-icons/all';
+import {FaCopy} from 'react-icons/fa';
 import {Button} from 'react-bootstrap';
 import ReactTooltip from 'react-tooltip';
 

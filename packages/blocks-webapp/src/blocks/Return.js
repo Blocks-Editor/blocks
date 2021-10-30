@@ -1,7 +1,7 @@
 import {effectType, unitType, valueType} from '../block-types/types';
 import {endStatementBlock} from '../block-patterns/statement-patterns';
 import {functionCategory} from '../block-categories/categories';
-import {FaCaretLeft} from 'react-icons/all';
+import {FaCaretLeft} from 'react-icons/fa';
 
 const block = endStatementBlock({
     category: functionCategory,

@@ -107,14 +107,14 @@ export default class NodeHandle extends Node {
                     </div>
                 </div>
                 {block.shortcuts.length > 0 && (
-                    <ButtonGroup className="px-4 py-1 w-100" style={{background:'#0002'}}>
+                    <ButtonGroup className="px-4 py-1 w-100" style={{background: '#0002'}}>
                         {block.shortcuts.map((shortcut, i) => (
                             <ShortcutButton key={i} editor={editor} node={node} shortcut={shortcut}/>
                         ))}
                     </ButtonGroup>
                 )}
                 {Object.values(block.props)
-                    .filter(prop => prop.control || ((!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight)))
+                    .filter(prop => !prop.hidden && (prop.control || ((!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight))))
                     .map(prop => (
                         <PropHandle
                             key={prop.key}

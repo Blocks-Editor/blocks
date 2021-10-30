@@ -10,7 +10,7 @@ import {
     FaPlusCircle,
     FaStream,
     FaTextHeight,
-} from 'react-icons/all';
+} from 'react-icons/fa';
 
 class Category {
     constructor(name, parent, data = {}) {

@@ -1,4 +1,5 @@
 const {addBeforeLoader, loaderByName} = require('@craco/craco');
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 // const loadWasmPlugin = {
 //     overrideWebpackConfig(webpackConfig) {
@@ -26,7 +27,21 @@ const {addBeforeLoader, loaderByName} = require('@craco/craco');
 // };
 
 module.exports = {
-    plugins: [/*{
-        plugin: loadWasmPlugin,
-    }*/],
+    webpack: {
+        plugins: {
+            add: [
+                // loadWasmPlugin,
+                new FilterWarningsPlugin({
+                    // Exclude warnings created by `require.context` polyfill
+                    exclude: /^(?!CriticalDependenciesWarning$)/,
+                }),
+            ],
+        },
+    },
+    jest: {
+        configure: {
+            // Fix compile errors
+            transformIgnorePatterns: ['/node_modules/?!()'],
+        },
+    },
 };

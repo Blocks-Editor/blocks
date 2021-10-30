@@ -24,6 +24,7 @@
     "rete-connection-plugin": "^0.9.0",
     "rete-history-plugin": "^0.2.2",
     "rete-react-render-plugin": "^0.2.1",
+    "require-context": "^1.1.0",
     "styled-components": "^5.3.3",
     "web-vitals": "^2.1.2"
   },
@@ -33,7 +34,9 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.3.0",
     "gh-pages": "^3.2.3",
-    "react-scripts": "^4.0.3"
+    "jest-fail-on-console": "^2.1.1",
+    "react-scripts": "^4.0.3",
+    "webpack-filter-warnings-plugin": "^1.2.1"
   },
   "scripts": {
     "start": "craco start",

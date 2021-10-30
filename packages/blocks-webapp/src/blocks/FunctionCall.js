@@ -1,6 +1,6 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {nodeType, valueType} from '../block-types/types';
-import {FaPlayCircle} from 'react-icons/all';
+import {FaPlayCircle} from 'react-icons/fa';
 import {functionCategory} from '../block-categories/categories';
 
 const block = statementBlock({

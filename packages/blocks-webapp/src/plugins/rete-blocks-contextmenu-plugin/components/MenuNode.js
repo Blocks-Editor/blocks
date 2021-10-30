@@ -1,6 +1,6 @@
 import React from 'react';
 import MenuAction from './MenuAction';
-import {FaRegStickyNote} from 'react-icons/all';
+import {FaRegStickyNote} from 'react-icons/fa';
 import getBlockLabel from '../../../utils/getBlockLabel';
 
 
