@@ -75,9 +75,9 @@ export default class NodeHandle extends Node {
 
         return (
             <div className={classNames('node', selected)}>
-                <div className="header">
+                <div className="header d-flex">
                     {topLeft && (
-                        <div style={{float: 'left'}}>
+                        <div>
                             <SocketHandle
                                 type="input"
                                 socket={topLeft.socket}
@@ -86,17 +86,7 @@ export default class NodeHandle extends Node {
                             />
                         </div>
                     )}
-                    {topRight && (
-                        <div style={{float: 'right'}}>
-                            <SocketHandle
-                                type="output"
-                                socket={topRight.socket}
-                                io={topRight}
-                                innerRef={bindSocket}
-                            />
-                        </div>
-                    )}
-                    <div className="title d-inline-block" style={{color: block.category.data.color}}>
+                    <div className="title d-inline-block flex-grow-1" style={{color: block.category.data.color}}>
                         {block.icon && (
                             // TODO: improve icon render logic
                             <span className="d-inline-block pe-1" style={{transform: 'translateY(-.1em)'}}>
@@ -105,6 +95,16 @@ export default class NodeHandle extends Node {
                         )}
                         {title}
                     </div>
+                    {topRight && (
+                        <div>
+                            <SocketHandle
+                                type="output"
+                                socket={topRight.socket}
+                                io={topRight}
+                                innerRef={bindSocket}
+                            />
+                        </div>
+                    )}
                 </div>
                 {block.shortcuts.length > 0 && (
                     <ButtonGroup className="px-4 py-1 w-100" style={{background: '#0002'}}>
