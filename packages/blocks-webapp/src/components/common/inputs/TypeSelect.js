@@ -1,8 +1,8 @@
-import {anyType, getType, TYPE_MAP} from '../../block-types/types';
+import {anyType, getType, TYPE_MAP} from '../../../block-types/types';
 import React, {useContext} from 'react';
-import EventsContext, {ERROR_EVENT} from '../../contexts/EventsContext';
+import EventsContext, {ERROR_EVENT} from '../../../contexts/EventsContext';
 import classNames from 'classnames';
-import useReactTooltip from '../../hooks/useReactTooltip';
+import useReactTooltip from '../../../hooks/useReactTooltip';
 
 export default function TypeSelect({value, constraintType, abstract, invalid, onChange, ...others}) {
 

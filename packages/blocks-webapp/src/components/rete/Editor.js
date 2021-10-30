@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import './Editor.scss';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
@@ -15,6 +15,8 @@ import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
 import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
 import ConnectionOpacityPlugin from '../../plugins/rete-connection-opacity-plugin';
 import classNames from 'classnames';
+import styled from 'styled-components';
+import EditorMenu from './EditorMenu';
 
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
@@ -86,7 +88,12 @@ function createEditor(element) {
 }
 
 
-export default function Editor({onSetup, onChange, onSave, className, style, ...others}) {
+const EditorContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+`;
+
+export default function Editor({onSetup, onChange, onSave, className, ...others}) {
 
     let events = useContext(EventsContext);
     let editor = null;
@@ -172,11 +179,11 @@ export default function Editor({onSetup, onChange, onSave, className, style, ...
     };
 
     return (
-        <div
+        <EditorContainer
             className={classNames('node-editor', className)}
-            style={{width: '100%', height: '100vh', ...style}}
             {...others}>
+            <EditorMenu editor={editor}/>
             <div ref={bindEditor}/>
-        </div>
+        </EditorContainer>
     );
 }

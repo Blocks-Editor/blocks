@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContext';
 import useListener from '../../../hooks/useListener';
-import Loading from '../../Loading';
+import Loading from '../../common/Loading';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 import {FaCopy} from 'react-icons/fa';
 import {Button} from 'react-bootstrap';

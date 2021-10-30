@@ -6,7 +6,6 @@ const STORAGE_EDITOR_STATE = 'blocks.editorState';
 export default function EditorPage() {
 
     const onEditorSetup = async (loadState, editor) => {
-
         let stateString = localStorage[STORAGE_EDITOR_STATE];
         if(stateString) {
             let state = JSON.parse(stateString);
@@ -25,9 +24,6 @@ export default function EditorPage() {
 
     return (
         <div className="d-flex flex-column">
-            <div className="node-editor-menu">
-                {/*TODO: menu*/}
-            </div>
             <Editor
                 className="flex-grow-1"
                 onSetup={onEditorSetup}

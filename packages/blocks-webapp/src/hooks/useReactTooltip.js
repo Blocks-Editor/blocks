@@ -1,12 +1,13 @@
 import {useEffect} from 'react';
 import ReactTooltip from 'react-tooltip';
 
-let interval;
+let timeout;
 
 // Rebuild react-tooltip
 export default function useReactTooltip(deps = []) {
     useEffect(() => {
-        clearInterval(interval);
-        interval = setTimeout(() => ReactTooltip.rebuild());
+        clearTimeout(timeout);
+        timeout = setTimeout(() => ReactTooltip.rebuild());
     }, deps); /* eslint-disable-line react-hooks/exhaustive-deps */
+    return ReactTooltip;
 }

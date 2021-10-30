@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react';
-import EventsContext, {ERROR_EVENT} from '../contexts/EventsContext';
+import EventsContext, {ERROR_EVENT} from '../../contexts/EventsContext';
 
 export default function Loading({promise, loading, error, children}) {
     let [status, setStatus] = useState('loading');

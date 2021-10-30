@@ -1,6 +1,6 @@
 import React from 'react';
 import useControlState from '../../../hooks/useControlState';
-import TypeSelect from '../../inputs/TypeSelect';
+import TypeSelect from '../../common/inputs/TypeSelect';
 
 
 export default function TypeControlHandle({control, bindInput}) {

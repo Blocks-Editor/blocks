@@ -3,9 +3,9 @@ import ReactTooltip from 'react-tooltip';
 import React from 'react';
 
 const ReactTooltipStyled = styled(ReactTooltip)`
-  padding: .5em 1em;
+  padding: .5em 1em !important;
 `;
 
 export default function GlobalTooltip() {
-    return <ReactTooltipStyled className="tooltip" backgroundColor="#111" place="bottom"/>;
+    return <ReactTooltipStyled backgroundColor="#111" place="bottom"/>;
 };
