@@ -4,7 +4,7 @@ import EventsContext, {ERROR_EVENT} from '../../contexts/EventsContext';
 import classNames from 'classnames';
 import useReactTooltip from '../../hooks/useReactTooltip';
 
-export default function TypeSelect({value, constraintType, abstract, onChange, ...others}) {
+export default function TypeSelect({value, constraintType, abstract, invalid, onChange, ...others}) {
 
     constraintType = constraintType || anyType;
 
@@ -24,9 +24,9 @@ export default function TypeSelect({value, constraintType, abstract, onChange, .
         }
     }
 
-    let isUnknown = !value || !types.some(t => t.isSubtype(value));
+    invalid = invalid || !value || !types.some(t => t.isSubtype(value));
 
-    // if(isUnknown && types.length) {
+    // if(invalid && types.length) {
     //     let firstType = types[0];
     //     if(firstType) {
     //         onChange(value = firstType);
@@ -39,11 +39,11 @@ export default function TypeSelect({value, constraintType, abstract, onChange, .
     return (
         <>
             <select
-                className={classNames(isUnknown && 'invalid')}
+                className={classNames(invalid && 'invalid')}
                 value={value?.name}
                 onChange={event => onChange(getType(event.target.value))}
                 {...others}>
-                {isUnknown && <option label="(Type)" value={value?.name}/>}
+                {invalid && <option label="(Type)" value={value?.name}/>}
                 {types.map(type => (
                     <option key={type.name} label={type.name} value={type.name}/>
                 ))}
