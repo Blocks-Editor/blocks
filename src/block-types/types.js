@@ -229,10 +229,9 @@ export const functionType = createType('Function', {
     generics: [valueType, valueType],
     genericNames: ['input', 'output'],
     category: 'functions',
-    // controlType: ,
-    // toTypeString() {
-    //     return `(${this.generics[0]} -> ${this.generics[1]})`;
-    // },
+    toTypeString() {
+        return `${this.generics[0].toTypeString()} -> ${this.generics[1].toTypeString()}`;
+    },
 });
 export const optionalType = createType('Optional', {
     parent: valueType,
