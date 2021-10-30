@@ -1,13 +1,20 @@
-import {getBlock} from '../blocks';
+import {getBlock} from '../editor/blocks';
 import Rete from 'rete';
-import {getType} from '../../block-types/types';
+import {getType} from '../block-types/types';
 
 export default class Compiler {
-    constructor(editor, compileKey, {defaultCompile, postCompile} = {}) {
+    constructor(editor, compileKey) {
         this.editor = editor;
         this.compileKey = compileKey;
-        this.defaultCompile = defaultCompile;
-        this.postCompile = postCompile;
+    }
+
+    // Default value if `[compileKey]` does not exist on block property
+    defaultCompile(prop, node, key) {
+    }
+
+    // Post-process results from either `prop[compileKey]` or `defaultCompile(..)`
+    postCompile(result, node, key) {
+        return result;
     }
 
     getNode(node) {
@@ -65,7 +72,7 @@ export default class Compiler {
 
         if(prop.control) {
             let control = this._control(node, prop.key);
-            return this._processOutput(control.getValue(), node, key);
+            return this.postCompile(control.getValue(), node, key);
         }
     }
 
@@ -81,10 +88,10 @@ export default class Compiler {
             if(prop[this.compileKey]) {
                 result = prop[this.compileKey](args, node, this);
             }
-            else if(this.defaultCompile) {
-                result = this.defaultCompile(prop, node, key, this);
+            else {
+                result = this.defaultCompile(prop, node, key);
             }
-            return this._processOutput(result, node, key);
+            return this.postCompile(result, node, key);
         }
         catch(err) {
             console.error(`[${node.name}.${key}]`, err);
@@ -179,10 +186,6 @@ export default class Compiler {
         //     throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
         // }
         return this.getOutput(to.node, to.key);
-    }
-
-    _processOutput(result, node, key) {
-        return this.postCompile ? this.postCompile(result, node, key, this) : result;
     }
 
     _prop(node, key) {

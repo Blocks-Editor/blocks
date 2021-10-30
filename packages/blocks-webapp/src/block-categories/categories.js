@@ -23,8 +23,8 @@ class Category {
 
 const CATEGORY_MAP = new Map();
 
-function createCategory(name, data) {
-    let {parent, ...other} = data;
+function createCategory(data) {
+    let {name, parent, ...other} = data;
     let category = new Category(name, parent, parent ? {...parent.data, ...other} : other);
     CATEGORY_MAP.set(category.name, category);
     return category;
@@ -42,47 +42,58 @@ export function getCategory(name) {
 
 
 export const defaultCategory = createCategory('Default', {});
-export const stateCategory = createCategory('State', {
+export const stateCategory = createCategory({
+    name: 'State',
     color: '#3fd',
     icon: FaDatabase,
 });
-export const functionCategory = createCategory('Function', {
+export const functionCategory = createCategory({
+    name: 'Function',
     color: '#fd3',
     icon: FaCubes,
 });
-export const paramCategory = createCategory('Param', {
+export const paramCategory = createCategory({
+    name: 'Param',
     color: '#a8f',
     icon: FaLongArrowAltRight,
 });
-export const typeCategory = createCategory('Type', {
+export const typeCategory = createCategory({
+    name: 'Type',
     color: '#2af',
     icon: FaTextHeight,
 });
-export const compilerCategory = createCategory('Compiler', {
+export const compilerCategory = createCategory({
+    name: 'Compiler',
     color: '#f5a',
     icon: FaCode,
 });
-export const codeCategory = createCategory('Code', {
+export const codeCategory = createCategory({
+    name: 'Code',
     color: '#aaa',
     icon: FaEject,
 });
-export const operatorCategory = createCategory('Operator', {
+export const operatorCategory = createCategory({
+    name: 'Operator',
     // color: '#57f',
     icon: FaFilter,
 });
-export const actorCategory = createCategory('Actor', {
+export const actorCategory = createCategory({
+    name: 'Actor',
     color: '#fa8',
     icon: FaFont,
 });
-export const effectCategory = createCategory('Effect', {
+export const effectCategory = createCategory({
+    name: 'Effect',
     // color: '#57f',
     icon: FaStream,
 });
-export const literalCategory = createCategory('Literal', {
+export const literalCategory = createCategory({
+    name: 'Literal',
     // color: '#8fa',
     icon: FaPlusCircle,
 });
-export const decompositionCategory = createCategory('Decomposition', {
+export const decompositionCategory = createCategory({
+    name: 'Decomposition',
     // color: '#8fa',
     icon: FaNetworkWired,
 });

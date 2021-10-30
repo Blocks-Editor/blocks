@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;400;700');
+//@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;400;700');
 
-$font-family-sans-serif: 'Noto Sans', sans-serif;
-$headings-font-family: $font-family-sans-serif;
-$headings-font-weight: 200;
+//$font-family-sans-serif: 'Noto Sans', sans-serif;
+//$headings-font-family: $font-family-sans-serif;
+//$headings-font-weight: 200;
 
 //$font-size-base: 1rem;
 //$input-font-size-lg: $font-size-base * 2;
@@ -14,9 +14,9 @@ $headings-font-weight: 200;
 //$light: #f1f1f1;
 //$dark: #000000;
 
-@import '../../node_modules/bootswatch/dist/cosmo/variables';
+//@import '../../node_modules/bootswatch/dist/cosmo/variables';
 @import 'mixins/bootstrap';
-@import '../../node_modules/bootswatch/dist/cosmo/bootswatch';
+//@import '../../node_modules/bootswatch/dist/cosmo/bootswatch';
 
 @import "mixins/scrollbar";
 
@@ -27,7 +27,7 @@ html, body {
 }
 
 .cursor-default {
-  cursor: default;
+  cursor: default !important;
 }
 
 .clickable {

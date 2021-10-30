@@ -9,7 +9,6 @@ const block = statementBlock({
     icon: FaPlayCircle,
     computeTitle(node, editor) {
         let functionNode = editor.compilers.node.getInput(node, 'functionNode');
-        console.log(functionNode)/////
         if(!functionNode) {
             return;
         }

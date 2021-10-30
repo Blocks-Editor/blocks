@@ -4,7 +4,7 @@ import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContex
 import useListener from '../../../hooks/useListener';
 import getNodeLabel from '../../../utils/getNodeLabel';
 import classNames from 'classnames';
-import {BLOCK_MAP} from '../../../editor/blocks';
+import {getBlock} from '../../../editor/blocks';
 
 
 export default function NodeControlHandle({editor, control, bindInput}) {
@@ -18,9 +18,7 @@ export default function NodeControlHandle({editor, control, bindInput}) {
     let blockName = control.config.type?.meta.block;///
     let blockFilter = blockName && (Array.isArray(blockName) ? blockName : [blockName]).map(block => {
         let name = typeof block === 'string' ? block : block.name;
-        if(!BLOCK_MAP.has(name)) {
-            throw new Error(`Block not found: ${name}`);
-        }
+        getBlock(name); // Ensure block exists
         return name;
     });
 

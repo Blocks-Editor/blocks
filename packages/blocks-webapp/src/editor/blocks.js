@@ -124,6 +124,8 @@ function addProps(block, propList, type) {
 
 export const BLOCK_MAP = new Map(allBlocks.map(block => [block.name, block]));
 
+window.BLOCK_MAP = BLOCK_MAP; // Browser debugging
+
 // Post-initialization
 for(let block of BLOCK_MAP.values()) {
     if(block.shortcuts) {

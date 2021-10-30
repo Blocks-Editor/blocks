@@ -1,5 +1,5 @@
 import React from 'react';
-import EditorPage from './EditorPage';
+import EditorPage from '../editor/EditorPage';
 
 export default function HomePage() {
 

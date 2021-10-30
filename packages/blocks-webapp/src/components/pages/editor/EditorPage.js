@@ -1,7 +1,6 @@
-import Editor from '../rete/Editor';
+import Editor from '../../rete/Editor';
 import React from 'react';
 
-const STORAGE_AUTOSAVE = 'blocks.autosave';
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
 export default function EditorPage() {
@@ -17,6 +16,9 @@ export default function EditorPage() {
         }
     };
 
+    const onEditorChange = (editor) => {
+    };
+
     const onEditorSave = (state, editor) => {
         localStorage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
     };
@@ -29,7 +31,7 @@ export default function EditorPage() {
             <Editor
                 className="flex-grow-1"
                 onSetup={onEditorSetup}
-                onChange={() => localStorage[STORAGE_AUTOSAVE] && onEditorSave()}
+                onChange={onEditorChange}
                 onSave={onEditorSave}
             />
         </div>

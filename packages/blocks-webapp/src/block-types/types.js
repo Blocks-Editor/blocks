@@ -28,7 +28,7 @@ class Type {
     }
 
     withMeta(meta) {
-        let type = getType(this, this.generics);
+        let type = buildType(this.name, this, this.generics);
         Object.assign(type.meta, meta);
         return type;
     }
@@ -106,6 +106,9 @@ export const nodeType = createType('Node', {
     parent: anyType,
     category: 'nodes',
     controlType: NodeControlHandle,
+    toTypeString() {
+        return this.meta.block ? `Node{block=${JSON.stringify(this.meta.block)}}` : 'Node';
+    },
 });
 
 // High-level type categories
@@ -309,6 +312,7 @@ export const asyncType = createType('Async', {
 //     };
 // }
 
+// Create a global type
 function createType(name, data) {
     let {parent} = data;
     let {generics = [], meta = {}, ...other} = data;
@@ -318,6 +322,7 @@ function createType(name, data) {
     return type;
 }
 
+// Get or create a generic version of the given type
 function getGenericType(parent, generics) {
     if(typeof parent === 'string') {
         parent = getType(parent);
@@ -332,7 +337,8 @@ function getGenericType(parent, generics) {
     return type;
 }
 
-function buildType(name, parent, generics = [], data = {}, meta = {}) {
+// Instantiate a new type
+function buildType(name, parent, generics, data = {}, meta = {}) {
     // Special cases for data inheritance
     let {
         abstract,
@@ -340,9 +346,16 @@ function buildType(name, parent, generics = [], data = {}, meta = {}) {
         ...parentData
     } = parent ? parent.data : {};
     let parentMeta = parent ? parent.meta : {};
-    return new Type(name, parent || null, generics, {...parentData, ...data}, {...parentMeta, ...meta});
+    return new Type(
+        name,
+        parent || null,
+        generics || (parent ? parent.generics : []),
+        {...parentData, ...data},
+        {...parentMeta, ...meta},
+    );
 }
 
+// Get or create a type
 export function getType(name, generics) {
     if(arguments.length > 1) {
         return getGenericType(name, generics);

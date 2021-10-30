@@ -1,53 +1,18 @@
 import Rete from 'rete';
-import Compiler from './utils/Compiler';
+import Compiler from '../compilers/Compiler';
 import {getType} from '../block-types/types';
+import MotokoCompiler from '../compilers/MotokoCompiler';
+import NodeCompiler from '../compilers/NodeCompiler';
+import TypeCompiler from '../compilers/TypeCompiler';
 
 export default class BlocksNodeEditor extends Rete.NodeEditor {
     constructor(...args) {
         super(...args);
 
         this.compilers = {
-            type: new Compiler(this, 'inferType', {
-                defaultCompile: (prop) => getType(prop.type),
-                postCompile(type, node, key) {
-                    if(type) {
-                        type = getType(type);
-                        if(type.isAbstract()) {
-                            console.warn(`[${node.name}.${key}]`, 'Abstract inferred type:', type.toTypeString());
-                            // return;
-                        }
-                    }
-                    return type;
-                },
-            }),
-            node: new Compiler(this, 'toNode', {
-                defaultCompile: (prop, node) => node,
-                postCompile(result) {
-                    if(!result) {
-                        return;
-                    }
-                    let id = String(result.id);
-                    return this.editor.nodes.find(n => String(n.id) === id);
-                },
-            }),
-            motoko: new Compiler(this, 'toMotoko', {
-                postCompile: (result) => {
-                    if(Array.isArray(result)) {
-                        return result.filter(s => s).join(' ');
-                    }
-                    if(typeof result === 'string') {
-                        return result;
-                    }
-                    if(typeof result === 'number' || typeof result === 'boolean') {
-                        return result.toString();
-                    }
-                    if(result === undefined) {
-                        return;
-                    }
-                    console.warn('Unexpected Motoko expression:', result);
-                    return String(result);
-                },///
-            }),
+            type: new TypeCompiler(this),
+            node: new NodeCompiler(this),
+            motoko: new MotokoCompiler(this),
         };
     }
 

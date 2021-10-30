@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
-import './App.scss';
-import EditorPage from './pages/EditorPage';
+import EditorPage from './pages/editor/EditorPage';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventsContext, {ERROR_EVENT} from '../contexts/EventsContext';
 import useListener from '../hooks/useListener';
-import ReactTooltip from 'react-tooltip';
 import {HashRouter, Route, Switch} from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/home/HomePage';
+import GlobalTooltip from './GlobalTooltip';
+
 
 export default function App() {
 
@@ -21,17 +21,19 @@ export default function App() {
     });
 
     return (
-        <HashRouter>
-            <ReactTooltip className="tooltip" backgroundColor="#111" place="bottom"/>
-            <ToastContainer/>
-            <Switch>
-                <Route path="/editor">
-                    <EditorPage/>
-                </Route>
-                <Route path="/">
-                    <HomePage/>
-                </Route>
-            </Switch>
-        </HashRouter>
+        <React.StrictMode>
+            <HashRouter>
+                <GlobalTooltip/>
+                <ToastContainer/>
+                <Switch>
+                    <Route path="/editor">
+                        <EditorPage/>
+                    </Route>
+                    <Route path="/">
+                        <HomePage/>
+                    </Route>
+                </Switch>
+            </HashRouter>
+        </React.StrictMode>
     );
 };
