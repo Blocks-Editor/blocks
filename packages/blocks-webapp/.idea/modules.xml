@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/icp-vis.iml" filepath="$PROJECT_DIR$/.idea/icp-vis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/blocks-webapp.iml" filepath="$PROJECT_DIR$/.idea/blocks-webapp.iml" />
     </modules>
   </component>
 </project>
