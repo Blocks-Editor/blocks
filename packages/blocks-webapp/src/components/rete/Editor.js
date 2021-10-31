@@ -6,13 +6,14 @@ import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
 import HistoryPlugin from 'rete-history-plugin';
 import AutoArrangePlugin from 'rete-auto-arrange-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
-import EventsContext, {EDITOR_CHANGE_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
+import EventsContext, {EDITOR_CHANGE_EVENT, EDITOR_SAVE_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
 import NodeHandle from './nodes/NodeHandle';
 import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/useListener';
 import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
 import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
+import ConnectionDropPlugin from '../../plugins/rete-connection-drop-plugin';
 import ConnectionOpacityPlugin from '../../plugins/rete-connection-opacity-plugin';
 import classNames from 'classnames';
 import styled from 'styled-components';
@@ -52,6 +53,7 @@ function createEditor(element) {
         snap: {size: 16, dynamic: true},
     });
     editor.use(ContextMenuPlugin);
+    editor.use(ConnectionDropPlugin);
     editor.use(ConnectionOpacityPlugin);
     editor.use(VerticalSortPlugin);
 
@@ -95,12 +97,18 @@ const EditorContainer = styled.div`
 
 export default function Editor({onSetup, onChange, onSave, className, ...others}) {
 
-    let events = useContext(EventsContext);
+    const events = useContext(EventsContext);
+
     let editor = null;
 
-    useListener(events, EDITOR_CHANGE_EVENT, () => {
-        if(onChange) {
-            onChange(editor);
+    useListener(events, EDITOR_CHANGE_EVENT, (_editor) => {
+        if(_editor === editor) {
+            onChange?.(editor);
+        }
+    });
+    useListener(events, EDITOR_SAVE_EVENT, (_editor) => {
+        if(_editor === editor) {
+            onSave?.(editor.toJSON(), editor);
         }
     });
 
@@ -121,20 +129,15 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
         let onKeyDown = (event) => {
             let key = String.fromCharCode(event.which).toLowerCase();
 
-            if(key === 'Escape') {
-                console.log('esc');///
-                // TODO: drop connection
-                // editor.trigger('connectiondrop');
-            }
-            // if(e.code === 'KeyF') {
+            // if(key === 'f') {
             //     editor.trigger('arrange');
             // }
-
-            if(key === 's') {
-                event.preventDefault();
-                onSave?.(editor.toJSON(), editor);
-                console.log('Saved successfully');
-                // TODO: subtle animation
+            if(event.ctrlKey) {
+                if(key === 's') {
+                    event.preventDefault();
+                    events.emit(EDITOR_SAVE_EVENT, editor);
+                    console.log('Saved successfully');
+                }
             }
         };
         document.addEventListener('keydown', onKeyDown);
@@ -147,7 +150,7 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
 
         editor.on(['nodecreated', 'noderemoved', 'nodedragged', 'connectioncreated', 'connectionremoved'], async () => {
             if(!editor.silent) {
-                events.emit(EDITOR_CHANGE_EVENT);
+                events.emit(EDITOR_CHANGE_EVENT, editor);
             }
         });
         editor.on('error', err => events.emit(ERROR_EVENT, err));
@@ -166,7 +169,7 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
             if(result) {
                 editor.view.resize();
                 AreaPlugin.zoomAt(editor);
-                events.emit(EDITOR_CHANGE_EVENT);
+                events.emit(EDITOR_CHANGE_EVENT, editor);
             }
             return result;
         }
@@ -182,7 +185,7 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
         <EditorContainer
             className={classNames('node-editor', className)}
             {...others}>
-            <EditorMenu editor={editor}/>
+            <EditorMenu getEditor={() => editor}/>
             <div ref={bindEditor}/>
         </EditorContainer>
     );

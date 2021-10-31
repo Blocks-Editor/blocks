@@ -6,11 +6,12 @@ import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 import {FaCopy} from 'react-icons/fa';
 import {Button} from 'react-bootstrap';
 import ReactTooltip from 'react-tooltip';
+import useReactTooltip from '../../../hooks/useReactTooltip';
 
 
 export default function OutputControlHandle({control, bindInput, query}) {
 
-    let findValue = async () => {
+    const findValue = async () => {
         try {
             return await query(control, control.getNode(), control.editor);
         }
@@ -20,19 +21,25 @@ export default function OutputControlHandle({control, bindInput, query}) {
         }
     };
 
-    let [valuePromise, setValuePromise] = useState(findValue);
+    const [valuePromise, setValuePromise] = useState(findValue);
+    const [copied, setCopied] = useState(findValue);
 
-    let events = useContext(EventsContext);
+    const events = useContext(EventsContext);
 
     useListener(events, EDITOR_CHANGE_EVENT, () => {
         setValuePromise(findValue());
     });
 
     let tooltipRef;
-    let showTooltip = () => {
-        ReactTooltip.show(tooltipRef);
-        setTimeout(() => ReactTooltip.hide(tooltipRef), 500);
+    const showTooltip = () => {
+        setCopied(true)
+        // ReactTooltip.show(tooltipRef);
+        setTimeout(() => /*ReactTooltip.hide(tooltipRef)&*/setCopied(false), 500);
     };
+
+    useReactTooltip();
+
+    // TODO: "Copy to Clipboard" tooltip
 
     return (
         <Loading promise={valuePromise}>
@@ -50,6 +57,7 @@ export default function OutputControlHandle({control, bindInput, query}) {
                             ref={bindInput}
                             size="sm"
                             variant="outline-light"
+                            data-tip=""
                             onClick={showTooltip}>
                             <span ref={ref => tooltipRef = ref} data-tip="Copied to clipboard."/>
                             <FaCopy/>

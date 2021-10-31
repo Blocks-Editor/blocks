@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import MenuItem from './MenuItem';
 import styled from 'styled-components';
 

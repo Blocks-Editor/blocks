@@ -40,8 +40,12 @@ module.exports = {
     },
     jest: {
         configure: {
-            // Fix compile errors
-            transformIgnorePatterns: ['/node_modules/?!()'],
+            verbose: true,
+            moduleDirectories: ['node_modules'],
+            transform: {
+                '\\.js$': '<rootDir>/utils/jest/requireContextTransformer',
+            },
+            transformIgnorePatterns: ['/node_modules/?!()'], // Fix compile errors
         },
     },
 };

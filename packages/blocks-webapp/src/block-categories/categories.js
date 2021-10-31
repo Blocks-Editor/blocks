@@ -67,8 +67,8 @@ export const compilerCategory = createCategory({
     color: '#f5a',
     icon: FaCode,
 });
-export const codeCategory = createCategory({
-    name: 'Code',
+export const expressionCategory = createCategory({
+    name: 'Expression',
     color: '#aaa',
     icon: FaEject,
 });

@@ -2,49 +2,15 @@ import {basename} from 'path';
 import {getType} from '../block-types/types';
 import {defaultCategory, getCategory} from '../block-categories/categories';
 
-// Hack: `require.context` polyfill for Jest
-// Derived from https://stackoverflow.com/questions/38332094/how-can-i-mock-webpacks-require-context-in-jest/42191018#42191018
-// noinspection JSUnresolvedVariable
-if(typeof require.context === 'undefined') {
-    const fs = require('fs');
-    const path = require('path');
-
-    // noinspection JSUndefinedPropertyAssignment
-    require.context = (base = '.', scanSubDirectories = false, regularExpression = /\.js$/) => {
-        const files = {};
-
-        const readDirectory = (directory) => {
-            fs.readdirSync(directory).forEach((file) => {
-                const fullPath = path.resolve(directory, file);
-                if(fs.statSync(fullPath).isDirectory()) {
-                    if(scanSubDirectories) {
-                        readDirectory(fullPath);
-                    }
-                }
-                else if(regularExpression.test(fullPath)) {
-                    files[fullPath] = true;
-                }
-            });
-        };
-
-        const Module = (file) => {
-            return require(file);
-        };
-        Module.keys = () => Object.keys(files);
-
-        readDirectory(path.resolve(__dirname, base));
-        return Module;
-    };
-}
-
 const allBlocks = [];
 const blockNames = new Set();
+
 // noinspection JSUnresolvedFunction
 const blockContext = require.context('../blocks', true, /\.js$/);
 blockContext.keys().forEach(path => {
     let name = basename(path, '.js');
     let block = blockContext(path).default;
-    block = {...block}; // Enable hot-reload
+    block = {...block}; // HMR fix
     if(block) {
         block.name = name;
         if(blockNames.has(name)) {

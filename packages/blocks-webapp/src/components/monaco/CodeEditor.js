@@ -1,9 +1,9 @@
-import MonacoEditor, {useMonaco} from "@monaco-editor/react";
+import MonacoEditor from "@monaco-editor/react";
 import {configureMonaco} from '../../config/configureMonaco';
 
 export default function CodeEditor({value, onChange}) {
 
-    const monaco = useMonaco();
+    // const monaco = useMonaco();
 
     const onEditorChange = (newValue) => {
         onChange?.(newValue);

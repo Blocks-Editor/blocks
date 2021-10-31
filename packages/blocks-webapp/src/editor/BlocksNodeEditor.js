@@ -1,6 +1,4 @@
 import Rete from 'rete';
-import Compiler from '../compilers/Compiler';
-import {getType} from '../block-types/types';
 import MotokoCompiler from '../compilers/MotokoCompiler';
 import NodeCompiler from '../compilers/NodeCompiler';
 import TypeCompiler from '../compilers/TypeCompiler';
@@ -9,6 +7,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
     constructor(...args) {
         super(...args);
 
+        this.projectName = '';
         this.compilers = {
             type: new TypeCompiler(this),
             node: new NodeCompiler(this),
@@ -16,10 +15,20 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         };
     }
 
+    toJSON() {
+        let json = super.toJSON();
+        json.name = this.projectName;
+        return json;
+    }
+
     async fromJSON(json) {
         if(!this.beforeImport(json)) {
             return false;
         }
+        // TODO: refactor serialization
+        // noinspection JSUnresolvedVariable
+        this.projectName = json.name || '';
+
         let hadError = false;
         try {
             const nodes = {};

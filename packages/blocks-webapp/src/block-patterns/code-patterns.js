@@ -1,8 +1,8 @@
 import {anyType, typeType} from '../block-types/types';
-import {codeCategory} from '../block-categories/categories';
+import {expressionCategory} from '../block-categories/categories';
 import CodeControlHandle from '../components/rete/controls/CodeControlHandle';
 
-let replaceRegex = /\{([0-9]+)}/g;
+let replaceRegex = /{([0-9]+)}/g;
 
 
 function parseInputs(inputs, expression) {
@@ -15,8 +15,8 @@ function parseInputs(inputs, expression) {
 export function codeBlock(type, block) {
 
     return {
-        category: codeCategory,
-        icon: codeCategory.data.icon,
+        category: expressionCategory,
+        icon: expressionCategory.data.icon,
         topLeft: 'inputs',
         topRight: 'result',
         ...block,

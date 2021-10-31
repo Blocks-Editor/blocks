@@ -3,6 +3,7 @@ import React, {useContext} from 'react';
 import EventsContext, {ERROR_EVENT} from '../../../contexts/EventsContext';
 import classNames from 'classnames';
 import useReactTooltip from '../../../hooks/useReactTooltip';
+import getDefaultLabel from '../../../utils/getDefaultLabel';
 
 export default function TypeSelect({value, constraintType, abstract, invalid, onChange, ...others}) {
 
@@ -54,7 +55,7 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
                         key={i}
                         value={type}
                         constraintType={value.data.baseType.generics[i]}
-                        data-tip={value.data.genericNames?.[i]}
+                        data-tip={getDefaultLabel(value.data.genericNames?.[i])}
                         onChange={t => {
                             let generics = [...value.generics];
                             generics.splice(i, 1, t);
