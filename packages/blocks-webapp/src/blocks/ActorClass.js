@@ -34,12 +34,12 @@ const block = {
         toMotoko({name, params, members}) {
             return `actor class${name ? ' ' + name : ''}(${params.join(', ')}) = ${thisName} { ${members.join(' ')} };`;
         },
-    // }, {
-    //     key: 'this',
-    //     type: valueType,
-    //     toMotoko({}) {
-    //         return thisName;
-    //     },
+        // }, {
+        //     key: 'this',
+        //     type: valueType,
+        //     toMotoko({}) {
+        //         return thisName;
+        //     },
     }],
 };
 export default block;

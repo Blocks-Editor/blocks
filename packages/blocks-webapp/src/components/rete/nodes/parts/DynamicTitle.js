@@ -1,10 +1,11 @@
 import {useContext, useState} from 'react';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../../contexts/EventsContext';
 import useListener from '../../../../hooks/useListener';
+import useReactTooltip from '../../../../hooks/useReactTooltip';
 
 export default function DynamicTitle({editor, node, block, fallback}) {
 
-    let computeTitle = () => {
+    const computeTitle = () => {
         try {
             return block.computeTitle(node, editor);
         }
@@ -15,11 +16,17 @@ export default function DynamicTitle({editor, node, block, fallback}) {
         }
     };
 
-    let [title, setTitle] = useState(computeTitle);
+    const [title, setTitle] = useState(computeTitle);
 
-    let events = useContext(EventsContext);
+    const events = useContext(EventsContext);
 
     useListener(events, EDITOR_CHANGE_EVENT, () => setTitle(computeTitle()));
 
-    return title || fallback || null;
+    const result = title || fallback || null;
+
+    useReactTooltip();
+
+    return (
+        <span data-tip={result} data-delay-show={300}>{result}</span>
+    );
 }

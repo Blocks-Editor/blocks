@@ -1,4 +1,4 @@
-// TODO: move to JS categories?
+// TODO: move color definitions to JS categories?
 $any-color: #f5a;
 $unit-color: #333;
 $value-color: #8fa;
@@ -172,7 +172,7 @@ $grid-area: $grid-size * 10000;
     border: 1px solid #AAA;
 
     &.invalid {
-      border-color: #f55;
+      border-color: #f55 !important;
     }
 
     option {

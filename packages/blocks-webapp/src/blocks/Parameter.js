@@ -23,7 +23,7 @@ const block = {
         toMotoko({name, type}, node, compiler) {
             // console.log(type)//
             let typeString = compiler.getTypeString(type) || 'Any';
-            return `${name}: ${typeString}`;
+            return `${name} : ${typeString}`;
         },
     }, {
         key: 'value',

@@ -1,6 +1,5 @@
 import React from 'react';
 import useControlState from '../../../hooks/useControlState';
-import classNames from 'classnames';
 import CodeEditor from '../../monaco/CodeEditor';
 
 

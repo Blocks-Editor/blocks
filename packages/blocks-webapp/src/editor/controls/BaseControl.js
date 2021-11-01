@@ -48,6 +48,9 @@ export default class BaseControl extends Rete.Control {
                 if('step' in validation && value - (validation.min || 0) % validation.step !== 0) {
                     return false;
                 }
+                if('pattern' in validation && !validation.pattern.test(value)) {
+                    return false;
+                }
             }
         }
         return true;

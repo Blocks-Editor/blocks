@@ -1,20 +1,19 @@
 import TopMenu from '../common/menus/TopMenu';
 import MenuButton from '../common/menus/MenuButton';
-import {FaDownload, FaFileExport, FaFolder, FaSave} from 'react-icons/fa';
+import {FaDownload, FaFile, FaFolder, FaSave} from 'react-icons/fa';
 import React, {useContext, useState} from 'react';
 import MenuItem from '../common/menus/MenuItem';
 import styled, {keyframes} from 'styled-components';
 import classNames from 'classnames';
 import EventsContext, {
-    PROJECT_LOAD_EVENT,
-    EDITOR_SAVE_EVENT,
-    PROJECT_EXPORT_EVENT,
     EDITOR_CHANGE_EVENT,
+    EDITOR_SAVE_EVENT, PROJECT_CLEAR_EVENT,
+    PROJECT_EXPORT_EVENT,
+    PROJECT_LOAD_EVENT,
 } from '../../contexts/EventsContext';
 import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
-import {Folder, Save} from '@styled-icons/fa-solid';
 import {Link} from 'react-router-dom';
 
 const ProjectNameInput = styled.input`
@@ -66,7 +65,7 @@ export default function EditorMenu({getEditor}) {
         setName(project.name);
     });
 
-    //////// temp
+    /// Temp, until projectName refactor
     setTimeout(() => {
         setName(getEditor().projectName);
     });
@@ -93,14 +92,17 @@ export default function EditorMenu({getEditor}) {
                     </MenuItem>
                 </Link>
                 <div className="d-inline-block mx-auto">
+                    <MenuButton onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)} data-tip="New Project">
+                        <FaFile/>
+                    </MenuButton>
                     <ProjectNameInput
                         type="text"
                         placeholder="(Unnamed Project)"
                         className="text-secondary"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, getEditor())}
                     />
-                    {/*<MenuButton onMouseDown={() => 'TODO: new'} data-tip="New Project"><FaFile/></MenuButton>*/}
                     <MenuButton
                         tooltip="Save Changes"
                         onMouseDown={() => events.emit(EDITOR_SAVE_EVENT, getEditor())}>

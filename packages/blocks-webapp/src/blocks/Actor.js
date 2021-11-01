@@ -7,7 +7,7 @@ const block = {
     topRight: 'members',
     computeTitle(node, editor) {
         let {name} = editor.compilers.motoko.getInputArgs(node);
-        return name
+        return name;
     },
     inputs: [{
         key: 'name',

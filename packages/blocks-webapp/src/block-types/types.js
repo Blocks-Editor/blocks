@@ -122,8 +122,7 @@ export const identifierType = createType('Identifier', {
     controlType: TextControlHandle,
     // defaultValue: '',
     validation: {
-        minLength: 1,
-        // TODO: constrain to valid identifiers
+        pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
     },
 });
 export const effectType = createType('Effect', {

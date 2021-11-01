@@ -1,9 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import './Editor.scss';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
-import HistoryPlugin from 'rete-history-plugin';
 import AutoArrangePlugin from 'rete-auto-arrange-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import EventsContext, {EDITOR_CHANGE_EVENT, EDITOR_SAVE_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
@@ -33,7 +32,7 @@ function createEditor(element) {
     editor.use(ReactRenderPlugin, {
         component: NodeHandle,
     });
-    editor.use(HistoryPlugin);
+    // editor.use(HistoryPlugin); // TODO: set up undo/redo history
     editor.use(ConnectionPlugin);
     // editor.use(CommentPlugin);
     // editor.use(SelectionPlugin, {

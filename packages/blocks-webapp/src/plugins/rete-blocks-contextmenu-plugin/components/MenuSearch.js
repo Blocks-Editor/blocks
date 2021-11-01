@@ -14,7 +14,7 @@ export default function MenuSearch({value, onChange, onAction, onKeyDown, childr
         if(onKeyDown) {
             onKeyDown(event);
         }
-        if(onAction && event.keyCode === 13 /* Enter */) {
+        if(onAction && event.key === 'Enter') {
             onAction();
         }
     });

@@ -18,7 +18,7 @@ export default function SelectControlHandle({control, bindInput, options, findLa
             className={classNames(invalid && 'invalid')}
             ref={bindInput}
             value={value}
-            onChange={event => setValue(event.target.value)}>
+            onChange={event => setValue(event.target.value || undefined)}>
             {options.map((option, i) => (
                 <option key={i} label={findLabel?.(option, i) ?? option} value={option}/>
             ))}

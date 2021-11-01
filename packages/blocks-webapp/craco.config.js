@@ -33,7 +33,7 @@ module.exports = {
                 // loadWasmPlugin,
                 new FilterWarningsPlugin({
                     // Exclude warnings created by `require.context` polyfill
-                    exclude: /^(?!CriticalDependenciesWarning$)/,
+                    exclude: /CriticalDependenciesWarning/,
                 }),
             ],
         },

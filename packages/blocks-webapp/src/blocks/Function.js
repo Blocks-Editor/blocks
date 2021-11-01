@@ -10,10 +10,14 @@ const block = memberBlock({
     topRight: 'body',
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
-        let {params} = editor.compilers.motoko.getInputArgs(node);
+        // return name;/////
+        let {params, asyncKind} = editor.compilers.motoko.getInputArgs(node);
         let {body} = editor.compilers.type.getInputArgs(node);
         let returnType = body?.generics[0];
-        return name && params && `${name}(${params.join(', ')})${returnType ? ': ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
+        if(asyncKind) {
+            returnType = asyncType.of(returnType);
+        }
+        return name && params && `${name}(${params.join(', ')})${returnType ? ' : ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
     },
     shortcuts: [{
         block: 'Return',
