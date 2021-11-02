@@ -6,15 +6,11 @@ export default class MotokoCompiler extends Compiler {
     }
 
     defaultCompile(prop, node, key) {
-
     }
 
     postCompile(result, node, key) {
-        if(typeof result === 'string') {
+        if(typeof result === 'string' || typeof result === 'number' || typeof result === 'boolean' || result === null) {
             return result;
-        }
-        if(typeof result === 'number' || typeof result === 'boolean') {
-            return result.toString();
         }
         if(result === undefined) {
             return;
