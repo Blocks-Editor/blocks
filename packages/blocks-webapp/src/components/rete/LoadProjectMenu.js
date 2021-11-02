@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import EventsContext, {PROJECT_LOAD_EVENT} from '../../contexts/EventsContext';
+import EventsContext, {ERROR_EVENT, PROJECT_LOAD_EVENT} from '../../contexts/EventsContext';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import {getExampleProjects} from '../../examples/examples';
@@ -21,13 +21,19 @@ export default function LoadProjectMenu({className, ...others}) {
 
     const examples = getExampleProjects();
 
-    const loadFile = file => {
-        console.log(file);
+    const loadFileContent = content => {
+        try {
+            let project = JSON.parse(content);
+            events.emit(PROJECT_LOAD_EVENT, project);
+        }
+        catch(err) {
+            events.emit(ERROR_EVENT, err);
+        }
     };
 
     return (
         <MenuContainer className={classNames('bg-light', className)} {...others}>
-            <FileDropZone onFiles={files => files.length && loadFile(files[0])}/>
+            <FileDropZone onFileContent={loadFileContent}/>
             {examples.map((example, i) => (
                 <LoadProjectItemContainer
                     key={i}
