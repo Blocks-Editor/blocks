@@ -1,7 +1,10 @@
-const examples = [{
-    name: 'Hello World!',
-}];
+const examples = [
+    require('./files/Echo.blocks.json'),
+    require('./files/Counter.blocks.json'),
+];
 
-export function getExampleProjects() {
-    return examples;
-}
+module.exports = {
+    getExampleProjects() {
+        return examples;
+    },
+};

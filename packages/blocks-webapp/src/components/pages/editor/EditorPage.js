@@ -1,7 +1,11 @@
 import Editor from '../../rete/Editor';
 import React, {useContext} from 'react';
 import useListener from '../../../hooks/useListener';
-import EventsContext, {PROJECT_CLEAR_EVENT, PROJECT_EXPORT_EVENT} from '../../../contexts/EventsContext';
+import EventsContext, {
+    PROJECT_CLEAR_EVENT,
+    PROJECT_EXPORT_EVENT,
+    PROJECT_LOAD_EVENT,
+} from '../../../contexts/EventsContext';
 import FileSaver from 'file-saver';
 import {pascalCase} from 'change-case';
 import useRedraw from '../../../hooks/useRedraw';
@@ -15,13 +19,19 @@ export default function EditorPage() {
     const redraw = useRedraw();
 
     useListener(events, PROJECT_CLEAR_EVENT, () => {
-        // TODO: confirmation
+        // TODO: confirmation modal
         delete localStorage[STORAGE_EDITOR_STATE];
         redraw();
     });
 
-    useListener(events, PROJECT_EXPORT_EVENT, (data) => {
-        FileSaver.saveAs(new Blob([data]), `${pascalCase(data.projectName || 'project')}.blocks.json`);
+    useListener(events, PROJECT_LOAD_EVENT, state => {
+        localStorage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
+        redraw();
+    });
+
+    useListener(events, PROJECT_EXPORT_EVENT, state => {
+        let data = JSON.stringify(state);
+        FileSaver.saveAs(new Blob([data]), `${pascalCase(state.name || 'project')}.blocks.json`);
     });
 
     const onEditorSetup = async (loadState, editor) => {
@@ -42,13 +52,10 @@ export default function EditorPage() {
     };
 
     return (
-        <div className="d-flex flex-column">
-            <Editor
-                className="flex-grow-1"
-                onSetup={onEditorSetup}
-                onChange={onEditorChange}
-                onSave={onEditorSave}
-            />
-        </div>
+        <Editor
+            onSetup={onEditorSetup}
+            onChange={onEditorChange}
+            onSave={onEditorSave}
+        />
     );
 }

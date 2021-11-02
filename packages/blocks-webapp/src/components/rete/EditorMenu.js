@@ -1,6 +1,6 @@
 import TopMenu from '../common/menus/TopMenu';
 import MenuButton from '../common/menus/MenuButton';
-import {FaDownload, FaFile, FaFolder, FaSave} from 'react-icons/fa';
+import {FaDownload, FaFile, FaFolder, FaFolderOpen, FaSave} from 'react-icons/fa';
 import React, {useContext, useState} from 'react';
 import MenuItem from '../common/menus/MenuItem';
 import styled, {keyframes} from 'styled-components';
@@ -42,17 +42,9 @@ const SaveIcon = styled(FaSave)`
   }
 `;
 
-const LoadIcon = styled(FaFolder)`
-  transform: scale(.1);
-
-  &.open {
-    transform: scale(.9);
-  }
-`;
-
 export default function EditorMenu({getEditor}) {
     const [name, setName] = useState('');
-    const [saveAnimated, setSaveAnimated] = useState(false);
+    const [saveAnimated, setSaveAnimated] = useState(false); // TODO: possibly generalize to MenuButton
     const [loadMenuOpen, setLoadMenuOpen] = useState(false);
 
     const events = useContext(EventsContext);
@@ -63,17 +55,13 @@ export default function EditorMenu({getEditor}) {
 
     useListener(events, PROJECT_LOAD_EVENT, project => {
         setName(project.name);
+        setLoadMenuOpen(false);
     });
 
     /// Temp, until projectName refactor
     setTimeout(() => {
         setName(getEditor().projectName);
     });
-
-    const getExportData = () => {
-        let json = getEditor().toJSON();
-        return JSON.stringify({name, ...json});
-    };
 
     // TODO refactor
     const updateName = (name) => {
@@ -113,13 +101,13 @@ export default function EditorMenu({getEditor}) {
                     </MenuButton>
                     <MenuButton
                         tooltip="Export to File"
-                        onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, getExportData())}>
+                        onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, getEditor().toJSON())}>
                         <FaDownload/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Load Project"
                         onMouseDown={() => setLoadMenuOpen(!loadMenuOpen)}>
-                        <LoadIcon className={classNames(loadMenuOpen && 'open')}/>
+                        {loadMenuOpen ? <FaFolderOpen/> : <FaFolder/>}
                     </MenuButton>
                 </div>
             </TopMenu>

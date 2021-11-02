@@ -10,7 +10,8 @@ const block = {
     outputs: [{
         key: 'value',
         type: valueType,
-        inferType({stateNode}, node, compiler) {
+        inferType(args, node, compiler) {
+            let stateNode = compiler.editor.compilers.node.getInput(node, 'stateNode');
             return compiler.getOutput(stateNode, 'initialValue');
         },
         toMotoko({stateNode, value}, node, compiler) {

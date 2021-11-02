@@ -331,7 +331,7 @@ function getGenericType(parent, generics) {
     }
     let type = buildType(parent.name, parent, generics);
     if(!parent.isSubtype(type)) {
-        throw new Error(`Generics not assignable to ${parent} from ${type}`);
+        throw new Error(`Generics not assignable to ${parent.toTypeString()} from ${type.toTypeString()}`);
     }
     return type;
 }

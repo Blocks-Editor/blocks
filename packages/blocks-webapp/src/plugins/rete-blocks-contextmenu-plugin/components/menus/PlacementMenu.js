@@ -92,6 +92,8 @@ export default function PlacementMenu() {
         }
     }, [editor, mouse, context]);
 
+    // TODO: create literal blocks when typing numbers, strings, etc.
+
     return (
         <MenuSearch
             value={searchText}

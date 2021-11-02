@@ -60,10 +60,11 @@ const block = memberBlock({
         if(!returnType) {
             return;
         }
+        returnType = returnType.generics[0]; // Unwrap `Effect<>`
         if(asyncKind) {
             returnType = asyncType.of(returnType);
         }
-        let returnString = compiler.getTypeString(returnType.generics[0]);
+        let returnString = compiler.getTypeString(returnType);
         if(!returnString) {
             return;///
         }

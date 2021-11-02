@@ -182,7 +182,7 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
 
     return (
         <EditorContainer
-            className={classNames('node-editor', className)}
+            className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
             {...others}>
             <EditorMenu getEditor={() => editor}/>
             <div ref={bindEditor}/>
