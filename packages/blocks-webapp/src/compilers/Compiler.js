@@ -132,8 +132,9 @@ export default class Compiler {
                         }
                         let value = this.getInput(node, prop.key);
                         if(value === undefined && !prop.optional) {
-                            this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
-                            return undefined; // Appease linter
+                            throw new Error(`Missing input on ${block.name}: ${prop.key}`)
+                            // this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
+                            // return undefined; // Appease linter
                         }
                         // cache[prop.key] = value;
                         cached = true;
@@ -148,7 +149,7 @@ export default class Compiler {
             args = new Proxy({}, {
                 get: (_, key) => {
                     if(!target.hasOwnProperty(key)) {
-                        throw new Error(`Unknown input on ${block.name}: ${key}`);
+                        throw new Error(`Unknown input: ${block.name}.${key}`);
                     }
                     return target[key];
                 },

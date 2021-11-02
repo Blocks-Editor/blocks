@@ -12,8 +12,7 @@ const block = memberBlock({
         let name = computeMemberName(node, editor);
         // return name;/////
         let {params, asyncKind} = editor.compilers.motoko.getInputArgs(node);
-        let {body} = editor.compilers.type.getInputArgs(node);
-        let returnType = body?.generics[0];
+        let returnType = editor.compilers.type.getInput(node, 'body')?.generics[0];
         if(asyncKind) {
             returnType = asyncType.of(returnType);
         }

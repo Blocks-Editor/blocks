@@ -14,7 +14,8 @@ const block = {
             let stateNode = compiler.editor.compilers.node.getInput(node, 'stateNode');
             return compiler.getOutput(stateNode, 'initialValue');
         },
-        toMotoko({stateNode, value}, node, compiler) {
+        toMotoko(args, node, compiler) {
+            let stateNode = compiler.editor.compilers.node.getInput(node, 'stateNode');
             return compiler.getOutput(stateNode, 'name');
         },
     }],
