@@ -7,14 +7,14 @@ import styled, {keyframes} from 'styled-components';
 import classNames from 'classnames';
 import EventsContext, {
     EDITOR_CHANGE_EVENT,
-    EDITOR_SAVE_EVENT, PROJECT_CLEAR_EVENT,
+    EDITOR_SAVE_EVENT,
+    PROJECT_CLEAR_EVENT,
     PROJECT_EXPORT_EVENT,
     PROJECT_LOAD_EVENT,
 } from '../../contexts/EventsContext';
 import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 
 const ProjectNameInput = styled.input`
   background: none !important;
@@ -74,11 +74,11 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
     return (
         <>
             <TopMenu>
-                <Link to="/">
-                    <MenuItem variant="primary">
-                        BLOCKS.
-                    </MenuItem>
-                </Link>
+                {/*<Link to="/">*/}
+                <MenuItem variant="primary">
+                    BLOCKS.
+                </MenuItem>
+                {/*</Link>*/}
                 <div className="d-inline-block mx-auto">
                     <MenuButton onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)} data-tip="New Project">
                         <FaFile/>
