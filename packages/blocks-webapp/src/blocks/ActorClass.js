@@ -5,6 +5,7 @@ import {actorCategory} from '../block-categories/categories';
 let thisName = 'this';
 
 const block = {
+    info: 'An object-oriented class of actors.',
     category: actorCategory,
     topLeft: 'actor',
     topRight: 'members',

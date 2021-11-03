@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useState} from 'react';
-import MenuNode from '../MenuNode';
+import MenuComponent from '../MenuComponent';
 import {MenuContext} from '../../contexts/MenuContext';
 import MenuSearch from '../MenuSearch';
 import useEditorComponents from '../../hooks/useEditorComponents';
@@ -97,7 +97,7 @@ export default function PlacementMenu() {
 
     // TODO: create literal blocks when typing numbers, strings, etc.
     let menuItems = components.map((component, i) => (
-        <MenuNode
+        <MenuComponent
             key={component.name}
             component={component}
             selected={index === i}

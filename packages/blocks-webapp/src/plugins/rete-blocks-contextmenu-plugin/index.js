@@ -81,11 +81,7 @@ function install(editor, config = {}) {
     let connectionMouseMoved = false;
     let removingConnection = false;
 
-    editor.view.container.addEventListener('mousemove', e => mouseEvent = e);
-    // editor.view.container.addEventListener('drag', e => {
-    //     console.log(123)
-    //     mouseEvent = e
-    // });
+    editor.view.container.addEventListener('pointermove', e => mouseEvent = e);
 
     editor.on('mousemove', m => {
         mouse = m;
