@@ -12,11 +12,17 @@ const block = {
         type: valueType,
         inferType(args, node, compiler) {
             let stateNode = compiler.editor.compilers.node.getInput(node, 'stateNode');
-            return compiler.getOutput(stateNode, 'initialValue');
+            if(!stateNode) {
+                return;
+            }
+            return compiler.getInput(stateNode, 'initialValue');
         },
         toMotoko(args, node, compiler) {
             let stateNode = compiler.editor.compilers.node.getInput(node, 'stateNode');
-            return compiler.getOutput(stateNode, 'name');
+            if(!stateNode) {
+                return;
+            }
+            return compiler.getInput(stateNode, 'name');
         },
     }],
     controls: [{

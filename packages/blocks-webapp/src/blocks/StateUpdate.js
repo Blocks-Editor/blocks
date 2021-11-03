@@ -28,7 +28,7 @@ const block = statementBlock({
         type: nodeType.withMeta({block: 'State'}),
     }],
 }, ({stateNode, value}, node, compiler) => {
-    let name = compiler.getOutput(stateNode, 'name');
+    let name = compiler.getInput(stateNode, 'name');
     if(!name) {
         return;
     }
