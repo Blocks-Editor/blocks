@@ -96,21 +96,21 @@ export default function PlacementMenu() {
     }, [editor, mouse, context]);
 
     // TODO: create literal blocks when typing numbers, strings, etc.
-
-    return (
+    let menuItems = components.map((component, i) => (
+        <MenuNode
+            key={component.name}
+            component={component}
+            selected={index === i}
+            onAction={() => handleCreateNode(component)}
+        />
+    ));
+    return context ? (
         <MenuSearch
             value={searchText}
             onChange={setSearchText}
             onKeyDown={handleSearchKeyDown}
             onAction={handleSearchAction}>
-            {components.map((component, i) => (
-                <MenuNode
-                    key={component.name}
-                    component={component}
-                    selected={index === i}
-                    onAction={() => handleCreateNode(component)}
-                />
-            ))}
+            {menuItems}
         </MenuSearch>
-    );
+    ) : menuItems;
 }

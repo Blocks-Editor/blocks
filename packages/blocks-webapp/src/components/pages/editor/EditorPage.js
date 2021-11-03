@@ -12,7 +12,7 @@ import useRedraw from '../../../hooks/useRedraw';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
-const DEFAULT_STATE = require('../../../examples/files/MotokoActor.json');
+const DEFAULT_STATE = require('../../../examples/files/DefaultProject.json');
 
 export default function EditorPage() {
 

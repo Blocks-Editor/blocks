@@ -1,0 +1,62 @@
+{
+  "name": "",
+  "description": "The default project.",
+  "version": "blocks-webapp@0.1.0",
+  "nodes": {
+    "283": {
+      "id": 283,
+      "data": {},
+      "inputs": {
+        "input": {
+          "connections": []
+        }
+      },
+      "outputs": {
+        "reversed": {
+          "connections": [
+            {
+              "node": 325,
+              "input": "actor",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        480,
+        288
+      ],
+      "name": "CompileMotoko"
+    },
+    "325": {
+      "id": 325,
+      "data": {
+        "name": "Main"
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "actor": {
+          "connections": [
+            {
+              "node": 283,
+              "output": "reversed",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "members": {
+          "connections": []
+        }
+      },
+      "position": [
+        704,
+        288
+      ],
+      "name": "Actor"
+    }
+  }
+}

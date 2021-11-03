@@ -15,13 +15,23 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         };
     }
 
+    // noinspection JSCheckFunctionSignatures
     toJSON() {
-        let json = super.toJSON();
-        json.name = this.projectName;
+        let json = {
+            name: this.projectName,
+            description: '',
+            version: this.id,
+            ...super.toJSON(),
+        };
+        delete json.id;
+        // noinspection JSValidateTypes
         return json;
     }
 
     async fromJSON(json) {
+        // noinspection JSUnresolvedVariable
+        json = {id: json.version, ...json};
+
         if(!this.beforeImport(json)) {
             return false;
         }
