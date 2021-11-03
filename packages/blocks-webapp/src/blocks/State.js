@@ -33,7 +33,6 @@ const block = memberBlock({
             return name;
         },
         inferType({initialValue}) {
-            console.log(initialValue)
             return initialValue;
         },
     }],

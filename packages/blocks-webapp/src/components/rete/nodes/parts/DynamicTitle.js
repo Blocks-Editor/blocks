@@ -27,6 +27,6 @@ export default function DynamicTitle({editor, node, block, fallback}) {
     useReactTooltip();
 
     return (
-        <span data-tip={result} data-delay-show={300}>{result}</span>
+        <span data-tip={result}>{result}</span>
     );
 }
