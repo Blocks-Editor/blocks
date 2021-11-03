@@ -5,7 +5,12 @@ import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
 import AutoArrangePlugin from 'rete-auto-arrange-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
-import EventsContext, {EDITOR_CHANGE_EVENT, EDITOR_SAVE_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
+import EventsContext, {
+    EDITOR_CHANGE_EVENT,
+    EDITOR_SAVE_EVENT,
+    ERROR_EVENT,
+    PROJECT_LOAD_EVENT,
+} from '../../contexts/EventsContext';
 import NodeHandle from './nodes/NodeHandle';
 import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
@@ -17,6 +22,7 @@ import ConnectionOpacityPlugin from '../../plugins/rete-connection-opacity-plugi
 import classNames from 'classnames';
 import styled from 'styled-components';
 import EditorMenu from './EditorMenu';
+import FileDropZone from '../common/FileDropZone';
 
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
@@ -111,7 +117,7 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
         }
     });
 
-    let bindEditor = (element) => {
+    const bindEditor = (element) => {
         if(editor) {
             editor.clear();
             editor.components.clear();
@@ -180,12 +186,24 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
         })().catch(err => events.emit(ERROR_EVENT, err));
     };
 
+    const loadFileContent = content => {
+        try {
+            let project = JSON.parse(content);
+            events.emit(PROJECT_LOAD_EVENT, project);
+        }
+        catch(err) {
+            events.emit(ERROR_EVENT, err);
+        }
+    };
+
     return (
-        <EditorContainer
-            className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
-            {...others}>
-            <EditorMenu getEditor={() => editor}/>
-            <div ref={bindEditor}/>
-        </EditorContainer>
+        <FileDropZone options={{noClick: true}} onFileContent={loadFileContent}>
+            <EditorContainer
+                className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
+                {...others}>
+                <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>
+                <div ref={bindEditor}/>
+            </EditorContainer>
+        </FileDropZone>
     );
 }

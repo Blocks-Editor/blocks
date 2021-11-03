@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import EventsContext, {ERROR_EVENT, PROJECT_LOAD_EVENT} from '../../contexts/EventsContext';
+import EventsContext, {PROJECT_LOAD_EVENT} from '../../contexts/EventsContext';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import {getExampleProjects} from '../../examples/examples';
@@ -15,25 +15,28 @@ const LoadProjectItemContainer = styled.div`
   }
 `;
 
-export default function LoadProjectMenu({className, ...others}) {
+const FileDropZoneStyled = styled(FileDropZone)`
+  padding: 2em;
+  border: 2px #0005 dashed;
+
+  &.dragging, &:hover {
+    background: #0002;
+  }
+`;
+
+export default function LoadProjectMenu({onLoadFileContent, className, ...others}) {
 
     const events = useContext(EventsContext);
 
     const examples = getExampleProjects();
 
-    const loadFileContent = content => {
-        try {
-            let project = JSON.parse(content);
-            events.emit(PROJECT_LOAD_EVENT, project);
-        }
-        catch(err) {
-            events.emit(ERROR_EVENT, err);
-        }
-    };
-
     return (
         <MenuContainer className={classNames('bg-light', className)} {...others}>
-            <FileDropZone onFileContent={loadFileContent}/>
+            <FileDropZone onFileContent={onLoadFileContent}>
+                <FileDropZoneStyled className={classNames('clickable text-center text-muted rounded-3')}>
+                    <h5>Import a .blocks file...</h5>
+                </FileDropZoneStyled>
+            </FileDropZone>
             {examples.map((example, i) => (
                 <LoadProjectItemContainer
                     key={i}

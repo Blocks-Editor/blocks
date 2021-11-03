@@ -61,6 +61,10 @@ $grid-area: $grid-size * 10000;
 .node-editor {
   background: #555;
 
+  .dragging > & {
+    background: #777 !important;
+  }
+
   .grid {
     display: table;
     z-index: -5;

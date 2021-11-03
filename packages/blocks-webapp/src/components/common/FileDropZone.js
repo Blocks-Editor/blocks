@@ -1,20 +1,8 @@
 import React, {useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
-import styled from 'styled-components';
 import classNames from 'classnames';
 
-// TODO: fix .dragging
-
-const DropContainer = styled.div`
-  padding: 2em;
-  border: 2px #0005 dashed;
-
-  .dragging, :hover {
-    background: #0002;
-  }
-`;
-
-export default function FileDropZone({onFile, onFileContent}) {
+export default function FileDropZone({options, onFile, onFileContent, className, children, ...others}) {
 
     const onDrop = useCallback(files => {
         if(files.length) {
@@ -33,14 +21,13 @@ export default function FileDropZone({onFile, onFileContent}) {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         maxFiles: 1,
         onDrop,
+        ...options,
     });
 
     return (
-        <div {...getRootProps()}>
+        <div className={classNames(className, isDragActive && 'dragging')} {...{...others, ...getRootProps()}}>
             <input {...getInputProps()}/>
-            <DropContainer className={classNames('clickable text-center text-muted rounded-3', isDragActive && 'dragging')}>
-                <h5>Import a .blocks file...</h5>
-            </DropContainer>
+            {children}
         </div>
     );
 }

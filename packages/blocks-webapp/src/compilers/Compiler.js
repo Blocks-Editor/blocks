@@ -2,6 +2,12 @@ import {getBlock} from '../editor/blocks';
 import Rete from 'rete';
 import {getType} from '../block-types/types';
 
+class MissingInputError extends Error {
+    constructor(block, key) {
+        super(`${block.name}.${key}`);
+    }
+}
+
 export default class Compiler {
     constructor(editor, compileKey) {
         this.editor = editor;
@@ -94,6 +100,9 @@ export default class Compiler {
             return this.postCompile(result, node, key);
         }
         catch(err) {
+            if(err instanceof MissingInputError) {
+                return;
+            }
             console.error(`[${node.name}.${key}]`, err);
             this.editor.trigger('warn', `[${node.name}.${key}] ${err}`);
         }
@@ -132,7 +141,7 @@ export default class Compiler {
                         }
                         let value = this.getInput(node, prop.key);
                         if(value === undefined && !prop.optional) {
-                            throw new Error(`Missing input on ${block.name}: ${prop.key}`)
+                            throw new MissingInputError(block, prop.key);
                             // this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
                             // return undefined; // Appease linter
                         }

@@ -42,7 +42,7 @@ const SaveIcon = styled(FaSave)`
   }
 `;
 
-export default function EditorMenu({getEditor}) {
+export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [name, setName] = useState('');
     const [saveAnimated, setSaveAnimated] = useState(false); // TODO: possibly generalize to MenuButton
     const [loadMenuOpen, setLoadMenuOpen] = useState(false);
@@ -116,7 +116,7 @@ export default function EditorMenu({getEditor}) {
                 show={loadMenuOpen}
                 onHide={() => setLoadMenuOpen(false)}>
                 <Modal.Body>
-                    <LoadProjectMenu/>
+                    <LoadProjectMenu onLoadFileContent={onLoadFileContent}/>
                 </Modal.Body>
             </Modal>
         </>
