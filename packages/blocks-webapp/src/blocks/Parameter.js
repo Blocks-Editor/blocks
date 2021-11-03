@@ -2,6 +2,7 @@ import {identifierType, paramType, typeType, valueType} from '../block-types/typ
 import {paramCategory} from '../block-categories/categories';
 
 const block = {
+    info: 'An input parameter to a class or function',
     topLeft: 'param',
     topRight: 'value',
     category: paramCategory,

@@ -4,6 +4,7 @@ import {decompositionCategory} from '../block-categories/categories';
 
 const block = statementBlock({
     title: 'Unwrap Optional',
+    info: 'Run different logic depending on whether an Optional value is null',
     category: decompositionCategory,
     inputs: [{
         key: 'input',

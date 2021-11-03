@@ -4,6 +4,7 @@ import {paramCategory} from '../block-categories/categories';
 
 const block = statementBlock({
     title: 'Local Variable',
+    info: 'Store and retrieve data from within a function',
     category: paramCategory,
     inputs: [{
         key: 'name',

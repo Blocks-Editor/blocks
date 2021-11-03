@@ -28,6 +28,9 @@ function install(editor, config = {}) {
 
     editor.on('contextmenu', ({e, node, context}) => {
         e.preventDefault?.();
+        // if(e.button === 2) {
+        //     return;///
+        // }
         e.stopPropagation?.();
 
         if(!editor.trigger('showcontextmenu', {e, node, context})) {
@@ -82,6 +85,11 @@ function install(editor, config = {}) {
     let removingConnection = false;
 
     editor.view.container.addEventListener('pointermove', e => mouseEvent = e);
+
+    // // Open context menu on left click
+    // editor.on('click', e => {
+    //     editor.trigger('contextmenu', {e});
+    // });
 
     editor.on('mousemove', m => {
         mouse = m;

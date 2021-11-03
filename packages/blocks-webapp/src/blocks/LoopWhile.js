@@ -3,6 +3,7 @@ import {boolType, effectType} from '../block-types/types';
 
 const block = statementBlock({
     title: 'while() {}',
+    info: 'Repeat while the condition is true',
     inputs: [{
         key: 'condition',
         type: boolType,

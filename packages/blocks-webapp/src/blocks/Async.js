@@ -3,6 +3,7 @@ import {operatorCategory} from '../block-categories/categories';
 
 const block = {
     title: '(async a)',
+    info: 'Retrieve a value asynchronously',
     category: operatorCategory,
     topRight: 'result',
     inputs: [{

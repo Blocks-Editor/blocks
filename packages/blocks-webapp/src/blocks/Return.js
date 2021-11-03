@@ -4,6 +4,7 @@ import {functionCategory} from '../block-categories/categories';
 import {FaCaretLeft} from 'react-icons/fa';
 
 const block = endStatementBlock({
+    info: 'End a function\'s execution path',
     category: functionCategory,
     icon: FaCaretLeft,
     inputs: [{

@@ -4,6 +4,7 @@ import {typeCategory} from '../block-categories/categories';
 
 const block = memberBlock({
     title: 'Named Type',
+    info: 'An actor-level type definition',
     category: typeCategory,
     topRight: 'type',
     shortcuts: [{

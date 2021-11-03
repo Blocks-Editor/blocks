@@ -12,9 +12,10 @@ function parseInputs(inputs, expression) {
     });
 }
 
-export function codeBlock(type, block) {
-
+export function codeBlock(name, type, block = {}) {
     return {
+        title: `{${name}}`,
+        info: `Compile an arbitrary ${name} expression`,
         category: expressionCategory,
         icon: expressionCategory.data.icon,
         topLeft: 'inputs',

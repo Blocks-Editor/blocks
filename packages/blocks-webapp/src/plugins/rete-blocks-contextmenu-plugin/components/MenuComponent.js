@@ -11,7 +11,11 @@ export default function MenuComponent({component, ...others}) {
 
     useReactTooltip();
     if(block?.info) {
-        others = {'data-tip': block.info, 'data-place': 'right', ...others};
+        others = {
+            'data-tip': block.info.endsWith('.') ? block.info : `${block.info}.`,
+            'data-place': 'right',
+            ...others,
+        };
     }
 
     return (

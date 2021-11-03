@@ -47,7 +47,7 @@
     "start": "craco start",
     "test": "craco test",
     "build": "craco build",
-    "deploy": "set PUBLIC_URL=https://www.ryanvandersmith.com/blocks&& npm run build && gh-pages -d build --repo https://github.com/rvanasa/blocks"
+    "deploy": "set PUBLIC_URL=https://www.ryanvandersmith.com/blocks&& npm run build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

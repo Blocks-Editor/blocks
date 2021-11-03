@@ -3,6 +3,7 @@ import {computeMemberName, memberBlock} from '../block-patterns/member-patterns'
 import {stateCategory} from '../block-categories/categories';
 
 const block = memberBlock({
+    info: 'A persistent smart contract variable',
     topRight: 'value',
     category: stateCategory,
     computeTitle(node, editor) {

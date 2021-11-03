@@ -4,6 +4,7 @@ import {FaPlayCircle} from 'react-icons/fa';
 import {functionCategory} from '../block-categories/categories';
 
 const block = statementBlock({
+    info: 'Invoke a function in this project',
     title: 'Call Function',
     category: functionCategory,
     icon: FaPlayCircle,

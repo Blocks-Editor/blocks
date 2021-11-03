@@ -19,6 +19,7 @@ import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
 import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
 import ConnectionDropPlugin from '../../plugins/rete-connection-drop-plugin';
 import ConnectionOpacityPlugin from '../../plugins/rete-connection-opacity-plugin';
+import DragButtonPlugin from '../../plugins/rete-drag-button-plugin';
 import classNames from 'classnames';
 import styled from 'styled-components';
 import EditorMenu from './EditorMenu';
@@ -61,6 +62,7 @@ function createEditor(element) {
     editor.use(ConnectionDropPlugin);
     editor.use(ConnectionOpacityPlugin);
     editor.use(VerticalSortPlugin);
+    editor.use(DragButtonPlugin, {editorButton: 2});
 
     let mouseMoved = false;
     editor.view.container.addEventListener('mousedown', (e) => {

@@ -6,6 +6,7 @@ import {stringSelectProp} from '../block-patterns/control-patterns';
 const defaultReturnType = effectType.of(unitType);
 
 const block = memberBlock({
+    info: 'Evaluate based on given input parameters',
     category: functionCategory,
     topRight: 'body',
     computeTitle(node, editor) {

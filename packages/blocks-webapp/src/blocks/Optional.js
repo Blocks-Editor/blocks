@@ -3,6 +3,7 @@ import {operatorCategory} from '../block-categories/categories';
 
 const block = {
     title: '(?a)',
+    info: 'Create an optional version of the input value',
     category: operatorCategory,
     topRight: 'result',
     inputs: [{

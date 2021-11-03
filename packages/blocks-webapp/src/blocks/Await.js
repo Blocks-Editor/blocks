@@ -3,6 +3,7 @@ import {operatorCategory} from '../block-categories/categories';
 
 const block = {
     title: '(await a)',
+    info: 'Wait for an asynchronous value',
     category: operatorCategory,
     topRight: 'result',
     inputs: [{

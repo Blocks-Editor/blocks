@@ -2,7 +2,7 @@ import {actorType, identifierType, memberType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
 
 const block = {
-    info: 'An actor which can be deployed as a smart contract.',
+    info: 'An actor which can be deployed as a smart contract',
     category: actorCategory,
     topLeft: 'actor',
     topRight: 'members',
