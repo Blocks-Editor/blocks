@@ -1,6 +1,6 @@
 {
   "name": "Counter",
-  "description": "Get, set, and increment a smart contract variable.",
+  "description": "Get, set, and increment a state variable.",
   "version": "blocks-webapp@0.1.0",
   "nodes": {
     "353": {
