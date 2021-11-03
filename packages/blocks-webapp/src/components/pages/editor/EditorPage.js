@@ -12,6 +12,8 @@ import useRedraw from '../../../hooks/useRedraw';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
+const DEFAULT_STATE = require('../../../examples/files/MotokoActor.json');
+
 export default function EditorPage() {
 
     const events = useContext(EventsContext);
@@ -36,11 +38,16 @@ export default function EditorPage() {
 
     const onEditorSetup = async (loadState, editor) => {
         let stateString = localStorage[STORAGE_EDITOR_STATE];
+        let state;
         if(stateString) {
-            let state = JSON.parse(stateString);
-            if(!await loadState(state)) {
-                console.warn('Load error');
-            }
+            state = JSON.parse(stateString);
+        }
+        else {
+            state = DEFAULT_STATE;
+        }
+
+        if(!await loadState(state)) {
+            console.warn('Load error');
         }
     };
 

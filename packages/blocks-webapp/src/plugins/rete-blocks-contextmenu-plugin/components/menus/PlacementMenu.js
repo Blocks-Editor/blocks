@@ -43,6 +43,9 @@ export default function PlacementMenu() {
     if(context) {
         components = findRelevantComponents(context.input, context.output, components);
     }
+    else {
+        components = components.filter(c => c.block.global);
+    }
     index = Math.min(components.length - 1, index);
 
     if(searchText) {
