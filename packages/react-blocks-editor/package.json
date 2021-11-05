@@ -1,6 +1,6 @@
 {
   "name": "react-blocks-editor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Embed the Blocks editor anywhere using a React component.",
   "author": "Ryan Vandersmith",
   "license": "MIT",

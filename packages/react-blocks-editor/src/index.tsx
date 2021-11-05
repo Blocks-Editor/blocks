@@ -38,6 +38,7 @@ export interface EditorPropTypes {
   onSave?: (state: State) => void
   options?: QueryOptions
   children?: (args: LoadArgs) => void
+
   [x: string]: any
 }
 
@@ -89,7 +90,7 @@ export const BlocksEditor = ({
     <iframe
       ref={setIframeRef}
       onLoad={handleLoad}
-      src={options ? url + stringify(options) : url}
+      src={options ? `${url}?${stringify(options)}` : url}
       {...(rest as object)}
     />
   )
