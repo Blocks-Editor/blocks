@@ -1,27 +1,29 @@
-import {mapType, typeType, valueType} from '../block-types/types';
-import {importRef} from '../compilers/MotokoCompiler';
+import {mapType, valueType} from '../block-types/types';
+import {collectionCategory} from '../block-categories/categories';
+import {stateReadIcon} from './State';
 
 const block = {
-    title: 'Hash Map',
-    // category: mapCategory,
+    title: 'Get (Map)',
+    category: collectionCategory,
+    icon: stateReadIcon,
     topRight: 'value',
     inputs: [{
-        key: 'keyType',
-        title: 'Keys',
-        type: typeType.of(valueType),
+        key: 'map',
+        type: mapType,
     }, {
-        key: 'valueType',
-        title: 'Values',
-        type: typeType.of(valueType),
+        key: 'key',
+        type: valueType,
     }],
     outputs: [{
         key: 'value',
-        type: mapType,
-        inferType({keyType, valueType}) {
-            return mapType.of(keyType, valueType);
+        type: valueType,
+        inferType({map}) {
+            if(mapType.isSubtype(map)) {
+                return map.generics[1];
+            }
         },
-        toMotoko({keyType, valueType}) {
-            return `${importRef('HashMap')}.HashMap<${keyType}, ${valueType}>(0, ${keyType}.equal, ${valueType}.hash)`;
+        toMotoko({map, key}) {
+            return `${map}.get(${key})`;
         },
     }],
 };

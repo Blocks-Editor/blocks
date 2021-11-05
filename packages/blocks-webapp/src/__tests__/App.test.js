@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom';
 import App from '../components/App';
 
 it('renders without errors/warnings', () => {
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     ReactDOM.render(<App/>, div);
 });

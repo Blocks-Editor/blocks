@@ -42,7 +42,9 @@ export function codeBlock(name, type, block = {}) {
         }, ...block.outputs || []],
         controls: [{
             key: 'expression',
-            controlType: CodeControlHandle,
+            config: {
+                controlType: CodeControlHandle,
+            },
         }, ...block.controls || []],
     };
 }

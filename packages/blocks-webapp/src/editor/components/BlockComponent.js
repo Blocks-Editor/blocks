@@ -2,6 +2,7 @@ import Rete from 'rete';
 import PropControl from '../controls/PropControl';
 import BaseComponent from './BaseComponent';
 import TypeSocket from '../sockets/TypeSocket';
+import PropOutputSocket from '../sockets/PropOutputSocket';
 import {sentenceCase} from 'change-case';
 import getPropLabel from '../../utils/getPropLabel';
 
@@ -20,13 +21,13 @@ export default class BlockComponent extends BaseComponent {
 
     async builder(node) {
 
-        const addProp = (prop, isOutput) => {
-            let socket = new TypeSocket(prop.type);
-            if(!!prop.type.data.reversed === isOutput) {
-                return addPropInput(prop, socket, isOutput);
+        const addProp = (prop, isPropOutput) => {
+            let socket = isPropOutput ? new PropOutputSocket(node.id, node.name, prop, this.editor.compilers.type) : new TypeSocket(prop.type);
+            if(!!prop.type.data.reversed === isPropOutput) {
+                return addPropInput(prop, socket, isPropOutput);
             }
             else {
-                return addPropOutput(prop, socket, isOutput);
+                return addPropOutput(prop, socket, isPropOutput);
             }
         };
 
@@ -51,7 +52,7 @@ export default class BlockComponent extends BaseComponent {
         };
 
         const shouldPropHaveControl = (prop, socket, isOutput) => {
-            return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType);
+            return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType && !prop.multi);
         };
 
         delete node.meta.title;

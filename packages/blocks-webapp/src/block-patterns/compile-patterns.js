@@ -1,12 +1,14 @@
 import {anyReversedType, anyType} from '../block-types/types';
 import OutputControlHandle from '../components/rete/controls/OutputControlHandle';
 import {compilerCategory} from '../block-categories/categories';
+import {resolveImportRefs} from '../compilers/MotokoCompiler';
 
 export function compileBlock(title, compilerKey, displayFn) {
     function queryFor(inputKey) {
         return function(control, node, editor) {
             let value = editor.compilers[compilerKey].getInput(node, inputKey);
-            return displayFn ? displayFn(value) : value;
+            let string = displayFn ? displayFn(value) : value;
+            return resolveImportRefs(string);
         };
     }
 

@@ -39,7 +39,7 @@ export default function PlacementMenu() {
 
     let {editor, mouse, context} = useContext(MenuContext);
 
-    let components = useEditorComponents(editor, c => [c.block?.category.root.name, c.data.title || c.name]);
+    let components = useEditorComponents(editor, c => [c.block?.category.root.name || '', c.data.title || c.name]);
     if(context) {
         components = findRelevantComponents(context.input, context.output, components);
     }

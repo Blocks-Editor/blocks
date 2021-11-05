@@ -1,23 +1,19 @@
-import {mapType, valueType} from '../block-types/types';
-import {statementBlock} from '../block-patterns/statement-patterns';
+import {mapType, natType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
-import {stateWriteIcon} from './State';
 
-const block = statementBlock({
-    title: 'Put (Map)',
+const block = {
+    title: 'Size',
     category: collectionCategory,
-    icon: stateWriteIcon,
     inputs: [{
-        key: 'map',
+        key: 'collection',
         type: mapType,
-    }, {
-        key: 'key',
-        type: valueType,
-    }, {
-        key: 'value',
-        type: valueType,
     }],
-}, ({map, key, value}) => {
-    return `${map}.put(${key}, ${value});`;
-});
+    outputs: [{
+        key: 'value',
+        type: natType,
+        toMotoko({map}) {
+            return `${map}.size()`;
+        },
+    }],
+};
 export default block;

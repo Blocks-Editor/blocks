@@ -6,6 +6,11 @@ import useReactTooltip from '../../../../hooks/useReactTooltip';
 export default function DynamicTitle({editor, node, block, fallback}) {
 
     const computeTitle = () => {
+        /// untested
+        if(editor.silent) {
+            return;
+        }
+
         try {
             return block.computeTitle(node, editor);
         }

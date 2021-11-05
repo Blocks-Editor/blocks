@@ -9,7 +9,7 @@ import {
     FaNetworkWired,
     FaPlusCircle,
     FaStream,
-    FaTextHeight,
+    FaTextHeight, FaTh,
 } from 'react-icons/fa';
 
 class Category {
@@ -61,6 +61,11 @@ export const typeCategory = createCategory({
     name: 'Type',
     color: '#2af',
     icon: FaTextHeight,
+});
+export const collectionCategory = createCategory({
+    name: 'Collection',
+    color: '#1c8',
+    icon: FaTh,
 });
 export const compilerCategory = createCategory({
     name: 'Compiler',

@@ -10,6 +10,7 @@ const block = {
         type: typeType.of(valueType),
         control: true,
         inferType({value}) {
+            // return typeType.of(value);
             return value;
         },
     }],

@@ -1,28 +1,31 @@
 import {typeCategory} from '../block-categories/categories';
-import {tupleType, typeType, valueType} from '../block-types/types';
+import {tupleType, valueType} from '../block-types/types';
 
 const block = {
-    title: 'Pair of Types',
+    title: 'Pair',
     category: typeCategory,
     topRight: 'value',
     computeTitle(node, editor) {
         let type = editor.compilers.type.getOutput(node, 'value');//?.generics[0];
-        return type && editor.compilers.motoko.getTypeString(type);
+        return type && `Pair ${editor.compilers.motoko.getTypeString(type)}`;
     },
     inputs: [{
         key: 'left',
         title: 'a',
-        type: typeType.of(valueType),
+        type: valueType,
     }, {
         key: 'right',
         title: 'b',
-        type: typeType.of(valueType),
+        type: valueType,
     }],
     outputs: [{
         key: 'value',
-        type: typeType.of(tupleType.of(valueType, valueType)),
+        type: tupleType.of(valueType, valueType),
         inferType({left, right}) {
-            return /*typeType.of(*/tupleType.of(left, right)/*)*/;
+            return tupleType.of(left, right);
+        },
+        toMotoko({left, right}) {
+            return `(${left}, ${right})`;
         },
     }],
 };

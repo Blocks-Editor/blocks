@@ -75,7 +75,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
         <>
             <TopMenu>
                 {/*<Link to="/">*/}
-                <MenuItem variant="primary">
+                <MenuItem variant="dark">
                     BLOCKS.
                 </MenuItem>
                 {/*</Link>*/}

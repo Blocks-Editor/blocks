@@ -13,33 +13,29 @@ const block = memberBlock({
     }],
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
-        let type = editor.compilers.type.getInput(node, 'type');
-        let typeString = editor.compilers.motoko.getTypeString(type);
-        return `${name || '(?)'} = ${typeString}`;
+        let type = editor.compilers.type.getInput(node, 'typeInput');//?.generics[0];
+        return type && `${name || '(?)'} = ${editor.compilers.motoko.getTypeString(type)}`;
     },
+    inputs: [{
+        key: 'typeInput',
+        title: 'Definition',
+        type: typeType.of(valueType),
+    }],
     outputs: [{
         key: 'type',
         type: typeType.of(valueType),
-        control: true,
-        inferType({type}) {
-            if(!type.isAbstract()) {
-                return typeType.of(type);
+        inferType({typeInput}) {
+            if(!typeInput.isAbstract()) {
+                // return typeType.of(typeInput);
+                return typeInput;///
             }
-            // if(!type) {
-            //     return;
-            // }
-            // let valueType = type.generics[0];
-            // console.log(valueType)
-            // // if(!valueType.isAbstract()) {
-            // return valueType;
-            // // }
         },
     }],
 }, {
-    toMotoko({visibility, name, type}) {
+    toMotoko({visibility, name, typeInput}) {
         let modifiers = [visibility !== 'system' && visibility].filter(m => m).join(' ');
 
-        return `${modifiers && modifiers + ' '}type ${name} = ${type};`;
+        return `${modifiers && modifiers + ' '}type ${name} = ${typeInput};`;
     },
 });
 export default block;

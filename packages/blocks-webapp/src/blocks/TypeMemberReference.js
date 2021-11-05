@@ -9,6 +9,7 @@ const block = {
     topRight: 'type',
     computeTitle(node, editor) {
         let typeNode = editor.compilers.node.getInput(node, 'typeNode');
+        console.log(typeNode)
         if(!typeNode) {
             return;
         }
@@ -18,6 +19,7 @@ const block = {
         key: 'type',
         type: typeType.of(valueType),
         inferType({typeNode}, node, editor) {
+            // console.log(typeNode)////
             return editor.compilers.types.getInput(typeNode, 'type');
         },
     }],

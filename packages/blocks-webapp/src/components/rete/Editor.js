@@ -75,7 +75,7 @@ function createEditor(element) {
         // Deselect nodes when clicking background
         if(!mouseMoved) {
             editor.selected.clear();
-            editor.nodes.map(node => node.update());
+            editor.nodes.forEach(node => node.update());
         }
     });
 
@@ -102,7 +102,7 @@ const EditorContainer = styled.div`
   height: 100vh;
 `;
 
-export default function Editor({onSetup, onChange, onSave, className, ...others}) {
+export default function Editor({hideMenu, onSetup, onChange, onSave, className, ...others}) {
 
     const events = useContext(EventsContext);
 
@@ -121,6 +121,7 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
 
     const bindEditor = (element) => {
         if(editor) {
+            editor.silent = true;
             editor.clear();
             editor.components.clear();
             editor.destroy();
@@ -155,9 +156,14 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
             editor.register(node);
         }
 
+        let timeout;
         editor.on(['nodecreated', 'noderemoved', 'nodedragged', 'connectioncreated', 'connectionremoved'], async () => {
             if(!editor.silent) {
-                events.emit(EDITOR_CHANGE_EVENT, editor);
+                // Debounce change events
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    events.emit(EDITOR_CHANGE_EVENT, editor);
+                });
             }
         });
         editor.on('error', err => events.emit(ERROR_EVENT, err));
@@ -166,25 +172,18 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
             if(!state) {
                 return false;
             }
-            // for(let [key, node] of Object.entries(state.nodes)) {
-            //     if(!BLOCK_MAP.has(node.name)) {
-            //         delete state.nodes[key];
-            //         console.warn('Unknown block:', node.name);
-            //     }
-            // }
             let result = await editor.fromJSON(state);
             if(result) {
                 editor.view.resize();
                 AreaPlugin.zoomAt(editor);
                 events.emit(EDITOR_CHANGE_EVENT, editor);
+                editor.nodes.forEach(node => node.update()); // Redraw nodes
             }
             return result;
         }
 
         (async () => {
-            if(onSetup) {
-                await onSetup(loadState, editor);
-            }
+            await onSetup?.(loadState, editor);
         })().catch(err => events.emit(ERROR_EVENT, err));
     };
 
@@ -203,7 +202,9 @@ export default function Editor({onSetup, onChange, onSave, className, ...others}
             <EditorContainer
                 className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
                 {...others}>
-                <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>
+                {!hideMenu && (
+                    <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>
+                )}
                 <div ref={bindEditor}/>
             </EditorContainer>
         </FileDropZone>

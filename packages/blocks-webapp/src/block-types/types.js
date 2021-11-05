@@ -46,9 +46,14 @@ class Type {
         return this.name === other.name && this.generics.length === other.generics.length && this.generics.every((t, i) => t.equals(other.generics[i]));
     }
 
+    // TODO: rename to something like `isSubtypeOrEquivalent`
     isSubtype(other) {
         if(!other) {
             return false;
+        }
+        if(this.data.arbitraryGenerics && other.parent && this.name === other.parent.name) {
+            // e.g. `Tuple : Tuple<A, B, C>`
+            return true;
         }
         if(this.name === other.name) {
             return this.generics.length === other.generics.length && this.generics.every((t, i) => t.isSubtype(other.generics[i]));
@@ -241,6 +246,27 @@ export const optionalType = createType('Optional', {
     category: 'optionals',
     toMotoko([value]) {
         return `?${value}`;
+    },
+});
+export const collectionType = createType('Collection', {
+    abstract: true,
+    parent: valueType,
+    category: 'collections',
+});
+export const arrayType = createType('Array', {
+    parent: collectionType,
+    generics: [valueType],
+    genericNames: ['item'],
+    toMotoko([item]) {
+        return `Array.Array<${item}>`;
+    },
+});
+export const mapType = createType('Map', {
+    parent: collectionType,
+    generics: [valueType, valueType],
+    genericNames: ['key', 'value'],
+    toMotoko([key, value]) {
+        return `HashMap.HashMap<${key}, ${value}>`;
     },
 });
 export const asyncType = createType('Async', {

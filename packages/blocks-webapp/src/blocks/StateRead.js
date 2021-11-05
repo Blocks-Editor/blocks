@@ -1,11 +1,11 @@
 import {nodeType, valueType} from '../block-types/types';
 import {stateCategory} from '../block-categories/categories';
-import {FaAngleRight} from 'react-icons/fa';
+import {stateReadIcon} from './State';
 
 const block = {
     title: 'Read State',
     category: stateCategory,
-    icon: FaAngleRight,
+    icon: stateReadIcon,
     topRight: 'value',
     outputs: [{
         key: 'value',

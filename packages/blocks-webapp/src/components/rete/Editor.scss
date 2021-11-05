@@ -2,11 +2,12 @@
 $any-color: #f5a;
 $unit-color: #333;
 $value-color: #8fa;
-$tuple-color: #38c;
+$tuple-color: #2aa;
 $function-color: #fd3;
 $object-color: #af8;
 $optional-color: #384;
-$type-color: #2aa;
+$collection-color: #1c8;
+$type-color: #2af;
 $effect-color: #ccc;
 $member-color: #8af;
 $parameter-color: #a8f;
@@ -14,7 +15,7 @@ $actor-color: #fa8;
 $module-color: #888;
 
 $identifier-color: #eee;
-$bool-color: #a6f;
+$bool-color: #d8f;
 $float-color: #5df;
 $int-color: #6fd;
 $nat-color: #58f;
@@ -41,6 +42,7 @@ $any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, vi
 @include node-color("category-functions", $function-color);
 @include node-color("category-objects", $object-color);
 @include node-color("category-optionals", $optional-color);
+@include node-color("category-collections", $collection-color);
 @include node-color("category-types", $type-color);
 @include node-color("category-effects", $effect-color);
 @include node-color("category-members", $member-color);

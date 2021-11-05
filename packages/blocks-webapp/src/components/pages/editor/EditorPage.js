@@ -9,25 +9,39 @@ import EventsContext, {
 import FileSaver from 'file-saver';
 import {pascalCase} from 'change-case';
 import useRedraw from '../../../hooks/useRedraw';
+import isEmbedded from '../../../utils/isEmbedded';
+import {useParams} from 'react-router-dom';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
 const DEFAULT_STATE = require('../../../examples/files/DefaultProject.json');
 
+const embedded = isEmbedded();
+const storage = embedded ? {} : localStorage; // Use temporary storage for iframe
+
+if(embedded) {
+    console.log('Using embedded mode.');
+}
+
+let nextEditorState;
+
 export default function EditorPage() {
+    const redraw = useRedraw();
+
+    const {menu: menuParam} = useParams();
 
     const events = useContext(EventsContext);
 
-    const redraw = useRedraw();
-
     useListener(events, PROJECT_CLEAR_EVENT, () => {
         // TODO: confirmation modal
-        delete localStorage[STORAGE_EDITOR_STATE];
+        // delete storage[STORAGE_EDITOR_STATE];
+        nextEditorState = DEFAULT_STATE;
         redraw();
     });
 
     useListener(events, PROJECT_LOAD_EVENT, state => {
-        localStorage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
+        // storage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
+        nextEditorState = state;///
         redraw();
     });
 
@@ -37,7 +51,9 @@ export default function EditorPage() {
     });
 
     const onEditorSetup = async (loadState, editor) => {
-        let stateString = localStorage[STORAGE_EDITOR_STATE];
+        let stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
+        nextEditorState = null;
+
         let state;
         if(stateString) {
             state = JSON.parse(stateString);
@@ -55,11 +71,33 @@ export default function EditorPage() {
     };
 
     const onEditorSave = (state, editor) => {
-        localStorage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
+        let stateString = JSON.stringify(state);
+        storage[STORAGE_EDITOR_STATE] = stateString;
+        if(embedded) {
+            let message = {
+                type: 'save',
+                state: stateString,
+            };
+            console.log('Sending message:', message);
+            let targetOrigin = '*'; // TODO: restrict
+            window.parent.postMessage(message, targetOrigin);
+        }
     };
+
+    // Remote (iframe) message listener
+    useListener(window, 'message', ({source, data}) => {
+        if(typeof data === 'string') {
+            console.log('Received message:', data);
+            data = JSON.parse(data);
+            if(data?.type === 'load') {
+                nextEditorState = data.state ? JSON.parse(JSON.stringify(data.state)) : DEFAULT_STATE;
+            }
+        }
+    });
 
     return (
         <Editor
+            hideMenu={menuParam === 'hidden'}
             onSetup={onEditorSetup}
             onChange={onEditorChange}
             onSave={onEditorSave}

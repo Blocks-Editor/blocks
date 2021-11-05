@@ -1,23 +1,20 @@
 import {mapType, valueType} from '../block-types/types';
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {collectionCategory} from '../block-categories/categories';
-import {stateWriteIcon} from './State';
+import {FaEllipsisH} from 'react-icons/all';
 
 const block = statementBlock({
-    title: 'Put (Map)',
+    title: 'Remove (Map)',
     category: collectionCategory,
-    icon: stateWriteIcon,
+    icon: FaEllipsisH,
     inputs: [{
         key: 'map',
         type: mapType,
     }, {
         key: 'key',
         type: valueType,
-    }, {
-        key: 'value',
-        type: valueType,
     }],
-}, ({map, key, value}) => {
-    return `${map}.put(${key}, ${value});`;
+}, ({map, key}) => {
+    return `${map}.remove(${key});`;
 });
 export default block;

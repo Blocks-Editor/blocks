@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import EventsContext, {ERROR_EVENT} from '../contexts/EventsContext';
 import useListener from '../hooks/useListener';
 import GlobalTooltip from './GlobalTooltip';
+import {BrowserRouter} from 'react-router-dom';
 
 
 export default function App() {
@@ -20,19 +21,19 @@ export default function App() {
 
     return (
         <React.StrictMode>
-            {/*<HashRouter>*/}
-            <GlobalTooltip/>
-            <ToastContainer/>
-            <EditorPage/>
-            {/*<Switch>*/}
-            {/*    <Route path="/editor">*/}
-            {/*        <EditorPage/>*/}
-            {/*    </Route>*/}
-            {/*    <Route path="/">*/}
-            {/*        <HomePage/>*/}
-            {/*    </Route>*/}
-            {/*</Switch>*/}
-            {/*</HashRouter>*/}
+            <BrowserRouter>
+                <GlobalTooltip/>
+                <ToastContainer/>
+                <EditorPage/>
+                {/*<Switch>*/}
+                {/*    <Route path="/editor">*/}
+                {/*        <EditorPage/>*/}
+                {/*    </Route>*/}
+                {/*    <Route path="/">*/}
+                {/*        <HomePage/>*/}
+                {/*    </Route>*/}
+                {/*</Switch>*/}
+            </BrowserRouter>
         </React.StrictMode>
     );
 };

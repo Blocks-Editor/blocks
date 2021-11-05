@@ -1,6 +1,10 @@
 import {boolType, unitType, valueType} from '../block-types/types';
 import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
+import {FaAngleDoubleRight, FaAngleRight} from 'react-icons/fa';
+
+export const stateReadIcon = FaAngleRight;
+export const stateWriteIcon = FaAngleDoubleRight;
 
 const block = memberBlock({
     info: 'A persistent smart contract variable',

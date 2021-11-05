@@ -1,27 +1,23 @@
 import {mapType, valueType} from '../block-types/types';
+import {statementBlock} from '../block-patterns/statement-patterns';
+import {collectionCategory} from '../block-categories/categories';
+import {stateWriteIcon} from './State';
 
-const block = {
-    title: 'Map: Get',
-    // category: mapCategory,
-    topRight: 'value',
+const block = statementBlock({
+    title: 'Put (Map)',
+    category: collectionCategory,
+    icon: stateWriteIcon,
     inputs: [{
         key: 'map',
         type: mapType,
     }, {
         key: 'key',
         type: valueType,
-    }],
-    outputs: [{
+    }, {
         key: 'value',
-        type: mapType,
-        inferType({map}) {
-            if(mapType.isSubtype(map)) {
-                return map.generics[1];
-            }
-        },
-        toMotoko({map, key}) {
-            return `${map}.get(${key})`;
-        },
+        type: valueType,
     }],
-};
+}, ({map, key, value}) => {
+    return `${map}.put(${key}, ${value});`;
+});
 export default block;

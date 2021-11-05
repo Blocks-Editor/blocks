@@ -10,13 +10,17 @@ export default function TypeControlHandle({control, bindInput}) {
 
     let invalid = !control.validate(value);
 
+    // if(typeType.isSubtype(value)) {
+    //     value = value?.generics[0];
+    // }
+
     return (
         <div ref={bindInput}>
             <TypeSelect
                 value={value}
                 constraintType={constraintType}
                 invalid={invalid}
-                onChange={setValue}>
+                onChange={setValue/*type => setValue(typeType.of(type))*/}>
             </TypeSelect>
         </div>
     );

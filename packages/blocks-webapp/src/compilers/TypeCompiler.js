@@ -11,13 +11,13 @@ export default class TypeCompiler extends Compiler {
     }
 
     postCompile(type, node, key) {
-        if(!type) {
+        if(type === undefined) {
             return;
         }
         type = getType(type);
         if(type.isAbstract()) {
             console.warn(`[${node.name}.${key}]`, 'Abstract inferred type:', type.toTypeString());
-            // return;
+            return;
         }
         return type;
     }
