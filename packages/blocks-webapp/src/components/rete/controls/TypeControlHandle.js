@@ -3,7 +3,7 @@ import useControlState from '../../../hooks/useControlState';
 import TypeSelect from '../../common/inputs/TypeSelect';
 
 
-export default function TypeControlHandle({control, bindInput}) {
+export default function TypeControlHandle({abstract, control, bindInput}) {
     let [value, setValue] = useControlState(control);
 
     let constraintType = control.config.type.generics[0];
@@ -19,6 +19,7 @@ export default function TypeControlHandle({control, bindInput}) {
             <TypeSelect
                 value={value}
                 constraintType={constraintType}
+                abstract={abstract}
                 invalid={invalid}
                 onChange={setValue/*type => setValue(typeType.of(type))*/}>
             </TypeSelect>

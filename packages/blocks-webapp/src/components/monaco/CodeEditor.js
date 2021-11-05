@@ -1,7 +1,7 @@
 import MonacoEditor from "@monaco-editor/react";
 import {configureMonaco} from '../../config/configureMonaco';
 
-export default function CodeEditor({value, onChange}) {
+export default function CodeEditor({value, onChange, ...others}) {
 
     // const monaco = useMonaco();
 
@@ -11,6 +11,8 @@ export default function CodeEditor({value, onChange}) {
 
     return (
         <MonacoEditor
+            // width="30vh"
+            // height="40vh"
             defaultLanguage="motoko"
             beforeMount={configureMonaco}
             value={value}
@@ -23,6 +25,7 @@ export default function CodeEditor({value, onChange}) {
                 scrollBeyondLastLine: false,
                 fontSize: 16,
             }}
+            {...others}
         />
     );
 }

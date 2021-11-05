@@ -55,6 +55,7 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
                         key={i}
                         value={type}
                         constraintType={value.data.baseType.generics[i]}
+                        abstract={abstract}
                         data-tip={getDefaultLabel(value.data.genericNames?.[i])}
                         onChange={t => {
                             let generics = [...value.generics];

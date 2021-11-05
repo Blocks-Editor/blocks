@@ -74,7 +74,7 @@ export default class NodeHandle extends Node {
         }
 
         return (
-            <div className={classNames('node', selected)}>
+            <div className={classNames('node', selected, block.className)}>
                 <div className="header d-flex">
                     {topLeft && (
                         <div>

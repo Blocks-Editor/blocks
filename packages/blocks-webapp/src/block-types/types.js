@@ -91,10 +91,12 @@ class Type {
 export const TYPE_MAP = new Map();
 
 export const anyType = createType('Any', {
+    abstract: true,
     category: 'default',
     reversed: false,
 });
 export const anyReversedType = createType('AnyReversed', {
+    abstract: true,
     category: 'default',
     // parent: anyType,
     reversed: true,

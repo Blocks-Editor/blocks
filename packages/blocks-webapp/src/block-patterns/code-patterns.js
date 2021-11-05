@@ -20,6 +20,7 @@ export function codeBlock(name, type, block = {}) {
         icon: expressionCategory.data.icon,
         topLeft: 'inputs',
         topRight: 'result',
+        className: 'node-wide',
         ...block,
         inputs: [{
             key: 'inputs',

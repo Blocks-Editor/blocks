@@ -1,5 +1,5 @@
 import {codeBlock} from '../block-patterns/code-patterns';
 import {typeType} from '../block-types/types';
 
-const block = codeBlock('type', typeType);
+const block = codeBlock('Type', typeType);
 export default block;
