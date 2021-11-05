@@ -1,12 +1,12 @@
 {
   "name": "react-blocks-editor",
   "version": "0.1.1",
-  "description": "Embed the Blocks editor anywhere using a React component.",
+  "description": "Embed the Blocks Editor anywhere using a React component.",
   "author": "Ryan Vandersmith",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rvanasa/blocks.git",
+    "url": "https://github.com/Blocks-Editor/blocks.git",
     "directory": "packages/react-blocks-editor"
   },
   "main": "dist/index.js",

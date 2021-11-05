@@ -47,7 +47,7 @@
     "start": "craco start",
     "test": "craco test",
     "build": "craco build",
-    "deploy": "set PUBLIC_URL=https://www.ryanvandersmith.com/blocks&& npm run build && gh-pages -d build"
+    "deploy": "set PUBLIC_URL=https://blocks-editor.github.io/edit&& npm run build && gh-pages -d build --branch main --dest edit"
   },
   "eslintConfig": {
     "extends": [
