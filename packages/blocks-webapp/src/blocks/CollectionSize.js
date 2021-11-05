@@ -1,9 +1,11 @@
 import {mapType, natType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
+import {FaSitemap} from 'react-icons/fa';
 
 const block = {
     title: 'Size',
     category: collectionCategory,
+    icon: FaSitemap,
     inputs: [{
         key: 'collection',
         type: mapType,

@@ -2,7 +2,7 @@ import {identifierType} from '../block-types/types';
 import {FaItalic} from 'react-icons/all';
 
 const block = {
-    title: 'Identifier',
+    title: 'Name',
     // category: defaultCategory,
     icon: FaItalic,
     topRight: 'value',

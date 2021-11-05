@@ -5,7 +5,7 @@ import {collectionCategory} from '../block-categories/categories';
 export const hashMapImportRef = importRef('mo:base/HashMap');
 
 const block = {
-    title: 'Map',
+    title: 'Create Map',
     category: collectionCategory,
     topRight: 'value',
     computeTitle(node, editor) {
@@ -28,8 +28,11 @@ const block = {
         inferType({keyType, valueType}) {
             return mapType.of(keyType, valueType);
         },
-        toMotoko({keyType, valueType}) {
-            return `${hashMapImportRef}.HashMap<${keyType}, ${valueType}>(0, ${keyType}.equal, ${valueType}.hash)`;
+        toMotoko(args, node, compiler) {
+            let {keyType, valueType} = compiler.editor.compilers.type.getInputArgs(node);
+            let keyTypeString = compiler.getTypeString(keyType);
+            let valueTypeString = compiler.getTypeString(valueType);
+            return `${hashMapImportRef}.HashMap<${keyTypeString}, ${valueTypeString}>(0, ${keyTypeString}.equal, ${valueTypeString}.hash)`;
         },
     }],
 };

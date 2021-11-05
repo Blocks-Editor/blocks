@@ -124,6 +124,11 @@ export const valueType = createType('Value', {
     parent: anyType,
     category: 'values',
 });
+export const customType = createType('Custom', {
+    abstract: true,
+    arbitraryGenerics: true,
+    parent: valueType,
+});
 export const identifierType = createType('Identifier', {
     parent: anyType,
     controlType: TextControlHandle,

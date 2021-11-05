@@ -2,7 +2,7 @@ import Compiler from './Compiler';
 import {typeType} from '../block-types/types';
 
 export function importRef(name) {
-    return `$$"${name}"`;
+    return `$import$"${name}"`;
 }
 
 export function resolveImportRefs(code) {
@@ -12,7 +12,7 @@ export function resolveImportRefs(code) {
     code = String(code);
 
     const imports = {};
-    code = code.replace(/\$\$"([^"]*)"/, (match, path) => {
+    code = code.replace(/\$import\$"([^"]*)"/, (match, path) => {
         const id = path.includes('/') ? path.substring(path.lastIndexOf('/') + 1) : path;
         if(imports.hasOwnProperty(id) && imports[id] !== path) {
             throw new Error(`Conflicting import paths: "${path}" != "${imports[id]}"`);

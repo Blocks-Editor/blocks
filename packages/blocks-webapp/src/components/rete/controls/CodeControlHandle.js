@@ -21,7 +21,7 @@ export default function CodeControlHandle({control, bindInput}) {
         //     placeholder={control.name}
         //     onChange={event => setValue(event.target.value || '')}
         // />
-        <div ref={bindInput} style={{height: 100}}>
+        <div ref={bindInput} style={{height: 150}}>
             <CodeEditor value={value} onChange={setValue}/>
         </div>
 

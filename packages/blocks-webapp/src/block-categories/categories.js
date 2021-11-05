@@ -9,7 +9,8 @@ import {
     FaNetworkWired,
     FaPlusCircle,
     FaStream,
-    FaTextHeight, FaTh,
+    FaTextHeight,
+    FaTh,
 } from 'react-icons/fa';
 
 class Category {

@@ -5,6 +5,7 @@ export default function useEditorComponents(editor, sortFn) {
 
     return useMemo(() => {
         return [...editor.components.values()]
+            .filter(c => !c?.block?.hidden)// TODO: refactor?
             .map(v => [sortFn(v), v])
             .sort(([a], [b]) => {
                 if(Array.isArray(a)) {
