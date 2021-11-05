@@ -10,7 +10,14 @@ export default class NodeOutputSocket extends Rete.Socket {
     }
 
     findType() {
-        return this.typeCompiler.getOutput(this.nodeId, this.key);
+        let output = this.data.type;
+        try {
+            output = this.typeCompiler.getOutput(this.nodeId, this.key) || output;
+        }
+        catch(err) {
+            // console.warning(err);
+        }
+        return;
     }
 
     compatibleWith(other) {
