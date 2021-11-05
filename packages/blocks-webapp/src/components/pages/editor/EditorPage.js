@@ -11,6 +11,7 @@ import {pascalCase} from 'change-case';
 import useRedraw from '../../../hooks/useRedraw';
 import isEmbedded from '../../../utils/isEmbedded';
 import {useParams} from 'react-router-dom';
+// import {BlocksEditor} from 'react-blocks-editor';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
@@ -102,5 +103,12 @@ export default function EditorPage() {
             onChange={onEditorChange}
             onSave={onEditorSave}
         />
+        // <BlocksEditor style={{width: '100%', height: '100%'}} options={{menu: 'default'}}>
+        //     {({loadState}) => {
+        //         let state = require('../../../examples/files/Calculator.blocks.json');
+        //         state.name = 'TEST';
+        //         loadState(state);
+        //     }}
+        // </BlocksEditor>
     );
 }
