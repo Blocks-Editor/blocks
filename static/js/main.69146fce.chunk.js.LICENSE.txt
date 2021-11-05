@@ -1,5 +1,0 @@
-/*!
-* rete v1.4.5 
-* (c) 2021 Vitaliy Stoliarov 
-* Released under the MIT license.
-*/
