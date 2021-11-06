@@ -1,6 +1,6 @@
 import TopMenu from '../common/menus/TopMenu';
 import MenuButton from '../common/menus/MenuButton';
-import {FaDownload, FaFile, FaFolder, FaFolderOpen, FaSave} from 'react-icons/fa';
+import {FiDownload, FiFilePlus, FiFolder, FiSave} from 'react-icons/fi';
 import React, {useContext, useState} from 'react';
 import MenuItem from '../common/menus/MenuItem';
 import styled, {keyframes} from 'styled-components';
@@ -15,30 +15,49 @@ import EventsContext, {
 import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
+import Icon from "../common/Icon";
 
 const ProjectNameInput = styled.input`
-  background: none !important;
-  border: none !important;
-  border-bottom: solid 2px #0005 !important;
+  background: var(--bs-light-rgb) !important;
+  border: 2px solid transparent !important;
+  border-bottom: solid 2px #0003 !important;
   font-weight: bold;
   vertical-align: top;
   margin-top: .4em;
   padding: .25em .25em .1em;
+  position: relative;
+  background-clip: padding-box;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(30deg, #00EFFB, #8649E1, #F900E3);
+    margin: -2px;
+    z-index: -1;
+    opacity: 0;
+  }
 
   :focus {
-    background: #0001 !important;
+    outline: none;
+    &::before {
+      opacity: 1;
+    }
   }
 `;
 
 const saveAnimation = keyframes`
   30% {
-    transform: scale(.9);
+    transform: scale(.6);
   }
 `;
 
-const SaveIcon = styled(FaSave)`
+const SaveIcon = styled(Icon)`
   &.animated {
-    animation: ${saveAnimation} .5s ease-out;
+    animation: ${saveAnimation} .8s ease-out;
   }
 `;
 
@@ -76,16 +95,13 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
             <TopMenu>
                 {/*<Link to="/">*/}
                 <MenuItem variant="dark">
-                    BLOCKS.
+                    <img src={"img/Logo_Gradient.png"} height="48px" alt="Blocks Logo" />
                 </MenuItem>
                 {/*</Link>*/}
-                <div className="d-inline-block mx-auto">
-                    <MenuButton onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)} data-tip="New Project">
-                        <FaFile/>
-                    </MenuButton>
+                <div className="d-flex flex-row justify-content-center align-items-center mx-3">
                     <ProjectNameInput
                         type="text"
-                        placeholder="(Unnamed Project)"
+                        placeholder="Unnamed Project"
                         className="text-secondary"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
@@ -102,12 +118,16 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                     <MenuButton
                         tooltip="Export to File"
                         onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, getEditor().toJSON())}>
-                        <FaDownload/>
+                        {/*<FiDownload/>*/}
+                        <Icon name="download" />
+                    </MenuButton>
+                    <MenuButton onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)} data-tip="New Project">
+                        <Icon name="file-plus" />
                     </MenuButton>
                     <MenuButton
                         tooltip="Load Project"
                         onMouseDown={() => setLoadMenuOpen(!loadMenuOpen)}>
-                        {loadMenuOpen ? <FaFolderOpen/> : <FaFolder/>}
+                        {loadMenuOpen ? <Icon name="folder-open" /> : <Icon name="folder-wide"/>}
                     </MenuButton>
                 </div>
             </TopMenu>
