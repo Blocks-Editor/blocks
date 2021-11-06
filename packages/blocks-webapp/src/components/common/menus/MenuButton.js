@@ -4,9 +4,13 @@ import styled from 'styled-components';
 
 let MenuItemStyled = styled(MenuItem)`
   cursor: pointer;
+  border-radius: 10px;
 
-  :hover > svg {
-    fill: url("#blocks-icon-gradient")
+  :hover  {
+    background: #F0F0F0;
+    & > svg {
+      fill: url("#blocks-icon-gradient")
+    }
   }
 `;
 
