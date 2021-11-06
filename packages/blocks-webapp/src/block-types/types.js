@@ -139,7 +139,7 @@ export const customType = createType('Custom', {
 });
 export const referenceType = createType('Reference', {
     parent: anyType,
-    category: 'identifiers',
+    category: 'references',
 });
 export const identifierType = createType('Identifier', {
     parent: referenceType,

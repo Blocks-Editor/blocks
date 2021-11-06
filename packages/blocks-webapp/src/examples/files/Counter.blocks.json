@@ -99,7 +99,7 @@
       "data": {
         "visibility": "public",
         "name": "get",
-        "asyncKind": "query"
+        "query": true
       },
       "inputs": {
         "name": {
@@ -192,8 +192,7 @@
       "id": 374,
       "data": {
         "visibility": "public",
-        "name": "set",
-        "asyncKind": "async"
+        "name": "set"
       },
       "inputs": {
         "name": {
@@ -239,8 +238,7 @@
       "id": 375,
       "data": {
         "visibility": "public",
-        "name": "inc",
-        "asyncKind": "async"
+        "name": "inc"
       },
       "inputs": {
         "name": {

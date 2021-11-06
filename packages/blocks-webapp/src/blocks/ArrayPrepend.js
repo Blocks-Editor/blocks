@@ -1,13 +1,13 @@
 import {arrayType, valueType} from '../block-types/types';
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {collectionCategory} from '../block-categories/categories';
-import {stateWriteIcon} from './State';
 import {arrayImportRef} from './NewArray';
+import {FaRegCaretSquareLeft} from 'react-icons/all';
 
 const block = statementBlock({
-    title: 'Append (Array)',
+    title: 'Prepend (Array)',
     category: collectionCategory,
-    icon: stateWriteIcon,
+    icon: FaRegCaretSquareLeft,
     inputs: [{
         key: 'array',
         title: 'Array',

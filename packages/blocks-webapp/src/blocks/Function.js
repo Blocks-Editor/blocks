@@ -1,10 +1,18 @@
-import {asyncType, effectType, paramType, principalType, unitType} from '../block-types/types';
+import {asyncType, boolType, effectType, paramType, principalType, unitType} from '../block-types/types';
 import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
-import {stringSelectProp} from '../block-patterns/control-patterns';
 import {nodeVariableRef} from '../compilers/MotokoCompiler';
 
 const defaultReturnType = effectType.of(unitType);
+
+export function getFunctionReturnType(node, editor) {
+    let type = editor.compilers.type.getInput(node, 'body')?.generics[0];
+    let {query, visibility} = editor.compilers.control.getInput(node, 'query');
+    if(query || visibility === 'public') {
+        type = asyncType.of(type);
+    }
+    return type;
+}
 
 const block = memberBlock({
     info: 'Evaluate based on given input parameters',
@@ -13,15 +21,8 @@ const block = memberBlock({
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
         // return name;/////
-        let {params, asyncKind} = editor.compilers.motoko.getInputArgs(node);
-        let returnType = editor.compilers.type.getInput(node, 'body');
-        if(!returnType) {
-            return;
-        }
-        returnType = returnType.generics[0]; // Unwrap Effect<>
-        if(asyncKind) {
-            returnType = asyncType.of(returnType);
-        }
+        let params = editor.compilers.motoko.getInput(node, 'params');
+        let returnType = getFunctionReturnType(node, editor);
         return name && params && `${name}(${params.join(', ')})${returnType ? ' : ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
     },
     shortcuts: [{
@@ -58,18 +59,21 @@ const block = memberBlock({
     controls: [/*{
         key: 'shared',
         type: boolType,
-    },*/ stringSelectProp({
+    },*/ /*stringSelectProp({
         key: 'asyncKind',
         optional: true,
-    }, ['async', 'query']),
-        visibilityControlProp(),
-    ],
+    }, ['async', 'query']),*/
+        visibilityControlProp(), {
+            key: 'query',
+            type: boolType,
+        }],
 }, {
-    toMotoko({visibility, asyncKind, name, params, body}, node, compiler) {
+    toMotoko({visibility, query, name, params, body}, node, compiler) {
         let hasCaller = node.outputs.get('caller').connections.length;
 
+        let asyncKind = query ? 'query' : visibility === 'public' ? 'async' : null;
         let shared = !!hasCaller;
-        let modifiers = [visibility !== 'system' && visibility, shared && 'shared', asyncKind === 'query' && asyncKind].filter(m => m).join(' ');
+        let modifiers = [visibility !== 'system' && visibility, shared && 'shared'].filter(m => m).join(' ');
 
         let returnType = body ? compiler.inferType(node, 'body') : defaultReturnType;
         if(!returnType) {
@@ -80,7 +84,13 @@ const block = memberBlock({
             returnType = asyncType.of(returnType);
         }
         let returnString = compiler.getTypeString(returnType);
-        return `${modifiers && modifiers + ' '}${hasCaller ? `(${nodeVariableRef(node)}) ` : ''}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''} { ${body || ''} };`;
+        return [
+            modifiers,
+            hasCaller ? nodeVariableRef(node) : '',
+            query ? 'query ' : '',
+            `func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''}`,
+            `{ ${body || ''} };`,
+        ];
     },
 });
 export default block;

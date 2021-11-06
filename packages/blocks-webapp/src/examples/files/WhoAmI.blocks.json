@@ -32,8 +32,7 @@
       "id": 328,
       "data": {
         "visibility": "public",
-        "name": "argument",
-        "asyncKind": "async"
+        "name": "argument"
       },
       "inputs": {
         "name": {
@@ -76,8 +75,7 @@
       "id": 329,
       "data": {
         "visibility": "public",
-        "name": "whoami",
-        "asyncKind": "async"
+        "name": "whoami"
       },
       "inputs": {
         "name": {
@@ -238,8 +236,7 @@
       "id": 332,
       "data": {
         "visibility": "public",
-        "name": "id",
-        "asyncKind": "async"
+        "name": "id"
       },
       "inputs": {
         "name": {
@@ -282,8 +279,7 @@
       "id": 333,
       "data": {
         "visibility": "public",
-        "name": "idQuick",
-        "asyncKind": "async"
+        "name": "idQuick"
       },
       "inputs": {
         "name": {
@@ -327,7 +323,7 @@
       "data": {
         "visibility": "public",
         "name": "installer",
-        "asyncKind": "query"
+        "query": true
       },
       "inputs": {
         "name": {

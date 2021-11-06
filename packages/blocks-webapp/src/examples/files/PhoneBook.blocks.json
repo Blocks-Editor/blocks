@@ -160,8 +160,7 @@
       "id": 428,
       "data": {
         "visibility": "public",
-        "name": "insert",
-        "asyncKind": "async"
+        "name": "insert"
       },
       "inputs": {
         "name": {
@@ -218,7 +217,7 @@
       "data": {
         "visibility": "public",
         "name": "find",
-        "asyncKind": "query"
+        "query": true
       },
       "inputs": {
         "name": {

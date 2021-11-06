@@ -7,14 +7,15 @@ $function-color: #fd3;
 $object-color: #af8;
 $optional-color: #384;
 $collection-color: #1c8;
+$future-color: #aa6;
 $type-color: #2af;
+$principal-color: #888;
+$reference-color: #eee;
 $effect-color: #ccc;
 $member-color: #8af;
 $parameter-color: #a8f;
 $actor-color: #fa8;
-$principal-color: #888;
 
-$identifier-color: #eee;
 $bool-color: #d8f;
 $float-color: #5df;
 $int-color: #6fd;
@@ -43,14 +44,15 @@ $any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, vi
 @include node-color("category-objects", $object-color);
 @include node-color("category-optionals", $optional-color);
 @include node-color("category-collections", $collection-color);
+@include node-color("category-futures", $future-color);
 @include node-color("category-principals", $principal-color);
+@include node-color("category-references", $reference-color);
 @include node-color("category-types", $type-color);
 @include node-color("category-effects", $effect-color);
 @include node-color("category-members", $member-color);
 @include node-color("category-actors", $actor-color);
 @include node-color("category-parameters", $parameter-color);
 
-@include node-color("identifier", $identifier-color);
 @include node-color("bool", $bool-color);
 @include node-color("float", $float-color);
 @include node-color("category-integers", $int-color);

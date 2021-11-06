@@ -8,7 +8,7 @@
       "data": {
         "visibility": "public",
         "name": "say",
-        "asyncKind": "query"
+        "query": true
       },
       "inputs": {
         "name": {

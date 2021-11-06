@@ -29,7 +29,7 @@ const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
 
 function findCategory(socket) {
-    return socket.findType?.().data.category ?? socket.data.category ?? 'none';
+    return socket.type?./*findType?.()*/data.category ?? socket.data.category ?? 'none';
 }
 
 // noinspection JSCheckFunctionSignatures
@@ -82,14 +82,19 @@ function createEditor(element) {
     editor.on('zoom', ({source}) => source !== 'dblclick'); // Prevent double-click zoom
     editor.on('nodeselect', node => !editor.selected.contains(node)); // Allow dragging multiple nodes
     editor.on('renderconnection', ({el, connection}) => {
-        let inputCategory = findCategory(connection.input.socket);
-        let outputCategory = findCategory(connection.output.socket);
-        if(connection.input.socket.data.reversed) {
-            [inputCategory, outputCategory] = [outputCategory, inputCategory];
-        }
+        // TODO: update with socket type
+        // let inputCategory = findCategory(connection.input.socket);
+        // let outputCategory = findCategory(connection.output.socket);
+        // if(connection.input.socket.data.reversed) {
+        //     [inputCategory, outputCategory] = [outputCategory, inputCategory];
+        // }
+        // el.querySelector('.connection').classList.add(
+        //     `socket-input-category-${inputCategory}`,
+        //     `socket-output-category-${outputCategory}`,
+        // );
+        let category = findCategory((connection.input.socket.data.reversed ? connection.input : connection.output).socket);
         el.querySelector('.connection').classList.add(
-            `socket-input-category-${inputCategory}`,
-            `socket-output-category-${outputCategory}`,
+            `socket-output-category-${category}`,
         );
     });
 

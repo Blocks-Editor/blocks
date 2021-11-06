@@ -15,6 +15,7 @@ import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
 import Icon from "../common/Icon";
+import ReactTooltip from 'react-tooltip';
 
 const ProjectNameInput = styled.input`
   background: var(--bs-light-rgb) !important;
@@ -134,6 +135,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
             <Modal
                 // className=''
                 show={loadMenuOpen}
+                onShow={() => ReactTooltip.hide()}
                 onHide={() => setLoadMenuOpen(false)}>
                 <Modal.Body>
                     <LoadProjectMenu onLoadFileContent={onLoadFileContent}/>

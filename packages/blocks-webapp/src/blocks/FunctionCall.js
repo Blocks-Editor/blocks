@@ -1,7 +1,8 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
-import {asyncType, nodeType, valueType} from '../block-types/types';
+import {nodeType, valueType} from '../block-types/types';
 import {FaPlayCircle} from 'react-icons/fa';
 import {functionCategory} from '../block-categories/categories';
+import {getFunctionReturnType} from './Function';
 
 const block = statementBlock({
     info: 'Invoke a function in this project',
@@ -31,11 +32,7 @@ const block = statementBlock({
             if(!functionNode) {
                 return;
             }
-            let type = compiler.editor.compilers.type.getInput(functionNode, 'body')?.generics[0];
-            if(compiler.editor.compilers.control.getInput(functionNode, 'asyncKind')) {
-                type = asyncType.of(type || valueType);
-            }
-            return type;
+            return getFunctionReturnType(functionNode, compiler.editor);
         },
         toMotoko({args}, node, compiler) {
             let functionNode = compiler.editor.compilers.node.getInput(node, 'functionNode');
