@@ -42,7 +42,7 @@ export default function LoadProjectMenu({onLoadFileContent, className, ...others
                     key={i}
                     className="clickable mt-2 px-3 py-2"
                     onClick={() => events.emit(PROJECT_LOAD_EVENT, example)}>
-                    <h4>{example.name}</h4>
+                    <h4 className="fw-normal">{example.name}</h4>
                     <div className="text-muted">{example.description || '(No description provided)'}</div>
                 </LoadProjectItemContainer>
             ))}
