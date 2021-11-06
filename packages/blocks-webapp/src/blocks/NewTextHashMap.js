@@ -6,7 +6,7 @@ export const hashMapImportRef = importRef('mo:base/HashMap');
 export const textImportRef = importRef('mo:base/Text');
 
 const block = {
-    title: 'Create Map (Text keys)',
+    title: 'Create Map',
     category: collectionCategory,
     icon: collectionCategory.data.icon,
     topRight: 'value',
@@ -15,6 +15,9 @@ const block = {
         return type && `new HashMap<${editor.compilers.motoko.getTypeString(type.generics[0])}, ${editor.compilers.motoko.getTypeString(type.generics[1])}>`;
     },
     inputs: [{
+        key: 'keyType',
+        type: typeType.of(textType), // TODO: other key types
+    }, {
         key: 'valueType',
         type: typeType.of(valueType),
     }],
