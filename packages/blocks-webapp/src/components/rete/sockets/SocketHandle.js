@@ -25,7 +25,8 @@ export function SocketHandle(props) {
                 'category-' + socketType.data.category,
             )}
             title={socket.name}
-            ref={el => el && innerRef(el, type, io)}
-        />
+            ref={el => el && innerRef(el, type, io)}>
+            <div className="socket-color w-100 h-100"/>
+        </div>
     );
 }

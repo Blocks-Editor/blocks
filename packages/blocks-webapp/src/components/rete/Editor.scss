@@ -25,7 +25,7 @@ $any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, vi
 
 @mixin node-color($name, $color) {
   .node-editor {
-    .node .socket.#{$name} {
+    .node .socket.#{$name} .socket-color {
       background: $color !important;
     }
 
@@ -101,22 +101,47 @@ $grid-area: $grid-size * 10000;
     }
 
     &:not(.selected) .header {
+      //border-radius: .5em .5em 0 0;
+      border-radius: .5em;
       background: #333;
     }
 
     .socket {
-      background: #444;
-      border-color: #222 !important;
-      transform: scale(.8);
+      background: #222;
+      //border-color: #222 !important;
+      border-width: 0;
+      transform: scale(.75);
+
+      .socket-color {
+        transform: scale(.85) !important;
+        border-radius: 50%;
+      }
+
+      &:hover {
+        //background: #111;
+        transform: scale(.85);
+      }
 
       &.multiple {
         // Multiple-input sockets should have a different appearance
-        border-width: 3px;
+        //border-width: 3px;
+
+        background: #111;
+        transform: scale(.8);
+
+        &:hover {
+          transform: scale(.9);
+        }
+
+        .socket-color {
+          transform: translateX(-1px) scale(.7) !important;
+        }
       }
 
-      &.reversed {
+      &.reversed, &.reversed .socket-color {
         // Reversed sockets should look like right-facing triangles/carets
         border-radius: 0;
+        clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 100%, 0 0);
       }
 
       &.occupied {

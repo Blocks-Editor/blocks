@@ -59,8 +59,8 @@ function PropHandle({prop, node, hideLeft, hideRight, bindSocket, bindControl}) 
 
 export default class NodeHandle extends Node {
     render() {
-        const {editor, node, bindSocket, bindControl} = this.props;
-        const {selected} = this.state;
+        let {editor, node, bindSocket, bindControl} = this.props;
+        let {selected} = this.state;
 
         let block = getBlock(node.name);
 
@@ -72,6 +72,15 @@ export default class NodeHandle extends Node {
         if(block.computeTitle) {
             title = <DynamicTitle editor={editor} node={node} block={block} fallback={title}/>;
         }
+
+        let getBindControl = prop => (ref, ...args) => {
+            let result = bindControl(ref, ...args);
+            if(ref) {
+                // Custom hover text
+                ref.title = getPropLabel(prop);
+            }
+            return result;
+        };
 
         return (
             <div className={classNames('node', selected, block.className)}>
@@ -125,7 +134,7 @@ export default class NodeHandle extends Node {
                             hideLeft={prop.key === block.topLeft}
                             hideRight={prop.key === block.topRight}
                             bindSocket={bindSocket}
-                            bindControl={bindControl}
+                            bindControl={getBindControl(prop)}
                         />
                     ))}
             </div>
