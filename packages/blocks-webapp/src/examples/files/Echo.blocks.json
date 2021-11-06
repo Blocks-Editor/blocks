@@ -7,7 +7,8 @@
       "id": 282,
       "data": {
         "visibility": "public",
-        "name": "say"
+        "name": "say",
+        "asyncKind": "query"
       },
       "inputs": {
         "name": {
@@ -16,8 +17,8 @@
         "member": {
           "connections": [
             {
-              "node": 283,
-              "output": "reversed",
+              "node": 875,
+              "output": "members",
               "data": {}
             }
           ]
@@ -61,15 +62,15 @@
         "reversed": {
           "connections": [
             {
-              "node": 282,
-              "input": "member",
+              "node": 875,
+              "input": "actor",
               "data": {}
             }
           ]
         }
       },
       "position": [
-        480,
+        224,
         288
       ],
       "name": "CompileMotoko"
@@ -233,6 +234,42 @@
         768
       ],
       "name": "CompileMotoko"
+    },
+    "875": {
+      "id": 875,
+      "data": {
+        "name": "Echo"
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "actor": {
+          "connections": [
+            {
+              "node": 283,
+              "output": "reversed",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "members": {
+          "connections": [
+            {
+              "node": 282,
+              "input": "member",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        480,
+        288
+      ],
+      "name": "Actor"
     }
   }
 }

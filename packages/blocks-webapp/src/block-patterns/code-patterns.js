@@ -5,7 +5,7 @@ import CodeControlHandle from '../components/rete/controls/CodeControlHandle';
 let replaceRegex = /{([0-9]+)}/g;
 
 
-function parseInputs(inputs, expression) {
+export function parseCodeBlockInputs(inputs, expression) {
     return (expression || '').replaceAll(replaceRegex, (match, i) => {
         i = +i;
         return i >= 0 && i < inputs.length ? inputs[i] : match;
@@ -18,7 +18,7 @@ export function codeBlock(name, type, block = {}) {
         info: `Compile an arbitrary ${name} expression`,
         category: expressionCategory,
         icon: expressionCategory.data.icon,
-        topLeft: 'inputs',
+        // topLeft: 'inputs',
         topRight: 'result',
         className: 'node-wide',
         ...block,
@@ -38,7 +38,7 @@ export function codeBlock(name, type, block = {}) {
                 return type;
             },
             toMotoko({inputs, expression}) {
-                return parseInputs(inputs, expression);
+                return parseCodeBlockInputs(inputs, expression);
             },
         }, ...block.outputs || []],
         controls: [{

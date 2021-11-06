@@ -19,9 +19,10 @@ export default function CodeEditor({value, onChange, ...others}) {
             // path={fileName}
             onChange={onEditorChange}
             options={{
+                tabSize: 2,
                 minimap: {enabled: false},
-                wordWrap: 'on',
-                wrappingIndent: 'indent',
+                wordWrap: 'off',
+                // wrappingIndent: 'indent',
                 scrollBeyondLastLine: false,
                 fontSize: 16,
             }}

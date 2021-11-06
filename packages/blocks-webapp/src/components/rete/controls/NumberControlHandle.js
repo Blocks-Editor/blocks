@@ -14,7 +14,7 @@ export default function NumberControlHandle({control, bindInput, validation: {mi
             max={max}
             step={step}
             value={value || 0}
-            onChange={event => setValue(event.target.value)}
+            onChange={event => setValue(+event.target.value || event.target.value)}
         />
     );
 }

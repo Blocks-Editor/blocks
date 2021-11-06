@@ -25,13 +25,13 @@ const block = statementBlock({
     }],
     outputs: [{
         key: 'value',
-        type: 'Value',
+        type: valueType,
         inferType(_, node, compiler) {
             let functionNode = compiler.editor.compilers.node.getInput(node, 'functionNode');
             if(!functionNode) {
                 return;
             }
-            return compiler.editor.compilers.type.getInput(functionNode, 'body');
+            return compiler.editor.compilers.type.getInput(functionNode, 'body')?.generics[0];
         },
         toMotoko({args}, node, compiler) {
             let functionNode = compiler.editor.compilers.node.getInput(node, 'functionNode');

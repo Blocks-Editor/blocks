@@ -28,8 +28,9 @@ class Type {
     }
 
     withMeta(meta) {
-        let type = buildType(this.name, this, this.generics);
-        Object.assign(type.meta, meta);
+        let {name, ...otherMeta} = meta;
+        let type = buildType(name || this.name, this, this.generics);
+        Object.assign(type.meta, otherMeta);
         return type;
     }
 
@@ -125,9 +126,13 @@ export const valueType = createType('Value', {
     category: 'values',
 });
 export const customType = createType('Custom', {
-    abstract: true,
-    arbitraryGenerics: true,
+    // abstract: true, // TEMP
     parent: valueType,
+    arbitraryGenerics: true,
+    // toMotoko() {
+    //     console.log(this)///
+    //     return this.meta.motoko || '$Custom$';
+    // },
 });
 export const identifierType = createType('Identifier', {
     parent: anyType,
@@ -227,7 +232,8 @@ export const tupleType = createType('Tuple', {
 // export const unitType = createType('Unit', {
 //     parent: tupleType,
 // });
-export const unitType = tupleType.of();
+export const unitType = createType('Unit', tupleType.of());
+if(tupleType === unitType) throw new Error(); // TODO: move to tests
 export const objectType = createType('Object', {
     abstract: true,
     arbitraryGenerics: true,
@@ -265,7 +271,15 @@ export const arrayType = createType('Array', {
     generics: [valueType],
     genericNames: ['item'],
     toMotoko([item]) {
-        return `Array.Array<${item}>`;
+        return `[${item}]`;
+    },
+});
+export const mutableArrayType = createType('MutableArray', {
+    parent: arrayType,
+    generics: [valueType],
+    genericNames: ['item'],
+    toMotoko([item]) {
+        return `[var ${item}]`;
     },
 });
 export const mapType = createType('Map', {
@@ -346,10 +360,17 @@ export const asyncType = createType('Async', {
 
 // Create a global type
 function createType(name, data) {
-    let {parent} = data;
-    let {generics = [], meta = {}, ...other} = data;
-    let type = buildType(name, parent, generics, other, meta);
-    type.data.baseType = type;///
+    let type;
+    if(data instanceof Type) {
+        type = data;
+        type.name = name;
+    }
+    else {
+        let {parent} = data;
+        let {generics = [], meta = {}, ...other} = data;
+        type = buildType(name, parent, generics, other, meta);
+        type.data.baseType = type;///
+    }
     TYPE_MAP.set(name, type);
     return type;
 }

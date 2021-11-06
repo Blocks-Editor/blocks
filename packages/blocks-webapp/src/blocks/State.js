@@ -14,7 +14,7 @@ const block = memberBlock({
         let name = computeMemberName(node, editor);
         // let name = editor.compilers.motoko.getInput(node, 'name');
         let type = editor.compilers.type.getInput(node, 'initialValue') || unitType;
-        return name && `${name}: ${editor.compilers.motoko.getTypeString(type)}`;
+        return name && `${name} : ${editor.compilers.motoko.getTypeString(type)}`;
     },
     shortcuts: [{
         block: 'StateRead',
@@ -49,11 +49,12 @@ const block = memberBlock({
         //     type: 'Bool',
     }],
 }, {
-    toMotoko({visibility, flexible, name, initialValue}) {
+    toMotoko({flexible, name, initialValue}, node, compiler) {
         let readonly = false;/// TODO: infer and/or adjust shortcuts
-        let modifiers = [visibility !== 'system' && visibility, !flexible && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
+        let modifiers = [!flexible && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
+        let type = compiler.editor.compilers.type.getInput(node, 'initialValue');
 
-        return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${initialValue ? ' = ' + initialValue : ''};`;
+        return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name} : ${type}${initialValue ? ' = ' + initialValue : ''};`;
     },
 });
 export default block;

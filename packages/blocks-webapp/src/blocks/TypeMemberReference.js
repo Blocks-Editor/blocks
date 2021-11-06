@@ -9,7 +9,7 @@ const block = {
     topRight: 'type',
     computeTitle(node, editor) {
         let typeNode = editor.compilers.node.getInput(node, 'typeNode');
-        console.log(typeNode)
+        console.log(typeNode);
         if(!typeNode) {
             return;
         }
@@ -18,10 +18,16 @@ const block = {
     outputs: [{
         key: 'type',
         type: typeType.of(valueType),
-        inferType({typeNode}, node, editor) {
-            // console.log(typeNode)////
-            return editor.compilers.types.getInput(typeNode, 'type');
+        inferType(args, node, compiler) {
+            let typeNode = compiler.editor.compilers.node.getInput(node, 'typeNode');
+            if(!typeNode) {
+                return;
+            }
+            return compiler.editor.compilers.types.getInput(typeNode, 'type');
         },
+        // toMotoko({name}) {
+        //     return name;
+        // },
     }],
     controls: [{
         key: 'typeNode',

@@ -7,10 +7,11 @@ export const hashMapImportRef = importRef('mo:base/HashMap');
 const block = {
     title: 'Create Map',
     category: collectionCategory,
+    icon: collectionCategory.data.icon,
     topRight: 'value',
     computeTitle(node, editor) {
         let type = editor.compilers.type.getOutput(node, 'value');//?.generics[0];
-        return type && `HashMap<${editor.compilers.motoko.getTypeString(type.generics[0])},${editor.compilers.motoko.getTypeString(type.generics[1])}>`;
+        return type && `new HashMap<${editor.compilers.motoko.getTypeString(type.generics[0])}, ${editor.compilers.motoko.getTypeString(type.generics[1])}>`;
     },
     inputs: [{
         key: 'keyType',

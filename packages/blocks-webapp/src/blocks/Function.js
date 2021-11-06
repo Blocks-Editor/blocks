@@ -1,5 +1,5 @@
 import {asyncType, boolType, effectType, paramType, unitType} from '../block-types/types';
-import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
+import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
 import {stringSelectProp} from '../block-patterns/control-patterns';
 
@@ -54,7 +54,9 @@ const block = memberBlock({
     }, stringSelectProp({
         key: 'asyncKind',
         optional: true,
-    }, ['async', 'query'])],
+    }, ['async', 'query']),
+       visibilityControlProp(),
+    ],
 }, {
     toMotoko({visibility, shared, asyncKind, name, params, body}, node, compiler) {
         // TODO: dry with State modifiers

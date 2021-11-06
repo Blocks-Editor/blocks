@@ -16,6 +16,13 @@ export function computeMemberName(node, editor) {
     // return actorName?`${actorName}.${name}`:name;
 }
 
+export function visibilityControlProp() {
+    return stringSelectProp({
+        key: 'visibility',
+        // optional: true,
+    }, ['public', 'private', 'system']);
+}
+
 export function memberBlock(block, memberProp) {
     return {
         topLeft: 'member',
@@ -34,13 +41,6 @@ export function memberBlock(block, memberProp) {
                 ...memberProp,
             },
             ...block.outputs || [],
-        ],
-        controls: [
-            stringSelectProp({
-                key: 'visibility',
-                // optional: true,
-            }, ['public', 'private', 'system']),
-            ...block.controls || [],
         ],
     };
 }

@@ -1,6 +1,11 @@
 import Compiler from './Compiler';
 import {typeType} from '../block-types/types';
 
+export function nodeVariableRef(node) {
+    let id = typeof node === 'number' || typeof node === 'string' ? String(node) : node.id;
+    return `node__${id}`;
+}
+
 export function importRef(name) {
     return `$import$"${name}"`;
 }

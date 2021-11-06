@@ -1,5 +1,5 @@
 import {typeType, valueType} from '../block-types/types';
-import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
+import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {typeCategory} from '../block-categories/categories';
 
 const block = memberBlock({
@@ -24,13 +24,19 @@ const block = memberBlock({
     outputs: [{
         key: 'type',
         type: typeType.of(valueType),
-        inferType({typeInput}) {
+        inferType({name, typeInput}) {
             if(!typeInput.isAbstract()) {
                 // return typeType.of(typeInput);
-                return typeInput;///
+                return typeInput.withMeta({name});///
             }
         },
+        // toMotoko({name}) {
+        //     return name;
+        // },
     }],
+    controls: [
+        visibilityControlProp(),
+    ],
 }, {
     toMotoko({visibility, name, typeInput}) {
         let modifiers = [visibility !== 'system' && visibility].filter(m => m).join(' ');

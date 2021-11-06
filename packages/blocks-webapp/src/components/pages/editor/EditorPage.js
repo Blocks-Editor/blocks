@@ -48,7 +48,7 @@ export default function EditorPage() {
 
     useListener(events, PROJECT_EXPORT_EVENT, state => {
         let data = JSON.stringify(state);
-        FileSaver.saveAs(new Blob([data]), `${pascalCase(state.name || 'project')}.blocks.json`);
+        FileSaver.saveAs(new Blob([data]), `${pascalCase(state.name || 'project')}.blocks`);
     });
 
     const onEditorSetup = async (loadState, editor) => {
