@@ -1,6 +1,5 @@
 import TopMenu from '../common/menus/TopMenu';
 import MenuButton from '../common/menus/MenuButton';
-import {FiDownload, FiFilePlus, FiFolder, FiSave} from 'react-icons/fi';
 import React, {useContext, useState} from 'react';
 import MenuItem from '../common/menus/MenuItem';
 import styled, {keyframes} from 'styled-components';
