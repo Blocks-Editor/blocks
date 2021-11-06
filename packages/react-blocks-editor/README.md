@@ -1,6 +1,6 @@
-# react-blocks
+# react-blocks-editor
 
-> Embed the Blocks Editor anywhere using a React component.
+> Embed the [Blocks Editor](https://github.com/Blocks-Editor/blocks) anywhere using a React component.
 
 [![NPM](https://img.shields.io/npm/v/react-blocks-editor.svg)](https://www.npmjs.com/package/react-blocks-editor) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -36,3 +36,7 @@ const MyEditor = () => {
   )
 }
 ```
+
+---
+
+This project was made possible via the [DFINITY Developer Grant Program](https://dfinity.org/grants/).
