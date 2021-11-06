@@ -1,6 +1,6 @@
 {
   "name": "Calculator",
-  "description": "Add, subtract, multiply, and divide a state variable.",
+  "description": "Add, subtract, multiply, and divide integers.",
   "version": "blocks-webapp@0.1.0",
   "nodes": {
     "283": {
