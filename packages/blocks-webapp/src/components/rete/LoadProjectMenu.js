@@ -34,7 +34,7 @@ export default function LoadProjectMenu({onLoadFileContent, className, ...others
         <MenuContainer className={classNames('bg-light', className)} {...others}>
             <FileDropZone onFileContent={onLoadFileContent}>
                 <FileDropZoneStyled className={classNames('clickable text-center text-muted rounded-3')}>
-                    <h5>Import a .blocks file...</h5>
+                    <h5>Import a .blocks file . . .</h5>
                 </FileDropZoneStyled>
             </FileDropZone>
             {examples.map((example, i) => (
