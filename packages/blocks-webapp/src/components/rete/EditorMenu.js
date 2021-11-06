@@ -42,6 +42,7 @@ const ProjectNameInput = styled.input`
 
   :focus {
     outline: none;
+
     &::before {
       opacity: 1;
     }
@@ -94,7 +95,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
             <TopMenu>
                 {/*<Link to="/">*/}
                 <MenuItem variant="dark">
-                    <img src={"img/Logo_Gradient.png"} height="48px" alt="Blocks Logo" />
+                    <img src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`} height="48px" alt="Blocks Logo"/>
                 </MenuItem>
                 {/*</Link>*/}
                 <div className="d-flex flex-row justify-content-center align-items-center mx-3">
@@ -118,15 +119,15 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         tooltip="Export to File"
                         onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, getEditor().toJSON())}>
                         {/*<FiDownload/>*/}
-                        <Icon name="download" />
+                        <Icon name="download"/>
                     </MenuButton>
                     <MenuButton onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)} data-tip="New Project">
-                        <Icon name="file-plus" />
+                        <Icon name="file-plus"/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Load Project"
                         onMouseDown={() => setLoadMenuOpen(!loadMenuOpen)}>
-                        {loadMenuOpen ? <Icon name="folder-open" /> : <Icon name="folder-wide"/>}
+                        {loadMenuOpen ? <Icon name="folder-open"/> : <Icon name="folder-wide"/>}
                     </MenuButton>
                 </div>
             </TopMenu>
