@@ -3,7 +3,7 @@ import {collectionCategory} from '../block-categories/categories';
 import {FaSitemap} from 'react-icons/fa';
 
 const block = {
-    title: 'Size',
+    title: 'Size (Collection)',
     category: collectionCategory,
     icon: FaSitemap,
     inputs: [{

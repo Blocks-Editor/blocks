@@ -2,6 +2,7 @@ import Rete from 'rete';
 import MotokoCompiler from '../compilers/MotokoCompiler';
 import NodeCompiler from '../compilers/NodeCompiler';
 import TypeCompiler from '../compilers/TypeCompiler';
+import ControlCompiler from '../compilers/ControlCompiler';
 
 export default class BlocksNodeEditor extends Rete.NodeEditor {
     constructor(...args) {
@@ -10,8 +11,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         this.projectName = '';
         this.projectDescription = '';
         this.compilers = {
-            type: new TypeCompiler(this),
+            control: new ControlCompiler(this),
             node: new NodeCompiler(this),
+            type: new TypeCompiler(this),
             motoko: new MotokoCompiler(this),
         };
     }

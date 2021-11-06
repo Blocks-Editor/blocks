@@ -222,6 +222,7 @@ export const blobType = createType('Blob', {
 });
 export const principalType = createType('Principal', {
     parent: valueType,
+    category: 'principals',
 });
 export const errorType = createType('Error', {
     parent: valueType,

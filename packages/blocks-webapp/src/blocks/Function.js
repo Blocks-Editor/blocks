@@ -1,7 +1,8 @@
-import {asyncType, boolType, effectType, paramType, unitType} from '../block-types/types';
+import {asyncType, effectType, paramType, principalType, unitType} from '../block-types/types';
 import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
 import {stringSelectProp} from '../block-patterns/control-patterns';
+import {nodeVariableRef} from '../compilers/MotokoCompiler';
 
 const defaultReturnType = effectType.of(unitType);
 
@@ -24,10 +25,10 @@ const block = memberBlock({
         return name && params && `${name}(${params.join(', ')})${returnType ? ' : ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
     },
     shortcuts: [{
-        block: 'Return',
-    }, {
         block: 'FunctionCall',
         nodeKey: 'functionNode',
+    }, {
+        block: 'Return',
     }],
     inputs: [{
         key: 'params',
@@ -41,26 +42,34 @@ const block = memberBlock({
         type: effectType,
         optional: true,
     }],
-    // outputs: [{
-    //     key: 'reference',
-    //     type: valueType,
-    //     toMotoko({name}) {
-    //         return name;
-    //     },
-    // }],
-    controls: [{
+    outputs: [{
+        //     key: 'reference',
+        //     type: referenceType,
+        //     toMotoko({name}) {
+        //         return name;
+        //     },
+        // }, {
+        key: 'caller',
+        type: principalType,
+        toMotoko(args, node, compiler) {
+            return `${nodeVariableRef(node)}.caller`;
+        },
+    }],
+    controls: [/*{
         key: 'shared',
         type: boolType,
-    }, stringSelectProp({
+    },*/ stringSelectProp({
         key: 'asyncKind',
         optional: true,
     }, ['async', 'query']),
         visibilityControlProp(),
     ],
 }, {
-    toMotoko({visibility, shared, asyncKind, name, params, body}, node, compiler) {
-        // TODO: dry with State modifiers
-        let modifiers = [visibility !== 'system' && visibility, shared && 'shared', asyncKind === 'query' && asyncKind].filter(m => m).join(' '); //TODO: combine into single control
+    toMotoko({visibility, asyncKind, name, params, body}, node, compiler) {
+        let hasCaller = node.outputs.get('caller').connections.length;
+
+        let shared = !!hasCaller;
+        let modifiers = [visibility !== 'system' && visibility, shared && 'shared', asyncKind === 'query' && asyncKind].filter(m => m).join(' ');
 
         let returnType = body ? compiler.inferType(node, 'body') : defaultReturnType;
         if(!returnType) {
@@ -71,7 +80,7 @@ const block = memberBlock({
             returnType = asyncType.of(returnType);
         }
         let returnString = compiler.getTypeString(returnType);
-        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''} { ${body || ''} };`;
+        return `${modifiers && modifiers + ' '}${hasCaller ? `(${nodeVariableRef(node)}) ` : ''}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''} { ${body || ''} };`;
     },
 });
 export default block;

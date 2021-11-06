@@ -12,7 +12,7 @@ $effect-color: #ccc;
 $member-color: #8af;
 $parameter-color: #a8f;
 $actor-color: #fa8;
-$module-color: #888;
+$principal-color: #888;
 
 $identifier-color: #eee;
 $bool-color: #d8f;
@@ -43,11 +43,11 @@ $any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, vi
 @include node-color("category-objects", $object-color);
 @include node-color("category-optionals", $optional-color);
 @include node-color("category-collections", $collection-color);
+@include node-color("category-principals", $principal-color);
 @include node-color("category-types", $type-color);
 @include node-color("category-effects", $effect-color);
 @include node-color("category-members", $member-color);
 @include node-color("category-actors", $actor-color);
-@include node-color("category-modules", $module-color);
 @include node-color("category-parameters", $parameter-color);
 
 @include node-color("identifier", $identifier-color);

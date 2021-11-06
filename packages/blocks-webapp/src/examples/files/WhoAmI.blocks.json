@@ -1,0 +1,641 @@
+{
+  "name": "Who am I?",
+  "description": "Access the caller of functions and actors.",
+  "version": "blocks-webapp@0.1.0",
+  "nodes": {
+    "283": {
+      "id": 283,
+      "data": {},
+      "inputs": {
+        "input": {
+          "connections": []
+        }
+      },
+      "outputs": {
+        "reversed": {
+          "connections": [
+            {
+              "node": 330,
+              "input": "actor",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        224,
+        448
+      ],
+      "name": "CompileMotoko"
+    },
+    "328": {
+      "id": 328,
+      "data": {
+        "visibility": "public",
+        "name": "argument",
+        "asyncKind": "async"
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "member": {
+          "connections": [
+            {
+              "node": 330,
+              "output": "members",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "params": {
+          "connections": []
+        },
+        "body": {
+          "connections": [
+            {
+              "node": 336,
+              "input": "statement",
+              "data": {}
+            }
+          ]
+        },
+        "caller": {
+          "connections": []
+        }
+      },
+      "position": [
+        960,
+        32
+      ],
+      "name": "Function"
+    },
+    "329": {
+      "id": 329,
+      "data": {
+        "visibility": "public",
+        "name": "whoami",
+        "asyncKind": "async"
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "member": {
+          "connections": [
+            {
+              "node": 330,
+              "output": "members",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "params": {
+          "connections": []
+        },
+        "body": {
+          "connections": [
+            {
+              "node": 339,
+              "input": "statement",
+              "data": {}
+            }
+          ]
+        },
+        "caller": {
+          "connections": [
+            {
+              "node": 339,
+              "input": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        960,
+        352
+      ],
+      "name": "Function"
+    },
+    "330": {
+      "id": 330,
+      "data": {
+        "name": "WhoAmI",
+        "undefined": ""
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "actor": {
+          "connections": [
+            {
+              "node": 283,
+              "output": "reversed",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "members": {
+          "connections": [
+            {
+              "node": 334,
+              "input": "member",
+              "data": {}
+            },
+            {
+              "node": 328,
+              "input": "member",
+              "data": {}
+            },
+            {
+              "node": 329,
+              "input": "member",
+              "data": {}
+            },
+            {
+              "node": 332,
+              "input": "member",
+              "data": {}
+            },
+            {
+              "node": 333,
+              "input": "member",
+              "data": {}
+            }
+          ]
+        },
+        "params": {
+          "connections": [
+            {
+              "node": 331,
+              "input": "param",
+              "data": {}
+            }
+          ]
+        },
+        "caller": {
+          "connections": []
+        }
+      },
+      "position": [
+        480,
+        448
+      ],
+      "name": "ActorClass"
+    },
+    "331": {
+      "id": 331,
+      "data": {
+        "name": "someone",
+        "type": {
+          "name": "Principal",
+          "generics": []
+        }
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "type": {
+          "connections": []
+        },
+        "param": {
+          "connections": [
+            {
+              "node": 330,
+              "output": "params",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 336,
+              "input": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        480,
+        304
+      ],
+      "name": "Parameter"
+    },
+    "332": {
+      "id": 332,
+      "data": {
+        "visibility": "public",
+        "name": "id",
+        "asyncKind": "async"
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "member": {
+          "connections": [
+            {
+              "node": 330,
+              "output": "members",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "params": {
+          "connections": []
+        },
+        "body": {
+          "connections": [
+            {
+              "node": 338,
+              "input": "statement",
+              "data": {}
+            }
+          ]
+        },
+        "caller": {
+          "connections": []
+        }
+      },
+      "position": [
+        960,
+        672
+      ],
+      "name": "Function"
+    },
+    "333": {
+      "id": 333,
+      "data": {
+        "visibility": "public",
+        "name": "idQuick",
+        "asyncKind": "async"
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "member": {
+          "connections": [
+            {
+              "node": 330,
+              "output": "members",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "params": {
+          "connections": []
+        },
+        "body": {
+          "connections": [
+            {
+              "node": 337,
+              "input": "statement",
+              "data": {}
+            }
+          ]
+        },
+        "caller": {
+          "connections": []
+        }
+      },
+      "position": [
+        960,
+        992
+      ],
+      "name": "Function"
+    },
+    "334": {
+      "id": 334,
+      "data": {
+        "visibility": "public",
+        "name": "installer",
+        "asyncKind": "query"
+      },
+      "inputs": {
+        "name": {
+          "connections": []
+        },
+        "member": {
+          "connections": [
+            {
+              "node": 330,
+              "output": "members",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "params": {
+          "connections": []
+        },
+        "body": {
+          "connections": [
+            {
+              "node": 335,
+              "input": "statement",
+              "data": {}
+            }
+          ]
+        },
+        "caller": {
+          "connections": []
+        }
+      },
+      "position": [
+        960,
+        -288
+      ],
+      "name": "Function"
+    },
+    "335": {
+      "id": 335,
+      "data": {},
+      "inputs": {
+        "value": {
+          "connections": []
+        },
+        "statement": {
+          "connections": [
+            {
+              "node": 334,
+              "output": "body",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        1504,
+        -288
+      ],
+      "name": "Return"
+    },
+    "336": {
+      "id": 336,
+      "data": {},
+      "inputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 331,
+              "output": "value",
+              "data": {}
+            }
+          ]
+        },
+        "statement": {
+          "connections": [
+            {
+              "node": 328,
+              "output": "body",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        1504,
+        32
+      ],
+      "name": "Return"
+    },
+    "337": {
+      "id": 337,
+      "data": {},
+      "inputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 341,
+              "output": "result",
+              "data": {}
+            }
+          ]
+        },
+        "statement": {
+          "connections": [
+            {
+              "node": 333,
+              "output": "body",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        1504,
+        992
+      ],
+      "name": "Return"
+    },
+    "338": {
+      "id": 338,
+      "data": {},
+      "inputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 343,
+              "output": "result",
+              "data": {}
+            }
+          ]
+        },
+        "statement": {
+          "connections": [
+            {
+              "node": 332,
+              "output": "body",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        1504,
+        672
+      ],
+      "name": "Return"
+    },
+    "339": {
+      "id": 339,
+      "data": {},
+      "inputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 329,
+              "output": "caller",
+              "data": {}
+            }
+          ]
+        },
+        "statement": {
+          "connections": [
+            {
+              "node": 329,
+              "output": "body",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        1504,
+        352
+      ],
+      "name": "Return"
+    },
+    "340": {
+      "id": 340,
+      "data": {
+        "functionNode": 329
+      },
+      "inputs": {
+        "args": {
+          "connections": []
+        },
+        "before": {
+          "connections": []
+        }
+      },
+      "outputs": {
+        "after": {
+          "connections": []
+        },
+        "value": {
+          "connections": [
+            {
+              "node": 343,
+              "input": "input",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1264,
+        704
+      ],
+      "name": "FunctionCall"
+    },
+    "341": {
+      "id": 341,
+      "data": {
+        "expression": "{0}.fromActor(this)",
+        "type": {
+          "name": "Principal",
+          "generics": []
+        }
+      },
+      "inputs": {
+        "inputs": {
+          "connections": [
+            {
+              "node": 342,
+              "output": "value",
+              "data": {}
+            }
+          ]
+        },
+        "type": {
+          "connections": []
+        }
+      },
+      "outputs": {
+        "result": {
+          "connections": [
+            {
+              "node": 337,
+              "input": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1248,
+        1104
+      ],
+      "name": "CodeValue"
+    },
+    "342": {
+      "id": 342,
+      "data": {
+        "path": "mo:base/Principal"
+      },
+      "inputs": {},
+      "outputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 341,
+              "input": "inputs",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1024,
+        1296
+      ],
+      "name": "ReferenceImport"
+    },
+    "343": {
+      "id": 343,
+      "data": {},
+      "inputs": {
+        "input": {
+          "connections": [
+            {
+              "node": 340,
+              "output": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "result": {
+          "connections": [
+            {
+              "node": 338,
+              "input": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1504,
+        768
+      ],
+      "name": "Await"
+    }
+  }
+}
