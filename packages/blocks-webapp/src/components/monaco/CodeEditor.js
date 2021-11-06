@@ -13,6 +13,7 @@ export default function CodeEditor({value, onChange, ...others}) {
         <MonacoEditor
             // width="30vh"
             // height="40vh"
+            theme="vs-dark"
             defaultLanguage="motoko"
             beforeMount={configureMonaco}
             value={value}

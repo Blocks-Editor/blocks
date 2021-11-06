@@ -1,7 +1,7 @@
 import {arrayType, valueType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
 import {stateWriteIcon} from './State';
-import {arrayImportRef} from './NewMutableArray';
+import {arrayImportRef} from './NewArray';
 
 const block = {
     title: 'Appended (Array)',

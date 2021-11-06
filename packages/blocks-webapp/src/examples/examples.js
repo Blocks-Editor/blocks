@@ -3,7 +3,7 @@ const examples = [
     require('./files/Counter.blocks.json'),
     require('./files/Calculator.blocks.json'),
     require('./files/PhoneBook.blocks.json'),
-    // require('./files/ToDoList.blocks.json'),
+    require('./files/ToDoList.blocks.json'),
 ];
 
 module.exports = {

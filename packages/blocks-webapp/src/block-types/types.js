@@ -137,8 +137,12 @@ export const customType = createType('Custom', {
     //     return this.meta.motoko || '$Custom$';
     // },
 });
-export const identifierType = createType('Identifier', {
+export const referenceType = createType('Reference', {
     parent: anyType,
+    category: 'identifiers',
+});
+export const identifierType = createType('Identifier', {
+    parent: referenceType,
     controlType: TextControlHandle,
     // defaultValue: '',
     validation: {

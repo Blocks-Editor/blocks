@@ -1,4 +1,4 @@
-import {arrayType, natType, optionalType, valueType} from '../block-types/types';
+import {arrayType, natType, optionalType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
 import {stateReadIcon} from './State';
 

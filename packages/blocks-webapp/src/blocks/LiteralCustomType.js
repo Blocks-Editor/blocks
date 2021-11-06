@@ -1,5 +1,5 @@
 import {typeCategory} from '../block-categories/categories';
-import {customType, identifierType, typeType, valueType} from '../block-types/types';
+import {customType, referenceType, typeType, valueType} from '../block-types/types';
 import {FaPencilAlt} from 'react-icons/fa';
 
 const block = {
@@ -9,8 +9,8 @@ const block = {
     icon: FaPencilAlt,
     hidden: true,////
     inputs: [{
-        key: 'name',
-        type: identifierType,
+        key: 'reference',
+        type: referenceType,
     }, {
         key: 'generics',
         type: typeType.of(valueType),
@@ -20,15 +20,12 @@ const block = {
         key: 'value',
         type: typeType.of(customType),
         inferType(args, node, compiler) {
-            let name = compiler.editor.compilers.motoko.getInput(node, 'name');
+            let reference = compiler.editor.compilers.motoko.getInput(node, 'reference');
             let generics = compiler.editor.compilers.type.getInput(node, 'generics');
-            if(!name) {
+            if(!reference) {
                 return;
             }
-            let type = customType.of(...generics).withMeta({}); // Ensure subtype
-            type.name = name;
-            // return typeType.of(value);
-            return type;
+            return customType.of(...generics).withMeta({name: reference}); ///
         },
     }],
 };

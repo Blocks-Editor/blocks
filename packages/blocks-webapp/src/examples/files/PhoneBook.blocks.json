@@ -1,6 +1,6 @@
 {
   "name": "Phone Book",
-  "description": "A smart contract with tuples and key-value storage",
+  "description": "Add phone numbers to persistent key-value storage.",
   "version": "blocks-webapp@0.1.0",
   "nodes": {
     "283": {
