@@ -9,7 +9,7 @@ let MenuContainer = styled.div`
 
 export default function TopMenu({className, children, ...others}) {
     return (
-        <MenuContainer className={classNames('bg-light text-secondary d-flex', className)} {...others}>
+        <MenuContainer className={classNames('bg-light text-secondary d-flex py-2 justify-content-start align-items-center', className)} {...others}>
             <IconContext.Provider value={{style: {verticalAlign: 'bottom', transform: 'translateY(-1px)'}}}>
                 {children}
             </IconContext.Provider>
