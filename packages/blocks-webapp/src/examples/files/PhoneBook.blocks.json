@@ -1,6 +1,6 @@
 {
   "name": "Phone Book",
-  "description": "Add phone numbers to persistent key-value storage.",
+  "description": "Add tuples to persistent key-value storage.",
   "version": "blocks-webapp@0.1.0",
   "nodes": {
     "283": {
