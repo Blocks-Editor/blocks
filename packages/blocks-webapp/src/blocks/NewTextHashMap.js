@@ -3,9 +3,10 @@ import {importRef} from '../compilers/MotokoCompiler';
 import {collectionCategory} from '../block-categories/categories';
 
 export const hashMapImportRef = importRef('mo:base/HashMap');
+export const textImportRef = importRef('mo:base/Text');
 
 const block = {
-    title: 'Create Map',
+    title: 'Create Map (Text keys)',
     category: collectionCategory,
     icon: collectionCategory.data.icon,
     topRight: 'value',
@@ -14,26 +15,19 @@ const block = {
         return type && `new HashMap<${editor.compilers.motoko.getTypeString(type.generics[0])}, ${editor.compilers.motoko.getTypeString(type.generics[1])}>`;
     },
     inputs: [{
-        key: 'keyType',
-        type: typeType.of(valueType),
-        config: {
-            defaultValue: textType,
-        },
-    }, {
         key: 'valueType',
         type: typeType.of(valueType),
     }],
     outputs: [{
         key: 'value',
         type: mapType,
-        inferType({keyType, valueType}) {
-            return mapType.of(keyType, valueType);
+        inferType({valueType}) {
+            return mapType.of(textType, valueType);
         },
         toMotoko(args, node, compiler) {
-            let {keyType, valueType} = compiler.editor.compilers.type.getInputArgs(node);
-            let keyTypeString = compiler.getTypeString(keyType);
+            let {valueType} = compiler.editor.compilers.type.getInputArgs(node);
             let valueTypeString = compiler.getTypeString(valueType);
-            return `${hashMapImportRef}.HashMap<${keyTypeString}, ${valueTypeString}>(0, ${keyTypeString}.equal, ${valueTypeString}.hash)`;
+            return `${hashMapImportRef}.HashMap<Text, ${valueTypeString}>(0, ${textImportRef}.equal, ${textImportRef}.hash)`;
         },
     }],
 };

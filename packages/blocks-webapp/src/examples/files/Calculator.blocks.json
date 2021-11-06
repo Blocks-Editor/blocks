@@ -92,7 +92,8 @@
     "330": {
       "id": 330,
       "data": {
-        "name": "x"
+        "name": "x",
+        "stable": true
       },
       "inputs": {
         "name": {
@@ -434,7 +435,7 @@
         "body": {
           "connections": [
             {
-              "node": 347,
+              "node": 1188,
               "input": "before",
               "data": {}
             }
@@ -484,7 +485,7 @@
         }
       },
       "position": [
-        1664,
+        1824,
         544
       ],
       "name": "StateUpdate"
@@ -524,7 +525,7 @@
         }
       },
       "position": [
-        1456,
+        1616,
         608
       ],
       "name": "Add"
@@ -589,7 +590,12 @@
               "data": {}
             },
             {
-              "node": 350,
+              "node": 984,
+              "input": "left",
+              "data": {}
+            },
+            {
+              "node": 1102,
               "input": "right",
               "data": {}
             }
@@ -639,7 +645,7 @@
         }
       },
       "position": [
-        1664,
+        1824,
         832
       ],
       "name": "StateUpdate"
@@ -681,50 +687,8 @@
         }
       },
       "position": [
-        1664,
+        1824,
         1120
-      ],
-      "name": "StateUpdate"
-    },
-    "347": {
-      "id": 347,
-      "data": {
-        "stateNode": "330"
-      },
-      "inputs": {
-        "value": {
-          "connections": [
-            {
-              "node": 350,
-              "output": "result",
-              "data": {}
-            }
-          ]
-        },
-        "before": {
-          "connections": [
-            {
-              "node": 339,
-              "output": "body",
-              "data": {}
-            }
-          ]
-        }
-      },
-      "outputs": {
-        "after": {
-          "connections": [
-            {
-              "node": 455,
-              "input": "statement",
-              "data": {}
-            }
-          ]
-        }
-      },
-      "position": [
-        1664,
-        1408
       ],
       "name": "StateUpdate"
     },
@@ -763,7 +727,7 @@
         }
       },
       "position": [
-        1456,
+        1616,
         896
       ],
       "name": "Subtract"
@@ -803,50 +767,10 @@
         }
       },
       "position": [
-        1456,
+        1616,
         1184
       ],
       "name": "Multiply"
-    },
-    "350": {
-      "id": 350,
-      "data": {},
-      "inputs": {
-        "left": {
-          "connections": [
-            {
-              "node": 351,
-              "output": "value",
-              "data": {}
-            }
-          ]
-        },
-        "right": {
-          "connections": [
-            {
-              "node": 344,
-              "output": "value",
-              "data": {}
-            }
-          ]
-        }
-      },
-      "outputs": {
-        "result": {
-          "connections": [
-            {
-              "node": 347,
-              "input": "value",
-              "data": {}
-            }
-          ]
-        }
-      },
-      "position": [
-        1456,
-        1472
-      ],
-      "name": "Divide"
     },
     "351": {
       "id": 351,
@@ -873,7 +797,7 @@
               "data": {}
             },
             {
-              "node": 350,
+              "node": 1102,
               "input": "left",
               "data": {}
             }
@@ -920,9 +844,252 @@
               "node": 346,
               "output": "after",
               "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        2336,
+        -32
+      ],
+      "name": "Return"
+    },
+    "871": {
+      "id": 871,
+      "data": {},
+      "inputs": {},
+      "outputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 984,
+              "input": "right",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1376,
+        1504
+      ],
+      "name": "LiteralInt"
+    },
+    "902": {
+      "id": 902,
+      "data": {},
+      "inputs": {
+        "input": {
+          "connections": [
+            {
+              "node": 1102,
+              "output": "result",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "result": {
+          "connections": [
+            {
+              "node": 1159,
+              "input": "value",
+              "data": {}
+            }
+          ]
+        },
+        "null": {
+          "connections": [
+            {
+              "node": 1100,
+              "input": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1856,
+        1632
+      ],
+      "name": "Optional"
+    },
+    "984": {
+      "id": 984,
+      "data": {},
+      "inputs": {
+        "left": {
+          "connections": [
+            {
+              "node": 344,
+              "output": "value",
+              "data": {}
+            }
+          ]
+        },
+        "right": {
+          "connections": [
+            {
+              "node": 871,
+              "output": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "result": {
+          "connections": [
+            {
+              "node": 1188,
+              "input": "condition",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1616,
+        1440
+      ],
+      "name": "CompareNotEqual"
+    },
+    "1100": {
+      "id": 1100,
+      "data": {},
+      "inputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 902,
+              "output": "null",
+              "data": {}
+            }
+          ]
+        },
+        "statement": {
+          "connections": [
+            {
+              "node": 1188,
+              "output": "falseCase",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        2208,
+        1744
+      ],
+      "name": "Return"
+    },
+    "1101": {
+      "id": 1101,
+      "data": {
+        "stateNode": "330"
+      },
+      "inputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 1102,
+              "output": "result",
+              "data": {}
+            }
+          ]
+        },
+        "before": {
+          "connections": [
+            {
+              "node": 1188,
+              "output": "trueCase",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "after": {
+          "connections": [
+            {
+              "node": 1159,
+              "input": "statement",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        2208,
+        1552
+      ],
+      "name": "StateUpdate"
+    },
+    "1102": {
+      "id": 1102,
+      "data": {},
+      "inputs": {
+        "left": {
+          "connections": [
+            {
+              "node": 351,
+              "output": "value",
+              "data": {}
+            }
+          ]
+        },
+        "right": {
+          "connections": [
+            {
+              "node": 344,
+              "output": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "result": {
+          "connections": [
+            {
+              "node": 1101,
+              "input": "value",
+              "data": {}
             },
             {
-              "node": 347,
+              "node": 902,
+              "input": "input",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1616,
+        1600
+      ],
+      "name": "DivideInt"
+    },
+    "1159": {
+      "id": 1159,
+      "data": {},
+      "inputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 902,
+              "output": "result",
+              "data": {}
+            }
+          ]
+        },
+        "statement": {
+          "connections": [
+            {
+              "node": 1101,
               "output": "after",
               "data": {}
             }
@@ -931,10 +1098,62 @@
       },
       "outputs": {},
       "position": [
-        2080,
-        -32
+        2432,
+        1472
       ],
       "name": "Return"
+    },
+    "1188": {
+      "id": 1188,
+      "data": {},
+      "inputs": {
+        "condition": {
+          "connections": [
+            {
+              "node": 984,
+              "output": "result",
+              "data": {}
+            }
+          ]
+        },
+        "before": {
+          "connections": [
+            {
+              "node": 339,
+              "output": "body",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "trueCase": {
+          "connections": [
+            {
+              "node": 1101,
+              "input": "before",
+              "data": {}
+            }
+          ]
+        },
+        "falseCase": {
+          "connections": [
+            {
+              "node": 1100,
+              "input": "statement",
+              "data": {}
+            }
+          ]
+        },
+        "after": {
+          "connections": []
+        }
+      },
+      "position": [
+        1984,
+        1408
+      ],
+      "name": "Conditional"
     }
   }
 }

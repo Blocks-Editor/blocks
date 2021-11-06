@@ -1,6 +1,7 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {identifierType, valueType} from '../block-types/types';
 import {paramCategory} from '../block-categories/categories';
+import {nodeVariableRef} from '../compilers/MotokoCompiler';
 
 const block = statementBlock({
     title: 'Local Variable',
@@ -21,10 +22,10 @@ const block = statementBlock({
             return initialValue;
         },
         toMotoko({name}, node) {
-            return name || `var__${node.id}`;
+            return name || nodeVariableRef(node);
         },
     }],
 }, ({name, initialValue}, node) => {
-    return `var ${name || `var__${node.id}`} = ${initialValue};`;
+    return `var ${name || nodeVariableRef(node)} = ${initialValue};`;
 });
 export default block;

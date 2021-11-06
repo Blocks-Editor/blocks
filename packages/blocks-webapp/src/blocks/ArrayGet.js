@@ -1,4 +1,4 @@
-import {arrayType, natType, valueType} from '../block-types/types';
+import {arrayType, natType, optionalType, valueType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
 import {stateReadIcon} from './State';
 
@@ -16,10 +16,10 @@ const block = {
     }],
     outputs: [{
         key: 'value',
-        type: valueType,
+        type: optionalType,
         inferType({array}) {
             if(arrayType.isSubtype(array)) {
-                return array.generics[0];
+                return optionalType.of(array.generics[0]);
             }
         },
         toMotoko({array, key}) {

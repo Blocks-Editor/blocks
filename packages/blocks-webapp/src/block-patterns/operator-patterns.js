@@ -32,9 +32,9 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
     resultType = getType(resultType);
 
     return {
-        topRight: 'result',
         title: `(a ${symbol} b)`,
         category: operatorCategory,
+        topRight: 'result',
         inputs: [{
             key: 'left',
             title: 'a',

@@ -5,7 +5,7 @@ import CodeControlHandle from '../components/rete/controls/CodeControlHandle';
 
 const block = {
     title: `{Type}`,
-    info: `Compile an arbitrary Type expression`,
+    info: `Compile an arbitrary type`,
     category: expressionCategory,
     icon: expressionCategory.data.icon,
     // topLeft: 'inputs',

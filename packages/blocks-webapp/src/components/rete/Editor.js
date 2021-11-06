@@ -140,7 +140,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
             // if(key === 'f') {
             //     editor.trigger('arrange');
             // }
-            if(event.ctrlKey) {
+            if(event.ctrlKey || event.metaKey) {
                 if(key === 's') {
                     event.preventDefault();
                     events.emit(EDITOR_SAVE_EVENT, editor);

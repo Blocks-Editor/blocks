@@ -2,6 +2,7 @@ import {arrayType, valueType} from '../block-types/types';
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {collectionCategory} from '../block-categories/categories';
 import {stateWriteIcon} from './State';
+import {arrayImportRef} from './NewMutableArray';
 
 const block = statementBlock({
     title: 'Append (Array)',
@@ -16,6 +17,6 @@ const block = statementBlock({
         type: valueType,
     }],
 }, ({array, value}) => {
-    return `${array} := ${array}.append(${array}, ${value});`;
+    return `${array} := ${arrayImportRef}.append(${array}, ${value});`;
 });
 export default block;

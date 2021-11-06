@@ -1,4 +1,4 @@
-import {mapType, valueType} from '../block-types/types';
+import {mapType, optionalType, valueType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
 import {stateReadIcon} from './State';
 
@@ -16,10 +16,10 @@ const block = {
     }],
     outputs: [{
         key: 'value',
-        type: valueType,
+        type: optionalType.of(valueType),
         inferType({map}) {
             if(mapType.isSubtype(map)) {
-                return map.generics[1];
+                return optionalType.of(map.generics[1]);
             }
         },
         toMotoko({map, key}) {

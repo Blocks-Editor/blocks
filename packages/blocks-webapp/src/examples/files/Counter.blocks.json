@@ -57,7 +57,8 @@
     "354": {
       "id": 354,
       "data": {
-        "name": "count"
+        "name": "count",
+        "stable": true
       },
       "inputs": {
         "name": {

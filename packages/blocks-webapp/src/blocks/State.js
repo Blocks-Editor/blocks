@@ -42,19 +42,19 @@ const block = memberBlock({
         },
     }],
     controls: [{
-        key: 'flexible',
+        key: 'stable',
         type: boolType,
         // }, {
         //     key: 'readonly',
         //     type: 'Bool',
     }],
 }, {
-    toMotoko({flexible, name, initialValue}, node, compiler) {
+    toMotoko({stable, name, initialValue}, node, compiler) {
         let readonly = false;/// TODO: infer and/or adjust shortcuts
-        let modifiers = [!flexible && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
+        let modifiers = [!!stable && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
         let type = compiler.editor.compilers.type.getInput(node, 'initialValue');
 
-        return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name} : ${type}${initialValue ? ' = ' + initialValue : ''};`;
+        return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${type ? ` : ${compiler.getTypeString(type)}` : ''}${initialValue ? ' = ' + initialValue : ''};`;
     },
 });
 export default block;

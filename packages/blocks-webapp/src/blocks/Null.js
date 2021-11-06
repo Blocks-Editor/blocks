@@ -1,4 +1,4 @@
-import {optionalType, valueType} from '../block-types/types';
+import {nullType} from '../block-types/types';
 import {literalCategory} from '../block-categories/categories';
 
 const block = {
@@ -6,10 +6,7 @@ const block = {
     topRight: 'value',
     outputs: [{
         key: 'value',
-        type: optionalType.of(valueType),// TODO: Option<*> or null type
-        // inferType() {
-        //     return ;
-        // },
+        type: nullType,
         toMotoko() {
             return `null`;
         },

@@ -52,6 +52,9 @@ class Type {
         if(!other) {
             return false;
         }
+        if(this.data.alwaysSubtype === other) {
+            return true;///
+        }
         if(this.data.arbitraryGenerics && other.parent && this.name === other.parent.name) {
             // e.g. `Tuple : Tuple<A, B, C>`
             return true;
@@ -261,6 +264,10 @@ export const optionalType = createType('Optional', {
         return `?${value}`;
     },
 });
+export const nullType = createType('Null', {
+    parent: valueType,
+    alwaysSubtype: optionalType,
+});
 export const collectionType = createType('Collection', {
     abstract: true,
     parent: valueType,
@@ -426,4 +433,18 @@ export function getType(name, generics) {
         throw new Error(`Unknown type: ${name}`);
     }
     return TYPE_MAP.get(name);
+}
+
+export function getSharedType(...types) {
+    let a = types[0];
+    for(let i = 1; i < types.length; i++) {
+        let b = types[i];
+        if(!a) {
+            a = b;
+        }
+        else if(b) {
+            a = a.getSharedType(b);
+        }
+    }
+    return a;
 }

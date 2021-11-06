@@ -8,6 +8,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         super(...args);
 
         this.projectName = '';
+        this.projectDescription = '';
         this.compilers = {
             type: new TypeCompiler(this),
             node: new NodeCompiler(this),
@@ -19,7 +20,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
     toJSON() {
         let json = {
             name: this.projectName,
-            description: '',
+            description: this.projectDescription,
             version: this.id,
             ...super.toJSON(),
         };
@@ -36,8 +37,8 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             return false;
         }
         // TODO: refactor serialization
-        // noinspection JSUnresolvedVariable
         this.projectName = json.name || '';
+        this.projectDescription = json.description || '';
 
         let hadError = false;
         try {

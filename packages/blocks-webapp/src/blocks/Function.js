@@ -55,7 +55,7 @@ const block = memberBlock({
         key: 'asyncKind',
         optional: true,
     }, ['async', 'query']),
-       visibilityControlProp(),
+        visibilityControlProp(),
     ],
 }, {
     toMotoko({visibility, shared, asyncKind, name, params, body}, node, compiler) {
@@ -66,15 +66,12 @@ const block = memberBlock({
         if(!returnType) {
             return;
         }
-        returnType = returnType.generics[0]; // Unwrap `Effect<>`
+        returnType = returnType.generics[0] || unitType; // Unwrap `Effect<>`
         if(asyncKind) {
             returnType = asyncType.of(returnType);
         }
         let returnString = compiler.getTypeString(returnType);
-        if(!returnString) {
-            return;///
-        }
-        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ': ' + returnString : ''} { ${body || ''} };`;
+        return `${modifiers && modifiers + ' '}func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''} { ${body || ''} };`;
     },
 });
 export default block;

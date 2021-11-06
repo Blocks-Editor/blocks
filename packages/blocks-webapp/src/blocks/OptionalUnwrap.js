@@ -1,6 +1,7 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {effectType, optionalType, valueType} from '../block-types/types';
 import {decompositionCategory} from '../block-categories/categories';
+import {nodeVariableRef} from '../compilers/MotokoCompiler';
 
 const block = statementBlock({
     title: 'Unwrap Optional',
@@ -27,7 +28,7 @@ const block = statementBlock({
             return input;
         },
         toMotoko({input}, node) {
-            return `value__${node.id}`;
+            return nodeVariableRef(node);
         },
     }],
 }, ({input, valueCase, nullCase}, node) => {
@@ -35,7 +36,7 @@ const block = statementBlock({
         return nullCase;
     }
 
-    let valuePart = valueCase ? `case (?value__${node.id}) {${valueCase}};` : '';
+    let valuePart = valueCase ? `case (?${nodeVariableRef(node)}) {${valueCase}};` : '';
     let nullPart = nullCase ? `case null {${nullCase}};` : '';
 
     return `switch (${input}) { ${valuePart}${nullPart && ' ' + nullPart} };`;

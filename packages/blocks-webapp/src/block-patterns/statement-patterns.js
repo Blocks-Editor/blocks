@@ -1,14 +1,19 @@
-import {effectType, unitType} from '../block-types/types';
+import {effectType, getSharedType, unitType} from '../block-types/types';
 import {effectCategory} from '../block-categories/categories';
 
-let defaultType = effectType.of(unitType);
+const defaultType = effectType.of(unitType);
 
 export function statementBlock(block, compileFn) {
-    let beforeProp = {
+    const beforeProp = {
         key: 'before',
         type: effectType,
-        inferType({after}) {
-            return after || defaultType;
+        inferType(/*{after}*/args, node, compiler) {
+            // return after || defaultType;
+
+            let block = compiler.getBlock(node);
+            return getSharedType(...block.inputs
+                .filter(prop => effectType.isSubtype(prop.type))
+                .map(prop => compiler.getInput(node, prop.key))) || defaultType;
         },
         toMotoko(props, ...args) {
             let result = compileFn(props, ...args);

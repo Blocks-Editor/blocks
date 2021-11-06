@@ -2,6 +2,7 @@ import Compiler from './Compiler';
 import {typeType} from '../block-types/types';
 
 export function nodeVariableRef(node) {
+    // TODO: ensure `id` is a valid identifier
     let id = typeof node === 'number' || typeof node === 'string' ? String(node) : node.id;
     return `node__${id}`;
 }
@@ -17,7 +18,7 @@ export function resolveImportRefs(code) {
     code = String(code);
 
     const imports = {};
-    code = code.replace(/\$import\$"([^"]*)"/, (match, path) => {
+    code = code.replaceAll(/\$import\$"([^"]*)"/g, (match, path) => {
         const id = path.includes('/') ? path.substring(path.lastIndexOf('/') + 1) : path;
         if(imports.hasOwnProperty(id) && imports[id] !== path) {
             throw new Error(`Conflicting import paths: "${path}" != "${imports[id]}"`);
