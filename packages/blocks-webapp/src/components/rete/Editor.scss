@@ -84,7 +84,7 @@ $grid-area: $grid-size * 10000;
 
     &.far {
       // Hotfix - flickering on Firefox / Safari
-      background-image: linear-gradient(to right, $grid-color 1px, transparent 3px), linear-gradient(to bottom, $grid-color 1px, transparent 3px);
+      background-image: linear-gradient(to right, #FFFFFF1A 1px, transparent 2px), linear-gradient(to bottom, #FFFFFF1A 1px, transparent 2px);
     }
   }
 

@@ -59,6 +59,7 @@ function createEditor(element) {
                     // Fix flickering grid on non-Chrome browsers
                     console.log(zoom);
                     background.classList.toggle('far', zoom <= 1);
+                    background.classList.toggle('d-none', zoom <= .5);
                     console.log(background.classList)
                 });
             }
