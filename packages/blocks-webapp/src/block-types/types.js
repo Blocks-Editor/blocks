@@ -94,6 +94,8 @@ class Type {
 
 export const TYPE_MAP = new Map();
 
+window.TYPE_MAP = TYPE_MAP; // Browser debug
+
 export const anyType = createType('Any', {
     abstract: true,
     category: 'default',

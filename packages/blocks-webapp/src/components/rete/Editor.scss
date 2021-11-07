@@ -22,6 +22,7 @@ $int-color: #6fd;
 $nat-color: #58f;
 
 $any-gradient: conic-gradient(at center, orange, yellow, green, blue, indigo, violet, orange);
+$any-gradient-right: conic-gradient(at right, orange, yellow, green, blue, indigo, violet, orange);
 
 @mixin node-color($name, $color) {
   .node-editor {

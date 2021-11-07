@@ -43,7 +43,7 @@ html, body {
   background: none;
 }
 
-.noselect {
+.clickable, .noselect {
   user-select: none;
 }
 

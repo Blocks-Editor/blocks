@@ -1,38 +1,33 @@
-import {arrayType, effectType, unitType, valueType} from '../block-types/types';
+import {arrayType, boolType, effectType, unitType, valueType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
 import {FaLayerGroup} from 'react-icons/all';
 import {nodeVariableRef} from '../compilers/MotokoCompiler';
 import {arrayImportRef} from './NewArray';
 
 const block = {
-    title: 'Replace Items (Array)',
+    title: 'Filter Items (Array)',
     category: collectionCategory,
     icon: FaLayerGroup,
-    topRight: 'body',
+    topRight: 'result',
     inputs: [{
         key: 'array',
         type: arrayType,
     }, {
         key: 'body',
-        title: 'Replace',
-        type: effectType,
+        title: 'Filter',
+        type: effectType.of(boolType),
     }],
     outputs: [{
         key: 'result',
         type: arrayType,
-        inferType({body}) {
-            if(effectType.isSubtype(body)) {
-                return arrayType.of(body.generics[0]);
-            }
+        inferType({array}) {
+            return array;
         },
         toMotoko({array, body}, node, compiler) {
-            let fromType = array?.generics[0] || unitType;
-            let toType = compiler.editor.compilers.type.getInput(node, 'body') || unitType;
+            let type = array?.generics[0] || unitType;
+            let typeString = compiler.getTypeString(type);
 
-            let fromTypeString = compiler.getTypeString(fromType);
-            let toTypeString = compiler.getTypeString(toType);
-
-            return `${arrayImportRef}.map<${fromTypeString}, ${toTypeString}>(${array}, func (${nodeVariableRef(node)} : ${fromTypeString}) : ${toTypeString} { ${body} })`;
+            return `${arrayImportRef}.filter<${typeString}>(${array}, func (${nodeVariableRef(node)} : ${typeString}) : Bool { ${body} })`;
         },
     }, {
         key: 'item',

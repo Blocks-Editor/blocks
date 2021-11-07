@@ -1,6 +1,8 @@
-# Blocks - Webapp
+# Blocks Editor
 
-## Embed
+## External Usage
+
+Embed the Blocks Editor in your React application using the [react-blocks-editor](https://www.npmjs.com/package/react-blocks-editor) npm package.
 
 ## Local Environment
 
@@ -33,3 +35,7 @@ npm test
 ```bash
 npm run build
 ```
+
+---
+
+This project was made possible via the [DFINITY Developer Grant Program](https://dfinity.org/grants/).
