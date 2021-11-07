@@ -53,6 +53,15 @@ function createEditor(element) {
             let background = document.createElement('div');
             background.classList.add('grid');
             background.style.pointerEvents = 'none';
+            // noinspection JSUnresolvedVariable
+            if(!window.chrome){
+                editor.on('zoom', ({zoom}) => {
+                    // Fix flickering grid on non-Chrome browsers
+                    console.log(zoom);
+                    background.classList.toggle('far', zoom <= 1);
+                    console.log(background.classList)
+                });
+            }
             editor.on('destroy', () => background.remove());
             return background;
         })(),
@@ -62,6 +71,7 @@ function createEditor(element) {
     editor.use(ConnectionDropPlugin);
     editor.use(ConnectionOpacityPlugin);
     editor.use(VerticalSortPlugin);
+    // noinspection JSCheckFunctionSignatures
     editor.use(DragButtonPlugin, {editorButton: 2});
 
     let mouseMoved = false;
