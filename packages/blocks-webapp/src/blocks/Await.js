@@ -1,4 +1,4 @@
-import {asyncType, valueType} from '../block-types/types';
+import {valueType} from '../block-types/types';
 import {operatorCategory} from '../block-categories/categories';
 
 const block = {
@@ -8,7 +8,8 @@ const block = {
     topRight: 'result',
     inputs: [{
         key: 'input',
-        type: asyncType,
+        // type: asyncType,
+        type: valueType,//// Temporary
     }],
     outputs: [{
         key: 'result',

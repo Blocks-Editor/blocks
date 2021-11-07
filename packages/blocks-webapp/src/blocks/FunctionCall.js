@@ -51,7 +51,7 @@ const block = statementBlock({
         type: nodeType.withMeta({block: 'Function'}),
     }],
 }, ({functionNode, args}, node, compiler) => {
-    let name = compiler.getOutput(functionNode, 'name');
+    let name = compiler.getInput(functionNode, 'name');
     if(!name) {
         return;
     }

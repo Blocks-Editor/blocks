@@ -54,7 +54,9 @@ const block = memberBlock({
         let modifiers = [!!stable && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
         let type = compiler.editor.compilers.type.getInput(node, 'initialValue');
 
-        return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${type ? ` : ${compiler.getTypeString(type)}` : ''}${initialValue ? ' = ' + initialValue : ''};`;
+        initialValue = initialValue || '()';
+
+        return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${type ? ` : ${compiler.getTypeString(type)}` : ''} = ${initialValue};`;
     },
 });
 export default block;

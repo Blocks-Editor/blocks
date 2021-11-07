@@ -84,7 +84,7 @@ const block = memberBlock({
         return [
             modifiers,
             hasCaller ? nodeIdentifierRef(node) : '',
-            query ? 'query ' : '',
+            query ? 'query' : '',
             `func ${name || ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''}`,
             `{ ${body || ''} };`,
         ];
