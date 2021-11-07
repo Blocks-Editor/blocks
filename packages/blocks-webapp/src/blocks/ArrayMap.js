@@ -1,7 +1,7 @@
 import {arrayType, effectType, unitType, valueType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
 import {FaLayerGroup} from 'react-icons/all';
-import {nodeVariableRef} from '../compilers/MotokoCompiler';
+import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
 import {arrayImportRef} from './NewArray';
 
 const block = {
@@ -32,7 +32,7 @@ const block = {
             let fromTypeString = compiler.getTypeString(fromType);
             let toTypeString = compiler.getTypeString(toType);
 
-            return `${arrayImportRef}.map<${fromTypeString}, ${toTypeString}>(${array}, func (${nodeVariableRef(node)} : ${fromTypeString}) : ${toTypeString} { ${body} })`;
+            return `${arrayImportRef}.map<${fromTypeString}, ${toTypeString}>(${array}, func (${nodeIdentifierRef(node)} : ${fromTypeString}) : ${toTypeString} { ${body} })`;
         },
     }, {
         key: 'item',
@@ -43,7 +43,7 @@ const block = {
             }
         },
         toMotoko(_, node, compiler) {
-            return nodeVariableRef(node);
+            return nodeIdentifierRef(node);
         },
     }],
 };

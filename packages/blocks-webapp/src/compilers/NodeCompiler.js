@@ -5,7 +5,7 @@ export default class NodeCompiler extends Compiler {
         super(editor, 'toEditorNode');
     }
 
-    defaultCompile(prop, node, key) {
+    defaultCompile(prop, node) {
         return node;
     }
 

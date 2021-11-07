@@ -1,7 +1,7 @@
 import {asyncType, boolType, effectType, paramType, principalType, unitType} from '../block-types/types';
 import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
-import {nodeVariableRef} from '../compilers/MotokoCompiler';
+import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
 
 const defaultReturnType = effectType.of(unitType);
 
@@ -35,10 +35,7 @@ const block = memberBlock({
         key: 'params',
         type: paramType,
         multi: true,
-    }/*, {
-        key: 'returnType',
-        type: typeType.of(valueType),
-    }*/, {
+    }, {
         key: 'body',
         type: effectType,
         optional: true,
@@ -53,7 +50,7 @@ const block = memberBlock({
         key: 'caller',
         type: principalType,
         toMotoko(args, node, compiler) {
-            return `${nodeVariableRef(node)}.caller`;
+            return `${nodeIdentifierRef(node)}.caller`;
         },
     }],
     controls: [/*{
@@ -68,7 +65,7 @@ const block = memberBlock({
             type: boolType,
         }],
 }, {
-    toMotoko({visibility, query, name, params, body}, node, compiler) {
+    toMotoko({name, visibility, query, params, body}, node, compiler) {
         let hasCaller = node.outputs.get('caller').connections.length;
 
         let asyncKind = query ? 'query' : visibility === 'public' ? 'async' : null;
@@ -86,9 +83,9 @@ const block = memberBlock({
         let returnString = compiler.getTypeString(returnType);
         return [
             modifiers,
-            hasCaller ? nodeVariableRef(node) : '',
+            hasCaller ? nodeIdentifierRef(node) : '',
             query ? 'query ' : '',
-            `func${name ? ' ' + name : ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''}`,
+            `func ${name || ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''}`,
             `{ ${body || ''} };`,
         ];
     },

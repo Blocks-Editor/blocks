@@ -19,7 +19,7 @@ export default function TextControlHandle({control, bindInput, validation: {minL
             placeholder={control.name}
             minLength={minLength}
             maxLength={maxLength}
-            onChange={event => setValue(event.target.value || (control.config.optional && minLength > 0 ? undefined : ''))}
+            onChange={event => setValue(event.target.value || undefined)}
         />
     );
 }

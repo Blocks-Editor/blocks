@@ -1,6 +1,6 @@
 import {actorType, identifierType, memberType, paramType, principalType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
-import {nodeVariableRef} from '../compilers/MotokoCompiler';
+import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
 
 // TODO: subclasses
 let thisName = 'this';
@@ -16,7 +16,7 @@ const block = {
         if(!name) {
             return;
         }
-        return `${name}(${params.join(', ')})`;
+        return `actor class ${name}(${params.join(', ')})`;
     },
     inputs: [{
         key: 'name',
@@ -37,7 +37,7 @@ const block = {
         toMotoko({name, params, members}, node, compiler) {
             let hasCaller = node.outputs.get('caller').connections.length;
 
-            return `${hasCaller ? `shared (${nodeVariableRef(node)})` : ''}actor class${name ? ' ' + name : ''}(${params.join(', ')}) = ${thisName} { ${members.join(' ')} };`;
+            return `${hasCaller ? `shared (${nodeIdentifierRef(node)})` : ''}actor class${name ? ' ' + name : ''}(${params.join(', ')}) = ${thisName} { ${members.join(' ')} };`;
         },
         // }, {
         //     key: 'this',
@@ -49,7 +49,7 @@ const block = {
         key: 'caller',
         type: principalType,
         toMotoko(args, node, compiler) {
-            return `${nodeVariableRef(node)}.caller`;
+            return `${nodeIdentifierRef(node)}.caller`;
         },
     }],
 };

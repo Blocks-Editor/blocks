@@ -2,7 +2,7 @@ import {getBlock} from '../editor/blocks';
 import Rete from 'rete';
 import {getType} from '../block-types/types';
 
-class UndefinedInputError extends Error {
+export class UndefinedInputError extends Error {
     constructor(block, key) {
         super(`${block.name}.${key}`);
     }
@@ -14,8 +14,8 @@ export default class Compiler {
         this.compileKey = compileKey;
     }
 
-    // Default value if `[compileKey]` does not exist on block property
-    defaultCompile(prop, node, key) {
+    // Default output value if `[compileKey]` does not exist on block property
+    defaultCompile(prop, node) {
     }
 
     // Post-process results from either `prop[compileKey]` or `defaultCompile(..)`
@@ -95,7 +95,7 @@ export default class Compiler {
                 result = prop[this.compileKey](args, node, this);
             }
             else {
-                result = this.defaultCompile(prop, node, key);
+                result = this.defaultCompile(prop, node);
             }
             return this.postCompile(result, node, key);
         }
@@ -141,9 +141,10 @@ export default class Compiler {
                         }
                         let value = this.getInput(node, prop.key);
                         if(value === undefined && !prop.optional) {
-                            throw new UndefinedInputError(block, prop.key);
-                            // this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
-                            // return undefined; // Appease linter
+                            value = prop.type?.data.defaultInput?.(prop, node);
+                            if(value === undefined && !prop.optional) {
+                                throw new UndefinedInputError(block, prop.key);
+                            }
                         }
                         // cache[prop.key] = value;
                         cached = true;

@@ -6,7 +6,7 @@ export default class TypeCompiler extends Compiler {
         super(editor, 'inferType');
     }
 
-    defaultCompile(prop, node, key) {
+    defaultCompile(prop, node) {
         return getType(prop.type);
     }
 

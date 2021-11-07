@@ -9,7 +9,7 @@ const block = {
     global: true,
     computeTitle(node, editor) {
         let {name} = editor.compilers.motoko.getInputArgs(node);
-        return name;
+        return name && `actor ${name}`;
     },
     inputs: [{
         key: 'name',

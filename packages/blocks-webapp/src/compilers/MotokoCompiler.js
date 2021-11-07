@@ -1,10 +1,10 @@
 import Compiler from './Compiler';
-import {typeType} from '../block-types/types';
+import {identifierType, typeType} from '../block-types/types';
 
-export function nodeVariableRef(node) {
+export function nodeIdentifierRef(node, key) {
     // TODO: ensure `id` is a valid identifier
     let id = typeof node === 'number' || typeof node === 'string' ? String(node) : node.id;
-    return `node__${id}`;
+    return `node__${id}${key ? '_' + key : ''}`;
 }
 
 export function importRef(name) {
@@ -37,7 +37,15 @@ export default class MotokoCompiler extends Compiler {
         super(editor, 'toMotoko');
     }
 
-    defaultCompile(prop, node, key) {
+    defaultCompile(prop, node) {
+        // TODO: refactor these special cases
+
+        console.log(prop.type.name)///
+        if(identifierType.isSubtype(prop.type)) {
+            console.log(node.name)///
+            return nodeIdentifierRef(node, prop.key);
+        }
+
         if(typeType.isSubtype(prop.type)) {
             let type = prop.type.generics[0];
             if(type && !type.isAbstract()) {

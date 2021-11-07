@@ -3,12 +3,10 @@ import CheckboxControlHandle from '../components/rete/controls/CheckboxControlHa
 import NumberControlHandle from '../components/rete/controls/NumberControlHandle';
 import TypeControlHandle from '../components/rete/controls/TypeControlHandle';
 import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
+import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
 
 class Type {
     constructor(name, parent, generics, data = {}, meta = {}) {
-        if(name instanceof Type) {
-            throw new Error(`Type cannot be named ${name}`);
-        }
         this.name = name;
         this.parent = parent;
         this.generics = generics.map(type => getType(type));
@@ -47,7 +45,7 @@ class Type {
         return this.name === other.name && this.generics.length === other.generics.length && this.generics.every((t, i) => t.equals(other.generics[i]));
     }
 
-    // TODO: rename to something like `isSubtypeOrEquivalent`
+    // TODO: rename to something like `isAssignableFrom`
     isSubtype(other) {
         if(!other) {
             return false;
@@ -149,6 +147,10 @@ export const identifierType = createType('Identifier', {
     // defaultValue: '',
     validation: {
         pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
+    },
+    defaultInput(prop, node) {
+        // Create placeholder identifier
+        return nodeIdentifierRef(node, prop.key);
     },
 });
 export const effectType = createType('Effect', {

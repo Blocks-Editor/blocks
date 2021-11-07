@@ -5,7 +5,7 @@ export default class ControlCompiler extends Compiler {
         super(editor, 'toControl');
     }
 
-    defaultCompile(prop, node, key) {
+    defaultCompile(prop, node) {
     }
 
     postCompile(result, node, key) {
