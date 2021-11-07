@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { stringify } from 'query-string'
 
 const DEFAULT_URL =
-  process.env.BLOCKS_URL ?? 'https://www.ryanvandersmith.com/blocks'
+  process.env.BLOCKS_URL ?? 'https://blocks-editor.github.io/blocks'
 
 // TODO: Rete.js node type checking
 type Node = any
