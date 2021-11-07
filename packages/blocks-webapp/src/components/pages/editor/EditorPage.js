@@ -10,8 +10,7 @@ import FileSaver from 'file-saver';
 import {pascalCase} from 'change-case';
 import useRedraw from '../../../hooks/useRedraw';
 import isEmbedded from '../../../utils/isEmbedded';
-import {useParams} from 'react-router-dom';
-// import {BlocksEditor} from 'react-blocks-editor';
+import {parse} from 'querystring';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
@@ -29,14 +28,14 @@ let nextEditorState;
 export default function EditorPage() {
     const redraw = useRedraw();
 
-    const {menu: menuParam} = useParams();
+    const {menu: menuParam} = parse(window.location.search.substring(1));
 
     const events = useContext(EventsContext);
 
     useListener(events, PROJECT_CLEAR_EVENT, () => {
         // TODO: confirmation modal
         // delete storage[STORAGE_EDITOR_STATE];
-        nextEditorState = DEFAULT_STATE;
+        nextEditorState = null;
         redraw();
     });
 
@@ -59,16 +58,25 @@ export default function EditorPage() {
         if(stateString) {
             state = JSON.parse(stateString);
         }
-        else {
+        else if(!embedded) {
             state = DEFAULT_STATE;
         }
 
-        if(!await loadState(state)) {
+        if(state && !await loadState(state)) {
             console.warn('Load error');
         }
     };
 
     const onEditorChange = (editor) => {
+        // if(embedded) {
+        //     // TODO: dry with onEditorSave()
+        //     let message = {
+        //         type: 'change',
+        //         state: JSON.stringify(editor.toJSON()),
+        //     };
+        //     console.log('Sending message:', message);
+        //     window.parent.postMessage(message, '*'); // TODO: restrict target origin
+        // }
     };
 
     const onEditorSave = (state, editor) => {
@@ -80,18 +88,20 @@ export default function EditorPage() {
                 state: stateString,
             };
             console.log('Sending message:', message);
-            let targetOrigin = '*'; // TODO: restrict
+            let targetOrigin = '*'; // TODO: restrict target origin
             window.parent.postMessage(message, targetOrigin);
         }
     };
 
-    // Remote (iframe) message listener
     useListener(window, 'message', ({source, data}) => {
-        if(typeof data === 'string') {
-            console.log('Received message:', data);
-            data = JSON.parse(data);
-            if(data?.type === 'load') {
-                nextEditorState = data.state ? JSON.parse(JSON.stringify(data.state)) : DEFAULT_STATE;
+        if(embedded && source === window.parent) {
+            if(typeof data === 'string') {
+                console.log('Received message:', data);
+                data = JSON.parse(data);
+                if(data?.type === 'load') {
+                    nextEditorState = data.state ? JSON.parse(JSON.stringify(data.state)) : null;
+                    redraw();
+                }
             }
         }
     });
@@ -103,12 +113,5 @@ export default function EditorPage() {
             onChange={onEditorChange}
             onSave={onEditorSave}
         />
-        // <BlocksEditor style={{width: '100%', height: '100%'}} options={{menu: 'default'}}>
-        //     {({loadState}) => {
-        //         let state = require('../../../examples/files/Calculator.blocks.json');
-        //         state.name = 'TEST';
-        //         loadState(state);
-        //     }}
-        // </BlocksEditor>
     );
 }
