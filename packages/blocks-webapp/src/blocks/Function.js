@@ -23,7 +23,7 @@ const block = memberBlock({
         // return name;/////
         let params = editor.compilers.motoko.getInput(node, 'params');
         let returnType = getFunctionReturnType(node, editor);
-        return name && params && `${name}(${params.join(', ')})${returnType ? ' : ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
+        return `${name || ''}(${params.join(', ')})${returnType ? ' : ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
     },
     shortcuts: [{
         block: 'FunctionCall',
