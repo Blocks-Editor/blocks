@@ -80,7 +80,6 @@ $grid-area: $grid-size * 10000;
     height: 2 * $grid-area;
     background-size: $grid-size $grid-size;
     background-image: linear-gradient(to right, $grid-color 1px, transparent 1px), linear-gradient(to bottom, $grid-color 1px, transparent 1px);
-    transform: translateZ(0);
 
     &.far {
       // Hotfix - flickering on Firefox / Safari
