@@ -1,4 +1,6 @@
-# Blocks.
+![Blocks.](./packages/blocks-webapp/public/img/logo-gradient.png)
+
+---
 
 *Blocks* is an online visual smart contract editor for the Internet Computer.
 
