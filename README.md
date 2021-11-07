@@ -6,7 +6,7 @@
 
 - [blocks-webapp](./packages/blocks-webapp) - Source code for the Blocks web application.
 - [react-blocks-editor](./packages/react-blocks-editor) - Embed the Blocks editor anywhere using a React component.
-- [rete](./packages/rete) - An improved version of [Rete.js](https://rete.js.org/#/).
+- [rete](https://github.com/rvanasa/rete) - An improved version of [Rete.js](https://rete.js.org/#/).
 
 ---
 
