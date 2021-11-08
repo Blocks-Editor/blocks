@@ -51,21 +51,19 @@ export default function EditorPage() {
     });
 
     const onEditorSetup = async (loadState, editor) => {
-        if(!embedded) {
-            let stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
-            nextEditorState = null;
+        let stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
+        nextEditorState = null;
 
-            let state;
-            if(stateString) {
-                state = JSON.parse(stateString);
-            }
-            else {
-                state = DEFAULT_STATE;
-            }
+        let state;
+        if(stateString) {
+            state = JSON.parse(stateString);
+        }
+        else if(!embedded) {
+            state = DEFAULT_STATE;
+        }
 
-            if(state && !await loadState(state)) {
-                console.warn('Load error');
-            }
+        if(state && !await loadState(state)) {
+            console.warn('Load error');
         }
     };
 
