@@ -1,5 +1,5 @@
 import {referenceType, textType} from '../block-types/types';
-import {FaItalic} from 'react-icons/all';
+import {FaItalic} from 'react-icons/fa';
 import {importRef} from '../compilers/MotokoCompiler';
 
 const block = {

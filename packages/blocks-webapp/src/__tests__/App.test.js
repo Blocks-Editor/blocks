@@ -1,8 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import App from '../components/App';
+import {render, waitFor} from '@testing-library/react';
 
-it('renders without errors/warnings', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<App/>, div);
+it('renders without errors/warnings', async () => {
+
+    const result = render(<App/>);
+
+    await waitFor(async () => {
+        // noinspection JSCheckFunctionSignatures
+        expect(await result.findByText('actor Main')).toBeInTheDocument();
+    });
 });

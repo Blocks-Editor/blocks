@@ -1,5 +1,5 @@
 import {identifierType} from '../block-types/types';
-import {FaItalic} from 'react-icons/all';
+import {FaItalic} from 'react-icons/fa';
 
 const block = {
     title: 'Name',

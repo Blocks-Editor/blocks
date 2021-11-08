@@ -18,7 +18,7 @@ export function resolveImportRefs(code) {
     code = String(code);
 
     const imports = {};
-    code = code.replaceAll(/\$import\$"([^"]*)"/g, (match, path) => {
+    code = code.replace(/\$import\$"([^"]*)"/g, (match, path) => {
         const id = path.includes('/') ? path.substring(path.lastIndexOf('/') + 1) : path;
         if(imports.hasOwnProperty(id) && imports[id] !== path) {
             throw new Error(`Conflicting import paths: "${path}" != "${imports[id]}"`);

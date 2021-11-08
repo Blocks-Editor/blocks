@@ -33,7 +33,7 @@ module.exports = {
                 // loadWasmPlugin,
                 new FilterWarningsPlugin({
                     // Exclude warnings created by `require.context` polyfill
-                    exclude: /CriticalDependenciesWarning/,
+                    exclude: /Critical dependency/,
                 }),
             ],
         },
@@ -43,9 +43,9 @@ module.exports = {
             verbose: true,
             moduleDirectories: ['node_modules'],
             transform: {
-                '\\.js$': '<rootDir>/utils/jest/requireContextTransformer',
+                '\\.js$': '<rootDir>/utils/jest/requireContextTransformer', // TODO: fix
             },
-            transformIgnorePatterns: ['/node_modules/?!()'], // Fix compile errors
+            // transformIgnorePatterns: ['/node_modules/?!()'], // Fix compile errors
         },
     },
 };

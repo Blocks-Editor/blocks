@@ -1,7 +1,7 @@
 import {mapType, valueType} from '../block-types/types';
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {collectionCategory} from '../block-categories/categories';
-import {FaCompress} from 'react-icons/all';
+import {FaCompress} from 'react-icons/fa';
 
 const block = statementBlock({
     title: 'Remove (Map)',

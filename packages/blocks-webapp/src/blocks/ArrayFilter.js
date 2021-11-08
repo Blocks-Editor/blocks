@@ -1,6 +1,6 @@
 import {arrayType, boolType, effectType, unitType, valueType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
-import {FaLayerGroup} from 'react-icons/all';
+import {FaLayerGroup} from 'react-icons/fa';
 import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
 import {arrayImportRef} from './NewArray';
 

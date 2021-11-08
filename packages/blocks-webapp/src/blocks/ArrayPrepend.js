@@ -2,7 +2,7 @@ import {arrayType, valueType} from '../block-types/types';
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {collectionCategory} from '../block-categories/categories';
 import {arrayImportRef} from './NewArray';
-import {FaRegCaretSquareLeft} from 'react-icons/all';
+import {FaRegCaretSquareLeft} from 'react-icons/fa';
 
 const block = statementBlock({
     title: 'Prepend (Array)',

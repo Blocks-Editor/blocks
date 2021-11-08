@@ -2,6 +2,40 @@ import {basename} from 'path';
 import {getType} from '../block-types/types';
 import {defaultCategory, getCategory} from '../block-categories/categories';
 
+// Temp: `/utils/jest/requireContextTransform`
+// noinspection JSUnresolvedVariable
+if(typeof require.context === 'undefined') {
+    const fs = require('fs');
+    const path = require('path');
+
+    // noinspection JSUndefinedPropertyAssignment
+    require.context = (base = '.', scanSubDirectories = false, regularExpression = /\.js$/) => {
+        const files = {};
+
+        const readDirectory = (directory) => {
+            fs.readdirSync(directory).forEach((file) => {
+                const fullPath = path.resolve(directory, file);
+                if(fs.statSync(fullPath).isDirectory()) {
+                    if(scanSubDirectories) {
+                        readDirectory(fullPath);
+                    }
+                }
+                else if(regularExpression.test(fullPath)) {
+                    files[fullPath] = true;
+                }
+            });
+        };
+
+        const Module = (file) => {
+            return require(file);
+        };
+        Module.keys = () => Object.keys(files);
+
+        readDirectory(path.resolve(__dirname, base));
+        return Module;
+    };
+}
+
 const allBlocks = [];
 const blockNames = new Set();
 
