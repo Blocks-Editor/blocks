@@ -35,7 +35,7 @@ export default function EditorPage() {
     useListener(events, PROJECT_CLEAR_EVENT, () => {
         // TODO: confirmation modal
         // delete storage[STORAGE_EDITOR_STATE];
-        nextEditorState = null;
+        nextEditorState = DEFAULT_STATE;
         redraw();
     });
 
@@ -51,19 +51,21 @@ export default function EditorPage() {
     });
 
     const onEditorSetup = async (loadState, editor) => {
-        let stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
-        nextEditorState = null;
+        if(!embedded) {
+            let stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
+            nextEditorState = null;
 
-        let state;
-        if(stateString) {
-            state = JSON.parse(stateString);
-        }
-        else if(!embedded) {
-            state = DEFAULT_STATE;
-        }
+            let state;
+            if(stateString) {
+                state = JSON.parse(stateString);
+            }
+            else {
+                state = DEFAULT_STATE;
+            }
 
-        if(state && !await loadState(state)) {
-            console.warn('Load error');
+            if(state && !await loadState(state)) {
+                console.warn('Load error');
+            }
         }
     };
 
@@ -99,7 +101,7 @@ export default function EditorPage() {
                 console.log('Received message:', data);
                 data = JSON.parse(data);
                 if(data?.type === 'load') {
-                    nextEditorState = data.state ? JSON.parse(JSON.stringify(data.state)) : null;
+                    nextEditorState = data.state ? JSON.parse(JSON.stringify(data.state)) : DEFAULT_STATE;
                     redraw();
                 }
             }
