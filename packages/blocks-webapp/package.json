@@ -46,7 +46,8 @@
   "scripts": {
     "start": "craco start",
     "test": "craco test",
-    "build": "npm test --all && craco build",
+    "prebuild": "set CI=true&& npm run test",
+    "build": "npm run prebuild && craco build",
     "deploy": "set PUBLIC_URL=https://blocks-editor.github.io/blocks&& npm run build && gh-pages -d build"
   },
   "eslintConfig": {
