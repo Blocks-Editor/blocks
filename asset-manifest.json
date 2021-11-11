@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "https://blocks-editor.github.io/blocks/static/css/main.e4af5cf2.chunk.css",
-    "main.js": "https://blocks-editor.github.io/blocks/static/js/main.0146b5a2.chunk.js",
-    "main.js.map": "https://blocks-editor.github.io/blocks/static/js/main.0146b5a2.chunk.js.map",
+    "main.js": "https://blocks-editor.github.io/blocks/static/js/main.a231c518.chunk.js",
+    "main.js.map": "https://blocks-editor.github.io/blocks/static/js/main.a231c518.chunk.js.map",
     "runtime-main.js": "https://blocks-editor.github.io/blocks/static/js/runtime-main.81739ff8.js",
     "runtime-main.js.map": "https://blocks-editor.github.io/blocks/static/js/runtime-main.81739ff8.js.map",
     "static/css/2.f4c56af9.chunk.css": "https://blocks-editor.github.io/blocks/static/css/2.f4c56af9.chunk.css",
-    "static/js/2.86bf19e4.chunk.js": "https://blocks-editor.github.io/blocks/static/js/2.86bf19e4.chunk.js",
-    "static/js/2.86bf19e4.chunk.js.map": "https://blocks-editor.github.io/blocks/static/js/2.86bf19e4.chunk.js.map",
+    "static/js/2.1b53dd3c.chunk.js": "https://blocks-editor.github.io/blocks/static/js/2.1b53dd3c.chunk.js",
+    "static/js/2.1b53dd3c.chunk.js.map": "https://blocks-editor.github.io/blocks/static/js/2.1b53dd3c.chunk.js.map",
     "static/js/3.40fdba08.chunk.js": "https://blocks-editor.github.io/blocks/static/js/3.40fdba08.chunk.js",
     "static/js/3.40fdba08.chunk.js.map": "https://blocks-editor.github.io/blocks/static/js/3.40fdba08.chunk.js.map",
     "index.html": "https://blocks-editor.github.io/blocks/index.html",
     "static/css/2.f4c56af9.chunk.css.map": "https://blocks-editor.github.io/blocks/static/css/2.f4c56af9.chunk.css.map",
     "static/css/main.e4af5cf2.chunk.css.map": "https://blocks-editor.github.io/blocks/static/css/main.e4af5cf2.chunk.css.map",
-    "static/js/2.86bf19e4.chunk.js.LICENSE.txt": "https://blocks-editor.github.io/blocks/static/js/2.86bf19e4.chunk.js.LICENSE.txt",
+    "static/js/2.1b53dd3c.chunk.js.LICENSE.txt": "https://blocks-editor.github.io/blocks/static/js/2.1b53dd3c.chunk.js.LICENSE.txt",
     "static/media/index.scss": "https://blocks-editor.github.io/blocks/static/media/silka-thin-webfont.8b3928f0.eot",
     "static/media/download.9a79f24e.svg": "https://blocks-editor.github.io/blocks/static/media/download.9a79f24e.svg",
     "static/media/file-plus.c3f75220.svg": "https://blocks-editor.github.io/blocks/static/media/file-plus.c3f75220.svg",
@@ -25,8 +25,8 @@
   "entrypoints": [
     "static/js/runtime-main.81739ff8.js",
     "static/css/2.f4c56af9.chunk.css",
-    "static/js/2.86bf19e4.chunk.js",
+    "static/js/2.1b53dd3c.chunk.js",
     "static/css/main.e4af5cf2.chunk.css",
-    "static/js/main.0146b5a2.chunk.js"
+    "static/js/main.a231c518.chunk.js"
   ]
 }
