@@ -7,7 +7,8 @@ const defaultReturnType = unitType;
 
 export function getFunctionReturnType(node, editor) {
     let type = editor.compilers.type.getInput(node, 'body')?.generics[0] || defaultReturnType;
-    let {query, visibility} = editor.compilers.control.getInputArgs(node);
+    let query = editor.compilers.control.getInput(node, 'query');
+    let visibility = editor.compilers.control.getInput(node, 'visibility');
     if(query || visibility === 'public') {
         type = asyncType.of(type);
     }
