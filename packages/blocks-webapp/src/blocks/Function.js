@@ -3,11 +3,11 @@ import {computeMemberName, memberBlock, visibilityControlProp} from '../block-pa
 import {functionCategory} from '../block-categories/categories';
 import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
 
-const defaultReturnType = effectType.of(unitType);
+const defaultReturnType = unitType;
 
 export function getFunctionReturnType(node, editor) {
-    let type = editor.compilers.type.getInput(node, 'body')?.generics[0];
-    let {query, visibility} = editor.compilers.control.getInput(node, 'query');
+    let type = editor.compilers.type.getInput(node, 'body')?.generics[0] || defaultReturnType;
+    let {query, visibility} = editor.compilers.control.getInputArgs(node);
     if(query || visibility === 'public') {
         type = asyncType.of(type);
     }
@@ -21,8 +21,11 @@ const block = memberBlock({
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
         // return name;/////
-        let params = editor.compilers.motoko.getInput(node, 'params');
+        let {params, body} = editor.compilers.motoko.getInputArgs(node);
         let returnType = getFunctionReturnType(node, editor);
+        if(!name && !params.length && !body) {
+            return;
+        }
         return `${name || ''}(${params.join(', ')})${returnType ? ' : ' + editor.compilers.motoko.getTypeString(returnType) : ''}`;
     },
     shortcuts: [{
@@ -68,18 +71,10 @@ const block = memberBlock({
     toMotoko({name, visibility, query, params, body}, node, compiler) {
         let hasCaller = node.outputs.get('caller').connections.length;
 
-        let asyncKind = query ? 'query' : visibility === 'public' ? 'async' : null;
         let shared = !!hasCaller;
         let modifiers = [visibility !== 'system' && visibility, shared && 'shared'].filter(m => m).join(' ');
 
-        let returnType = body ? compiler.inferType(node, 'body') : defaultReturnType;
-        if(!returnType) {
-            return;
-        }
-        returnType = returnType.generics[0] || unitType; // Unwrap `Effect<>`
-        if(asyncKind) {
-            returnType = asyncType.of(returnType);
-        }
+        let returnType = getFunctionReturnType(node, compiler.editor);
         let returnString = compiler.getTypeString(returnType);
         return [
             modifiers,
