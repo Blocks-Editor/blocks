@@ -1,35 +1,46 @@
 import React from 'react';
 import MenuItem from './MenuItem';
 import styled from 'styled-components';
+import {paramCase} from 'change-case';
 
 let MenuItemStyled = styled(MenuItem)`
   cursor: pointer;
   border-radius: 10px;
 
-  :hover  {
+  :hover {
     background: #F0F0F0;
-    & > svg {
-      fill: url("#blocks-icon-gradient")
-    }
   }
 `;
 
-const hiddenSVGStyle = {
-    width: 0,
-    height: 0,
-    position: "absolute"
-}
+const IconStyled = styled.svg`
+  position: absolute;
+  width: 0;
+  height: 0;
+
+  :hover {
+    fill: url("#${props => props.gradientId}")
+  }
+`;
 
 export default function MenuButton({children, ...others}) {
+    const {tooltip} = others;
+
+    // Ensure valid tooltip for unique gradient id
+    if(!tooltip) {
+        console.warn('Missing tooltip on MenuButton');
+        return null;
+    }
+    const gradientId = `blocks-icon-gradient-${paramCase(tooltip)}`;
+
     return (
         <MenuItemStyled {...others}>
-            <svg style={hiddenSVGStyle} aria-hidden="true" focusable="false">
-                <linearGradient id="blocks-icon-gradient" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#00EFFB" />
-                    <stop offset="50%" stopColor="#8649E1" />
-                    <stop offset="100%" stopColor="#F900E3" />
+            <IconStyled gradientId={gradientId} aria-hidden="true" focusable="false">
+                <linearGradient id={gradientId} x2="1" y2="1">
+                    <stop offset="0%" stopColor="#00EFFB"/>
+                    <stop offset="50%" stopColor="#8649E1"/>
+                    <stop offset="100%" stopColor="#F900E3"/>
                 </linearGradient>
-            </svg>
+            </IconStyled>
             {children}
         </MenuItemStyled>
     );

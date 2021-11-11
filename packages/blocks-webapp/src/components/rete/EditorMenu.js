@@ -122,7 +122,9 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         {/*<FiDownload/>*/}
                         <Icon name="download"/>
                     </MenuButton>
-                    <MenuButton onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)} data-tip="New Project">
+                    <MenuButton
+                        tooltip="New Project"
+                        onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)}>
                         <Icon name="file-plus"/>
                     </MenuButton>
                     <MenuButton
