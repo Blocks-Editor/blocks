@@ -18,14 +18,14 @@ const IconStyled = styled.svg`
   height: 0;
 
   :hover {
-    fill: url("#${props => props.gradientId}")
+    fill: url("#${props => props.gradientId}");
   }
 `;
 
 export default function MenuButton({children, ...others}) {
     const {tooltip} = others;
 
-    // Ensure valid tooltip for unique gradient id
+    // Ensure valid tooltip for unique gradient `id` attribute
     if(!tooltip) {
         console.warn('Missing tooltip on MenuButton');
         return null;
