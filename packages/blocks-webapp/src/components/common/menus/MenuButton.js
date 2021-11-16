@@ -10,16 +10,16 @@ let MenuItemStyled = styled(MenuItem)`
   :hover {
     background: #F0F0F0;
   }
+  
+  :hover > svg {
+    fill: url("#svg-block-gradient");
+  }
 `;
 
 const IconStyled = styled.svg`
   position: absolute;
   width: 0;
   height: 0;
-
-  :hover {
-    fill: url("#${props => props.gradientId}");
-  }
 `;
 
 export default function MenuButton({children, ...others}) {
@@ -30,16 +30,10 @@ export default function MenuButton({children, ...others}) {
         console.warn('Missing tooltip on MenuButton');
         return null;
     }
-    const gradientId = `blocks-icon-gradient-${paramCase(tooltip)}`;
 
     return (
         <MenuItemStyled {...others}>
-            <IconStyled gradientId={gradientId} aria-hidden="true" focusable="false">
-                <linearGradient id={gradientId} x2="1" y2="1">
-                    <stop offset="0%" stopColor="#00EFFB"/>
-                    <stop offset="50%" stopColor="#8649E1"/>
-                    <stop offset="100%" stopColor="#F900E3"/>
-                </linearGradient>
+            <IconStyled aria-hidden="true" focusable="false">
             </IconStyled>
             {children}
         </MenuItemStyled>
