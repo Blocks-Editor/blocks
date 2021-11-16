@@ -1,25 +1,24 @@
-import {mutableArrayType, natType, valueType} from '../block-types/types';
+import {valueType} from '../block-types/types';
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {collectionCategory} from '../block-categories/categories';
 import {stateWriteIcon} from './State';
 
 const block = statementBlock({
-    title: 'Put (Array)',
+    title: 'Put (Collection)',
     category: collectionCategory,
     icon: stateWriteIcon,
-    // deprecated: true,
+    hidden: true,
     inputs: [{
-        key: 'array',
-        title: 'Array (mutable)',
-        type: mutableArrayType,
+        key: 'collection',
+        type: collectionCategory,
     }, {
-        key: 'index',
-        type: natType,
+        key: 'key',
+        type: valueType,
     }, {
         key: 'value',
         type: valueType,
     }],
-}, ({array, index, value}) => {
-    return `${array}.put(${index}, ${value});`;
+}, ({collection, key, value}) => {
+    return `${collection}.put(${key}, ${value});`;
 });
 export default block;

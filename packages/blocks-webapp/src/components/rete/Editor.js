@@ -54,7 +54,7 @@ function createEditor(element) {
             background.classList.add('grid');
             background.style.pointerEvents = 'none';
             // noinspection JSUnresolvedVariable
-            if(!window.chrome){
+            if(!window.chrome) {
                 editor.on('zoom', ({zoom}) => {
                     // Fix flickering grid on non-Chrome browsers
                     background.classList.toggle('far', zoom <= 1);

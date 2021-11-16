@@ -7,6 +7,7 @@ const block = statementBlock({
     title: 'Put (Map)',
     category: collectionCategory,
     icon: stateWriteIcon,
+    // deprecated: true,
     inputs: [{
         key: 'map',
         type: mapType,

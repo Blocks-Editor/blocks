@@ -47,16 +47,19 @@ export const stateCategory = createCategory({
     name: 'State',
     color: '#3fd',
     icon: FaDatabase,
+    priority: 10,
 });
 export const functionCategory = createCategory({
     name: 'Function',
     color: '#fd3',
     icon: FaCubes,
+    priority: 20,
 });
 export const paramCategory = createCategory({
     name: 'Param',
     color: '#a8f',
     icon: FaLongArrowAltRight,
+    priority: 3,
 });
 export const typeCategory = createCategory({
     name: 'Type',
@@ -92,6 +95,7 @@ export const effectCategory = createCategory({
     name: 'Effect',
     // color: '#57f',
     icon: FaStream,
+    priority: 5,
 });
 export const literalCategory = createCategory({
     name: 'Literal',
@@ -100,6 +104,6 @@ export const literalCategory = createCategory({
 });
 export const decompositionCategory = createCategory({
     name: 'Decomposition',
-    // color: '#8fa',
+    // color: '#ccc',
     icon: FaNetworkWired,
 });

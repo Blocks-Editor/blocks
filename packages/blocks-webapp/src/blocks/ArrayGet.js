@@ -7,6 +7,7 @@ const block = {
     category: collectionCategory,
     icon: stateReadIcon,
     topRight: 'value',
+    // deprecated: true,
     inputs: [{
         key: 'array',
         type: arrayType,

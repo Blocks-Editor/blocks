@@ -5,12 +5,14 @@ export default function useEditorComponents(editor, sortFn) {
 
     return useMemo(() => {
         return [...editor.components.values()]
-            .filter(c => !c?.block?.hidden)// TODO: refactor?
+            .filter(c => c && 'block' in c && !c.block?.hidden && !c.block?.deprecated)// TODO: refactor?
             .map(v => [sortFn(v), v])
             .sort(([a], [b]) => {
                 if(Array.isArray(a)) {
                     for(let i = 0; i < a.length; i++) {
-                        let compare = a[i].localeCompare(b[i]);
+                        let compare = typeof a[i] === 'number'
+                            ? a[i] - b[i]
+                            : a[i].localeCompare(b[i]);
                         if(compare !== 0) {
                             return compare;
                         }

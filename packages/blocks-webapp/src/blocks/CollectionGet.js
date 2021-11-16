@@ -1,16 +1,16 @@
-import {mapType, optionalType, valueType} from '../block-types/types';
+import {collectionType, mapType, optionalType, valueType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
 import {stateReadIcon} from './State';
 
 const block = {
-    title: 'Get (Map)',
+    title: 'Get (Collection)',
     category: collectionCategory,
     icon: stateReadIcon,
     topRight: 'value',
-    // deprecated: true,
+    hidden: true,
     inputs: [{
-        key: 'map',
-        type: mapType,
+        key: 'collection',
+        type: collectionType,
     }, {
         key: 'key',
         type: valueType,
@@ -18,13 +18,13 @@ const block = {
     outputs: [{
         key: 'value',
         type: optionalType.of(valueType),
-        inferType({map}) {
-            if(mapType.isSubtype(map)) {
-                return optionalType.of(map.generics[1]);
+        inferType({collection}) {
+            if(mapType.isSubtype(collection)) {
+                return optionalType.of(collection.generics[1]);
             }
         },
-        toMotoko({map, key}) {
-            return `${map}.get(${key})`;
+        toMotoko({collection, key}) {
+            return `${collection}.get(${key})`;
         },
     }],
 };

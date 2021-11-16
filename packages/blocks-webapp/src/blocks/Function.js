@@ -34,6 +34,10 @@ const block = memberBlock({
         nodeKey: 'functionNode',
     }, {
         block: 'Return',
+        connections: [{
+            from: 'body',
+            to: 'statement',
+        }],
     }],
     inputs: [{
         key: 'params',

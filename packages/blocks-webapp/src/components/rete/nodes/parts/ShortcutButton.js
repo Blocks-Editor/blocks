@@ -4,14 +4,15 @@ import getBlockLabel from '../../../../utils/getBlockLabel';
 import {Button} from 'react-bootstrap';
 import EventsContext, {ERROR_EVENT} from '../../../../contexts/EventsContext';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
+import {Output} from 'rete';
 
 export default function ShortcutButton({editor, node, shortcut}) {
-    let {block} = shortcut;
-    let {category} = block;
+    const {block} = shortcut;
+    const {category} = block;
 
-    let events = useContext(EventsContext);
+    const events = useContext(EventsContext);
 
-    let onClick = async event => {
+    const onClick = async event => {
         try {
             let component = editor.components.get(block.name);
             if(!component) {
@@ -26,6 +27,22 @@ export default function ShortcutButton({editor, node, shortcut}) {
             let {x, y} = editor.view.area.mouse;
             [newNode.position[0], newNode.position[1]] = [x - 80, y - 20];
             editor.addNode(newNode);
+
+            // Add connections
+            for(let connection of shortcut.connections) {
+                let {from, to} = connection;
+
+                let fromIO = (node.outputs.get(from) || node.inputs.get(from));
+                let fromOutput = fromIO instanceof Output;
+                let toIO = (fromOutput ? newNode.inputs.get(to) : newNode.outputs.get(to));
+                let [output, input] = fromOutput ? [fromIO, toIO] : [toIO, fromIO];
+                if(output && input) {
+                    editor.connect(output, input);
+                }
+                else {
+                    console.warn('Could not connect', output, 'to', input);
+                }
+            }
 
             // Start dragging node
             let nodeView = editor.view.nodes.get(newNode);
