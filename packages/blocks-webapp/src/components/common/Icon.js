@@ -17,7 +17,9 @@ export default function Icon(props) {
     const options = {
         ...props,
         fill: props.fill || DEFAULT_FILL,
-        height: props.height || DEFAULT_ICON_HEIGHT
+        height: props.height || DEFAULT_ICON_HEIGHT,
+        width: props.name === "folder-wide" || props.name === "folder-open" ?
+            (30/24) * (props.height || DEFAULT_ICON_HEIGHT) : (props.height || DEFAULT_ICON_HEIGHT)
     }
 
     // If you know some magic to make this less bad, feel free to do it
