@@ -34,6 +34,7 @@ export default function CommentNodeView({block, nodeHandle}) {
                 maxRows={100}
                 ref={bindNodeInput}
                 value={text || ''}
+                placeholder="Comment"
                 onChange={e => setText(e.target.value)}
                 onMouseUp={e => setWidth(e.target.clientWidth)}
             />
