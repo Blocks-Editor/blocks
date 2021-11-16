@@ -23,10 +23,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
             if(node && shortcut.nodeKey) {
                 data[shortcut.nodeKey] = node.id;
             }
-            let newNode = await component.createNode(data);
-            let {x, y} = editor.view.area.mouse;
-            [newNode.position[0], newNode.position[1]] = [x - 80, y - 20];
-            editor.addNode(newNode);
+            let newNode = await editor.createNodeAtCursor(component, data);
 
             // Start dragging node
             let nodeView = editor.view.nodes.get(newNode);

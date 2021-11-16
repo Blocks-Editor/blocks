@@ -91,4 +91,19 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         }
         return this.afterImport() && !hadError;
     }
+
+    async createNode(component, data = {}, position = null) {
+        let node = await component.createNode(data);
+        if(position) {
+            let {x, y} = position;
+            [node.position[0], node.position[1]] = [x, y];
+        }
+        this.addNode(node);
+        return node;
+    }
+
+    async createNodeAtCursor(component, data = {}) {
+        let {x, y} = this.view.area.mouse;
+        return this.createNode(component, data, {x: x - 80, y: y - 20});
+    }
 }

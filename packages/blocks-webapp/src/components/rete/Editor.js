@@ -24,6 +24,7 @@ import classNames from 'classnames';
 import styled from 'styled-components';
 import EditorMenu from './EditorMenu';
 import FileDropZone from '../common/FileDropZone';
+import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
@@ -149,7 +150,8 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
         window.EDITOR = editor; // Browser debugging
 
         let onKeyDown = (event) => {
-            let key = String.fromCharCode(event.which).toLowerCase();
+            // let key = String.fromCharCode(event.which).toLowerCase();
+            let key = event.key;
 
             // if(key === 'f') {
             //     editor.trigger('arrange');
@@ -159,6 +161,13 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
                     event.preventDefault();
                     events.emit(EDITOR_SAVE_EVENT, editor);
                     console.log('Saved successfully');
+                }
+            }
+            else if(!(document.activeElement?.nodeName === 'INPUT') /* Check for focused input field */) {
+                let block = SHORTCUT_KEYS.get(key);
+                if(block) {
+                    editor.createNodeAtCursor(editor.getComponent(block.name))
+                        .catch(err => events.emit('error', err));
                 }
             }
         };

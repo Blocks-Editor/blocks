@@ -1,5 +1,6 @@
 import {
     FaCode,
+    FaComment,
     FaCubes,
     FaDatabase,
     FaEject,
@@ -106,4 +107,9 @@ export const decompositionCategory = createCategory({
     name: 'Decomposition',
     // color: '#ccc',
     icon: FaNetworkWired,
+});
+export const commentCategory = createCategory({
+    name: 'Comment',
+    // color: '#ccc',
+    icon: FaComment,
 });
