@@ -1,61 +1,15 @@
 import React from 'react';
-import {Control, Node} from 'rete-react-render-plugin';
+import {Node} from 'rete-react-render-plugin';
 import {SocketHandle} from '../sockets/SocketHandle';
 import {getBlock} from '../../../editor/blocks';
 import classNames from 'classnames';
-import {paramCase} from 'change-case';
 import DynamicTitle from './parts/DynamicTitle';
 import getNodeLabel from '../../../utils/getNodeLabel';
 import getPropLabel from '../../../utils/getPropLabel';
 import {ButtonGroup} from 'react-bootstrap';
 import ShortcutButton from './parts/ShortcutButton';
-
-function PropHandle({prop, node, hideLeft, hideRight, bindSocket, bindControl}) {
-    let input = node.inputs.get(prop.key);
-    let output = node.outputs.get(prop.key);
-    let control = node.controls.get(prop.key) || (input?.showControl() && input.control);
-
-    let leftSocket = input && !hideLeft && (
-        <SocketHandle
-            type="input"
-            socket={input.socket}
-            io={input}
-            innerRef={bindSocket}
-        />
-    );
-    let rightSocket = output && !hideRight && (
-        <SocketHandle
-            type="output"
-            socket={output.socket}
-            io={output}
-            innerRef={bindSocket}
-        />
-    );
-    let controlField = control && (
-        <Control
-            className={input ? 'input-control' : 'control'}
-            control={control}
-            innerRef={bindControl}
-        />
-    );
-
-    return (
-        <div className={classNames('prop', 'key-' + paramCase(prop.key))}>
-            <div className="input">
-                {leftSocket}
-                {controlField || (leftSocket && (
-                    <div className="input-title">{getPropLabel(prop)}</div>
-                ))}
-            </div>
-            <div className="output">
-                {!input && (rightSocket && (
-                    <div className="output-title">{getPropLabel(prop)}</div>
-                ))}
-                {rightSocket}
-            </div>
-        </div>
-    );
-}
+import PropField from './parts/PropField';
+import CommentNodeView from './views/CommentNodeView';
 
 export default class NodeHandle extends Node {
     render() {
@@ -63,6 +17,10 @@ export default class NodeHandle extends Node {
         let {selected} = this.state;
 
         let block = getBlock(node.name);
+
+        if(block.name === 'Comment') {
+            return <CommentNodeView block={block} nodeHandle={this}/>;
+        }
 
         // Properties for the top left/right corners
         let topLeft = block.topLeft && node.inputs.get(block.topLeft);
@@ -127,7 +85,7 @@ export default class NodeHandle extends Node {
                 {Object.values(block.props)
                     .filter(prop => !prop.hidden && (prop.control || ((!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight))))
                     .map(prop => (
-                        <PropHandle
+                        <PropField
                             key={prop.key}
                             prop={prop}
                             node={node}

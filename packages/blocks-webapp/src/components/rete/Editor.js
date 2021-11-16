@@ -29,6 +29,8 @@ import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
 
+const INPUT_TAGS = ['input', 'textarea'];
+
 function findCategory(socket) {
     return socket.type?./*findType?.()*/data.category ?? socket.data.category ?? 'none';
 }
@@ -163,7 +165,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
                     console.log('Saved successfully');
                 }
             }
-            else if(!(document.activeElement?.nodeName === 'INPUT') /* Check for focused input field */) {
+            else if(!document.activeElement || !INPUT_TAGS.includes(document.activeElement.nodeName.toLowerCase())) {
                 let block = SHORTCUT_KEYS.get(key);
                 if(block) {
                     editor.createNodeAtCursor(editor.getComponent(block.name))
