@@ -10,6 +10,7 @@ const block = memberBlock({
     info: 'A persistent smart contract variable',
     topRight: 'value',
     category: stateCategory,
+    global: true,
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
         // let name = editor.compilers.motoko.getInput(node, 'name');

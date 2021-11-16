@@ -19,6 +19,7 @@ const block = memberBlock({
     info: 'Evaluate based on given input parameters',
     category: functionCategory,
     topRight: 'body',
+    global: true,
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
         // return name;/////
