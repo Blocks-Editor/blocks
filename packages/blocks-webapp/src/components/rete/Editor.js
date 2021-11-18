@@ -155,10 +155,10 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
             // let key = String.fromCharCode(event.which).toLowerCase();
             let key = event.key;
 
-            // if(key === 'f') {
-            //     editor.trigger('arrange');
-            // }
             if(event.ctrlKey || event.metaKey) {
+                // if(key === 'q') {
+                //     editor.trigger('arrange');
+                // }
                 if(key === 's') {
                     event.preventDefault();
                     events.emit(EDITOR_SAVE_EVENT, editor);
