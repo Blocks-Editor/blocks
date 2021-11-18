@@ -166,10 +166,15 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
                 }
             }
             else if(!document.activeElement || !INPUT_TAGS.includes(document.activeElement.nodeName.toLowerCase())) {
-                let block = SHORTCUT_KEYS.get(key);
-                if(block) {
-                    editor.createNodeAtCursor(editor.getComponent(block.name))
-                        .catch(err => events.emit('error', err));
+                if(key === 'Delete') {
+                    editor.selected.each(n => editor.removeNode(n));
+                }
+                else {
+                    let block = SHORTCUT_KEYS.get(key);
+                    if(block) {
+                        editor.createNodeAtCursor(editor.getComponent(block.name))
+                            .catch(err => events.emit('error', err));
+                    }
                 }
             }
         };
