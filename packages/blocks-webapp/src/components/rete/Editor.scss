@@ -88,14 +88,9 @@ $grid-area: $grid-size * 10000;
   }
 
   .node {
-    width: 189px; // TODO: exorcise magic number
     background: #111A;
     border-color: #111 !important;
     box-shadow: 0 4px 8px #000A;
-
-    &.node-wide {
-      width: 445px; // TODO
-    }
 
     &:hover {
       background: #222A;

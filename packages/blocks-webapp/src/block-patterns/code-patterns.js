@@ -1,6 +1,5 @@
 let replaceRegex = /{([0-9]+)}/g;
 
-
 export function parseCodeBlockInputs(inputs, expression) {
     return (expression || '').replaceAll(replaceRegex, (match, i) => {
         i = +i;

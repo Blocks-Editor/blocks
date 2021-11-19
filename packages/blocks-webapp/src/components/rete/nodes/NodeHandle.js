@@ -10,6 +10,12 @@ import {ButtonGroup} from 'react-bootstrap';
 import ShortcutButton from './parts/ShortcutButton';
 import PropField from './parts/PropField';
 import CommentNodeView from './views/CommentNodeView';
+import styled from 'styled-components';
+
+const NodeContainer = styled.div`
+  //resize: both;
+  //overflow: hidden;
+`;
 
 export default class NodeHandle extends Node {
     render() {
@@ -40,8 +46,10 @@ export default class NodeHandle extends Node {
             return result;
         };
 
+        let width = 32 * (node.data['editor:width'] || block.width || 6) - 3;
+
         return (
-            <div className={classNames('node', selected, block.className)}>
+            <NodeContainer style={{width}} className={classNames('node', selected, block.className)}>
                 <div className="header d-flex">
                     {topLeft && (
                         <div>
@@ -95,7 +103,7 @@ export default class NodeHandle extends Node {
                             bindControl={getBindControl(prop)}
                         />
                     ))}
-            </div>
+            </NodeContainer>
         );
     }
 }
