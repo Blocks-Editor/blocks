@@ -11,10 +11,6 @@ export default class TypeSocket extends Rete.Socket {
         return this.data.type;
     }
 
-    // setType(type) {
-    //     this.data.type = type;
-    // }
-
     compatibleWith(other) {
         if(!('findType' in other)) {
             return false;

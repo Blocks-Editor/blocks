@@ -14,63 +14,79 @@ import EventsContext, {
 import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
-import Icon from "../common/Icon";
+import {DownloadIcon, FilePlusIcon, FolderOpenIcon, FolderWideIcon, SaveIcon} from "../common/Icon";
 import ReactTooltip from 'react-tooltip';
+import AreaPlugin from 'rete-area-plugin';
+import {FiCrosshair} from 'react-icons/all';
 
 const ProjectNameInput = styled.input`
-  background: var(--bs-light-rgb) !important;
-  border: 2px solid transparent !important;
-  border-bottom: solid 2px #0003 !important;
-  font-weight: bold;
-  vertical-align: top;
-  margin-top: .4em;
-  padding: .25em .25em .1em;
-  position: relative;
-  background-clip: padding-box;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(30deg, #00EFFB, #8649E1, #F900E3);
-    margin: -2px;
-    z-index: -1;
-    opacity: 0;
-  }
-
-  :focus {
-    outline: none;
+    border: 2px solid transparent !important;
+    border-bottom: solid 2px #0003 !important;
+    font-weight: bold;
+    vertical-align: top;
+    margin-top: .4em;
+    padding: .25em .25em .1em;
+    position: relative;
+    background-clip: padding-box;
 
     &::before {
-      opacity: 1;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(30deg, #00EFFB, #8649E1, #F900E3);
+        margin: -2px;
+        z-index: -1;
+        opacity: 0;
     }
-  }
+
+    :focus {
+        outline: none;
+
+        &::before {
+            opacity: 1;
+        }
+    }
 `;
 
+// TODO: define animated icons in their own files
 const saveAnimation = keyframes`
-  30% {
-    transform: scale(.6);
-  }
+    30% {
+        transform: scale(.6);
+    }
+`;
+const StyledSaveIcon = styled(SaveIcon)`
+    &.animating {
+        animation: ${saveAnimation} .7s ease-out;
+    }
 `;
 
-const SaveIcon = styled(Icon)`
-  &.animated {
-    animation: ${saveAnimation} .8s ease-out;
-  }
+const zoomAnimation = keyframes`
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+`;
+const StyledZoomIcon = styled(FiCrosshair)` // TODO: sparkle like the others
+    &.animating {
+        animation: ${zoomAnimation} .7s ease-out;
+    }
 `;
 
 export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [name, setName] = useState('');
-    const [saveAnimated, setSaveAnimated] = useState(false); // TODO: possibly generalize to MenuButton
+    const [saveAnimating, setSaveAnimating] = useState(false);
+    const [zoomAnimating, setZoomAnimating] = useState(false);
     const [loadMenuOpen, setLoadMenuOpen] = useState(false);
 
     const events = useContext(EventsContext);
 
     useListener(events, EDITOR_SAVE_EVENT, () => {
-        setSaveAnimated(true);
+        setSaveAnimating(true);
     });
 
     useListener(events, PROJECT_LOAD_EVENT, project => {
@@ -103,7 +119,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
-                        className="text-secondary"
+                        className="bg-light text-secondary"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, getEditor())}
@@ -111,31 +127,41 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                     <MenuButton
                         tooltip="Save Changes"
                         onMouseDown={() => events.emit(EDITOR_SAVE_EVENT, getEditor())}>
-                        <SaveIcon
-                            className={classNames(saveAnimated && 'animated')}
-                            onAnimationEnd={() => setSaveAnimated(false)}
+                        <StyledSaveIcon
+                            className={classNames(saveAnimating && 'animating')}
+                            onAnimationEnd={() => setSaveAnimating(false)}
                         />
                     </MenuButton>
                     <MenuButton
                         tooltip="Export to File"
                         onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, getEditor().toJSON())}>
                         {/*<FiDownload/>*/}
-                        <Icon name="download"/>
+                        <DownloadIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="New Project"
                         onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)}>
-                        <Icon name="file-plus"/>
+                        <FilePlusIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Load Project"
                         onMouseDown={() => setLoadMenuOpen(!loadMenuOpen)}>
-                        {loadMenuOpen ? <Icon name="folder-open"/> : <Icon name="folder-wide"/>}
+                        {loadMenuOpen ? <FolderOpenIcon/> : <FolderWideIcon/>}
+                    </MenuButton>
+                    <MenuButton
+                        tooltip="Reset Viewport"
+                        onMouseDown={() => {
+                            AreaPlugin.zoomAt(getEditor());
+                            setZoomAnimating(true);
+                        }}>
+                        <StyledZoomIcon
+                            className={classNames(zoomAnimating && 'animating')}
+                            onAnimationEnd={() => setZoomAnimating(false)}
+                        />
                     </MenuButton>
                 </div>
             </TopMenu>
             <Modal
-                // className=''
                 show={loadMenuOpen}
                 onShow={() => ReactTooltip.hide()}
                 onHide={() => setLoadMenuOpen(false)}>

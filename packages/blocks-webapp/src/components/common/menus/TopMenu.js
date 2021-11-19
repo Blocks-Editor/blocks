@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import {IconContext} from 'react-icons';
-import {ReactComponent as Gradient} from '../../../icons/gradient.svg';
+import {ReactComponent as Gradient} from '../../../assets/icons/gradient.svg';
 
 let MenuContainer = styled.div`
     
