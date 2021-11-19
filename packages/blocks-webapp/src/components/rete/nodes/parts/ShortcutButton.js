@@ -4,7 +4,6 @@ import getBlockLabel from '../../../../utils/getBlockLabel';
 import {Button} from 'react-bootstrap';
 import EventsContext, {ERROR_EVENT} from '../../../../contexts/EventsContext';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
-import {Output} from 'rete';
 
 export default function ShortcutButton({editor, node, shortcut}) {
     const {block} = shortcut;
@@ -32,10 +31,9 @@ export default function ShortcutButton({editor, node, shortcut}) {
             // Add shortcut-defined connections
             if(shortcut.connections) {
                 for(let connection of shortcut.connections) {
-                    let {from, to} = connection;
+                    let {from, to, fromOutput} = connection;
 
-                    let fromIO = (node.outputs.get(from) || node.inputs.get(from));
-                    let fromOutput = fromIO instanceof Output;
+                    let fromIO = fromOutput ? node.outputs.get(from) : node.inputs.get(from);
                     let toIO = (fromOutput ? newNode.inputs.get(to) : newNode.outputs.get(to));
                     let [output, input] = fromOutput ? [fromIO, toIO] : [toIO, fromIO];
                     if(output && input) {
