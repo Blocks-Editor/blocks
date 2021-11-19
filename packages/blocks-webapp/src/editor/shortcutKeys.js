@@ -2,6 +2,7 @@ import {getBlock} from './blocks';
 
 const shortcutKeys = {
     'c': 'Comment',
+    'd': 'CommentRegion',
 
     // Arithmetic
     '-': 'Subtract',
