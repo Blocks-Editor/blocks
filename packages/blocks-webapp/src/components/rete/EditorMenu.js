@@ -14,10 +14,10 @@ import EventsContext, {
 import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
-import {DownloadIcon, FilePlusIcon, FolderOpenIcon, FolderWideIcon, SaveIcon} from "../common/Icon";
+import {DownloadIcon, FilePlusIcon, FolderOpenIcon, FolderWideIcon, SaveIcon} from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
-import {FiCrosshair} from 'react-icons/all';
+import {FiCrosshair} from 'react-icons/fi';
 
 const ProjectNameInput = styled.input`
     border: 2px solid transparent !important;
