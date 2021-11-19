@@ -161,9 +161,13 @@ $grid-area: $grid-size * 10000;
     }
   }
 
-  .connection .main-path {
-    stroke: #333;
-    stroke-width: 3px;
+  .connection {
+    position: static; // Fix disappearing on zoom for some Chrome users (#27)
+
+    .main-path {
+      stroke: #333;
+      stroke-width: 3px;
+    }
   }
 
   .node-shortcut-button {
