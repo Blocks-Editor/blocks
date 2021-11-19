@@ -1,6 +1,6 @@
 import {getBlock} from '../editor/blocks';
 import Rete from 'rete';
-import {getType} from '../block-types/types';
+import {getType, identifierType} from '../block-types/types';
 
 export class UndefinedInputError extends Error {
     constructor(block, key) {
