@@ -125,7 +125,7 @@ $grid-area: $grid-size * 10000;
       }
 
       &.relevant {
-        transform: scale(1.2);
+        transform: scale(1.2) !important;
       }
 
       &.multiple {
