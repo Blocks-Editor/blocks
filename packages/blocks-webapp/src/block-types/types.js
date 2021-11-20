@@ -128,7 +128,9 @@ export const valueType = createType('Value', {
     parent: anyType,
     category: 'values',
     toMotoko() {
-        return 'Any';
+        if(this === valueType) {
+            return 'Any';
+        }
     },
 });
 export const customType = createType('Custom', {
