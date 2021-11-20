@@ -20,6 +20,9 @@ export function SocketHandle(props) {
                 if((io instanceof Output) === (connectionIO instanceof Output)) {
                     return;
                 }
+                if(io.node && io.node === connectionIO.node) {
+                    return;
+                }
                 let [input, output] = (io instanceof Output) === !!socket.data.reversed
                     ? [io, connectionIO] : [connectionIO, io];
 

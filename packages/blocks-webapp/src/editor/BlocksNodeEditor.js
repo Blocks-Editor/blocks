@@ -106,4 +106,11 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         let {x, y} = this.view.area.mouse;
         return this.createNode(component, data, {x: x - 80, y: y - 20});
     }
+
+    connect(output, input, data) {
+        if(output.node && output.node === input.node) {
+            return;
+        }
+        super.connect(output, input, data);
+    }
 }
