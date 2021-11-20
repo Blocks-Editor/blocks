@@ -10,7 +10,7 @@ const block = {
     category: actorCategory,
     topLeft: 'actor',
     topRight: 'members',
-    global: true,
+    // global: true,
     computeTitle(node, editor) {
         let {name, params} = editor.compilers.motoko.getInputArgs(node);
         if(!name) {
