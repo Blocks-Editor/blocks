@@ -3,6 +3,7 @@ import {paramCase} from 'change-case';
 import classNames from 'classnames';
 import Rete, {Output} from 'rete';
 import ConnectionAwareListContext from '../../../contexts/ConnectionAwareListContext';
+import useReactTooltip from '../../../hooks/useReactTooltip';
 
 // Derived from: https://github.com/retejs/react-render-plugin/blob/master/src/Socket.jsx
 
@@ -46,8 +47,11 @@ export function SocketHandle(props) {
 
     let multiple = io.multipleConnections && (io instanceof Rete.Input) === !reversed;
 
+    useReactTooltip();
+
     return (
         <div
+            ref={el => el && innerRef(el, type, io)}
             className={classNames(
                 'socket',
                 type,
@@ -58,8 +62,8 @@ export function SocketHandle(props) {
                 !multiple && io.connections.length && 'occupied',
                 'category-' + socketType.data.category,
             )}
-            title={socket.name}
-            ref={el => el && innerRef(el, type, io)}>
+            // title={socket.name}
+            data-tip={socket.findLabel?.() || socket.name}>
             <div className="socket-color w-100 h-100"/>
         </div>
     );

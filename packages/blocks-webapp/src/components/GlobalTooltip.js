@@ -8,6 +8,6 @@ const ReactTooltipStyled = styled(ReactTooltip)`
 
 export default function GlobalTooltip() {
     return (
-        <ReactTooltipStyled backgroundColor="#111" place="bottom" delayShow={300}/>
+        <ReactTooltipStyled backgroundColor="#111" place="bottom" delayShow={250}/>
     );
 };

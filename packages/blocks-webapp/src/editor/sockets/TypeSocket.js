@@ -2,9 +2,16 @@ import Rete from 'rete';
 import {getType} from '../../block-types/types';
 
 export default class TypeSocket extends Rete.Socket {
-    constructor(type) {
+    constructor(title, type) {
         type = getType(type);
-        super(type.name, {...type.data, type});
+        super(title, {...type.data, type});
+    }
+
+    findLabel() {
+        let type = this.findType();
+        // let typeString = type.toTypeString();
+        // return this.name === typeString ? this.name : `${this.name} (${typeString})`;
+        return type.toTypeString();
     }
 
     findType() {

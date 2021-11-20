@@ -17,7 +17,9 @@ import {Modal} from 'react-bootstrap';
 import {DownloadIcon, FilePlusIcon, FolderOpenIcon, FolderWideIcon, SaveIcon} from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
+import {FaQuestionCircle} from 'react-icons/fa';
 import {FiCrosshair} from 'react-icons/fi';
+import useLearningModeState from '../../hooks/useLearningModeState';
 
 const ProjectNameInput = styled.input`
     border: 2px solid transparent !important;
@@ -71,9 +73,18 @@ const zoomAnimation = keyframes`
         transform: rotate(360deg);
     }
 `;
-const StyledZoomIcon = styled(FiCrosshair)` // TODO: sparkle like the others
+const StyledZoomIcon = styled(FiCrosshair)` // TODO: stroke gradient like the others
     &.animating {
         animation: ${zoomAnimation} .7s ease-out;
+    }
+`;
+
+const StyledLearningIcon = styled(FaQuestionCircle)` // TODO: proper design
+    transition: .2s transform ease-out;
+
+    &.enabled {
+        color: #333;
+        transform: scale(1.2) !important;
     }
 `;
 
@@ -83,6 +94,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [zoomAnimating, setZoomAnimating] = useState(false);
     const [loadMenuOpen, setLoadMenuOpen] = useState(false);
 
+    const [learningMode, setLearningMode] = useLearningModeState();
     const events = useContext(EventsContext);
 
     useListener(events, EDITOR_SAVE_EVENT, () => {
@@ -158,6 +170,11 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                             className={classNames(zoomAnimating && 'animating')}
                             onAnimationEnd={() => setZoomAnimating(false)}
                         />
+                    </MenuButton>
+                    <MenuButton
+                        tooltip="Learning Mode"
+                        onMouseDown={() => setLearningMode(!learningMode)}>
+                        <StyledLearningIcon className={classNames(learningMode && 'enabled')}/>
                     </MenuButton>
                 </div>
             </TopMenu>

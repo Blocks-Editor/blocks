@@ -127,6 +127,9 @@ export const valueType = createType('Value', {
     abstract: true,
     parent: anyType,
     category: 'values',
+    toMotoko() {
+        return 'Any';
+    },
 });
 export const customType = createType('Custom', {
     // abstract: true, // TEMP
