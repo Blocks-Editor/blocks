@@ -59,12 +59,12 @@ $any-gradient-right: conic-gradient(at right, orange, yellow, green, blue, indig
 @include node-color("category-integers", $int-color);
 @include node-color("category-naturals", $nat-color);
 
-$grid-color: #FFF2;
+$grid-color: #FFF1;
 $grid-size: 32px;
 $grid-area: $grid-size * 10000;
 
 .node-editor {
-  background: #555;
+  background: #00131C;
 
   .dragging > & {
     background: #777 !important;
