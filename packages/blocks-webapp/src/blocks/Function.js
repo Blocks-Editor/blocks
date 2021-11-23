@@ -36,6 +36,7 @@ const block = memberBlock({
     }, {
         block: 'Return',
         connections: [{
+            fromOutput: true,
             from: 'body',
             to: 'statement',
         }],

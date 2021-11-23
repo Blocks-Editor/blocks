@@ -10,6 +10,9 @@ const block = {
         key: 'value',
         type: identifierType,
         control: true,
+        toMotoko({value}) {
+            return value;
+        },
     }],
 };
 export default block;

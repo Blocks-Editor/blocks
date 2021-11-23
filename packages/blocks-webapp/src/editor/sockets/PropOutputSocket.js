@@ -2,11 +2,11 @@ import TypeSocket from './TypeSocket';
 import {typeType} from '../../block-types/types';
 
 export default class PropOutputSocket extends TypeSocket {
-    constructor(nodeId, nodeName, prop, typeCompiler) {
-        super(prop.type);
+    constructor(node, title, prop, typeCompiler) {
+        super(title, prop.type);
 
-        this.nodeId = nodeId;
-        this.nodeName = nodeName;
+        this.nodeId = node.id;
+        this.nodeName = node.name;
         this.prop = prop;
         this.typeCompiler = typeCompiler;
 

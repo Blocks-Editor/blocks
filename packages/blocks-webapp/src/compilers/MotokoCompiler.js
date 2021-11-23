@@ -41,7 +41,7 @@ export default class MotokoCompiler extends Compiler {
         // TODO: refactor these special cases
 
         if(identifierType.isSubtype(prop.type)) {
-            console.log(node.name)///
+            // console.log(node.name)///
             return nodeIdentifierRef(node, prop.key);
         }
 

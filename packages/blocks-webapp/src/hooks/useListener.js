@@ -5,7 +5,7 @@ export default function useListener(target, event, listener, options) {
         if(!target) {
             return;
         }
-        let domTarget = 'addEventListener' in target;
+        const domTarget = 'addEventListener' in target;
         if(domTarget) {
             target.addEventListener(event, listener, options);
         }

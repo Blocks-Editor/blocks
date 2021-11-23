@@ -3,10 +3,10 @@ import useListener from './useListener';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../contexts/EventsContext';
 
 export default function useControlState(control) {
-    let value = control.getValue();
-    let [, updateVisualValue] = useState(value); // updateVisualValue(..): redraw component if value changed
+    const value = control.getValue();
+    const [, updateVisualValue] = useState(value); // updateVisualValue(..): redraw component if value changed
 
-    let events = useContext(EventsContext);
+    const events = useContext(EventsContext);
     useListener(events, EDITOR_CHANGE_EVENT, () => {
         updateVisualValue(control.getValue());
         control.notifyEditorChange?.();

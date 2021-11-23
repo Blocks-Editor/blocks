@@ -10,7 +10,7 @@ const block = {
     icon: expressionCategory.data.icon,
     // topLeft: 'inputs',
     topRight: 'result',
-    className: 'node-wide',
+    width: 14,
     inputs: [{
         key: 'inputs',
         type: typeType,

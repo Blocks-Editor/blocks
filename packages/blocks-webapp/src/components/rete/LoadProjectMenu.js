@@ -6,22 +6,22 @@ import {getExampleProjects} from '../../examples/examples';
 import FileDropZone from '../common/FileDropZone';
 
 const MenuContainer = styled.div`
-  padding: 20px;
+    padding: 20px;
 `;
 
 const LoadProjectItemContainer = styled.div`
-  :hover {
-    background: #0001;
-  }
+    :hover {
+        background: #0001;
+    }
 `;
 
-const FileDropZoneStyled = styled(FileDropZone)`
-  padding: 2em;
-  border: 2px #0005 dashed;
+const StyledFileDropZone = styled(FileDropZone)`
+    padding: 2em;
+    border: 2px #0005 dashed;
 
-  &.dragging, &:hover {
-    background: #0002;
-  }
+    &.dragging, &:hover {
+        background: #0002;
+    }
 `;
 
 export default function LoadProjectMenu({onLoadFileContent, className, ...others}) {
@@ -32,11 +32,11 @@ export default function LoadProjectMenu({onLoadFileContent, className, ...others
 
     return (
         <MenuContainer className={classNames('bg-light', className)} {...others}>
-            <FileDropZone onFileContent={onLoadFileContent}>
-                <FileDropZoneStyled className={classNames('clickable text-center text-muted rounded-3')}>
-                    <h5>Import a .blocks file . . .</h5>
-                </FileDropZoneStyled>
-            </FileDropZone>
+            <StyledFileDropZone
+                className={classNames('clickable text-center text-muted rounded-3')}
+                onFileContent={onLoadFileContent}>
+                <h5>Import a .blocks file . . .</h5>
+            </StyledFileDropZone>
             {examples.map((example, i) => (
                 <LoadProjectItemContainer
                     key={i}

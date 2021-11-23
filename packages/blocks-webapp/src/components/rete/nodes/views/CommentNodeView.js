@@ -7,9 +7,7 @@ import useControlState from '../../../../hooks/useControlState';
 const Container = styled.div`
   cursor: pointer;
   color: black;
-  background: ${props => props.selected ? '#fffa' : '#fff8'};
-  //resize: both;
-  //overflow: auto;
+  background: ${({selected}) => selected ? '#fffa' : '#fff8'};
 `;
 
 const StyledTextArea = styled(TextareaAutosize)`
@@ -23,7 +21,7 @@ export default function CommentNodeView({block, nodeHandle}) {
     const {selected} = nodeHandle.state;
 
     const [text, setText] = useControlState(node.controls.get('text'));
-    const [width, setWidth] = useControlState(node.controls.get('width'));
+    const [width, setWidth] = useControlState(node.controls.get('widthPixels'));
 
     return (
         <Container className="pt-2 ps-2 pe-4 rounded-3" selected={selected}>

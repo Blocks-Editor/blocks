@@ -7,6 +7,11 @@
     "type": "git",
     "url": "https://github.com/Blocks-Editor/blocks"
   },
-  "devDependencies": {},
-  "scripts": {}
+  "devDependencies": {
+    "husky": "^7.0.0"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "test": "set CI=true&& npm --prefix packages/blocks-webapp test && npm --prefix packages/react-blocks-editor test"
+  }
 }

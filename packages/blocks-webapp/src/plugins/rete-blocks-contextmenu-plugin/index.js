@@ -57,9 +57,8 @@ function install(editor, config = {}) {
         ReactDOM.render((
             <ContextMenu
                 x={x + offsetX}
-                y={y + offsetY}
+                y={node ? y - 50 : y + offsetY} // TODO: magic number
                 handleCloseMenu={() => editor.trigger('hidecontextmenu')}>
-                {/*<AppTooltip/>*/}
                 <MenuContext.Provider value={{editor, mouse, node, context}}>
                     {node ? (
                         <SelectionMenu/>

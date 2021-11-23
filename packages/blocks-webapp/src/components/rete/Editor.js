@@ -25,6 +25,7 @@ import styled from 'styled-components';
 import EditorMenu from './EditorMenu';
 import FileDropZone from '../common/FileDropZone';
 import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
+import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
 
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
@@ -115,13 +116,14 @@ function createEditor(element) {
 
 
 const EditorContainer = styled.div`
-  width: 100%;
-  height: 100vh;
+    width: 100%;
+    height: 100vh;
 `;
 
 export default function Editor({hideMenu, onSetup, onChange, onSave, className, ...others}) {
 
     const events = useContext(EventsContext);
+    const connectionAwareList = useContext(ConnectionAwareListContext);
 
     let editor = null;
 
@@ -155,10 +157,10 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
             // let key = String.fromCharCode(event.which).toLowerCase();
             let key = event.key;
 
-            // if(key === 'f') {
-            //     editor.trigger('arrange');
-            // }
             if(event.ctrlKey || event.metaKey) {
+                // if(key === 'q') {
+                //     editor.trigger('arrange');
+                // }
                 if(key === 's') {
                     event.preventDefault();
                     events.emit(EDITOR_SAVE_EVENT, editor);
@@ -166,10 +168,15 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
                 }
             }
             else if(!document.activeElement || !INPUT_TAGS.includes(document.activeElement.nodeName.toLowerCase())) {
-                let block = SHORTCUT_KEYS.get(key);
-                if(block) {
-                    editor.createNodeAtCursor(editor.getComponent(block.name))
-                        .catch(err => events.emit('error', err));
+                if(key === 'Delete') {
+                    editor.selected.each(n => editor.removeNode(n));
+                }
+                else {
+                    let block = SHORTCUT_KEYS.get(key);
+                    if(block) {
+                        editor.createNodeAtCursor(editor.getComponent(block.name))
+                            .catch(err => events.emit('error', err));
+                    }
                 }
             }
         };
@@ -210,6 +217,63 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
         (async () => {
             await onSetup?.(loadState, editor);
         })().catch(err => events.emit(ERROR_EVENT, err));
+
+        // TODO: dry with rete-blocks-contextmenu-plugin
+        const handleConnectionEnd = (startIO, endIO) => {
+            currentIO = null;
+            for(let listener of connectionAwareList) {
+                listener(false, startIO, endIO);
+            }
+        };
+        let currentIO = null;
+        let connectionMouseMoved = false;
+        editor.on('mousemove', m => {
+            connectionMouseMoved = true;
+        });
+        editor.on('connectionpick', io => {
+            connectionMouseMoved = false;
+            if(currentIO) {
+                handleConnectionEnd(currentIO, io);
+                return;
+            }
+            let prevConnections = [...io.connections];
+            setTimeout(() => {
+                if(io.connections.length < prevConnections.length) {
+                    // Connection is being removed
+                    let connection = prevConnections.find(c => !io.connections.includes(c));
+                    currentIO = (io === connection.input ? connection.output : connection.input);
+                }
+                else {
+                    currentIO = io;
+                }
+                for(let listener of connectionAwareList) {
+                    listener(true, currentIO);
+                }
+            });
+        });
+        editor.on('connectiondrop', io => {
+            if(!connectionMouseMoved) {
+                return;
+            }
+            let prevConnections = [...io.connections];
+            setTimeout(() => {
+                // Prevent activating if connections changed
+                if(io.connections.length !== prevConnections.length || io.connections.some((conn, i) =>
+                    (conn.input !== prevConnections[i].input) || (conn.output !== prevConnections[i].output))) {
+                    return;
+                }
+                handleConnectionEnd(io);
+            });
+        });
+
+        // const onMouseUp = event => {
+        //     if(currentIO) {
+        //         console.log(1234)
+        //         handleConnectionEnd(currentIO);
+        //     }
+        // };
+        // document.addEventListener('mouseup', onMouseUp);
+        // editor.on('destroy', () => document.removeEventListener('mouseup', onMouseUp));
     };
 
     const loadFileContent = content => {

@@ -1,19 +1,17 @@
 import {floatType, textType} from '../block-types/types';
 import {commentCategory} from '../block-categories/categories';
+import CommentNodeView from '../components/rete/nodes/views/CommentNodeView';
 
 const block = {
     info: 'A text comment',
     category: commentCategory,
     global: true,
-    // computeTitle(node, editor) {
-    //     let {name} = editor.compilers.motoko.getInputArgs(node);
-    //     return name && `actor ${name}`;
-    // },
+    component: CommentNodeView,
     controls: [{
         key: 'text',
         type: textType,
     }, {
-        key: 'width',
+        key: 'widthPixels',
         type: floatType,
     }],
 };

@@ -22,7 +22,8 @@ export default class BlockComponent extends BaseComponent {
     async builder(node) {
 
         const addProp = (prop, isPropOutput) => {
-            let socket = isPropOutput ? new PropOutputSocket(node.id, node.name, prop, this.editor.compilers.type) : new TypeSocket(prop.type);
+            let title = getPropLabel(prop);
+            let socket = isPropOutput ? new PropOutputSocket(node, title, prop, this.editor.compilers.type) : new TypeSocket(title, prop.type);
             if(!!prop.type.data.reversed === isPropOutput) {
                 return addPropInput(prop, socket, isPropOutput);
             }

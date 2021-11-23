@@ -1,5 +1,5 @@
 import React from 'react';
-import App from '../components/App';
+import App from '../../components/App';
 import {render, waitFor} from '@testing-library/react';
 
 it('renders without errors/warnings', async () => {
