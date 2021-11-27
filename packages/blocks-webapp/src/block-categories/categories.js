@@ -69,7 +69,7 @@ export const typeCategory = createCategory({
 });
 export const collectionCategory = createCategory({
     name: 'Collection',
-    color: '#1c8',
+    color: '#1c5',
     icon: FaTh,
 });
 export const compilerCategory = createCategory({
