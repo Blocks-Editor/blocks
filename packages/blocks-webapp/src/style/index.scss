@@ -16,6 +16,13 @@
 @import "mixins/colors";
 @import "mixins/fonts";
 
+// Import editor themes
+@import "editor/themes/light";
+@import "editor/themes/lightdark";
+@import "editor/themes/dark";
+
+@import "editor/editor";
+
 html, body {
   background: #EEE;
   overflow-x: hidden;

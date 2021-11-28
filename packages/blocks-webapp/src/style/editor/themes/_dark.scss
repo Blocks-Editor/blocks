@@ -1,0 +1,37 @@
+/**
+Dark theme for Blocks.
+ */
+
+.node-editor.theme-dark {
+  background: #00131C !important;
+
+  .top-menu {
+    background: #022030;
+
+    .menu-button:hover {
+      background: #FFF1;
+    }
+
+    input {
+      background: #022030 !important;
+      border-bottom: solid 2px #CCCA !important;
+    }
+  }
+
+  .node {
+    background: #022030;
+
+    &:not(.selected) .header {
+      background: #00131C;
+    }
+  }
+
+  .grid {
+    background-image: linear-gradient(to right, #333C 1px, transparent 1px), linear-gradient(to bottom, #333C 1px, transparent 1px);
+
+    &.far {
+      // Hotfix - flickering on Firefox / Safari
+      background-image: linear-gradient(to right, #333C 1px, transparent 2px), linear-gradient(to bottom, #333C 1px, transparent 2px);
+    }
+  }
+}

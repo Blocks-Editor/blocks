@@ -14,11 +14,17 @@ import EventsContext, {
 import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
-import {DownloadIcon, FilePlusIcon, FolderOpenIcon, FolderWideIcon, SaveIcon} from '../common/Icon';
+import {
+    DownloadIcon,
+    FilePlusIcon,
+    FolderOpenIcon,
+    FolderWideIcon,
+    SaveIcon,
+    CrosshairIcon,
+    LearningIcon,
+} from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
-import {FaQuestionCircle} from 'react-icons/fa';
-import {FiCrosshair} from 'react-icons/fi';
 import useLearningModeState from '../../hooks/useLearningModeState';
 
 const ProjectNameInput = styled.input`
@@ -73,13 +79,13 @@ const zoomAnimation = keyframes`
         transform: rotate(360deg);
     }
 `;
-const StyledZoomIcon = styled(FiCrosshair)` // TODO: stroke gradient like the others
+const StyledZoomIcon = styled(CrosshairIcon)` // TODO: stroke gradient like the others
     &.animating {
-        animation: ${zoomAnimation} .7s ease-out;
+        animation: ${saveAnimation} .7s ease-out;
     }
 `;
 
-const StyledLearningIcon = styled(FaQuestionCircle)` // TODO: proper design
+const StyledLearningIcon = styled(LearningIcon)` // TODO: proper design
     transition: .2s transform ease-out;
 
     &.enabled {
