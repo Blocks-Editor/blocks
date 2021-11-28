@@ -15,13 +15,13 @@ import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
 import {
+    CrosshairIcon,
     DownloadIcon,
     FilePlusIcon,
     FolderOpenIcon,
     FolderWideIcon,
-    SaveIcon,
-    CrosshairIcon,
     LearningIcon,
+    SaveIcon,
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
