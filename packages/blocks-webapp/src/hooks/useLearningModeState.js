@@ -1,9 +1,7 @@
-import makeObservable from '../utils/makeObservable';
-import useObservableState from './useObservableState';
-
-// TODO: eventually switch to global store such as Redux
-const learningModeStore = makeObservable(false);
+import useEditorSettings from './useEditorSettings';
 
 export default function useLearningModeState() {
-    return useObservableState(learningModeStore);
+    const [settings, patchSettings] = useEditorSettings();
+
+    return [settings.learningMode, (learningMode) => patchSettings({learningMode})];
 }
