@@ -2,10 +2,10 @@ import {containerType, identifierType, memberType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
 
 const block = {
-    info: 'An actor which can be deployed as a smart contract',
+    info: 'The top-level actor for the application. All ',
     category: actorCategory,
     topLeft: 'actor',
-    topRight: 'members',
+    // topRight: 'members',
     // global: true,
     computeTitle(node, editor) {
         let {name} = editor.compilers.motoko.getInputArgs(node);

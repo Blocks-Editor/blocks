@@ -72,14 +72,14 @@ const StyledSaveIcon = styled(SaveIcon)`
     }
 `;
 
-const zoomAnimation = keyframes`
-    from {
-        transform: rotate(0);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-`;
+// const zoomAnimation = keyframes`
+//     from {
+//         transform: rotate(0);
+//     }
+//     to {
+//         transform: rotate(360deg);
+//     }
+// `;
 const StyledZoomIcon = styled(CrosshairIcon)`
     &.animating {
         animation: ${saveAnimation} .7s ease-out;

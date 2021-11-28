@@ -59,7 +59,7 @@ export default class NodeHandle extends Node {
                         style={{color: block.category.data.color}}>
                         {block.icon && (
                             // TODO: globally improve react-icons render logic
-                            <span className="d-inline-block pe-1" style={{transform: 'translateY(-.1em)'}}>
+                            <span className="d-inline-block pe-1" style={{transform: 'translateY(-.2em)'}}>
                                 {React.createElement(block.icon)}
                             </span>
                         )}

@@ -59,7 +59,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
             data-tip={getBlockLabel(block)}
             data-delay-show={100}
             style={{
-                background: 'none',
+                // background: 'none',
                 color: category.data.color,
                 borderColor: category.data.color,
                 cursor: 'grab',

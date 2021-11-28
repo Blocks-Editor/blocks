@@ -1,4 +1,4 @@
-import {actorType, identifierType, memberType, paramType, principalType} from '../block-types/types';
+import {containerType, identifierType, memberType, paramType, principalType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
 import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
 
@@ -33,7 +33,7 @@ const block = {
     }],
     outputs: [{
         key: 'actor',
-        type: actorType,
+        type: containerType,
         toMotoko({name, params, members}, node, compiler) {
             let hasCaller = node.outputs.get('caller').connections.length;
 

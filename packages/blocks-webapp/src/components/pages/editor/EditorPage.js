@@ -17,7 +17,7 @@ const STORAGE_EDITOR_STATE = 'blocks.editorState';
 const DEFAULT_STATE = require('../../../examples/files/DefaultProject.json');
 
 const embedded = isEmbedded();
-const storage = embedded ? {} : localStorage; // Use temporary storage for iframe
+const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStorage()`
 
 if(embedded) {
     console.log('Using embedded mode.');

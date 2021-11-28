@@ -2,7 +2,7 @@ import {containerType, identifierType, memberType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
 
 const block = {
-    info: 'An actor which can be deployed as a smart contract',
+    info: 'An object which can be deployed as a smart contract',
     category: actorCategory,
     topLeft: 'actor',
     topRight: 'members',
@@ -21,10 +21,10 @@ const block = {
         multi: true,
     }],
     outputs: [{
-        key: 'actor',
+        key: 'object',
         type: containerType,
         toMotoko({name, members}) {
-            return `actor${name ? ' ' + name : ''} { ${members.join(' ')} };`;
+            return `object${name ? ' ' + name : ''} { ${members.join(' ')} };`;
         },
     }],
 };

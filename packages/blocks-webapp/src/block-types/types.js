@@ -171,10 +171,10 @@ export const memberType = createType('Member', {
     singleOutput: true,
     category: 'members',
 });
-export const actorType = createType('Actor', {
+export const containerType = createType('Container', {
     parent: anyReversedType,
     singleOutput: true,
-    category: 'actors',
+    category: 'containers',
 });
 export const moduleType = createType('Module', {
     parent: anyReversedType,

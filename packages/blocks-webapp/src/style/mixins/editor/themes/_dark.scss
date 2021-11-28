@@ -14,6 +14,7 @@ Dark theme for Blocks.
         background: #032F47;
       }
     }
+
     &:hover {
       background: #FFF1;
     }
@@ -29,11 +30,39 @@ Dark theme for Blocks.
   }
 
   .node {
+    border: none !important;
     background: #022030;
 
     &:not(.selected) .header {
       background: #00131C;
     }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, #00EFFB, #8649E1, #F900E3);
+      z-index: -1;
+      margin: -3px;
+      border-radius: 11px;
+    }
+
+    .input-title, .output-title {
+      //font-family: $font-family-monospace;
+      //font-size: 10px;
+    }
+
+    .control, .input-control {
+      //font-family: $font-family-monospace;
+      //font-size: 12px;
+    }
+  }
+
+  .node-shortcut-button {
+    background: #111 !important;
   }
 
   .grid {

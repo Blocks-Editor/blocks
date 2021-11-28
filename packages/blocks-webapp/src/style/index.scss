@@ -8,20 +8,16 @@
 //$light: #f1f1f1;
 //$dark: #000000;
 
-//@import '../../node_modules/bootswatch/dist/cosmo/variables';
-@import 'mixins/bootstrap';
-//@import '../../node_modules/bootswatch/dist/cosmo/bootswatch';
+@import "mixins/variables";
+
+// Import editor themes
+@import "mixins/editor/editor";
+
+@import "~bootstrap/scss/bootstrap";
 
 @import "mixins/scrollbar";
 @import "mixins/colors";
 @import "mixins/fonts";
-
-// Import editor themes
-@import "editor/themes/light";
-@import "editor/themes/lightdark";
-@import "editor/themes/dark";
-
-@import "editor/editor";
 
 html, body {
   background: #EEE;
