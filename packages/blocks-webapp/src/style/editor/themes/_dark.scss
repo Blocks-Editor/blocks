@@ -5,12 +5,22 @@ Dark theme for Blocks.
 .node-editor.theme-dark {
   background: #00131C !important;
 
-  .top-menu {
-    background: #022030;
+  .menu-button {
+    &.floating {
+      background: #022030;
+      border: 2px solid #032F47;
 
-    .menu-button:hover {
+      &:hover {
+        background: #032F47;
+      }
+    }
+    &:hover {
       background: #FFF1;
     }
+  }
+
+  .top-menu {
+    background: #022030;
 
     input {
       background: #022030 !important;
