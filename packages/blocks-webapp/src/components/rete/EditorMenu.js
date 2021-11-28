@@ -14,12 +14,19 @@ import EventsContext, {
 import useListener from '../../hooks/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
-import {DownloadIcon, FilePlusIcon, FolderOpenIcon, FolderWideIcon, SaveIcon} from '../common/Icon';
+import {
+    DownloadIcon,
+    FilePlusIcon,
+    FolderOpenIcon,
+    FolderWideIcon,
+    SaveIcon,
+    CrosshairIcon,
+    LearningIcon,
+} from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
-import {FaQuestionCircle} from 'react-icons/fa';
-import {FiCrosshair} from 'react-icons/fi';
 import useLearningModeState from '../../hooks/useLearningModeState';
+import FloatingMenu from '../common/menus/FloatingMenu';
 
 const ProjectNameInput = styled.input`
     border: 2px solid transparent !important;
@@ -73,13 +80,13 @@ const zoomAnimation = keyframes`
         transform: rotate(360deg);
     }
 `;
-const StyledZoomIcon = styled(FiCrosshair)` // TODO: stroke gradient like the others
+const StyledZoomIcon = styled(CrosshairIcon)`
     &.animating {
-        animation: ${zoomAnimation} .7s ease-out;
+        animation: ${saveAnimation} .7s ease-out;
     }
 `;
 
-const StyledLearningIcon = styled(FaQuestionCircle)` // TODO: proper design
+const StyledLearningIcon = styled(LearningIcon)`
     transition: .2s transform ease-out;
 
     &.enabled {
@@ -161,23 +168,32 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         {loadMenuOpen ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
-                        tooltip="Reset Viewport"
-                        onMouseDown={() => {
-                            AreaPlugin.zoomAt(getEditor());
-                            setZoomAnimating(true);
-                        }}>
-                        <StyledZoomIcon
-                            className={classNames(zoomAnimating && 'animating')}
-                            onAnimationEnd={() => setZoomAnimating(false)}
-                        />
-                    </MenuButton>
-                    <MenuButton
                         tooltip="Learning Mode"
                         onMouseDown={() => setLearningMode(!learningMode)}>
                         <StyledLearningIcon className={classNames(learningMode && 'enabled')}/>
                     </MenuButton>
                 </div>
             </TopMenu>
+            <FloatingMenu>
+                <MenuButton
+                    className="round floating d-flex align-items-center justify-content-center"
+                    tooltip="Reset Viewport"
+                    onMouseDown={() => {
+                        AreaPlugin.zoomAt(getEditor());
+                        setZoomAnimating(true);
+                    }}>
+                    <StyledZoomIcon
+                        className={classNames(zoomAnimating && 'animating')}
+                        onAnimationEnd={() => setZoomAnimating(false)}
+                    />
+                </MenuButton>
+                <MenuButton
+                    className="floating small text-muted d-flex align-items-center justify-content-center"
+                    tooltip="Compile to Motoko"
+                    onMouseDown={() => {}}>
+                    COMPILE
+                </MenuButton>
+            </FloatingMenu>
             <Modal
                 show={loadMenuOpen}
                 onShow={() => ReactTooltip.hide()}

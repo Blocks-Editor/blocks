@@ -1,5 +1,4 @@
-import React, {useContext} from 'react';
-import './Editor.scss';
+import React, {useContext, useState} from 'react';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
@@ -26,6 +25,7 @@ import EditorMenu from './EditorMenu';
 import FileDropZone from '../common/FileDropZone';
 import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
+import {ThemeContext} from '../../contexts/ThemeContext';
 
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
@@ -124,6 +124,8 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
 
     const events = useContext(EventsContext);
     const connectionAwareList = useContext(ConnectionAwareListContext);
+
+    const [theme, setTheme] = useState('dark');
 
     let editor = null;
 
@@ -227,7 +229,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
         };
         let currentIO = null;
         let connectionMouseMoved = false;
-        editor.on('mousemove', () => {
+        editor.on('mousemove', m => {
             connectionMouseMoved = true;
         });
         editor.on('connectionpick', io => {
@@ -288,14 +290,16 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
 
     return (
         <FileDropZone options={{noClick: true}} onFileContent={loadFileContent}>
-            <EditorContainer
-                className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
-                {...others}>
-                {!hideMenu && (
-                    <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>
-                )}
-                <div ref={bindEditor}/>
-            </EditorContainer>
+            <ThemeContext.Provider value="dark">
+                <EditorContainer
+                    className={classNames('node-editor d-flex flex-grow-1 flex-column', 'theme-' + theme, className)}
+                    {...others}>
+                    {!hideMenu && (
+                        <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>
+                    )}
+                    <div ref={bindEditor}/>
+                </EditorContainer>
+            </ThemeContext.Provider>
         </FileDropZone>
     );
 }

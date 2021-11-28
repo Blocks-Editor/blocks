@@ -1,0 +1,27 @@
+/**
+Light theme for Blocks.
+ */
+
+$grid-color: #CCCC;
+$grid-color-far: #CCC1A;
+
+.node-editor.theme-light {
+  background: #FAFAFE;
+
+  .node {
+    background: #FEFEFECC;
+
+    &:not(.selected) .header {
+      background: #FFF;
+    }
+  }
+
+  .grid {
+    background-image: linear-gradient(to right, #CCCC 1px, transparent 1px), linear-gradient(to bottom, #CCCC 1px, transparent 1px);
+
+    &.far {
+      // Hotfix - flickering on Firefox / Safari
+      background-image: linear-gradient(to right, #CCC1 1px, transparent 2px), linear-gradient(to bottom, #CCC1 1px, transparent 2px);
+    }
+  }
+}
