@@ -1,5 +1,5 @@
 import Editor from '../../rete/Editor';
-import React, {useContext} from 'react';
+import React, {useCallback, useContext} from 'react';
 import useListener from '../../../hooks/useListener';
 import EventsContext, {
     PROJECT_CLEAR_EVENT,
@@ -50,7 +50,20 @@ export default function EditorPage() {
         FileSaver.saveAs(new Blob([data]), `${pascalCase(state.name || 'project')}.blocks`);
     });
 
-    const onEditorSetup = async (loadState, editor) => {
+    useListener(window, 'message', ({source, data}) => {
+        if(embedded && source === window.parent) {
+            if(typeof data === 'string' && data.startsWith('{')) {
+                console.log('Received message:', data);
+                data = JSON.parse(data);
+                if(data?.type === 'load') {
+                    nextEditorState = data.state ? JSON.parse(JSON.stringify(data.state)) : DEFAULT_STATE;
+                    redraw();
+                }
+            }
+        }
+    });
+
+    const onEditorSetup = useCallback(async (loadState, editor) => {
         let stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
         nextEditorState = null;
 
@@ -65,9 +78,9 @@ export default function EditorPage() {
         if(state && !await loadState(state)) {
             console.warn('Load error');
         }
-    };
+    }, []);
 
-    const onEditorChange = (editor) => {
+    const onEditorChange = useCallback((editor) => {
         // if(embedded) {
         //     // TODO: dry with onEditorSave()
         //     let message = {
@@ -77,9 +90,10 @@ export default function EditorPage() {
         //     console.log('Sending message:', message);
         //     window.parent.postMessage(message, '*'); // TODO: restrict target origin
         // }
-    };
+    }, []);
 
-    const onEditorSave = (state, editor) => {
+    const onEditorSave = useCallback((state, editor) => {
+        console.log(state);////
         let stateString = JSON.stringify(state);
         storage[STORAGE_EDITOR_STATE] = stateString;
         if(embedded) {
@@ -91,20 +105,7 @@ export default function EditorPage() {
             let targetOrigin = '*'; // TODO: restrict target origin
             window.parent.postMessage(message, targetOrigin);
         }
-    };
-
-    useListener(window, 'message', ({source, data}) => {
-        if(embedded && source === window.parent) {
-            if(typeof data === 'string') {
-                console.log('Received message:', data);
-                data = JSON.parse(data);
-                if(data?.type === 'load') {
-                    nextEditorState = data.state ? JSON.parse(JSON.stringify(data.state)) : DEFAULT_STATE;
-                    redraw();
-                }
-            }
-        }
-    });
+    }, []);
 
     return (
         <Editor

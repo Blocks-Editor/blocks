@@ -227,7 +227,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
         };
         let currentIO = null;
         let connectionMouseMoved = false;
-        editor.on('mousemove', m => {
+        editor.on('mousemove', () => {
             connectionMouseMoved = true;
         });
         editor.on('connectionpick', io => {
