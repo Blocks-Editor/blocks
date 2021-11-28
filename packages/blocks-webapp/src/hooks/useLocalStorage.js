@@ -3,7 +3,7 @@ import isEmbedded from '../utils/isEmbedded';
 
 // Derived from: https://usehooks.com/useLocalStorage/
 
-const storage = isEmbedded() ? localStorage : {};
+const storage = isEmbedded() ? {} : window.localStorage;
 
 export default function useLocalStorage(key, defaultValue) {
     const [storedValue, setStoredValue] = useState(() => {
