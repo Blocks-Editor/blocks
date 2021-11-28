@@ -29,6 +29,6 @@ class ObservableValue {
     }
 }
 
-export default function makeObservable(target) {
-    return new ObservableValue(target);
+export default function makeObservable(value) {
+    return new ObservableValue(value);
 }

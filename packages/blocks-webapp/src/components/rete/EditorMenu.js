@@ -25,7 +25,7 @@ import {
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
-import useLearningModeState from '../../hooks/useLearningModeState';
+import useDetailedTooltipsState from '../../hooks/settings/useDetailedTooltipsState';
 import FloatingMenu from '../common/menus/FloatingMenu';
 
 const ProjectNameInput = styled.input`
@@ -101,7 +101,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [zoomAnimating, setZoomAnimating] = useState(false);
     const [loadMenuOpen, setLoadMenuOpen] = useState(false);
 
-    const [learningMode, setLearningMode] = useLearningModeState();
+    const [learningMode, setLearningMode] = useDetailedTooltipsState();
     const events = useContext(EventsContext);
 
     useListener(events, EDITOR_SAVE_EVENT, () => {

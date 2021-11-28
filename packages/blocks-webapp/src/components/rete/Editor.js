@@ -25,7 +25,7 @@ import EditorMenu from './EditorMenu';
 import FileDropZone from '../common/FileDropZone';
 import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
-import {ThemeContext} from '../../contexts/ThemeContext';
+import useThemeState from '../../hooks/settings/useThemeState';
 
 const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
 const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
@@ -125,7 +125,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
     const events = useContext(EventsContext);
     const connectionAwareList = useContext(ConnectionAwareListContext);
 
-    const [theme, setTheme] = useState('dark');
+    const [theme /* setTheme */] = useThemeState();
 
     let editor = null;
 
@@ -290,16 +290,14 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
 
     return (
         <FileDropZone options={{noClick: true}} onFileContent={loadFileContent}>
-            <ThemeContext.Provider value="dark">
-                <EditorContainer
-                    className={classNames('node-editor d-flex flex-grow-1 flex-column', 'theme-' + theme, className)}
-                    {...others}>
-                    {!hideMenu && (
-                        <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>
-                    )}
-                    <div ref={bindEditor}/>
-                </EditorContainer>
-            </ThemeContext.Provider>
+            <EditorContainer
+                className={classNames('node-editor d-flex flex-grow-1 flex-column', 'theme-' + theme, className)}
+                {...others}>
+                {!hideMenu && (
+                    <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>
+                )}
+                <div ref={bindEditor}/>
+            </EditorContainer>
         </FileDropZone>
     );
 }
