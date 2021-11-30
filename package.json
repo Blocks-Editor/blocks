@@ -12,6 +12,8 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "test": "set CI=true&& npm --prefix packages/blocks-webapp test && npm --prefix packages/react-blocks-editor test"
+    "test": "set CI=true&& npm --prefix packages/blocks-webapp test && npm --prefix packages/react-blocks-editor test",
+    "precommit": "set CI=true&& npm --prefix packages/blocks-webapp run precommit",
+    "prepush": "git diff HEAD --quiet || { echo \"Please commit all changes for pre-push testing.\"; exit 1; } && npm test"
   }
 }

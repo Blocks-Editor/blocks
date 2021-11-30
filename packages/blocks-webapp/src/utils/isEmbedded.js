@@ -7,4 +7,4 @@ export default function isEmbedded() {
     catch(e) {
         return true;
     }
-};
+}

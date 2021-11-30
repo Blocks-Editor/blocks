@@ -35,4 +35,4 @@ export default function App() {
             </BrowserRouter>
         </React.StrictMode>
     );
-};
+}

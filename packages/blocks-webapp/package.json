@@ -11,6 +11,7 @@
     "change-case": "^4.1.2",
     "classnames": "^2.3.1",
     "file-saver": "^2.0.5",
+    "lucide-react": "^0.16.19",
     "node-sass": "^6.0.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -40,20 +41,22 @@
     "@testing-library/user-event": "^13.5.0",
     "gh-pages": "^3.2.3",
     "jest-fail-on-console": "^2.1.1",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.0",
     "react-scripts": "^4.0.3",
     "webpack-filter-warnings-plugin": "^1.2.1"
   },
   "scripts": {
     "start": "craco start",
     "test": "craco test",
+    "precommit": "lint-staged",
     "prebuild": "set CI=true&& npm run test",
     "build": "npm run prebuild && craco build",
     "deploy": "set PUBLIC_URL=https://blocks-editor.github.io/blocks&& npm run build && gh-pages -d build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+  "lint-staged": {
+    "src/**/*.{js,ts,jsx,tsx,json,css,scss,htm,html,md,mdx}": [
+      "eslint"
     ]
   },
   "browserslist": {

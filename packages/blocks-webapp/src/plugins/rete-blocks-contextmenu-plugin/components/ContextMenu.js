@@ -48,4 +48,4 @@ export default function ContextMenu({x, y, children, style: styleProp, handleClo
             </div>
         </div>
     );
-};
+}
