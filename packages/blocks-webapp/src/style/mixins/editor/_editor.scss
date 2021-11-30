@@ -1,7 +1,13 @@
 @import "../variables";
+
+// Import themes
+
+@import "themes/parts/vibrant-borders";
+
 @import "themes/light";
 @import "themes/lightdark";
 @import "themes/dark";
+
 
 // TODO: move color definitions to JS categories?
 $any-color: #f5a;

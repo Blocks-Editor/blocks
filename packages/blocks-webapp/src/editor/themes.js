@@ -9,7 +9,7 @@ export const THEMES = [{
 }, {
     id: 'dark',
     name: 'Dark',
-    parts: ['vibrant'],
+    parts: ['vibrant-borders'],
 }, {
     id: 'lightdark',
     name: 'Light & Dark',
