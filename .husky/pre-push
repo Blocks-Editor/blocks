@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run prepush
+git diff HEAD --quiet || { echo \"Please commit all changes for pre-push testing.\"; exit 1; } && npm run test
