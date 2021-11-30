@@ -5,7 +5,7 @@ import {importRef} from '../compilers/MotokoCompiler';
 export const intImportRef = importRef('mo:base/Int');
 
 const block = {
-    title: `(a // b)`,
+    title: '(a // b)',
     category: operatorCategory,
     topRight: 'result',
     inputs: [{

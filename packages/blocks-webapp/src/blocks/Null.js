@@ -8,7 +8,7 @@ const block = {
         key: 'value',
         type: nullType,
         toMotoko() {
-            return `null`;
+            return 'null';
         },
     }],
 };

@@ -4,8 +4,8 @@ import {expressionCategory} from '../block-categories/categories';
 import CodeControlHandle from '../components/rete/controls/CodeControlHandle';
 
 const block = {
-    title: `{ Type }`,
-    info: `Compile an arbitrary type`,
+    title: '{ Type }',
+    info: 'Compile an arbitrary type',
     category: expressionCategory,
     icon: expressionCategory.data.icon,
     // topLeft: 'inputs',

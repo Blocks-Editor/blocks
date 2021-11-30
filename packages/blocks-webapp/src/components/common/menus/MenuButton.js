@@ -6,7 +6,7 @@ import classNames from 'classnames';
 let StyledMenuItem = styled(MenuItem)`
     cursor: pointer;
     border-radius: 10px;
-    
+
     &.round {
         border-radius: 50% !important;
         width: 48px;
@@ -31,7 +31,7 @@ const StyledIcon = styled.svg`
 
 export default function MenuButton({children, className, ...others}) {
     return (
-        <StyledMenuItem {...others} className={classNames("menu-button", className)}>
+        <StyledMenuItem {...others} className={classNames('menu-button', className)}>
             <StyledIcon aria-hidden="true" focusable="false"/>
             {children}
         </StyledMenuItem>

@@ -27,7 +27,7 @@ const block = {
             return optionalType.of(input);
         },
         toMotoko({input}) {
-            return `null`;
+            return 'null';
         },
     }],
 };
