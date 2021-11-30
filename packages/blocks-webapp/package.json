@@ -55,9 +55,11 @@
     "deploy": "set PUBLIC_URL=https://blocks-editor.github.io/blocks&& npm run build && gh-pages -d build"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,jsx,tsx,json,css,scss,htm,html,md,mdx}": [
-      "eslint --max-warnings=0 --fix"
-    ]
+    "linters": {
+      "src/**/*.{js,ts,jsx,tsx}": [
+        "eslint --max-warnings=0 --fix"
+      ]
+    }
   },
   "browserslist": {
     "production": [
