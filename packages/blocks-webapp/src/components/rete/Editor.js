@@ -125,7 +125,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
     const events = useContext(EventsContext);
     const connectionAwareList = useContext(ConnectionAwareListContext);
 
-    const [theme /* setTheme */] = useThemeState();
+    const [theme] = useThemeState();
 
     let editor = null;
 
@@ -291,7 +291,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
     return (
         <FileDropZone options={{noClick: true}} onFileContent={loadFileContent}>
             <EditorContainer
-                className={classNames('node-editor d-flex flex-grow-1 flex-column', 'theme-' + theme, className)}
+                className={classNames('node-editor d-flex flex-grow-1 flex-column', 'theme-' + theme.id, theme.parts.map(part => `theme-part-${part}`), className)}
                 {...others}>
                 {!hideMenu && (
                     <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>

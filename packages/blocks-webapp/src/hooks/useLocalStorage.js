@@ -32,7 +32,12 @@ export default function useLocalStorage(key, defaultValue) {
             try {
                 const valueToStore = value instanceof Function ? value(storedValue) : value;
                 setStoredValue(valueToStore);
-                storage[key] = JSON.stringify(valueToStore);
+                if(valueToStore !== undefined) {
+                    storage[key] = JSON.stringify(valueToStore);
+                }
+                else {
+                    delete storage[key];
+                }
             }
             catch(error) {
                 console.error(error);
