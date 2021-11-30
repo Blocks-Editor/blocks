@@ -1,21 +1,30 @@
-import {useState} from 'react';
 import isEmbedded from '../utils/isEmbedded';
+import useObservableState from './useObservableState';
+import makeObservable from '../utils/makeObservable';
 
 // Derived from: https://usehooks.com/useLocalStorage/
 
 const storage = isEmbedded() ? {} : window.localStorage;
 
+const observableMap = new Map();
+
 export default function useLocalStorage(key, defaultValue) {
-    const [storedValue, setStoredValue] = useState(() => {
+
+    // Find or create global observable value for key
+    let observable = observableMap.get(key);
+    if(!observable) {
         try {
             const item = storage[key];
-            return item ? JSON.parse(item) : defaultValue;
+            observable = makeObservable(item ? JSON.parse(item) : defaultValue);
         }
         catch(error) {
             console.error(error);
-            return defaultValue;
+            observable = makeObservable(defaultValue);
         }
-    });
+        observableMap.set(key, observable);
+    }
+
+    const [storedValue, setStoredValue] = useObservableState(observable);
 
     return [
         storedValue,
