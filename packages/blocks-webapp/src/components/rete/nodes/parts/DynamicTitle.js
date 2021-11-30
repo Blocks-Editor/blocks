@@ -1,6 +1,6 @@
 import {useContext, useState} from 'react';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../../contexts/EventsContext';
-import useListener from '../../../../hooks/useListener';
+import useListener from '../../../../hooks/utils/useListener';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
 
 export default function DynamicTitle({editor, node, block, fallback}) {

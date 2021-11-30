@@ -1,6 +1,6 @@
 import Editor from '../../rete/Editor';
 import React, {useCallback, useContext} from 'react';
-import useListener from '../../../hooks/useListener';
+import useListener from '../../../hooks/utils/useListener';
 import EventsContext, {
     PROJECT_CLEAR_EVENT,
     PROJECT_EXPORT_EVENT,
@@ -8,7 +8,7 @@ import EventsContext, {
 } from '../../../contexts/EventsContext';
 import FileSaver from 'file-saver';
 import {pascalCase} from 'change-case';
-import useRedraw from '../../../hooks/useRedraw';
+import useRedraw from '../../../hooks/utils/useRedraw';
 import isEmbedded from '../../../utils/isEmbedded';
 import {parse} from 'querystring';
 

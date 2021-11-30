@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import useControlState from '../../../hooks/useControlState';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContext';
-import useListener from '../../../hooks/useListener';
+import useListener from '../../../hooks/utils/useListener';
 import getNodeLabel from '../../../utils/getNodeLabel';
 import classNames from 'classnames';
 import {getBlock} from '../../../editor/blocks';

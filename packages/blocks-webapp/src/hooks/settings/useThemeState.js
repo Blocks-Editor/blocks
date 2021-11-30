@@ -1,4 +1,4 @@
-import useLocalStorage from '../useLocalStorage';
+import useLocalStorage from '../utils/useLocalStorage';
 import useThemes from '../useThemes';
 
 export default function useThemeState() {

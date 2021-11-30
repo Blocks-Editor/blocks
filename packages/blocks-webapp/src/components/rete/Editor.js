@@ -13,7 +13,7 @@ import EventsContext, {
 import NodeHandle from './nodes/NodeHandle';
 import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
-import useListener from '../../hooks/useListener';
+import useListener from '../../hooks/utils/useListener';
 import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
 import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
 import ConnectionDropPlugin from '../../plugins/rete-connection-drop-plugin';

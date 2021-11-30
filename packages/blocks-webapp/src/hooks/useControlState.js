@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import useListener from './useListener';
+import useListener from './utils/useListener';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../contexts/EventsContext';
 
 export default function useControlState(control) {

@@ -1,6 +1,6 @@
-import isEmbedded from '../utils/isEmbedded';
+import isEmbedded from '../../utils/isEmbedded';
 import useObservableState from './useObservableState';
-import makeObservable from '../utils/makeObservable';
+import makeObservable from '../../utils/makeObservable';
 
 // Derived from: https://usehooks.com/useLocalStorage/
 

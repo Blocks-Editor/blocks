@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventsContext, {ERROR_EVENT} from '../contexts/EventsContext';
-import useListener from '../hooks/useListener';
+import useListener from '../hooks/utils/useListener';
 import GlobalTooltip from './GlobalTooltip';
 import {BrowserRouter} from 'react-router-dom';
 import TabLayout from './TabLayout';

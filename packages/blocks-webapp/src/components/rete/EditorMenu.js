@@ -11,7 +11,7 @@ import EventsContext, {
     PROJECT_EXPORT_EVENT,
     PROJECT_LOAD_EVENT,
 } from '../../contexts/EventsContext';
-import useListener from '../../hooks/useListener';
+import useListener from '../../hooks/utils/useListener';
 import LoadProjectMenu from './LoadProjectMenu';
 import {Modal} from 'react-bootstrap';
 import {
