@@ -21,4 +21,18 @@ Light-dark (light background, dark blocks) theme for Blocks.
       background-image: linear-gradient(to right, #CCC1 1px, transparent 2px), linear-gradient(to bottom, #CCC1 1px, transparent 2px);
     }
   }
+
+  .menu-button {
+    &.floating {
+      background: #DDDA;
+
+      &:hover {
+        background: #DDD;
+      }
+    }
+
+    &:hover {
+      background: #2221;
+    }
+  }
 }

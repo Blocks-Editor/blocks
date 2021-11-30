@@ -12,6 +12,6 @@ export const THEMES = [{
     parts: ['vibrant-borders'],
 }, {
     id: 'lightdark',
-    name: 'Light & Dark',
+    name: 'Light-Dark',
     parts: [],
 }];

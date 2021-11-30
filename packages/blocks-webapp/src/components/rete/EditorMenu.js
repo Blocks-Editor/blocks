@@ -103,8 +103,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
-    const [loadMenuOpen, setLoadMenuOpen] = useState(false);
-    const [settingsMenuOpen, setSettingsMenuOpen] = useState(false);
+    const [openMenu, setOpenMenu] = useState(null);
     const events = useContext(EventsContext);
 
     useListener(events, EDITOR_SAVE_EVENT, () => {
@@ -113,7 +112,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
 
     useListener(events, PROJECT_LOAD_EVENT, project => {
         setName(project.name);
-        setLoadMenuOpen(false);
+        setOpenMenu(false);
     });
 
     /// Temp, until projectName refactor
@@ -171,12 +170,12 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                     </MenuButton>
                     <MenuButton
                         tooltip="Load Project"
-                        onMouseDown={() => setLoadMenuOpen(!loadMenuOpen)}>
-                        {loadMenuOpen ? <FolderOpenIcon/> : <FolderWideIcon/>}
+                        onMouseDown={() => setOpenMenu('load')}>
+                        {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
                         tooltip="Settings"
-                        onMouseDown={() => setSettingsMenuOpen(!settingsMenuOpen)}>
+                        onMouseDown={() => setOpenMenu('settings')}>
                         <SettingsIcon/>
                     </MenuButton>
                 </div>
@@ -202,21 +201,17 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                 {/*    COMPILE*/}
                 {/*</MenuButton>*/}
             </FloatingMenu>
-            {/* TODO: dry to custom modal */}
             <Modal
-                show={loadMenuOpen}
+                show={openMenu}
                 onShow={() => ReactTooltip.hide()}
-                onHide={() => setLoadMenuOpen(false)}>
+                onHide={() => setOpenMenu(null)}>
                 <Modal.Body>
-                    <LoadProjectMenu onLoadFileContent={onLoadFileContent}/>
-                </Modal.Body>
-            </Modal>
-            <Modal
-                show={settingsMenuOpen}
-                onShow={() => ReactTooltip.hide()}
-                onHide={() => setSettingsMenuOpen(false)}>
-                <Modal.Body>
-                    <SettingsMenu/>
+                    {openMenu === 'load' && (
+                        <LoadProjectMenu onLoadFileContent={onLoadFileContent}/>
+                    )}
+                    {openMenu === 'settings' && (
+                        <SettingsMenu/>
+                    )}
                 </Modal.Body>
             </Modal>
         </>
