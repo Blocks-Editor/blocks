@@ -9,7 +9,7 @@ import useThemeState from '../../hooks/settings/useThemeState';
 function SettingInput({type, ...others}) {
     let value;
     switch(type) {
-        case "select":
+        case 'select':
             let options = others.options;
             let onChange = others.onChange;
             value = others.value;
@@ -17,23 +17,23 @@ function SettingInput({type, ...others}) {
             return (
                 <select className="form-control ml-5 w-auto" onChange={onChange} value={value}>
                     {options.map((option, i) => (
-                        <option value={option} key={i}>{option}</option>
-                        )
+                            <option value={option} key={i}>{option}</option>
+                        ),
                     )}
                 </select>
-            )
+            );
 
-        case "toggle":
+        case 'toggle':
             value = others.value;
             let onClick = others.onClick;
             return (
-                <input type="checkbox" value={value} onClick={onClick} />
-            )
+                <input type="checkbox" value={value} onClick={onClick}/>
+            );
 
         default:
             return (
-                <div />
-            )
+                <div/>
+            );
     }
 }
 
@@ -50,7 +50,7 @@ function Setting({name, description, type, ...others}) {
             </div>
             <span className="small text-muted">{description}</span>
         </div>
-    )
+    );
 }
 
 export default function SettingsMenu() {
@@ -58,33 +58,31 @@ export default function SettingsMenu() {
     const [theme, setTheme] = useThemeState();
 
     // Define the content for each option.
-    const settings = [
-        {
-            "name": "Theme",
-            "description": "The color scheme used in the editor.",
-            "type": "select",
-            "value": theme,
-            "options": ["dark", "light", "lightdark"],
-            "onChange": (e) => {setTheme(e.target.value)}
+    const settings = [{
+        name: 'Theme',
+        description: 'The color scheme used in the editor.',
+        type: 'select',
+        value: theme,
+        options: ['dark', 'light', 'lightdark'],
+        onChange(e) {
+            setTheme(e.target.value);
         },
-        {
-            "name": "Learning Mode",
-            "description": "Provides more detailed tooltips.",
-            "type": "toggle",
-            "value": learningMode,
-            "onClick": () => { setLearningMode(!learningMode) }
-        }
-    ]
+    }, {
+        name: 'Learning Mode',
+        description: 'Provides more detailed tooltips.',
+        type: 'toggle',
+        value: learningMode,
+        onClick() {
+            setLearningMode(!learningMode);
+        },
+    }];
 
     return (
         <div className="p-3">
             <h3>Settings</h3>
             {settings.map((setting, i) => (
-                <Setting
-                    key={i}
-                    {...setting}
-                />
+                <Setting key={i}  {...setting}/>
             ))}
         </div>
-    )
+    );
 }

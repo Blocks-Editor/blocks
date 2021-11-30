@@ -134,7 +134,11 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
             <TopMenu>
                 {/*<Link to="/">*/}
                 <MenuItem variant="dark">
-                    <BlocksLogo src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`} height="48px" alt="Blocks Logo"/>
+                    <BlocksLogo
+                        src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`}
+                        height="48px"
+                        alt="Blocks Logo"
+                    />
                 </MenuItem>
                 {/*</Link>*/}
                 <div className="d-flex flex-row justify-content-center align-items-center mx-3">
@@ -173,7 +177,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                     <MenuButton
                         tooltip="Settings"
                         onMouseDown={() => setSettingsMenuOpen(!settingsMenuOpen)}>
-                        <SettingsIcon />
+                        <SettingsIcon/>
                     </MenuButton>
                 </div>
             </TopMenu>
@@ -193,10 +197,12 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                 <MenuButton
                     className="floating small text-muted d-flex align-items-center justify-content-center"
                     tooltip="Compile to Motoko"
-                    onMouseDown={() => {}}>
+                    onMouseDown={() => {
+                    }}>
                     COMPILE
                 </MenuButton>
             </FloatingMenu>
+            {/* TODO: dry to custom modal */}
             <Modal
                 show={loadMenuOpen}
                 onShow={() => ReactTooltip.hide()}
@@ -210,7 +216,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                 onShow={() => ReactTooltip.hide()}
                 onHide={() => setSettingsMenuOpen(false)}>
                 <Modal.Body>
-                    <SettingsMenu />
+                    <SettingsMenu/>
                 </Modal.Body>
             </Modal>
         </>
