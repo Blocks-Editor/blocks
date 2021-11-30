@@ -194,13 +194,13 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         onAnimationEnd={() => setZoomAnimating(false)}
                     />
                 </MenuButton>
-                <MenuButton
-                    className="floating small text-muted d-flex align-items-center justify-content-center"
-                    tooltip="Compile to Motoko"
-                    onMouseDown={() => {
-                    }}>
-                    COMPILE
-                </MenuButton>
+                {/*<MenuButton*/}
+                {/*    className="floating small text-muted d-flex align-items-center justify-content-center"*/}
+                {/*    tooltip="Compile to Motoko"*/}
+                {/*    onMouseDown={() => {*/}
+                {/*    }}>*/}
+                {/*    COMPILE*/}
+                {/*</MenuButton>*/}
             </FloatingMenu>
             {/* TODO: dry to custom modal */}
             <Modal

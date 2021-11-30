@@ -10,5 +10,7 @@ let StyledFloatingMenu = styled.div`
 `;
 
 export default function FloatingMenu({className, children, ...others}) {
-    return <StyledFloatingMenu className={classNames('p-5 d-flex flex-row align-items-center justify-content-center', className)}>{children}</StyledFloatingMenu>;
+    return <StyledFloatingMenu className={classNames('p-5 d-flex flex-row align-items-center justify-content-center', className)} {...others}>
+        {children}
+    </StyledFloatingMenu>;
 }
