@@ -20,13 +20,12 @@ import {
     FilePlusIcon,
     FolderOpenIcon,
     FolderWideIcon,
-    LearningIcon,
-    SaveIcon,
+    SaveIcon, SettingsIcon,
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
-import useDetailedTooltipsState from '../../hooks/settings/useDetailedTooltipsState';
 import FloatingMenu from '../common/menus/FloatingMenu';
+import SettingsMenu from './SettingsMenu';
 
 const ProjectNameInput = styled.input`
     border: 2px solid transparent !important;
@@ -86,22 +85,26 @@ const StyledZoomIcon = styled(CrosshairIcon)`
     }
 `;
 
-const StyledLearningIcon = styled(LearningIcon)`
-    transition: .2s transform ease-out;
-
-    &.enabled {
-        color: #333;
-        transform: scale(1.2) !important;
-    }
+const BlocksLogo = styled.img`
+    -webkit-user-drag: none;
+    user-select: none;
 `;
+
+// const StyledLearningIcon = styled(LearningIcon)`
+//     transition: .2s transform ease-out;
+//
+//     &.enabled {
+//         color: #333;
+//         transform: scale(1.2) !important;
+//     }
+// `;
 
 export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
     const [loadMenuOpen, setLoadMenuOpen] = useState(false);
-
-    const [learningMode, setLearningMode] = useDetailedTooltipsState();
+    const [settingsMenuOpen, setSettingsMenuOpen] = useState(false);
     const events = useContext(EventsContext);
 
     useListener(events, EDITOR_SAVE_EVENT, () => {
@@ -131,7 +134,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
             <TopMenu>
                 {/*<Link to="/">*/}
                 <MenuItem variant="dark">
-                    <img src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`} height="48px" alt="Blocks Logo"/>
+                    <BlocksLogo src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`} height="48px" alt="Blocks Logo"/>
                 </MenuItem>
                 {/*</Link>*/}
                 <div className="d-flex flex-row justify-content-center align-items-center mx-3">
@@ -168,9 +171,9 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         {loadMenuOpen ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
-                        tooltip="Learning Mode"
-                        onMouseDown={() => setLearningMode(!learningMode)}>
-                        <StyledLearningIcon className={classNames(learningMode && 'enabled')}/>
+                        tooltip="Settings"
+                        onMouseDown={() => setSettingsMenuOpen(!settingsMenuOpen)}>
+                        <SettingsIcon />
                     </MenuButton>
                 </div>
             </TopMenu>
@@ -200,6 +203,14 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                 onHide={() => setLoadMenuOpen(false)}>
                 <Modal.Body>
                     <LoadProjectMenu onLoadFileContent={onLoadFileContent}/>
+                </Modal.Body>
+            </Modal>
+            <Modal
+                show={settingsMenuOpen}
+                onShow={() => ReactTooltip.hide()}
+                onHide={() => setSettingsMenuOpen(false)}>
+                <Modal.Body>
+                    <SettingsMenu />
                 </Modal.Body>
             </Modal>
         </>

@@ -7,6 +7,7 @@ import {ReactComponent as FolderOpen} from '../../assets/icons/folder-open.svg';
 import {ReactComponent as Save} from '../../assets/icons/save.svg';
 import {ReactComponent as Crosshair} from '../../assets/icons/crosshair.svg';
 import {ReactComponent as Learning} from '../../assets/icons/learning.svg';
+import {ReactComponent as Settings} from '../../assets/icons/settings.svg';
 
 // Convention here is `CONSTANT_CASE` for exported constants and `camelCase` otherwise.
 // This makes it easier to quickly know what values are globally accessible, since almost everything is a constant anyway.
@@ -33,3 +34,4 @@ export const FolderOpenIcon = createIcon(FolderOpen, 30 / 24);
 export const SaveIcon = createIcon(Save);
 export const CrosshairIcon = createIcon(Crosshair);
 export const LearningIcon = createIcon(Learning);
+export const SettingsIcon = createIcon(Settings);
