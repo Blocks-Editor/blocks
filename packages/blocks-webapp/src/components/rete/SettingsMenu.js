@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useDetailedTooltipsState from '../../hooks/settings/useDetailedTooltipsState';
+import useLearningModeState from '../../hooks/settings/useLearningModeState';
 import useThemeState from '../../hooks/settings/useThemeState';
 import useThemes from '../../hooks/useThemes';
 
@@ -15,9 +15,9 @@ const settingInputs = {
             </select>
         );
     },
-    toggle({value, onClick}) {
+    toggle({value, onChange}) {
         return (
-            <input type="checkbox" value={value} onClick={onClick}/>
+            <input type="checkbox" checked={!!value} onChange={onChange}/>
         );
     },
 };
@@ -41,7 +41,7 @@ function Setting({name, description, type, props}) {
 }
 
 export default function SettingsMenu() {
-    const [learningMode, setLearningMode] = useDetailedTooltipsState();
+    const [learningMode, setLearningMode] = useLearningModeState();
     const [theme, setTheme] = useThemeState();
     const themes = useThemes();
 
@@ -64,7 +64,7 @@ export default function SettingsMenu() {
         type: 'toggle',
         props: {
             value: learningMode,
-            onClick() {
+            onChange() {
                 setLearningMode(!learningMode);
             },
         },

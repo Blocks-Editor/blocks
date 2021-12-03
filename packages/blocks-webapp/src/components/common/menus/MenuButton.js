@@ -31,7 +31,7 @@ const StyledIcon = styled.svg`
 
 export default function MenuButton({children, className, ...others}) {
     return (
-        <StyledMenuItem {...others} className={classNames('menu-button', className)}>
+        <StyledMenuItem className={classNames('menu-button', className)} {...others}>
             <StyledIcon aria-hidden="true" focusable="false"/>
             {children}
         </StyledMenuItem>

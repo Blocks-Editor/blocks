@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import classNames from 'classnames';
 import {getExampleProjects} from '../../examples/examples';
 import FileDropZone from '../common/FileDropZone';
+import {DROP_ZONE_EXTENSIONS} from './Editor';
 
 const MenuContainer = styled.div`
     padding: 20px;
@@ -34,6 +35,7 @@ export default function LoadProjectMenu({onLoadFileContent, className, ...others
         <MenuContainer className={classNames('bg-light', className)} {...others}>
             <StyledFileDropZone
                 className={classNames('clickable text-center text-muted rounded-3')}
+                options={{accept: DROP_ZONE_EXTENSIONS.join(',')}}
                 onFileContent={onLoadFileContent}>
                 <h5>Import a .blocks file . . .</h5>
             </StyledFileDropZone>

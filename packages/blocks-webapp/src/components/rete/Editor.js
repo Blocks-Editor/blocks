@@ -27,10 +27,12 @@ import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
 import useThemeState from '../../hooks/settings/useThemeState';
 
-const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
-const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
+export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
-const INPUT_TAGS = ['input', 'textarea'];
+const editorName = process.env.REACT_APP_EDITOR_NAME;
+const editorVersion = process.env.REACT_APP_EDITOR_VERSION;
+
+const inputTags = ['input', 'textarea'];
 
 function findCategory(socket) {
     return socket.type?./*findType?.()*/data.category ?? socket.data.category ?? 'none';
@@ -39,7 +41,7 @@ function findCategory(socket) {
 // noinspection JSCheckFunctionSignatures
 function createEditor(element) {
 
-    let editor = new BlocksNodeEditor(EDITOR_NAME + '@' + EDITOR_VERSION, element);
+    let editor = new BlocksNodeEditor(editorName + '@' + editorVersion, element);
     editor.use(ReactRenderPlugin, {
         component: NodeHandle,
     });
@@ -169,7 +171,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
                     console.log('Saved successfully');
                 }
             }
-            else if(!document.activeElement || !INPUT_TAGS.includes(document.activeElement.nodeName.toLowerCase())) {
+            else if(!document.activeElement || !inputTags.includes(document.activeElement.nodeName.toLowerCase())) {
                 if(key === 'Delete') {
                     editor.selected.each(n => editor.removeNode(n));
                 }
@@ -289,7 +291,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
     };
 
     return (
-        <FileDropZone options={{noClick: true}} onFileContent={loadFileContent}>
+        <FileDropZone options={{noClick: true, accept: DROP_ZONE_EXTENSIONS.join(',')}} onFileContent={loadFileContent}>
             <EditorContainer
                 className={classNames('node-editor d-flex flex-grow-1 flex-column', 'theme-' + theme.id, theme.parts.map(part => `theme-part-${part}`), className)}
                 {...others}>

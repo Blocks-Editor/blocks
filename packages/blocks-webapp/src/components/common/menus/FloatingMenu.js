@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 
-let StyledFloatingMenu = styled.div`
+let ContainerDiv = styled.div`
     position: absolute;
     bottom: 0;
     right: 0;
@@ -10,7 +10,9 @@ let StyledFloatingMenu = styled.div`
 `;
 
 export default function FloatingMenu({className, children, ...others}) {
-    return <StyledFloatingMenu className={classNames('p-5 d-flex flex-row align-items-center justify-content-center', className)} {...others}>
-        {children}
-    </StyledFloatingMenu>;
+    return (
+        <ContainerDiv className={classNames('p-5 d-flex flex-row align-items-center justify-content-center', className)} {...others}>
+            {children}
+        </ContainerDiv>
+    );
 }

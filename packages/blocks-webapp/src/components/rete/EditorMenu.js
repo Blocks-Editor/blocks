@@ -88,6 +88,7 @@ const StyledZoomIcon = styled(CrosshairIcon)`
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
     user-select: none;
+    height: 40px;
 `;
 
 // const StyledLearningIcon = styled(LearningIcon)`
@@ -131,16 +132,17 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
     return (
         <>
             <TopMenu>
-                {/*<Link to="/">*/}
-                <MenuItem variant="dark">
-                    <BlocksLogo
-                        src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`}
-                        height="48px"
-                        alt="Blocks Logo"
-                    />
-                </MenuItem>
-                {/*</Link>*/}
-                <div className="d-flex flex-row justify-content-center align-items-center mx-3">
+                <a href="https://blocks-editor.github.io/" target="_blank" rel="noreferrer">
+                    <MenuItem>
+                        <BlocksLogo
+                            className="pt-1"
+                            src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`}
+                            alt="Blocks Logo"
+                            draggable="false"
+                        />
+                    </MenuItem>
+                </a>
+                <div className="w-100 px-3">
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
@@ -160,7 +162,6 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                     <MenuButton
                         tooltip="Export to File"
                         onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, getEditor().toJSON())}>
-                        {/*<FiDownload/>*/}
                         <DownloadIcon/>
                     </MenuButton>
                     <MenuButton
@@ -174,6 +175,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
+                        style={{float: 'right'}}
                         tooltip="Settings"
                         onMouseDown={() => setOpenMenu('settings')}>
                         <SettingsIcon/>
