@@ -132,16 +132,16 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
     return (
         <>
             <TopMenu>
-                <a href="https://blocks-editor.github.io/" target="_blank" rel="noreferrer">
-                    <MenuItem>
+                <MenuItem>
+                    <a href="https://blocks-editor.github.io/" target="_blank" rel="noreferrer">
                         <BlocksLogo
                             className="pt-1"
                             src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`}
                             alt="Blocks Logo"
                             draggable="false"
                         />
-                    </MenuItem>
-                </a>
+                    </a>
+                </MenuItem>
                 <div className="w-100 px-3">
                     <ProjectNameInput
                         type="text"
