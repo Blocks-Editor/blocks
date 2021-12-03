@@ -42,7 +42,7 @@ export default class NodeHandle extends Node {
         let width = 32 * (node.data['editor:width'] || block.width || 6) - 3;
 
         return (
-            <div style={{width}} className={classNames('node', selected, block.className)}>
+            <div style={{width}} className={classNames('node', `node-id-${node.id}`, selected, block.className)}>
                 <div className="header d-flex">
                     {topLeft && (
                         <div>
