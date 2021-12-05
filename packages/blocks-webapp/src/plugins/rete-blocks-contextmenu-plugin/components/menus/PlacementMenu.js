@@ -45,29 +45,30 @@ export default function PlacementMenu() {
         components = components.filter(c => c.block.global);
         searchText = '';
     }
-    index = Math.min(components.length - 1, index);
 
     if(searchText) {
         let lower = searchText.toLowerCase();
         components = components.filter(c => c.keywords?.some(k => k.toLowerCase().startsWith(lower)) || c.name.toLowerCase().startsWith(lower));
     }
 
+    index = Math.min(components.length - 1, index);
+
     // Arrow keys pressed
-    function handleSearchKeyDown(event) {
+    const handleSearchKeyDown = (event) => {
         if(event.keyCode === 38 /* Up Arrow */) {
             setIndex(Math.max(0, index - 1));
         }
         if(event.keyCode === 40 /* Down Arrow */) {
             setIndex(index + 1);
         }
-    }
+    };
 
     // Enter key pressed
-    async function handleSearchAction() {
+    const handleSearchAction = async () => {
         if(components.length) {
             await handleCreateNode(components[index]);
         }
-    }
+    };
 
     // Create node from component
     const handleCreateNode = useCallback(async (component) => {
