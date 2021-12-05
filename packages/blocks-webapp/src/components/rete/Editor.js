@@ -235,6 +235,16 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
             connectionMouseMoved = true;
         });
         editor.on('connectionpick', io => {
+            // Remove connection on ctrl+click
+            // noinspection JSDeprecatedSymbols, JSUnresolvedVariable
+            if(window.event.ctrlKey) {
+                let connection = io.connections[0];
+                if(connection) {
+                    editor.removeConnection(connection);
+                }
+                return false;
+            }
+
             connectionMouseMoved = false;
             if(currentIO) {
                 handleConnectionEnd(currentIO, io);
