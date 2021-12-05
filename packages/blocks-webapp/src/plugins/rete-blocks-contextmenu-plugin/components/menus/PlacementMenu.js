@@ -43,6 +43,7 @@ export default function PlacementMenu() {
     }
     else {
         components = components.filter(c => c.block.global);
+        searchText = '';
     }
     index = Math.min(components.length - 1, index);
 
