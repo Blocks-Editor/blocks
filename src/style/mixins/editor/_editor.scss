@@ -3,6 +3,7 @@
 // Import themes
 
 @import "themes/parts/vibrant-borders";
+@import "themes/parts/compact-labels";
 
 @import "themes/light";
 @import "themes/lightdark";
@@ -102,16 +103,6 @@ $grid-area: $grid-size * 10000;
     background: #111A;
     border-color: #111 !important;
     box-shadow: 0 4px 8px #000A;
-
-    .input-title, .output-title {
-      font-family: $font-family-monospace;
-      font-size: 10px;
-    }
-
-    .control, .input-control {
-      font-family: $font-family-monospace;
-      font-size: 12px;
-    }
 
     &:hover {
       background: #222A;

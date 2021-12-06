@@ -5,13 +5,13 @@ export const THEMES = [{
 }, {
     id: 'light',
     name: 'Light',
-    parts: [],
+    parts: ['compact-labels'],
 }, {
     id: 'dark',
     name: 'Dark',
-    parts: ['vibrant-borders'],
+    parts: ['compact-labels', 'vibrant-borders'],
 }, {
     id: 'lightdark',
     name: 'Light-Dark',
-    parts: [],
+    parts: ['compact-labels'],
 }];

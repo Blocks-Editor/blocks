@@ -1,0 +1,15 @@
+@import "../../../variables";
+
+.node-editor.theme-part-compact-labels {
+  .node {
+    .input-title, .output-title {
+      font-family: $font-family-monospace;
+      font-size: 10px;
+    }
+
+    .control, .input-control {
+      font-family: $font-family-monospace;
+      font-size: 12px;
+    }
+  }
+}
