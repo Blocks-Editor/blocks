@@ -1,4 +1,5 @@
 import {memberType} from '../block-types/types';
+import {resolveImportRefs} from '../compilers/MotokoCompiler';
 
 export default function compileGlobalMotoko(editor) {
 
@@ -9,8 +10,10 @@ export default function compileGlobalMotoko(editor) {
         })
         .sort((a, b) => a.position[1] - b.position[1]);
 
-    return `actor {${memberNodes.map(n => {
+    const [prefixes, actorCode] = resolveImportRefs(`actor {${memberNodes.map(n => {
         const result = editor.compilers.motoko.getOutput(n, 'member');
         return result ? `\n  ${result}` : '';
-    }).join('\n')}\n}`;
+    }).join('\n')}\n}`);
+
+    return `${prefixes.join('\n')}\n\n${actorCode}`;
 }

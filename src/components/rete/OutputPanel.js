@@ -47,11 +47,7 @@ export default function OutputPanel({getEditor}) {
                     <h3 className="ms-3">Compiled Output</h3>
                 </div>
                 <div className="flex-grow-1 text-muted">
-                    <CodeEditor
-                        value={output}
-                        readOnly={true}
-                        theme={'light' /* const [theme] = useTheme(); --> theme.monaco */}
-                    />
+                    <CodeEditor value={output} readOnly={true}/>
                 </div>
                 <div className="d-flex flex-row align-items-center justify-content-center">
                     <ClipboardButton className="d-flex flex-row align-items-center justify-content-center py-2 px-3 clickable">

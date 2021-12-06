@@ -13,7 +13,7 @@ export function importRef(name) {
 
 export function resolveImportRefs(code) {
     if(!code) {
-        return code;
+        return [[], ''];
     }
     code = String(code);
 
@@ -26,10 +26,8 @@ export function resolveImportRefs(code) {
         imports[id] = path;
         return id;
     });
-    for(const [id, path] of Object.entries(imports)) {
-        code = `import ${id} "${path}"; ${code}`;
-    }
-    return code;
+    let prefixes = Object.entries(imports).map(([id, path]) => `import ${id} "${path}";`);
+    return [prefixes, code];
 }
 
 export default class MotokoCompiler extends Compiler {

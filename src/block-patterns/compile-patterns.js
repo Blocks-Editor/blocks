@@ -8,7 +8,8 @@ export function compileBlock(title, compilerKey, displayFn) {
         return (control, node, editor) => {
             let value = editor.compilers[compilerKey].getInput(node, inputKey);
             let string = displayFn ? displayFn(value) : value;
-            return resolveImportRefs(string);
+            const [prefixes, code] = resolveImportRefs(string);
+            return [...prefixes, code].join(' ');
         };
     }
 
