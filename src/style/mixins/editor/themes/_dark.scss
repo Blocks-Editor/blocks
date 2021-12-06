@@ -1,0 +1,57 @@
+/**
+Dark theme for Blocks.
+ */
+
+.node-editor.theme-dark {
+  background: #00131C !important;
+
+  .menu-button {
+    &.floating {
+      background: #022030;
+      border: 2px solid #032F47;
+
+      &:hover {
+        background: #032F47;
+      }
+    }
+
+    &:hover {
+      background: #FFF1;
+    }
+  }
+
+  .top-menu {
+    background: #022030;
+
+    input {
+      background: #022030 !important;
+      border-bottom: solid 2px #CCCA !important;
+    }
+  }
+
+  .node {
+    border: none !important;
+    background: #022030;
+
+    &:not(.selected) .header {
+      background: #00131C;
+    }
+  }
+
+  .node-shortcut-button {
+    background: #111 !important;
+  }
+
+  .grid {
+    background-image: linear-gradient(to right, #022030 1px, transparent 1px), linear-gradient(to bottom, #022030 1px, transparent 1px);
+
+    &.far {
+      // Hotfix - flickering on Firefox / Safari
+      background-image: linear-gradient(to right, #022030 1px, transparent 2px), linear-gradient(to bottom, #022030 1px, transparent 2px);
+    }
+  }
+
+  #output-window {
+    background: #032F47 !important;
+  }
+}

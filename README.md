@@ -4,11 +4,42 @@
 
 *Blocks* is an online visual smart contract editor for the [Internet Computer](https://dfinity.org/).
 
-## Packages
 
-- [blocks-webapp](./packages/blocks-webapp) - Source code for the Blocks Editor web application.
-- [react-blocks-editor](./packages/react-blocks-editor) - Embed the Blocks Editor anywhere using a React component.
-- [rete](https://github.com/rvanasa/rete) - An improved version of [Rete.js](https://rete.js.org/#/).
+## External Usage
+
+Embed the Blocks Editor in your React application using the [react-blocks-editor](https://www.npmjs.com/package/react-blocks-editor) npm package.
+
+## Local Environment
+
+```sh
+git clone --recurse-submodules https://github.com/rvanasa/blocks
+
+# Set up Blocks version of Rete.js
+cd packages/rete
+npm install
+npm run build
+
+cd ../blocks-webapp
+npm link ../rete
+```
+
+### Serve (http://localhost:3000):
+
+```bash
+npm start
+```
+
+### Test:
+
+```bash
+npm test
+```
+
+### Build:
+
+```bash
+npm run build
+```
 
 ---
 
