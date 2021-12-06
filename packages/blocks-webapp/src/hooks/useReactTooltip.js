@@ -9,5 +9,6 @@ export default function useReactTooltip(deps = []) {
         clearTimeout(timeout);
         timeout = setTimeout(() => ReactTooltip.rebuild());
     }, deps); /* eslint-disable-line react-hooks/exhaustive-deps */
+
     return ReactTooltip;
 }
