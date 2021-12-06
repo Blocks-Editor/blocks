@@ -20,13 +20,21 @@ import {
     FilePlusIcon,
     FolderOpenIcon,
     FolderWideIcon,
-    SaveIcon, SettingsIcon,
+    SaveIcon,
+    SettingsIcon,
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
 import FloatingMenu from '../common/menus/FloatingMenu';
 import SettingsMenu from './SettingsMenu';
 import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisibleState';
+import {FiCode} from 'react-icons/fi';
+
+const BlocksLogo = styled.img`
+    -webkit-user-drag: none;
+    user-select: none;
+    height: 40px;
+`;
 
 const ProjectNameInput = styled.input`
     border: 2px solid transparent !important;
@@ -86,12 +94,6 @@ const StyledZoomIcon = styled(CrosshairIcon)`
     }
 `;
 
-const BlocksLogo = styled.img`
-    -webkit-user-drag: none;
-    user-select: none;
-    height: 40px;
-`;
-
 // const StyledLearningIcon = styled(LearningIcon)`
 //     transition: .2s transform ease-out;
 //
@@ -100,6 +102,10 @@ const BlocksLogo = styled.img`
 //         transform: scale(1.2) !important;
 //     }
 // `;
+
+const StyledCompileIcon = styled(FiCode)`
+
+`;
 
 export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [name, setName] = useState('');
@@ -183,6 +189,12 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         onMouseDown={() => setOpenMenu('settings')}>
                         <SettingsIcon/>
                     </MenuButton>
+                    <MenuButton
+                        style={{float: 'right'}}
+                        tooltip="Compile to Motoko"
+                        onMouseDown={() => setOutputPanelVisible(true)}>
+                        <StyledCompileIcon/>
+                    </MenuButton>
                 </div>
             </TopMenu>
             <FloatingMenu>
@@ -197,12 +209,6 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         className={classNames(zoomAnimating && 'animating')}
                         onAnimationEnd={() => setZoomAnimating(false)}
                     />
-                </MenuButton>
-                <MenuButton
-                    className="floating small text-muted d-flex align-items-center justify-content-center pt-2"
-                    tooltip="Compile to Motoko"
-                    onMouseDown={() => setOutputPanelVisible(true)}>
-                    COMPILE
                 </MenuButton>
             </FloatingMenu>
             <Modal
