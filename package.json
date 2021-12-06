@@ -14,8 +14,5 @@
     "prepare": "husky install",
     "test": "set CI=true&& npm --prefix packages/blocks-webapp test && npm --prefix packages/react-blocks-editor test",
     "precommit": "set CI=true&& npm --prefix packages/blocks-webapp run precommit"
-  },
-  "dependencies": {
-    "react-dock": "^0.4.1"
   }
 }
