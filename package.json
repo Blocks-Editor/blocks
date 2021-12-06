@@ -50,9 +50,10 @@
   "scripts": {
     "prepare": "husky install",
     "start": "craco start",
-    "test": "craco test",
+    "test": "set CI=1&& craco test",
+    "test:watch": "craco test",
     "precommit": "lint-staged",
-    "prebuild": "set CI=true&& npm run test",
+    "prebuild": "npm run test:unit",
     "build": "npm run prebuild && craco build",
     "deploy": "set PUBLIC_URL=https://blocks-editor.github.io/blocks&& npm run build && gh-pages -d build"
   },
