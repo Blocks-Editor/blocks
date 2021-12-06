@@ -41,7 +41,7 @@ export default function OutputPanel({getEditor}) {
         <Dock className="output-panel" position="right" isVisible={visible} fluid={true} dimMode="none">
             <OutputContainer className="p-3">
                 <div className="d-flex">
-                    <div className="clickable pb-3 px-2" onClick={() => setVisible(false)}>
+                    <div className="clickable px-2" onClick={() => setVisible(false)}>
                         <FiX size={18}/>
                     </div>
                     <h3 className="ms-3">Compiled Output</h3>
