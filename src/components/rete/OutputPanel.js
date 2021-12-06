@@ -1,9 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Dock from 'react-dock';
 import styled from 'styled-components';
 import {FiClipboard, FiX} from 'react-icons/fi';
 import CodeEditor from '../monaco/CodeEditor';
-import OutputPanelContext from '../../contexts/OutputPanelContext';
+import compileGlobalMotoko from '../../utils/compileGlobalMotoko';
+import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
+import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisibleState';
+import useListener from '../../hooks/utils/useListener';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -20,19 +23,31 @@ const ClipboardButton = styled.div`
     }
 `;
 
-export default function OutputPanel() {
+export default function OutputPanel({getEditor}) {
 
-    const {isVisible, setVisible} = useContext(OutputPanelContext);
+    // Get current output source code
+    const getOutput = () => {
+        return compileGlobalMotoko(getEditor());
+    };
+
+    const [visible, setVisible] = useOutputPanelVisibleState();
+    const [output, setOutput] = useState('');
+
+    const events = useContext(EventsContext);
+
+    useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput));
 
     return (
-        <Dock className="output-panel" position="right" isVisible={isVisible} dockStyle={{}} fluid={true}>
+        <Dock className="output-panel" position="right" isVisible={visible} fluid={true} dimMode="none">
             <OutputContainer className="p-3">
-                <div className="clickable pb-3" onClick={() => setVisible(!isVisible)}>
-                    <FiX size={18}/>
+                <div className="d-flex">
+                    <div className="clickable pb-3 px-2" onClick={() => setVisible(false)}>
+                        <FiX size={18}/>
+                    </div>
+                    <h3 className="ms-3">Compiled Output</h3>
                 </div>
-                <h3>Compiled Output</h3>
                 <div className="flex-grow-1 text-muted">
-                    <CodeEditor value={'test()'} readOnly={true}/>
+                    <CodeEditor value={output} readOnly={true}/>
                 </div>
                 <div className="d-flex flex-row align-items-center justify-content-center">
                     <ClipboardButton className="d-flex flex-row align-items-center justify-content-center py-2 px-3 clickable">

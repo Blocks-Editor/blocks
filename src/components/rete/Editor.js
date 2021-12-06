@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
@@ -25,8 +25,7 @@ import EditorMenu from './EditorMenu';
 import FileDropZone from '../common/FileDropZone';
 import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
-import OutputWindow from './OutputPanel';
-import OutputWindowContext from '../../contexts/OutputPanelContext';
+import OutputPanel from './OutputPanel';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
@@ -127,8 +126,6 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
 
     const events = useContext(EventsContext);
     const connectionAwareList = useContext(ConnectionAwareListContext);
-
-    const [isOutputWindowVisible, setOutputWindowVisible] = useState(false);
 
     let editor = null;
 
@@ -301,27 +298,23 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
         }
     };
 
-    const outputWindow = {
-        isVisible: isOutputWindowVisible,
-        setVisible: setOutputWindowVisible,
-    };
+    // Temporary workaround to loading order
+    const getEditor = () => editor;
 
     return (
         <FileDropZone options={{noClick: true, accept: DROP_ZONE_EXTENSIONS.join(',')}} onFileContent={loadFileContent}>
-            <OutputWindowContext.Provider value={outputWindow}>
-                <EditorContainer
-                    className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
-                    {...others}>
-                    {!hideMenu && (
-                        <EditorMenu
-                            getEditor={() => editor}
-                            onLoadFileContent={loadFileContent}
-                        />
-                    )}
-                    <OutputWindow/>
-                    <div ref={bindEditor}/>
-                </EditorContainer>
-            </OutputWindowContext.Provider>
+            <EditorContainer
+                className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
+                {...others}>
+                {!hideMenu && (
+                    <EditorMenu
+                        getEditor={getEditor}
+                        onLoadFileContent={loadFileContent}
+                    />
+                )}
+                <OutputPanel getEditor={getEditor}/>
+                <div ref={bindEditor}/>
+            </EditorContainer>
         </FileDropZone>
     );
 }
