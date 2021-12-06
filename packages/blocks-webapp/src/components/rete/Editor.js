@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
@@ -26,6 +26,7 @@ import FileDropZone from '../common/FileDropZone';
 import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
 import useThemeState from '../../hooks/settings/useThemeState';
+import CompiledOutputWindow from './CompiledOutputWindow';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
@@ -128,6 +129,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
     const connectionAwareList = useContext(ConnectionAwareListContext);
 
     const [theme] = useThemeState();
+    const [isOutputWindowVisible, setOutputWindowVisible] = useState(false);
 
     let editor = null;
 
@@ -296,8 +298,9 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
                 className={classNames('node-editor d-flex flex-grow-1 flex-column', 'theme-' + theme.id, theme.parts.map(part => `theme-part-${part}`), className)}
                 {...others}>
                 {!hideMenu && (
-                    <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent}/>
+                    <EditorMenu getEditor={() => editor} onLoadFileContent={loadFileContent} setOutputWindowVisible={setOutputWindowVisible}/>
                 )}
+                <CompiledOutputWindow isVisible={isOutputWindowVisible} setVisible={setOutputWindowVisible} />
                 <div ref={bindEditor}/>
             </EditorContainer>
         </FileDropZone>

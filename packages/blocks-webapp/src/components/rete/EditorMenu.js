@@ -100,7 +100,7 @@ const BlocksLogo = styled.img`
 //     }
 // `;
 
-export default function EditorMenu({getEditor, onLoadFileContent}) {
+export default function EditorMenu({getEditor, onLoadFileContent, setOutputWindowVisible}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
@@ -195,13 +195,12 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         onAnimationEnd={() => setZoomAnimating(false)}
                     />
                 </MenuButton>
-                {/*<MenuButton*/}
-                {/*    className="floating small text-muted d-flex align-items-center justify-content-center"*/}
-                {/*    tooltip="Compile to Motoko"*/}
-                {/*    onMouseDown={() => {*/}
-                {/*    }}>*/}
-                {/*    COMPILE*/}
-                {/*</MenuButton>*/}
+                <MenuButton
+                    className="floating small text-muted d-flex align-items-center justify-content-center pt-2"
+                    tooltip="Compile to Motoko"
+                    onMouseDown={() => { setOutputWindowVisible(true)}}>
+                    COMPILE
+                </MenuButton>
             </FloatingMenu>
             <Modal
                 show={openMenu}

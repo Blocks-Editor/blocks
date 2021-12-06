@@ -36,16 +36,6 @@ Dark theme for Blocks.
     &:not(.selected) .header {
       background: #00131C;
     }
-
-    .input-title, .output-title {
-      //font-family: $font-family-monospace;
-      //font-size: 10px;
-    }
-
-    .control, .input-control {
-      //font-family: $font-family-monospace;
-      //font-size: 12px;
-    }
   }
 
   .node-shortcut-button {
@@ -53,11 +43,15 @@ Dark theme for Blocks.
   }
 
   .grid {
-    background-image: linear-gradient(to right, #333C 1px, transparent 1px), linear-gradient(to bottom, #333C 1px, transparent 1px);
+    background-image: linear-gradient(to right, #022030 1px, transparent 1px), linear-gradient(to bottom, #022030 1px, transparent 1px);
 
     &.far {
       // Hotfix - flickering on Firefox / Safari
-      background-image: linear-gradient(to right, #333C 1px, transparent 2px), linear-gradient(to bottom, #333C 1px, transparent 2px);
+      background-image: linear-gradient(to right, #022030 1px, transparent 2px), linear-gradient(to bottom, #022030 1px, transparent 2px);
     }
+  }
+
+  #output-window {
+    background: #032F47 !important;
   }
 }
