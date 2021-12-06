@@ -2,37 +2,39 @@
 Light-dark (light background, dark blocks) theme for Blocks.
  */
 
-.node-editor.theme-lightdark {
-  background: #FAFAFE;
+.theme-lightdark {
+  .node-editor {
+    background: #FAFAFE;
 
-  .node {
-    background: #00131CCC;
+    .node {
+      background: #00131CCC;
 
-    &:not(.selected) .header {
-      background: #00131C;
-    }
-  }
-
-  .grid {
-    background-image: linear-gradient(to right, #CCCC 1px, transparent 1px), linear-gradient(to bottom, #CCCC 1px, transparent 1px);
-
-    &.far {
-      // Hotfix - flickering on Firefox / Safari
-      background-image: linear-gradient(to right, #CCC1 1px, transparent 2px), linear-gradient(to bottom, #CCC1 1px, transparent 2px);
-    }
-  }
-
-  .menu-button {
-    &.floating {
-      background: #DDDA;
-
-      &:hover {
-        background: #DDD;
+      &:not(.selected) .header {
+        background: #00131C;
       }
     }
 
-    &:hover {
-      background: #2221;
+    .grid {
+      background-image: linear-gradient(to right, #CCCC 1px, transparent 1px), linear-gradient(to bottom, #CCCC 1px, transparent 1px);
+
+      &.far {
+        // Hotfix - flickering on Firefox / Safari
+        background-image: linear-gradient(to right, #CCC1 1px, transparent 2px), linear-gradient(to bottom, #CCC1 1px, transparent 2px);
+      }
+    }
+
+    .menu-button {
+      &.floating {
+        background: #DDDA;
+
+        &:hover {
+          background: #DDD;
+        }
+      }
+
+      &:hover {
+        background: #2221;
+      }
     }
   }
 }

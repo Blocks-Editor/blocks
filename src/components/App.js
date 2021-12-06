@@ -6,6 +6,7 @@ import useListener from '../hooks/utils/useListener';
 import GlobalTooltip from './GlobalTooltip';
 import {BrowserRouter} from 'react-router-dom';
 import TabLayout from './TabLayout';
+import GlobalTheme from './GlobalTheme';
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
     return (
         <React.StrictMode>
             <BrowserRouter>
+                <GlobalTheme/>
                 <GlobalTooltip/>
                 <ToastContainer/>
                 <TabLayout/>

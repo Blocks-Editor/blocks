@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Dock from 'react-dock';
 import styled from 'styled-components';
 import {FiClipboard, FiX} from 'react-icons/fi';
-import useThemeState from '../../hooks/settings/useThemeState';
+import CodeEditor from '../monaco/CodeEditor';
+import OutputPanelContext from '../../contexts/OutputPanelContext';
 
-const OutputWindowContent = styled.div`
+const OutputContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -19,35 +20,19 @@ const ClipboardButton = styled.div`
     }
 `;
 
-function getStyleByTheme(theme) {
-    switch(theme) {
-        case 'light':
-            return {
-                backgroundColor: '#FFF',
-                color: 'rgb(33, 37, 41)',
-            };
-        case 'dark':
-        default:
-            return {
-                backgroundColor: '#022030',
-                borderLeft: '3px solid #00131C',
-                color: '#FFF',
-            };
-    }
-}
+export default function OutputPanel() {
 
-export default function CompiledOutputWindow({isVisible, setVisible}) {
-    const [theme] = useThemeState();
+    const {isVisible, setVisible} = useContext(OutputPanelContext);
 
     return (
-        <Dock position="right" isVisible={isVisible} className="output-window" dockStyle={getStyleByTheme(theme.id)}>
-            <OutputWindowContent className="p-3">
+        <Dock className="output-panel" position="right" isVisible={isVisible} dockStyle={{}} fluid={true}>
+            <OutputContainer className="p-3">
                 <div className="clickable pb-3" onClick={() => setVisible(!isVisible)}>
                     <FiX size={18}/>
                 </div>
                 <h3>Compiled Output</h3>
                 <div className="flex-grow-1 text-muted">
-                    this div is a placeholder for where the code goes...
+                    <CodeEditor value={'test()'} readOnly={true}/>
                 </div>
                 <div className="d-flex flex-row align-items-center justify-content-center">
                     <ClipboardButton className="d-flex flex-row align-items-center justify-content-center py-2 px-3 clickable">
@@ -55,7 +40,7 @@ export default function CompiledOutputWindow({isVisible, setVisible}) {
                         <small>Copy to Clipboard</small>
                     </ClipboardButton>
                 </div>
-            </OutputWindowContent>
+            </OutputContainer>
         </Dock>
     );
 }

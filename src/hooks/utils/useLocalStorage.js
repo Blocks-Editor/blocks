@@ -43,5 +43,6 @@ export default function useLocalStorage(key, defaultValue) {
                 console.error(error);
             }
         },
+        // observable,
     ];
 }

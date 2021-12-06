@@ -26,6 +26,7 @@ import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
 import FloatingMenu from '../common/menus/FloatingMenu';
 import SettingsMenu from './SettingsMenu';
+import OutputToolbarContext from '../../contexts/OutputPanelContext';
 
 const ProjectNameInput = styled.input`
     border: 2px solid transparent !important;
@@ -100,12 +101,14 @@ const BlocksLogo = styled.img`
 //     }
 // `;
 
-export default function EditorMenu({getEditor, onLoadFileContent, setOutputWindowVisible}) {
+export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
+
     const events = useContext(EventsContext);
+    const outputToolbar = useContext(OutputToolbarContext);
 
     useListener(events, EDITOR_SAVE_EVENT, () => {
         setSaveAnimating(true);
@@ -198,7 +201,7 @@ export default function EditorMenu({getEditor, onLoadFileContent, setOutputWindo
                 <MenuButton
                     className="floating small text-muted d-flex align-items-center justify-content-center pt-2"
                     tooltip="Compile to Motoko"
-                    onMouseDown={() => { setOutputWindowVisible(true)}}>
+                    onMouseDown={() => outputToolbar.setVisible(true)}>
                     COMPILE
                 </MenuButton>
             </FloatingMenu>

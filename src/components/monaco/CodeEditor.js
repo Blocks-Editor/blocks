@@ -1,7 +1,7 @@
 import MonacoEditor from '@monaco-editor/react';
 import {configureMonaco} from '../../config/configureMonaco';
 
-export default function CodeEditor({value, onChange, ...others}) {
+export default function CodeEditor({value, onChange, readOnly, ...others}) {
 
     // const monaco = useMonaco();
 
@@ -26,6 +26,7 @@ export default function CodeEditor({value, onChange, ...others}) {
                 // wrappingIndent: 'indent',
                 scrollBeyondLastLine: false,
                 fontSize: 16,
+                readOnly,
             }}
             {...others}
         />
