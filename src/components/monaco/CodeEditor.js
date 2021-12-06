@@ -1,8 +1,7 @@
 import MonacoEditor from '@monaco-editor/react';
 import {configureMonaco} from '../../config/configureMonaco';
 
-export default function CodeEditor({value, onChange, readOnly, ...others}) {
-
+export default function CodeEditor({value, onChange, readOnly, theme, ...others}) {
     // const monaco = useMonaco();
 
     const onEditorChange = (newValue) => {
@@ -13,7 +12,7 @@ export default function CodeEditor({value, onChange, readOnly, ...others}) {
         <MonacoEditor
             // width="30vh"
             // height="40vh"
-            theme="vs-dark"
+            theme={theme || 'vs-dark'}
             defaultLanguage="motoko"
             beforeMount={configureMonaco}
             value={value}
