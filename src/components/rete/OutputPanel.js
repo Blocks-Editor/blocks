@@ -10,7 +10,7 @@ import useFullscreenPanelState from '../../hooks/settings/useFullscreenPanelStat
 import useListener from '../../hooks/utils/useListener';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 import {Button} from 'react-bootstrap';
-import {FaPlay} from 'react-icons/all';
+import {FaPlay} from 'react-icons/fa';
 
 const OutputContainer = styled.div`
     display: flex;
