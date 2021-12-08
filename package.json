@@ -40,6 +40,7 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "cross-env": "^7.0.3",
     "gh-pages": "^3.2.3",
     "husky": "^7.0.4",
     "jest-fail-on-console": "^2.1.1",
@@ -51,12 +52,13 @@
   "scripts": {
     "prepare": "husky install",
     "start": "craco start",
-    "test": "set CI=1&& craco test",
+    "test": "cross-env CI=1 craco test",
     "test:watch": "craco test",
     "precommit": "lint-staged",
+    "prepush": "npm run test",
     "prebuild": "npm run test:unit",
     "build": "npm run prebuild && craco build",
-    "deploy": "set PUBLIC_URL=https://blocks-editor.github.io/blocks&& npm run build && gh-pages -d build"
+    "deploy": "cross-env PUBLIC_URL=https://blocks-editor.github.io/blocks npm run build && gh-pages -d build"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
