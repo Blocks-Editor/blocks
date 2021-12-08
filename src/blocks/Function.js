@@ -49,6 +49,7 @@ const block = memberBlock({
         key: 'body',
         type: effectType,
         optional: true,
+        request: true,
     }],
     outputs: [{
         //     key: 'reference',

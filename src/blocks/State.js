@@ -31,6 +31,7 @@ const block = memberBlock({
         key: 'initialValue',
         type: valueType,
         optional: true,
+        request: true,
     }],
     outputs: [{
         key: 'value',

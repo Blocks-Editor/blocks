@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {paramCase} from 'change-case';
 import classNames from 'classnames';
 import Rete, {Output} from 'rete';
@@ -11,8 +11,41 @@ export function SocketHandle(props) {
     const {type, socket, innerRef, io} = props;
 
     const [relevant, setRelevant] = useState(false);
+    const [requested, setRequested] = useState(null);
 
     const connectionAwareList = useContext(ConnectionAwareListContext);
+
+    const socketType = socket.findType();
+    const reversed = !!socketType.data.reversed;
+
+    // Does the socket accept multiple inputs?
+    const multiple = io.multipleConnections && (io instanceof Rete.Input) !== reversed;
+
+    // console.log('redraw');////
+
+    // let socketRef;
+    const bindRef = el => {
+        // socketRef = el;
+        el && innerRef(el, type, io);
+    };
+
+    // Update whether the socket is requesting a connection
+    const updateRequested = useCallback(() => {
+        setTimeout(() => {
+            let requested = !io.connections.length;
+            if(requested) {
+                const prop = socket.findProp?.();
+                requested = !!(prop?.input && (
+                    prop.request || (!prop.optional && !multiple && !io.control)
+                ));
+            }
+            setRequested(requested);
+        });
+    }, [io, multiple, socket]);
+
+    if(requested === null) {
+        updateRequested();
+    }
 
     useEffect(() => {
         const listener = (starting, connectionIO) => {
@@ -35,6 +68,7 @@ export function SocketHandle(props) {
             else {
                 setRelevant(false);
             }
+            updateRequested();
         };
         connectionAwareList.push(listener);
         return () => {
@@ -43,18 +77,17 @@ export function SocketHandle(props) {
                 connectionAwareList.splice(index, 1);
             }
         };
-    }, [socket, connectionAwareList, io]);
-
-    let socketType = socket.findType();
-    let reversed = !!socketType.data.reversed;
-
-    let multiple = io.multipleConnections && (io instanceof Rete.Input) === !reversed;
+    }, [socket, io, connectionAwareList, updateRequested]);
 
     useReactTooltip();
 
+    const socketColor = (
+        <div className="socket-color w-100 h-100"/>
+    );
+
     return (
         <div
-            ref={el => el && innerRef(el, type, io)}
+            ref={bindRef}
             className={classNames(
                 'socket',
                 type,
@@ -62,12 +95,15 @@ export function SocketHandle(props) {
                 relevant && 'relevant',
                 multiple && 'multiple',
                 reversed && 'reversed',
+                requested && 'requested',
                 !multiple && io.connections.length && 'occupied',
                 'category-' + socketType.data.category,
             )}
             // title={socket.name}
             data-tip={socket.findLabel?.() || socket.name}>
-            <div className="socket-color w-100 h-100"/>
+            <div className="requested-wrapper w-100 h-100">
+                {socketColor}
+            </div>
         </div>
     );
 }

@@ -71,6 +71,18 @@ $any-gradient-right: conic-gradient(at right, orange, yellow, green, blue, indig
 @include node-color("category-integers", $int-color);
 @include node-color("category-naturals", $nat-color);
 
+@keyframes socket-requested {
+  from {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 $grid-color: #FFF2;
 $grid-size: 32px;
 $grid-area: $grid-size * 10000;
@@ -166,9 +178,14 @@ $grid-area: $grid-size * 10000;
         clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 100%, 0 0);
       }
 
-      &.occupied {
-        // Occupied sockets could look slightly different
-        //opacity: .8;
+      &.requested {
+        background: black;
+        transform: scale(.9) !important;
+
+        .requested-wrapper:not(:hover) {
+          // Requested sockets should have a subtle animation
+          animation: socket-requested 2.5s ease-in-out infinite;
+        }
       }
     }
 

@@ -23,10 +23,12 @@ export function compileBlock(title, compilerKey, displayFn) {
             key: 'input',
             title: 'Input',
             type: anyType,
+            optional: true,
         }, {
             key: 'reversed',
             title: 'Input',
             type: anyReversedType,
+            optional: true,
         }],
         controls: [{
             key: 'reversedDisplay',

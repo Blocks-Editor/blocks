@@ -1,10 +1,16 @@
 import Rete from 'rete';
 import {getType} from '../../block-types/types';
 
-export default class TypeSocket extends Rete.Socket {
-    constructor(title, type) {
-        type = getType(type);
+export default class PropSocket extends Rete.Socket {
+    constructor(title, prop) {
+        const type = getType(prop.type);
         super(title, {...type.data, type});
+
+        this.prop = prop;
+    }
+
+    findProp() {
+        return this.prop;
     }
 
     findLabel() {

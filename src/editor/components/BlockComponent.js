@@ -1,7 +1,7 @@
 import Rete from 'rete';
 import PropControl from '../controls/PropControl';
 import BaseComponent from './BaseComponent';
-import TypeSocket from '../sockets/TypeSocket';
+import PropSocket from '../sockets/PropSocket';
 import PropOutputSocket from '../sockets/PropOutputSocket';
 import {sentenceCase} from 'change-case';
 import getPropLabel from '../../utils/getPropLabel';
@@ -23,7 +23,7 @@ export default class BlockComponent extends BaseComponent {
 
         const addProp = (prop, isPropOutput) => {
             let title = getPropLabel(prop);
-            let socket = isPropOutput ? new PropOutputSocket(node, title, prop, this.editor.compilers.type) : new TypeSocket(title, prop.type);
+            let socket = isPropOutput ? new PropOutputSocket(node, title, prop, this.editor.compilers.type) : new PropSocket(title, prop);
             if(!!prop.type.data.reversed === isPropOutput) {
                 return addPropInput(prop, socket, isPropOutput);
             }
