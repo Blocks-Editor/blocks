@@ -13,6 +13,7 @@ Embed the Blocks Editor in your React application using the [react-blocks-editor
 
 ```sh
 git clone https://github.com/Blocks-Editor/blocks
+cd blocks
 npm install
 ```
 
