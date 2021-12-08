@@ -59,12 +59,12 @@ export default function OutputPanel({getEditor}) {
             closed={!visible}
             fullscreen={fullscreen === 'output'}>
             <div className="d-flex justify-content-between align-items-center mb-2">
-                <div className="clickable px-2" onClick={() => setVisible(false)}>
+                <div className="clickable px-2 pb-2" onClick={() => setVisible(false)}>
                     <FiX size={18}/>
                 </div>
-                <h3 className="mx-3 mb-0">Compiled Output</h3>
+                <h3 className="mx-3 mb-0 noselect">Compiled Output</h3>
                 <div
-                    className="clickable px-2"
+                    className="clickable px-2 pb-2"
                     onClick={() => setFullscreen(fullscreen === 'output' ? false : 'output')}>
                     {fullscreen === 'output'
                         ? <FiMinimize2 size={18}/>
