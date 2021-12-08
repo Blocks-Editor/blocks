@@ -277,7 +277,7 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
                 handleConnectionEnd(io);
             });
         });
-        editor.on(['nodecreated', 'noderemoved'], () => {
+        editor.on(['nodecreated', 'noderemoved', 'connectionremoved'], () => {
             handleConnectionEnd();
         });
 
