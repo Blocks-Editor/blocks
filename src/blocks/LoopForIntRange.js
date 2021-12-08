@@ -1,5 +1,5 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
-import {effectType, intType} from '../block-types/types';
+import {effectType, intType, unitType} from '../block-types/types';
 import {importRef, nodeIdentifierRef} from '../compilers/MotokoCompiler';
 
 export const iterImportRef = importRef('mo:base/Iter');
@@ -15,7 +15,7 @@ const block = statementBlock({
         type: intType,
     }, {
         key: 'loop',
-        type: effectType,
+        type: effectType.of(unitType),
     }],
     outputs: [{
         key: 'item',

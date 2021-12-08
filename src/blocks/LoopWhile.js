@@ -1,5 +1,5 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
-import {boolType, effectType} from '../block-types/types';
+import {boolType, effectType, unitType} from '../block-types/types';
 
 const block = statementBlock({
     title: 'while() {}',
@@ -9,7 +9,7 @@ const block = statementBlock({
         type: boolType,
     }, {
         key: 'loop',
-        type: effectType,
+        type: effectType.of(unitType),
         optional: true,
     }],
 }, ({condition, loop}) => {

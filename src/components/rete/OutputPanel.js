@@ -9,6 +9,8 @@ import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisib
 import useFullscreenPanelState from '../../hooks/settings/useFullscreenPanelState';
 import useListener from '../../hooks/utils/useListener';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
+import {Button} from 'react-bootstrap';
+import {FaPlay} from 'react-icons/all';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -39,7 +41,7 @@ const ClipboardButton = styled.div`
     }
 `;
 
-export const OUTPUT_PANEL_ID = 'output';
+const outputPanelId = 'output';
 
 export default function OutputPanel({getEditor}) {
 
@@ -61,7 +63,7 @@ export default function OutputPanel({getEditor}) {
         <OutputContainer
             className={classNames('output-panel p-3')}
             closed={!visible}
-            fullscreen={fullscreen === OUTPUT_PANEL_ID}>
+            fullscreen={fullscreen === outputPanelId}>
             <div className="d-flex justify-content-between align-items-center mb-2">
                 <div className="clickable px-2 pb-2" onClick={() => setVisible(false)}>
                     <FiX size={18}/>
@@ -69,8 +71,8 @@ export default function OutputPanel({getEditor}) {
                 <h3 className="mx-3 mb-0 noselect">Compiled Output</h3>
                 <div
                     className="clickable px-2 pb-2"
-                    onClick={() => setFullscreen(fullscreen === OUTPUT_PANEL_ID ? false : OUTPUT_PANEL_ID)}>
-                    {fullscreen === OUTPUT_PANEL_ID
+                    onClick={() => setFullscreen(fullscreen === outputPanelId ? false : outputPanelId)}>
+                    {fullscreen === outputPanelId
                         ? <FiMinimize2 size={18}/> // TODO: horizontally flip icons and swap positions with close button?
                         : <FiMaximize2 size={18}/>
                     }
@@ -79,13 +81,23 @@ export default function OutputPanel({getEditor}) {
             <div className="flex-grow-1 text-muted">
                 <CodeEditor value={output} readOnly={true}/>
             </div>
-            <div className="d-flex flex-row align-items-center justify-content-center">
+            <div className="d-flex flex-row align-items-center justify-content-between pt-1">
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
-                    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
+                    <ClipboardButton className="clickable d-flex flex-grow-1 flex-row align-items-center justify-content-center py-2 px-3">
                         <FiClipboard className="mb-1" style={{marginRight: '0.5rem'}}/>
                         <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>
                     </ClipboardButton>
                 </CopyToClipboard>
+                <a
+                    href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{textDecoration: 'none'}}>{/*Temporary style until Nate makes this actually look good*/}
+                    <Button variant="outline-success" className="d-flex flex-grow-1">
+                        <FaPlay className="mt-1 me-2"/>
+                        Motoko Playground
+                    </Button>
+                </a>
             </div>
         </OutputContainer>
     );
