@@ -39,6 +39,8 @@ const ClipboardButton = styled.div`
     }
 `;
 
+export const OUTPUT_PANEL_ID = 'output';
+
 export default function OutputPanel({getEditor}) {
 
     // Get current output source code
@@ -59,7 +61,7 @@ export default function OutputPanel({getEditor}) {
         <OutputContainer
             className={classNames('output-panel p-3')}
             closed={!visible}
-            fullscreen={fullscreen === 'output'}>
+            fullscreen={fullscreen === OUTPUT_PANEL_ID}>
             <div className="d-flex justify-content-between align-items-center mb-2">
                 <div className="clickable px-2 pb-2" onClick={() => setVisible(false)}>
                     <FiX size={18}/>
@@ -67,8 +69,8 @@ export default function OutputPanel({getEditor}) {
                 <h3 className="mx-3 mb-0 noselect">Compiled Output</h3>
                 <div
                     className="clickable px-2 pb-2"
-                    onClick={() => setFullscreen(fullscreen === 'output' ? false : 'output')}>
-                    {fullscreen === 'output'
+                    onClick={() => setFullscreen(fullscreen === OUTPUT_PANEL_ID ? false : OUTPUT_PANEL_ID)}>
+                    {fullscreen === OUTPUT_PANEL_ID
                         ? <FiMinimize2 size={18}/> // TODO: horizontally flip icons and swap positions with close button?
                         : <FiMaximize2 size={18}/>
                     }
