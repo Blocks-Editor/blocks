@@ -54,7 +54,6 @@
     "test": "cross-env CI=1 craco test",
     "test:watch": "craco test",
     "precommit": "lint-staged",
-    "prepush": "",
     "prebuild": "npm run test:unit",
     "build": "npm run prebuild && craco build",
     "deploy": "cross-env PUBLIC_URL=https://blocks-editor.github.io/blocks npm run build && gh-pages -d build"
