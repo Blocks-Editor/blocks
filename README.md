@@ -1,4 +1,4 @@
-![Blocks.](./packages/blocks-webapp/public/img/logo-gradient.png)
+![Blocks.](./public/img/logo-gradient.png)
 
 ---
 
