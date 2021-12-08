@@ -12,15 +12,10 @@ Embed the Blocks Editor in your React application using the [react-blocks-editor
 ## Local Environment
 
 ```sh
-git clone --recurse-submodules https://github.com/rvanasa/blocks
-
-# Set up Blocks version of Rete.js
-cd packages/rete
+git clone https://github.com/Blocks-Editor/blocks
 npm install
-npm run build
 
-cd ../blocks-webapp
-npm link ../rete
+npm start # Serve on port 3000
 ```
 
 ### Serve (http://localhost:3000):
