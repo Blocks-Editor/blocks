@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import classNames from 'classnames';
 import styled, {css} from 'styled-components';
-import {FiClipboard, FiX, FiMaximize2} from 'react-icons/fi';
+import {FiClipboard, FiX, FiMaximize2, FiMinimize2} from 'react-icons/fi';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
@@ -63,8 +63,13 @@ export default function OutputPanel({getEditor}) {
                     <FiX size={18}/>
                 </div>
                 <h3 className="mx-3 mb-0">Compiled Output</h3>
-                <div className="clickable px-2" onClick={() => setFullscreen(!fullscreen ? 'output' : false)}>
-                    <FiMaximize2 size={18}/>
+                <div
+                    className="clickable px-2"
+                    onClick={() => setFullscreen(fullscreen === 'output' ? false : 'output')}>
+                    {fullscreen === 'output'
+                        ? <FiMinimize2 size={18}/>
+                        : <FiMaximize2 size={18}/>
+                    }
                 </div>
             </div>
             <div className="flex-grow-1 text-muted">
