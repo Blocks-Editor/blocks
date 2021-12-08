@@ -20,11 +20,11 @@ const OutputContainer = styled.div`
     transition: 0.4s;
     z-index: 100;
     padding-top: 95px;
-    
+
     ${props => props.closed && css`
         transform: translateX(100%);
     `}
-    
+
     ${props => props.fullscreen && css`
         width: 100%;
     `}
@@ -54,14 +54,17 @@ export default function OutputPanel({getEditor}) {
     useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput));
 
     return (
-        <OutputContainer className={classNames('output-panel p-3')} closed={!visible} fullscreen={fullscreen === 'output'}>
+        <OutputContainer
+            className={classNames('output-panel p-3')}
+            closed={!visible}
+            fullscreen={fullscreen === 'output'}>
             <div className="d-flex justify-content-between align-items-center mb-2">
                 <div className="clickable px-2" onClick={() => setVisible(false)}>
                     <FiX size={18}/>
                 </div>
                 <h3 className="mx-3 mb-0">Compiled Output</h3>
                 <div className="clickable px-2" onClick={() => setFullscreen(!fullscreen ? 'output' : false)}>
-                    <FiMaximize2 size={18} />
+                    <FiMaximize2 size={18}/>
                 </div>
             </div>
             <div className="flex-grow-1 text-muted">

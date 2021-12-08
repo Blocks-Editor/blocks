@@ -20,20 +20,22 @@ export default function App() {
     });
 
     return (
+
         <React.StrictMode>
             <BrowserRouter>
-                <GlobalTheme/>
-                <GlobalTooltip/>
-                <ToastContainer/>
-                <TabLayout/>
-                {/*<Switch>*/}
-                {/*    <Route path="/editor">*/}
-                {/*        <EditorPage/>*/}
-                {/*    </Route>*/}
-                {/*    <Route path="/">*/}
-                {/*        <HomePage/>*/}
-                {/*    </Route>*/}
-                {/*</Switch>*/}
+                <GlobalTheme>
+                    <GlobalTooltip/>
+                    <ToastContainer/>
+                    <TabLayout/>
+                    {/*<Switch>*/}
+                    {/*    <Route path="/editor">*/}
+                    {/*        <EditorPage/>*/}
+                    {/*    </Route>*/}
+                    {/*    <Route path="/">*/}
+                    {/*        <HomePage/>*/}
+                    {/*    </Route>*/}
+                    {/*</Switch>*/}
+                </GlobalTheme>
             </BrowserRouter>
         </React.StrictMode>
     );

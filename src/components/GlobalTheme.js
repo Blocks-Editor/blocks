@@ -1,7 +1,8 @@
 import useThemeState from '../hooks/settings/useThemeState';
 import {useEffect} from 'react';
+import {ThemeProvider} from 'styled-components';
 
-export default function GlobalTheme() {
+export default function GlobalTheme({children}) {
 
     const [theme] = useThemeState();
 
@@ -12,5 +13,9 @@ export default function GlobalTheme() {
         return () => document.body.classList.remove(...classNames);
     });
 
-    return null;
+    return (
+        <ThemeProvider theme={theme.styledComponents}>
+            {children}
+        </ThemeProvider>
+    );
 }
