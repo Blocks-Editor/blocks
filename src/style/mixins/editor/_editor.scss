@@ -250,23 +250,23 @@ $grid-area: $grid-size * 10000;
     border: 1px solid #AAA;
 
     &.invalid {
-      border-color: #f55 !important;
+      border-color: #F55 !important;
     }
 
     option {
       background-color: #222;
     }
   }
+}
 
-  .output-panel {
-    color: #eee;
-    background: #222c;
-  }
+.output-panel {
+  color: #EEE;
+  background: #222C;
 }
 
 .menu-button {
-  &.floating {
-    background: #222a;
+  .floating-menu & {
+    background: #222A;
 
     &:hover {
       background: #222;

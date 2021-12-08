@@ -23,16 +23,9 @@ let StyledMenuItem = styled(MenuItem)`
     }
 `;
 
-const StyledIcon = styled.svg`
-    position: absolute;
-    width: 0;
-    height: 0;
-`;
-
 export default function MenuButton({children, className, ...others}) {
     return (
         <StyledMenuItem className={classNames('menu-button', className)} {...others}>
-            <StyledIcon aria-hidden="true" focusable="false"/>
             {children}
         </StyledMenuItem>
     );

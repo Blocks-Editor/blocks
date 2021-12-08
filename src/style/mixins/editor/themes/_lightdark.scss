@@ -24,7 +24,7 @@ Light-dark (light background, dark blocks) theme for Blocks.
     }
 
     .menu-button {
-      &.floating {
+      .floating-menu & {
         background: #DDDA;
 
         &:hover {

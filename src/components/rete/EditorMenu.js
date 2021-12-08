@@ -112,7 +112,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
-    const [/* outputPanelVisible */, setOutputPanelVisible] = useOutputPanelVisibleState();
+    const [outputPanelVisible, setOutputPanelVisible] = useOutputPanelVisibleState();
 
     const events = useContext(EventsContext);
 
@@ -184,22 +184,23 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
-                        style={{float: 'right'}}
+                        className="float-end"
                         tooltip="Settings"
                         onMouseDown={() => setOpenMenu('settings')}>
                         <SettingsIcon/>
                     </MenuButton>
                     <MenuButton
-                        style={{float: 'right'}}
+                        className="float-end" // text-uppercase h5 my-2 py-2
                         tooltip="Compile to Motoko"
-                        onMouseDown={() => setOutputPanelVisible(true)}>
+                        onMouseDown={() => setOutputPanelVisible(!outputPanelVisible)}>
                         <StyledCompileIcon/>
+                        {/*Compile*/}
                     </MenuButton>
                 </div>
             </TopMenu>
             <FloatingMenu>
                 <MenuButton
-                    className="round floating d-flex align-items-center justify-content-center"
+                    className="round d-flex align-items-center justify-content-center"
                     tooltip="Reset Viewport"
                     onMouseDown={() => {
                         AreaPlugin.zoomAt(getEditor());

@@ -7,7 +7,7 @@ Dark theme for Blocks.
     background: #00131C !important;
 
     .menu-button {
-      &.floating {
+      .floating-menu & {
         background: #022030;
         border: 2px solid #032F47;
 
@@ -51,11 +51,11 @@ Dark theme for Blocks.
         background-image: linear-gradient(to right, #022030 1px, transparent 2px), linear-gradient(to bottom, #022030 1px, transparent 2px);
       }
     }
-  }
 
-  .output-panel {
-    background-color: #022030;
-    border-left: 3px solid #00131C;
-    color: #FFF;
+    .output-panel {
+      background-color: #022030;
+      border-left: 3px solid #00131C;
+      color: #FFF;
+    }
   }
 }

@@ -8,6 +8,7 @@ import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
 import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisibleState';
 import useFullscreenPanelState from '../../hooks/settings/useFullscreenPanelState';
 import useListener from '../../hooks/utils/useListener';
+import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -76,10 +77,12 @@ export default function OutputPanel({getEditor}) {
                 <CodeEditor value={output} readOnly={true}/>
             </div>
             <div className="d-flex flex-row align-items-center justify-content-center">
-                <ClipboardButton className="d-flex flex-row align-items-center justify-content-center py-2 px-3 clickable">
-                    <FiClipboard className="mb-1" style={{marginRight: '0.5rem'}}/>
-                    <small>Copy to Clipboard</small>
-                </ClipboardButton>
+                <CopyToClipboard text={output}>
+                    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
+                        <FiClipboard className="mb-1" style={{marginRight: '0.5rem'}}/>
+                        <small>Copy to Clipboard</small>
+                    </ClipboardButton>
+                </CopyToClipboard>
             </div>
         </OutputContainer>
     );
