@@ -14,8 +14,6 @@ Embed the Blocks Editor in your React application using the [react-blocks-editor
 ```sh
 git clone https://github.com/Blocks-Editor/blocks
 npm install
-
-npm start # Serve on port 3000
 ```
 
 ### Serve (http://localhost:3000):
