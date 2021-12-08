@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style/index.scss';
 import App from './components/App';
-import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -11,6 +10,6 @@ ReactDOM.render(
     document.getElementById('root'),
 );
 
-reportWebVitals((...args) => {
-    // console.log('WebVitals:', ...args);
-});
+// reportWebVitals((...args) => {
+//     console.log('WebVitals:', ...args);
+// });
