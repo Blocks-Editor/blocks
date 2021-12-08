@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import classNames from 'classnames';
 import styled, {css} from 'styled-components';
-import {FiClipboard, FiX, FiMaximize2, FiMinimize2} from 'react-icons/fi';
+import {FiClipboard, FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
@@ -49,10 +49,11 @@ export default function OutputPanel({getEditor}) {
     const [visible, setVisible] = useOutputPanelVisibleState();
     const [fullscreen, setFullscreen] = useFullscreenPanelState();
     const [output, setOutput] = useState('');
+    const [copied, setCopied] = useState(false);
 
     const events = useContext(EventsContext);
 
-    useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput));
+    useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput) & setCopied(false));
 
     return (
         <OutputContainer
@@ -68,7 +69,7 @@ export default function OutputPanel({getEditor}) {
                     className="clickable px-2 pb-2"
                     onClick={() => setFullscreen(fullscreen === 'output' ? false : 'output')}>
                     {fullscreen === 'output'
-                        ? <FiMinimize2 size={18}/>
+                        ? <FiMinimize2 size={18}/> // TODO: horizontally flip icons and swap positions with close button?
                         : <FiMaximize2 size={18}/>
                     }
                 </div>
@@ -77,10 +78,10 @@ export default function OutputPanel({getEditor}) {
                 <CodeEditor value={output} readOnly={true}/>
             </div>
             <div className="d-flex flex-row align-items-center justify-content-center">
-                <CopyToClipboard text={output}>
+                <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
                     <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
                         <FiClipboard className="mb-1" style={{marginRight: '0.5rem'}}/>
-                        <small>Copy to Clipboard</small>
+                        <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>
                     </ClipboardButton>
                 </CopyToClipboard>
             </div>
