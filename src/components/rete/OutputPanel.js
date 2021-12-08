@@ -13,13 +13,13 @@ const OutputContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 0;
+    top: 55px; // Magic temporary evil number
+    bottom: 0;
     right: 0;
-    height: 100%;
     width: 40%;
     transition: 0.4s;
     z-index: 100;
-    padding-top: 95px;
+    //padding-top: 95px;
 
     ${props => props.closed && css`
         transform: translateX(100%);
