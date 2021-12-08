@@ -1,18 +1,33 @@
 import React, {useContext, useState} from 'react';
-import Dock from 'react-dock';
-import styled from 'styled-components';
-import {FiClipboard, FiX} from 'react-icons/fi';
+import classNames from 'classnames';
+import styled, {css} from 'styled-components';
+import {FiClipboard, FiX, FiMaximize2} from 'react-icons/fi';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
 import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisibleState';
+import useFullscreenPanelState from '../../hooks/settings/useFullscreenPanelState';
 import useListener from '../../hooks/utils/useListener';
 
 const OutputContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
     height: 100%;
+    width: 40%;
+    transition: 0.4s;
+    z-index: 100;
+    padding-top: 95px;
+    
+    ${props => props.closed && css`
+        transform: translateX(100%);
+    `}
+    
+    ${props => props.fullscreen && css`
+        width: 100%;
+    `}
 `;
 
 const ClipboardButton = styled.div`
@@ -31,6 +46,7 @@ export default function OutputPanel({getEditor}) {
     };
 
     const [visible, setVisible] = useOutputPanelVisibleState();
+    const [fullscreen, setFullscreen] = useFullscreenPanelState();
     const [output, setOutput] = useState('');
 
     const events = useContext(EventsContext);
@@ -38,24 +54,25 @@ export default function OutputPanel({getEditor}) {
     useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput));
 
     return (
-        <Dock className="output-panel" position="right" isVisible={visible} fluid={true} dimMode="none">
-            <OutputContainer className="p-3">
-                <div className="d-flex">
-                    <div className="clickable px-2" onClick={() => setVisible(false)}>
-                        <FiX size={18}/>
-                    </div>
-                    <h3 className="ms-3">Compiled Output</h3>
+        <OutputContainer className={classNames('output-panel p-3')} closed={!visible} fullscreen={fullscreen === 'output'}>
+            <div className="d-flex justify-content-between align-items-center mb-2">
+                <div className="clickable px-2" onClick={() => setVisible(false)}>
+                    <FiX size={18}/>
                 </div>
-                <div className="flex-grow-1 text-muted">
-                    <CodeEditor value={output} readOnly={true}/>
+                <h3 className="mx-3 mb-0">Compiled Output</h3>
+                <div className="clickable px-2" onClick={() => setFullscreen(!fullscreen ? 'output' : false)}>
+                    <FiMaximize2 size={18} />
                 </div>
-                <div className="d-flex flex-row align-items-center justify-content-center">
-                    <ClipboardButton className="d-flex flex-row align-items-center justify-content-center py-2 px-3 clickable">
-                        <FiClipboard className="mb-1" style={{marginRight: '0.5rem'}}/>
-                        <small>Copy to Clipboard</small>
-                    </ClipboardButton>
-                </div>
-            </OutputContainer>
-        </Dock>
+            </div>
+            <div className="flex-grow-1 text-muted">
+                <CodeEditor value={output} readOnly={true}/>
+            </div>
+            <div className="d-flex flex-row align-items-center justify-content-center">
+                <ClipboardButton className="d-flex flex-row align-items-center justify-content-center py-2 px-3 clickable">
+                    <FiClipboard className="mb-1" style={{marginRight: '0.5rem'}}/>
+                    <small>Copy to Clipboard</small>
+                </ClipboardButton>
+            </div>
+        </OutputContainer>
     );
 }
