@@ -1,30 +1,18 @@
-import {containerType, identifierType, memberType} from '../block-types/types';
+import {containerType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
+import compileGlobalMotoko from '../utils/compileGlobalMotoko';
 
 const block = {
-    info: 'The top-level actor for the application. All ',
+    info: 'The top-level actor for the application. All member blocks reference this actor by default.',
     category: actorCategory,
     topLeft: 'actor',
-    // topRight: 'members',
     // global: true,
-    computeTitle(node, editor) {
-        let {name} = editor.compilers.motoko.getInputArgs(node);
-        return name && `actor ${name}`;
-    },
-    inputs: [{
-        key: 'name',
-        type: identifierType,
-        optional: true,
-    }, {
-        key: 'members',
-        type: memberType,
-        multi: true,
-    }],
+    inputs: [],
     outputs: [{
         key: 'actor',
         type: containerType,
-        toMotoko({name, members}) {
-            return `actor${name ? ' ' + name : ''} { ${members.join(' ')} };`;
+        toMotoko(_, node, compiler) {
+            return compileGlobalMotoko(compiler.editor);
         },
     }],
 };
