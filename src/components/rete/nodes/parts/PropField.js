@@ -4,11 +4,24 @@ import classNames from 'classnames';
 import {paramCase} from 'change-case';
 import getPropLabel from '../../../../utils/getPropLabel';
 import React from 'react';
+import useAdvancedPropsState from '../../../../hooks/settings/useAdvancedPropsState';
 
 export default function PropField({prop, node, hideLeft, hideRight, bindSocket, bindControl}) {
+    const [advanced] = useAdvancedPropsState();
+
     let input = node.inputs.get(prop.key);
     let output = node.outputs.get(prop.key);
     let control = node.controls.get(prop.key) || (input?.showControl() && input.control);
+
+    if(prop.advanced && !advanced) {
+        if(
+            (!input || !input.connections.length) &&
+            (!output || !output.connections.length) &&
+            (!node.data[prop.key])
+        ) {
+            return null;
+        }
+    }
 
     let leftSocket = input && !hideLeft && (
         <SocketHandle

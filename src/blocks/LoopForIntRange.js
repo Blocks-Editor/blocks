@@ -1,5 +1,5 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
-import {effectType, intType, unitType} from '../block-types/types';
+import {boolType, effectType, intType, unitType} from '../block-types/types';
 import {importRef, nodeIdentifierRef} from '../compilers/MotokoCompiler';
 
 export const iterImportRef = importRef('mo:base/Iter');
@@ -24,12 +24,11 @@ const block = statementBlock({
             return nodeIdentifierRef(node);
         },
     }],
-    // controls:[{
-    //    key:'name',
-    //    type:identifierType,
-    //    optional:true,
-    // }],
-}, ({min, max, loop}, node) => {
-    return `for (${nodeIdentifierRef(node)} in ${iterImportRef}.range(${min}, ${max})) { ${loop ?? ''} };`;
+    controls: [{
+        key: 'inclusive',
+        type: boolType,
+    }],
+}, ({min, max, loop, inclusive}, node) => {
+    return `for (${nodeIdentifierRef(node)} in ${iterImportRef}.range(${min}, ${inclusive ? max : `(${max}) - 1`})) { ${loop ?? ''} };`;
 });
 export default block;

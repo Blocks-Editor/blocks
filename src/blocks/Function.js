@@ -52,28 +52,18 @@ const block = memberBlock({
         request: true,
     }],
     outputs: [{
-        //     key: 'reference',
-        //     type: referenceType,
-        //     toMotoko({name}) {
-        //         return name;
-        //     },
-        // }, {
         key: 'caller',
         type: principalType,
+        advanced: true,
         toMotoko(args, node, compiler) {
             return `${nodeIdentifierRef(node)}.caller`;
         },
     }],
-    controls: [/*{
-        key: 'shared',
-        type: boolType,
-    },*/ /*stringSelectProp({
-        key: 'asyncKind',
-        optional: true,
-    }, ['async', 'query']),*/
+    controls: [
         visibilityControlProp(), {
             key: 'query',
             type: boolType,
+            advanced: true,
         }],
 }, {
     toMotoko({name, visibility, query, params, body}, node, compiler) {

@@ -26,6 +26,7 @@ import FileDropZone from '../common/FileDropZone';
 import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
 import OutputPanel from './OutputPanel';
+import useAutosaveState from '../../hooks/settings/useAutosaveState';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
@@ -123,6 +124,7 @@ const EditorContainer = styled.div`
 `;
 
 export default function Editor({hideMenu, onSetup, onChange, onSave, className, ...others}) {
+    const [autosave] = useAutosaveState();
 
     const events = useContext(EventsContext);
     const connectionAwareList = useContext(ConnectionAwareListContext);
@@ -132,6 +134,9 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
     useListener(events, EDITOR_CHANGE_EVENT, (_editor) => {
         if(_editor === editor) {
             onChange?.(editor);
+            if(autosave) {
+                events.emit(EDITOR_SAVE_EVENT, editor);
+            }
         }
     });
     useListener(events, EDITOR_SAVE_EVENT, (_editor) => {

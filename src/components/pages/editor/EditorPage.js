@@ -93,7 +93,7 @@ export default function EditorPage() {
     }, []);
 
     const onEditorSave = useCallback((state, editor) => {
-        console.log('Saving:', state);
+        // console.log('Saving:', state);
         let stateString = JSON.stringify(state);
         storage[STORAGE_EDITOR_STATE] = stateString;
         if(embedded) {

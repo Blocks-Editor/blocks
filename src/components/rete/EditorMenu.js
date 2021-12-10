@@ -29,6 +29,7 @@ import FloatingMenu from '../common/menus/FloatingMenu';
 import SettingsMenu from './SettingsMenu';
 import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisibleState';
 import {FiCode} from 'react-icons/fi';
+import useAutosaveState from '../../hooks/settings/useAutosaveState';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -113,6 +114,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
     const [zoomAnimating, setZoomAnimating] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
     const [outputPanelVisible, setOutputPanelVisible] = useOutputPanelVisibleState();
+    const [autosave] = useAutosaveState();
 
     const events = useContext(EventsContext);
 
@@ -160,14 +162,16 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         onChange={e => updateName(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, getEditor())}
                     />
-                    <MenuButton
-                        tooltip="Save Changes"
-                        onMouseDown={() => events.emit(EDITOR_SAVE_EVENT, getEditor())}>
-                        <StyledSaveIcon
-                            className={classNames(saveAnimating && 'animating')}
-                            onAnimationEnd={() => setSaveAnimating(false)}
-                        />
-                    </MenuButton>
+                    {!autosave && (
+                        <MenuButton
+                            tooltip="Save Changes"
+                            onMouseDown={() => events.emit(EDITOR_SAVE_EVENT, getEditor())}>
+                            <StyledSaveIcon
+                                className={classNames(saveAnimating && 'animating')}
+                                onAnimationEnd={() => setSaveAnimating(false)}
+                            />
+                        </MenuButton>
+                    )}
                     <MenuButton
                         tooltip="Export to File"
                         onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, getEditor().toJSON())}>

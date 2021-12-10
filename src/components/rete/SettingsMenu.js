@@ -1,8 +1,7 @@
 import React from 'react';
-
-import useLearningModeState from '../../hooks/settings/useLearningModeState';
 import useThemeState from '../../hooks/settings/useThemeState';
 import useThemes from '../../hooks/useThemes';
+import useAdvancedPropsState from '../../hooks/settings/useAdvancedPropsState';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -41,8 +40,11 @@ function Setting({name, description, type, props}) {
 }
 
 export default function SettingsMenu() {
-    const [learningMode, setLearningMode] = useLearningModeState();
     const [theme, setTheme] = useThemeState();
+    const [autosave, setAutosave] = useAdvancedPropsState();
+    // const [learningMode, setLearningMode] = useLearningModeState();
+    // const [advanced, setAdvanced] = useAdvancedPropsState();
+
     const themes = useThemes();
 
     // Define the content for each option.
@@ -59,15 +61,36 @@ export default function SettingsMenu() {
             },
         },
     }, {
-        name: 'Learning Mode',
-        description: 'Provides more detailed tooltips.',
+        name: 'Auto-Save Changes',
+        description: 'Automatically sync changes while using the editor.',
         type: 'toggle',
         props: {
-            value: learningMode,
+            value: autosave,
             onChange() {
-                setLearningMode(!learningMode);
+                setAutosave(!autosave);
             },
         },
+    }, {
+        // }, {
+        //     name: 'Detailed Tooltips',
+        //     description: 'Provides more detailed tooltips.',
+        //     type: 'toggle',
+        //     props: {
+        //         value: learningMode,
+        //         onChange() {
+        //             setLearningMode(!learningMode);
+        //         },
+        //     },
+        // },{
+        //     name: 'Advanced Mode',
+        //     description: 'Displays additional properties for complex use cases.',
+        //     type: 'toggle',
+        //     props: {
+        //         value: advanced,
+        //         onChange() {
+        //             setAdvanced(!advanced);
+        //         },
+        //     },
     }];
 
     return (

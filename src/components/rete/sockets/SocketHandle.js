@@ -32,6 +32,7 @@ export function SocketHandle(props) {
     // Update whether the socket is requesting a connection
     const updateRequested = useCallback(() => {
         setTimeout(() => {
+            // TODO: memory leak?
             let requested = !io.connections.length;
             if(requested) {
                 const prop = socket.findProp?.();
@@ -100,7 +101,7 @@ export function SocketHandle(props) {
                 'category-' + socketType.data.category,
             )}
             // title={socket.name}
-            data-tip={socket.findLabel?.() || socket.name}>
+            data-tip={`${socket.findLabel?.() || socket.name}`}>
             <div className="requested-wrapper w-100 h-100">
                 {socketColor}
             </div>

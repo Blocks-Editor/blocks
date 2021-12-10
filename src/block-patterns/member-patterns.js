@@ -19,6 +19,7 @@ export function computeMemberName(node, editor) {
 export function visibilityControlProp() {
     return stringSelectProp({
         key: 'visibility',
+        advanced: true,
         // optional: true,
     }, ['public', 'private', 'system']);
 }
