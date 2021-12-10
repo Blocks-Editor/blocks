@@ -3,60 +3,35 @@
   "description": "",
   "version": "blocks-webapp@0.1.0",
   "nodes": {
-    "283": {
-      "id": 283,
-      "data": {},
-      "inputs": {
-        "input": {
-          "connections": []
-        }
-      },
-      "outputs": {
-        "reversed": {
-          "connections": [
-            {
-              "node": 325,
-              "input": "actor",
-              "data": {}
-            }
-          ]
-        }
-      },
-      "position": [
-        480,
-        288
-      ],
-      "name": "CompileMotoko"
-    },
-    "325": {
-      "id": 325,
+    "740": {
+      "id": 740,
       "data": {
-        "name": "Main"
+        "visibility": "public"
       },
       "inputs": {
         "name": {
           "connections": []
         },
-        "actor": {
-          "connections": [
-            {
-              "node": 283,
-              "output": "reversed",
-              "data": {}
-            }
-          ]
+        "member": {
+          "connections": []
         }
       },
       "outputs": {
-        "members": {
+        "params": {
+          "connections": []
+        },
+        "body": {
+          "connections": []
+        },
+        "caller": {
           "connections": []
         }
       },
       "position": [
-        704,
-        288
+        0,
+        0
       ],
-      "name": "Actor"
+      "name": "Function"
     }
   }
 }
