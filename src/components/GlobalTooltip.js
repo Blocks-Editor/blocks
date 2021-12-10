@@ -12,6 +12,6 @@ export default function GlobalTooltip() {
     };
 
     return (
-        <StyledReactTooltip backgroundColor="#111" place="bottom" delayShow={250} afterShow={afterShow}/>
+        <StyledReactTooltip backgroundColor="#111" place="bottom" delayShow={250} afterShow={afterShow} multiline={true}/>
     );
 }

@@ -2,6 +2,10 @@ import React from 'react';
 import useThemeState from '../../hooks/settings/useThemeState';
 import useThemes from '../../hooks/useThemes';
 import useAdvancedPropsState from '../../hooks/settings/useAdvancedPropsState';
+import useLearningModeState from '../../hooks/settings/useLearningModeState';
+import {sentenceCase} from 'change-case';
+import useThemePartsState from '../../hooks/settings/useThemePartsState';
+import styled from 'styled-components';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -21,28 +25,40 @@ const settingInputs = {
     },
 };
 
+const StyledNestedContainer = styled.div`
+    background: #1112;
+`;
+
 /**
  * Creates a UI element for a given setting.
  */
-function Setting({name, description, type, props}) {
+function Setting({name, description, type, extras, props}) {
 
     const SettingInput = settingInputs[type];
 
     return (
-        <div className="w-100 py-2 px-3 d-flex flex-column align-items-start justify-content-center">
-            <div className="w-100 d-flex flex-row align-items-center justify-content-between">
-                <span className="flex-grow-1">{name}</span>
-                {SettingInput && <SettingInput {...props}/>}
+        <>
+            <div className="w-100 py-2 px-3 d-flex flex-column align-items-start justify-content-center">
+                <div className="w-100 d-flex flex-row align-items-center justify-content-between">
+                    <span className="flex-grow-1">{name}</span>
+                    {SettingInput && <SettingInput {...props}/>}
+                </div>
+                <span className="small text-muted">{description}</span>
             </div>
-            <span className="small text-muted">{description}</span>
-        </div>
+            {extras && (
+                <StyledNestedContainer className="ps-3">
+                    {extras.map((extra, i) => <Setting key={i} {...extra}/>)}
+                </StyledNestedContainer>
+            )}
+        </>
     );
 }
 
 export default function SettingsMenu() {
     const [theme, setTheme] = useThemeState();
+    const [themeParts, setThemeParts] = useThemePartsState();
     const [autosave, setAutosave] = useAdvancedPropsState();
-    // const [learningMode, setLearningMode] = useLearningModeState();
+    const [learningMode, setLearningMode] = useLearningModeState();
     // const [advanced, setAdvanced] = useAdvancedPropsState();
 
     const themes = useThemes();
@@ -60,6 +76,16 @@ export default function SettingsMenu() {
                 setTheme(e.target.value);
             },
         },
+        extras: theme.parts.map(part => ({
+            name: sentenceCase(part),
+            type: 'toggle',
+            props: {
+                value: !!themeParts[part],
+                onChange() {
+                    setThemeParts({...themeParts, [part]: !themeParts[part]});
+                },
+            },
+        })),
     }, {
         name: 'Auto-Save Changes',
         description: 'Automatically sync changes while using the editor.',
@@ -70,18 +96,17 @@ export default function SettingsMenu() {
                 setAutosave(!autosave);
             },
         },
+    }, {}, {
+        name: 'Learning Mode',
+        description: 'Provides more detailed mouse-over tooltips.',
+        type: 'toggle',
+        props: {
+            value: learningMode,
+            onChange() {
+                setLearningMode(!learningMode);
+            },
+        },
     }, {
-        // }, {
-        //     name: 'Detailed Tooltips',
-        //     description: 'Provides more detailed tooltips.',
-        //     type: 'toggle',
-        //     props: {
-        //         value: learningMode,
-        //         onChange() {
-        //             setLearningMode(!learningMode);
-        //         },
-        //     },
-        // },{
         //     name: 'Advanced Mode',
         //     description: 'Displays additional properties for complex use cases.',
         //     type: 'toggle',
@@ -97,7 +122,7 @@ export default function SettingsMenu() {
         <div className="p-3">
             <h3>Settings</h3>
             {settings.map((setting, i) => (
-                <Setting key={i}  {...setting}/>
+                <Setting key={i} {...setting}/>
             ))}
         </div>
     );

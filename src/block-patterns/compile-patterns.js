@@ -3,7 +3,7 @@ import OutputControlHandle from '../components/rete/controls/OutputControlHandle
 import {compilerCategory} from '../block-categories/categories';
 import {resolveImportRefs} from '../compilers/MotokoCompiler';
 
-export function compileBlock(title, compilerKey, displayFn) {
+export function compileBlock(compilerKey,block, displayFn) {
     function queryFor(inputKey) {
         return (control, node, editor) => {
             let value = editor.compilers[compilerKey].getInput(node, inputKey);
@@ -14,11 +14,11 @@ export function compileBlock(title, compilerKey, displayFn) {
     }
 
     return {
-        title,
         category: compilerCategory,
         icon: compilerCategory.data.icon,
         topLeft: 'input',
         topRight: 'reversed',
+        ...block,
         inputs: [{
             key: 'input',
             title: 'Input',

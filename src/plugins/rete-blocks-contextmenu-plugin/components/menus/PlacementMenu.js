@@ -46,12 +46,26 @@ export default function PlacementMenu() {
         searchText = '';
     }
 
+    let options = [];
+    // Add custom search results from relevant components
+    components.forEach(component => {
+        let block = component.block;
+        if(block.customSearch) {
+            let custom = block.customSearch(searchText);
+            if(custom) {
+                (Array.isArray(custom) ? custom : [custom]).forEach(opt => opt.component = component);
+            }
+        }
+    });
+
+    // Filter components by search text
     if(searchText) {
         let lower = searchText.toLowerCase();
         components = components.filter(c => c.keywords?.some(k => k.toLowerCase().startsWith(lower)) || c.name.toLowerCase().startsWith(lower));
     }
+    options.push(...components.map(component => ({component})));
 
-    index = Math.min(components.length - 1, index);
+    index = Math.min(options.length - 1, index);
 
     // Arrow keys pressed
     const handleSearchKeyDown = (event) => {
@@ -65,17 +79,17 @@ export default function PlacementMenu() {
 
     // Enter key pressed
     const handleSearchAction = async () => {
-        if(components.length) {
-            await handleCreateNode(components[index]);
+        if(options.length) {
+            await handleCreateOption(options[index]);
         }
     };
 
     // Create node from component
-    const handleCreateNode = useCallback(async (component) => {
+    const handleCreateOption = useCallback(async ({component, data, meta}) => {
         setSearchText('');
         editor.trigger('hidecontextmenu');
 
-        const node = await createNode(component, {position: mouse});
+        const node = await createNode(component, {data, meta, position: mouse});
         editor.addNode(node);
 
         if(context) {
@@ -95,13 +109,13 @@ export default function PlacementMenu() {
         }
     }, [editor, mouse, context]);
 
-    // TODO: create literal blocks when typing numbers, strings, etc.
-    let menuItems = components.map((component, i) => (
+    let menuItems = options.map((option, i) => (
         <MenuComponent
-            key={component.name}
-            component={component}
+            key={option.title || option.component.name}
+            component={option.component}
+            specialTitle={option.title}
             selected={index === i}
-            onAction={() => handleCreateNode(component)}
+            onAction={() => handleCreateOption(option)}
         />
     ));
     return context ? (

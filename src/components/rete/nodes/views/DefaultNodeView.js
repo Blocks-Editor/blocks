@@ -32,7 +32,7 @@ export default function DefaultNodeView({block, nodeHandle}) {
 
     const filterProp = prop => {
         if(prop.hidden) {
-            return;
+            return false;
         }
         return prop.control || ((!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight));
     };
@@ -58,8 +58,8 @@ export default function DefaultNodeView({block, nodeHandle}) {
                     {block.icon && (
                         // TODO: globally improve react-icons render logic
                         <span className="d-inline-block pe-1" style={{transform: 'translateY(-.2em)'}}>
-                                {React.createElement(block.icon)}
-                            </span>
+                            {React.createElement(block.icon)}
+                        </span>
                     )}
                     {title}
                 </div>

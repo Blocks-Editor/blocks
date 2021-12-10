@@ -1,6 +1,6 @@
 export const THEMES = [{
     id: 'minimal',
-    name: 'Minimal',
+    name: 'Grey',
     parts: [],
     monaco: 'vs-dark',
     styledComponents: {},
@@ -16,10 +16,10 @@ export const THEMES = [{
     parts: ['compact-labels', 'vibrant-borders'],
     monaco: 'vs-dark',
     styledComponents: {},
-}, {
-    id: 'lightdark',
-    name: 'Light-Dark',
-    parts: ['compact-labels'],
-    monaco: 'vs-dark',
-    styledComponents: {},
+// }, {
+//     id: 'lightdark',
+//     name: 'Light-Dark',
+//     parts: ['compact-labels'],
+//     monaco: 'vs-dark',
+//     styledComponents: {},
 }];

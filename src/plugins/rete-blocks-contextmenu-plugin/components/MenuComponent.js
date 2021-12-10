@@ -3,27 +3,35 @@ import MenuAction from './MenuAction';
 import {FaRegStickyNote} from 'react-icons/fa';
 import getBlockLabel from '../../../utils/getBlockLabel';
 import useReactTooltip from '../../../hooks/useReactTooltip';
+import useLearningModeState from '../../../hooks/settings/useLearningModeState';
 
 
-export default function MenuComponent({component, ...others}) {
+export default function MenuComponent({component, specialTitle, ...others}) {
     const block = component.block;
     const category = block?.category;
+    const [learningMode] = useLearningModeState();
 
     useReactTooltip();
     if(block?.info) {
+        let tooltip = block.info.endsWith('.') ? block.info : `${block.info}.`;
+        if(learningMode && block.useCases?.length) {
+            tooltip += '<br>Use cases:' + block.useCases.join(', ');
+        }
         others = {
-            'data-tip': block.info.endsWith('.') ? block.info : `${block.info}.`,
+            'data-tip': tooltip,
             'data-place': 'right',
             ...others,
         };
     }
+
+    const title = getBlockLabel(block) || component.name;
 
     return (
         <MenuAction
             icon={React.createElement(block?.icon || category?.data.icon || FaRegStickyNote)}
             color={category?.data.color}
             {...others}>
-            {getBlockLabel(block) || component.name}
+            {specialTitle !== undefined ? `${specialTitle} (${title})` : title}
         </MenuAction>
     );
 }
