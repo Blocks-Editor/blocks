@@ -61,7 +61,7 @@ export default function OutputPanel({getEditor}) {
 
     return (
         <OutputContainer
-            className={classNames('output-panel p-3')}
+            className={classNames('output-panel px-3 pt-3')}
             closed={!visible}
             fullscreen={fullscreen === outputPanelId}>
             <div className="d-flex justify-content-between align-items-center mb-2">
@@ -81,11 +81,11 @@ export default function OutputPanel({getEditor}) {
             <div className="flex-grow-1 text-muted">
                 <CodeEditor value={output} readOnly={true}/>
             </div>
-            <div className="d-flex flex-row align-items-center justify-content-between pt-1">
+            <div className="bottom-bar d-flex flex-row align-items-center justify-content-end py-2">
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
-                    <ClipboardButton className="clickable d-flex flex-grow-1 flex-row align-items-center justify-content-center py-2 px-3">
-                        <FiClipboard className="mb-1" style={{marginRight: '0.5rem'}}/>
-                        <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>
+                    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
+                        <small>{copied ? 'Copied! ' : ''}</small>
+                        <FiClipboard className="" style={{marginLeft: '0.5rem'}}/>
                     </ClipboardButton>
                 </CopyToClipboard>
                 <a

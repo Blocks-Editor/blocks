@@ -6,26 +6,30 @@ Dark theme for Blocks.
   .node-editor {
     background: #00131C !important;
 
-    .top-menu {
-      background: #022030;
-
-      input {
-        background: #022030 !important;
-        border-bottom: solid 2px #CCCA !important;
-      }
-    }
-
     .node {
-      border: none !important;
+      border: 2px solid #00131C;
       background: #022030;
 
       &:not(.selected) .header {
         background: #00131C;
       }
+
+      &:hover {
+        background: #02203088;
+      }
+
+      .node-shortcut-button {
+        background: #022030;
+      }
     }
 
-    .node-shortcut-button {
-      background: #111 !important;
+    .top-menu {
+      background: linear-gradient(90deg, #00131C, #022030) !important;
+
+      input {
+        background: none !important;
+        border-bottom: solid 2px #CCCA !important;
+      }
     }
 
     .grid {

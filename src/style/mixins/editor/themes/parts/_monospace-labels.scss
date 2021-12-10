@@ -1,16 +1,16 @@
 @import "../../../variables";
 
-.theme-part-compact-labels {
+.theme-part-monospace-labels {
   .node-editor {
     .node {
       .input-title, .output-title {
         font-family: $font-family-monospace;
-        font-size: 10px;
+        font-size: 12px;
       }
 
       .control, .input-control {
         font-family: $font-family-monospace;
-        font-size: 12px;
+        font-size: 14px;
       }
     }
   }

@@ -7,19 +7,19 @@ export const THEMES = [{
 }, {
     id: 'light',
     name: 'Light',
-    parts: ['compact-labels'],
+    parts: ['monospace-labels'],
     monaco: 'light',
     styledComponents: {},
 }, {
     id: 'dark',
     name: 'Dark',
-    parts: ['compact-labels', 'vibrant-borders'],
-    monaco: 'vs-dark',
+    parts: ['monospace-labels'],
+    monaco: 'night-owl',
     styledComponents: {},
 // }, {
 //     id: 'lightdark',
 //     name: 'Light-Dark',
-//     parts: ['compact-labels'],
+//     parts: ['monospace-labels'],
 //     monaco: 'vs-dark',
 //     styledComponents: {},
 }];
