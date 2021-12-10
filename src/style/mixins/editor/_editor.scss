@@ -113,7 +113,7 @@ $grid-area: $grid-size * 10000;
 
   .node {
     background: #111A;
-    border-color: #111 !important;
+    border-color: #111;
     box-shadow: 0 4px 8px #000A;
 
     &:hover {
@@ -215,7 +215,7 @@ $grid-area: $grid-size * 10000;
   }
 
   .node-shortcut-button {
-    background: #222 !important;
+    background: #222;
 
     &:hover {
       z-index: 10;

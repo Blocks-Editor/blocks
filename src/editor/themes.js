@@ -13,8 +13,8 @@ export const THEMES = [{
 }, {
     id: 'dark',
     name: 'Dark',
-    parts: ['compact-labels', 'vibrant-borders'],
-    monaco: 'vs-dark',
+    parts: ['compact-labels'],
+    monaco: 'night-owl',
     styledComponents: {},
 }, {
     id: 'lightdark',

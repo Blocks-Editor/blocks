@@ -1,6 +1,7 @@
 .theme-part-vibrant-borders {
   .node-editor {
     .node {
+      border: none !important;
       &::after {
         content: "";
         position: absolute;
