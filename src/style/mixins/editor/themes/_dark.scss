@@ -6,21 +6,6 @@ Dark theme for Blocks.
   .node-editor {
     background: #00131C !important;
 
-    .menu-button {
-      .floating-menu & {
-        background: #022030;
-        border: 2px solid #032F47;
-
-        &:hover {
-          background: #032F47;
-        }
-      }
-
-      &:hover {
-        background: #FFF1;
-      }
-    }
-
     .top-menu {
       background: #022030;
 
@@ -56,6 +41,21 @@ Dark theme for Blocks.
       background-color: #022030;
       border-left: 3px solid #00131C;
       color: #FFF;
+    }
+  }
+
+  .menu-button {
+    &:hover {
+      background: #FFF1;
+    }
+  }
+
+  .floating-menu .menu-button {
+    background: #022030;
+    border: 2px solid #032F47;
+
+    &:hover {
+      background: #032F47;
     }
   }
 }
