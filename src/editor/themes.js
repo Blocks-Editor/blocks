@@ -13,7 +13,7 @@ export const THEMES = [{
 }, {
     id: 'dark',
     name: 'Dark',
-    parts: ['monospace-labels'],
+    parts: ['monospace-labels', 'vibrant-borders'],
     monaco: 'night-owl',
     styledComponents: {},
 // }, {

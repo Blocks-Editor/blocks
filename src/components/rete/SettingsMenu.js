@@ -26,7 +26,7 @@ const settingInputs = {
 };
 
 const NestedContainer = styled.div`
-    background: #1112;
+    background: #0001;
 `;
 
 /**
@@ -38,7 +38,7 @@ function Setting({name, description, type, extras, props}) {
 
     return (
         <>
-            <div className="w-100 py-2 px-3 d-flex flex-column align-items-start justify-content-center">
+            <div className="w-100 py-1 px-3 d-flex flex-column align-items-start justify-content-center">
                 <div className="w-100 d-flex flex-row align-items-center justify-content-between">
                     <span className="flex-grow-1">{name}</span>
                     {SettingInput && <SettingInput {...props}/>}
@@ -46,7 +46,7 @@ function Setting({name, description, type, extras, props}) {
                 <span className="small text-muted">{description}</span>
             </div>
             {extras && (
-                <NestedContainer className="ps-3">
+                <NestedContainer className="ps-3 rounded-3">
                     {extras.map((extra, i) => <Setting key={i} {...extra}/>)}
                 </NestedContainer>
             )}
@@ -87,7 +87,7 @@ export default function SettingsMenu() {
             },
         })),
     }, {
-        name: 'Auto-Save Changes',
+        name: 'Auto-save changes',
         description: 'Automatically sync changes while using the editor.',
         type: 'toggle',
         props: {
@@ -96,7 +96,7 @@ export default function SettingsMenu() {
                 setAutosave(!autosave);
             },
         },
-    }, {}, {
+    }, {
         name: 'Learning Mode',
         description: 'Provides more detailed mouse-over tooltips.',
         type: 'toggle',
@@ -106,7 +106,7 @@ export default function SettingsMenu() {
                 setLearningMode(!learningMode);
             },
         },
-    }, {
+        // }, {
         //     name: 'Advanced Mode',
         //     description: 'Displays additional properties for complex use cases.',
         //     type: 'toggle',
@@ -122,7 +122,10 @@ export default function SettingsMenu() {
         <div className="p-3">
             <h3>Settings</h3>
             {settings.map((setting, i) => (
-                <Setting key={i} {...setting}/>
+                <>
+                    <hr/>
+                    <Setting key={i} {...setting}/>
+                </>
             ))}
         </div>
     );
