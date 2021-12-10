@@ -25,7 +25,7 @@ const settingInputs = {
     },
 };
 
-const StyledNestedContainer = styled.div`
+const NestedContainer = styled.div`
     background: #1112;
 `;
 
@@ -46,9 +46,9 @@ function Setting({name, description, type, extras, props}) {
                 <span className="small text-muted">{description}</span>
             </div>
             {extras && (
-                <StyledNestedContainer className="ps-3">
+                <NestedContainer className="ps-3">
                     {extras.map((extra, i) => <Setting key={i} {...extra}/>)}
-                </StyledNestedContainer>
+                </NestedContainer>
             )}
         </>
     );
