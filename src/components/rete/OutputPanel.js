@@ -11,7 +11,6 @@ import useFullscreenPanelState from '../../hooks/settings/useFullscreenPanelStat
 import useListener from '../../hooks/utils/useListener';
 import {Button} from 'react-bootstrap';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
-import useReactTooltip from '../../hooks/useReactTooltip';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -60,8 +59,6 @@ export default function OutputPanel({getEditor}) {
 
     useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput) & setCopied(false));
 
-    useReactTooltip();
-
     return (
         <OutputContainer
             className={classNames('output-panel px-3 pt-3')}
@@ -86,9 +83,7 @@ export default function OutputPanel({getEditor}) {
             </div>
             <div className="bottom-bar d-flex flex-row align-items-center justify-content-end py-2">
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
-                    <ClipboardButton
-                        className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3"
-                        data-tip="Copy to Clipboard">
+                    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
                         <small>{copied ? 'Copied! ' : 'Copy to Clipboard'}</small>
                         <FaCopy className="ms-2"/>
                     </ClipboardButton>
