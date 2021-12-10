@@ -1,16 +1,17 @@
 import React, {useContext, useState} from 'react';
 import classNames from 'classnames';
 import styled, {css} from 'styled-components';
-import {FiClipboard, FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
+import {FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
+import {FaCopy, FaPlay} from 'react-icons/fa';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
 import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisibleState';
 import useFullscreenPanelState from '../../hooks/settings/useFullscreenPanelState';
 import useListener from '../../hooks/utils/useListener';
-import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 import {Button} from 'react-bootstrap';
-import {FaPlay} from 'react-icons/fa';
+import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
+import useReactTooltip from '../../hooks/useReactTooltip';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -59,6 +60,8 @@ export default function OutputPanel({getEditor}) {
 
     useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput) & setCopied(false));
 
+    useReactTooltip();
+
     return (
         <OutputContainer
             className={classNames('output-panel px-3 pt-3')}
@@ -83,9 +86,11 @@ export default function OutputPanel({getEditor}) {
             </div>
             <div className="bottom-bar d-flex flex-row align-items-center justify-content-end py-2">
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
-                    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
-                        <small>{copied ? 'Copied! ' : ''}</small>
-                        <FiClipboard className="" style={{marginLeft: '0.5rem'}}/>
+                    <ClipboardButton
+                        className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3"
+                        data-tip="Copy to Clipboard">
+                        <small>{copied ? 'Copied! ' : 'Copy to Clipboard'}</small>
+                        <FaCopy className="ms-2"/>
                     </ClipboardButton>
                 </CopyToClipboard>
                 <a

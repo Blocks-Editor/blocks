@@ -1,10 +1,9 @@
+import nightOwlTheme from 'monaco-themes/themes/Night Owl.json';
+
 // Derived from: https://github.com/dfinity/motoko-playground/blob/main/src/config/monacoConfig.js
 
 export const configureMonaco = (monaco) => {
-    // Apparently this is the way to do this, I hate it
-    import('monaco-themes/themes/Night Owl.json').then(data => {
-        monaco.editor.defineTheme('night-owl', data);
-    });
+    monaco.editor.defineTheme('night-owl', nightOwlTheme);
 
     monaco.languages.register({id: 'motoko'});
     monaco.languages.setLanguageConfiguration('motoko', {

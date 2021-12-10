@@ -2,11 +2,7 @@ import React, {useContext, useState} from 'react';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContext';
 import useListener from '../../../hooks/utils/useListener';
 import Loading from '../../common/Loading';
-import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
-import {FaCopy} from 'react-icons/fa';
-import {Button} from 'react-bootstrap';
-import useReactTooltip from '../../../hooks/useReactTooltip';
-import ReactTooltip from 'react-tooltip';
+import CopyToClipboardButton from '../../common/CopyToClipboardButton';
 
 
 export default function OutputControlHandle({control, bindInput, query}) {
@@ -22,7 +18,7 @@ export default function OutputControlHandle({control, bindInput, query}) {
     };
 
     const [valuePromise, setValuePromise] = useState(findValue);
-    const [copied, setCopied] = useState();
+    // const [copied, setCopied] = useState();
 
     const events = useContext(EventsContext);
 
@@ -30,16 +26,14 @@ export default function OutputControlHandle({control, bindInput, query}) {
         setValuePromise(findValue());
     });
 
-    let tooltipRef;
-    const showTooltip = () => {
-        setCopied(true);
-        ReactTooltip.show(tooltipRef);
-        setTimeout(() => /*ReactTooltip.hide(tooltipRef)&*/setCopied(false), 1000);
-    };
+    // let tooltipRef;
+    // const showTooltip = () => {
+    //     setCopied(true);
+    //     ReactTooltip.show(tooltipRef);
+    //     setTimeout(() => /*ReactTooltip.hide(tooltipRef)&*/setCopied(false), 1000);
+    // };
 
-    useReactTooltip();
-
-    // TODO: "Copy to Clipboard" tooltip
+    // useReactTooltip();
 
     return (
         <Loading promise={valuePromise}>
@@ -52,17 +46,17 @@ export default function OutputControlHandle({control, bindInput, query}) {
                         ref={bindInput}
                         value={value || ''}
                     />
-                    <CopyToClipboard text={value} /* onCopy={() => setCopied(true)} */ >
-                        <Button
-                            ref={bindInput}
-                            size="sm"
-                            variant="outline-light"
-                            data-tip={copied ? undefined : 'Copy to Clipboard'}
-                            onClick={showTooltip}>
-                            <span ref={ref => tooltipRef = ref} data-tip="Copied!"/>
-                            <FaCopy/>
-                        </Button>
-                    </CopyToClipboard>
+                    <CopyToClipboardButton text={value} /* onCopy={() => setCopied(true)} */ >
+                        {/*<Button*/}
+                        {/*    ref={bindInput}*/}
+                        {/*    size="sm"*/}
+                        {/*    variant="outline-light"*/}
+                        {/*    data-tip={copied ? undefined : 'Copy to Clipboard'}*/}
+                        {/*    onClick={showTooltip}>*/}
+                        {/*    <span ref={ref => tooltipRef = ref} data-tip="Copied!"/>*/}
+                        {/*    <FaCopy/>*/}
+                        {/*</Button>*/}
+                    </CopyToClipboardButton>
                 </div>
             )}
         </Loading>
