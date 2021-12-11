@@ -29,6 +29,7 @@ import FloatingMenu from '../common/menus/FloatingMenu';
 import SettingsMenu from './SettingsMenu';
 import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisibleState';
 import useAutosaveState from '../../hooks/settings/useAutosaveState';
+import TutorialCard from './TutorialCard';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -103,7 +104,7 @@ const StyledZoomIcon = styled(CrosshairIcon)`
 //     }
 // `;
 
-export default function EditorMenu({getEditor, onLoadFileContent}) {
+export default function EditorMenu({editor, onLoadFileContent}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
@@ -124,13 +125,12 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
 
     /// Temp, until projectName refactor
     setTimeout(() => {
-        setName(getEditor().projectName);
+        setName(editor.projectName);
     });
 
     // TODO refactor
     const updateName = (name) => {
         setName(name);
-        let editor = getEditor();
         editor.projectName = name;
         events.emit(EDITOR_CHANGE_EVENT, editor);
     };
@@ -155,12 +155,12 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                         className="bg-light text-secondary"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
-                        onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, getEditor())}
+                        onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, editor)}
                     />
                     {!autosave && (
                         <MenuButton
                             tooltip="Save Changes"
-                            onMouseDown={() => events.emit(EDITOR_SAVE_EVENT, getEditor())}>
+                            onMouseDown={() => events.emit(EDITOR_SAVE_EVENT, editor)}>
                             <StyledSaveIcon
                                 className={classNames(saveAnimating && 'animating')}
                                 onAnimationEnd={() => setSaveAnimating(false)}
@@ -169,7 +169,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                     )}
                     <MenuButton
                         tooltip="Export to File"
-                        onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, getEditor().toJSON())}>
+                        onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON())}>
                         <DownloadIcon/>
                     </MenuButton>
                     <MenuButton
@@ -190,12 +190,15 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
                     </MenuButton>
                 </div>
             </TopMenu>
+            <FloatingMenu top left>
+                <TutorialCard editor={editor}/>
+            </FloatingMenu>
             <FloatingMenu bottom left>
                 <MenuButton
                     className="round d-flex align-items-center justify-content-center"
                     tooltip="Reset Viewport"
                     onMouseDown={() => {
-                        AreaPlugin.zoomAt(getEditor());
+                        AreaPlugin.zoomAt(editor);
                         setZoomAnimating(true);
                     }}>
                     <StyledZoomIcon
@@ -206,7 +209,7 @@ export default function EditorMenu({getEditor, onLoadFileContent}) {
             </FloatingMenu>
             <FloatingMenu bottom right>
                 <MenuButton
-                    className="text-uppercase text-muted h5 my-2 py-2"
+                    className="text-uppercase h4 fw-normal text-muted"
                     tooltip="Compile to Motoko"
                     onMouseDown={() => setOutputPanelVisible(!outputPanelVisible)}>
                     <small>Compile</small>

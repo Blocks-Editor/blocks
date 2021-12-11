@@ -1,9 +1,9 @@
 import React from 'react';
-import useControlState from '../../../hooks/useControlState';
+import useControlValue from '../../../hooks/useControlValue';
 
 
 export default function CheckboxControlHandle({control, bindInput}) {
-    let [value, setValue] = useControlState(control);
+    let [value, setValue] = useControlValue(control);
 
     return (
         <label ref={bindInput}>

@@ -15,7 +15,7 @@ export default function MenuComponent({component, specialTitle, ...others}) {
     if(block?.info) {
         let tooltip = block.info.endsWith('.') ? block.info : `${block.info}.`;
         if(learningMode && block.useCases?.length) {
-            tooltip += '<br>Use cases:' + block.useCases.join(', ');
+            tooltip += `<br>Use cases: ${block.useCases.join(', ')}`;
         }
         others = {
             'data-tip': tooltip,

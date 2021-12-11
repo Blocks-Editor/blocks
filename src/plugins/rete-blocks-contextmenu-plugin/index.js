@@ -5,6 +5,7 @@ import {MenuContext} from './contexts/MenuContext';
 import SelectionMenu from './components/menus/SelectionMenu';
 import PlacementMenu from './components/menus/PlacementMenu';
 import Rete from 'rete';
+import {CONTEXT_MENU_STORE} from '../../observables/contextMenuStore';
 
 // Adapted from https://github.com/michael-braun/rete-react-contextmenu-plugin
 
@@ -17,6 +18,7 @@ function install(editor, config = {}) {
     let menu = null;
 
     editor.on('hidecontextmenu', () => {
+        CONTEXT_MENU_STORE.set(null);
         if(menu) {
             menu.style.display = 'none';
         }
@@ -53,13 +55,16 @@ function install(editor, config = {}) {
             menu = document.createElement('div');
             editor.view.container.appendChild(menu);
         }
+        const menuContext = {editor, mouse, node, context};
+        CONTEXT_MENU_STORE.set(menuContext);
+
         menu.style.display = 'block';
         ReactDOM.render((
             <ContextMenu
                 x={x + offsetX}
                 y={node ? y - 50 : y + offsetY} // TODO: magic number
                 handleCloseMenu={() => editor.trigger('hidecontextmenu')}>
-                <MenuContext.Provider value={{editor, mouse, node, context}}>
+                <MenuContext.Provider value={menuContext}>
                     {node ? (
                         <SelectionMenu/>
                     ) : (

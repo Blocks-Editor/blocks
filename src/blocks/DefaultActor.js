@@ -1,6 +1,6 @@
 import {containerType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
-import compileGlobalMotoko from '../utils/compileGlobalMotoko';
+import compileGlobalMotoko from '../compilers/global/compileGlobalMotoko';
 
 const block = {
     info: 'The top-level actor for the application. All member blocks reference this actor by default.',

@@ -1,10 +1,10 @@
 import React from 'react';
-import useControlState from '../../../hooks/useControlState';
+import useControlValue from '../../../hooks/useControlValue';
 import classNames from 'classnames';
 
 
 export default function SelectControlHandle({control, bindInput, options, findLabel}) {
-    let [value, setValue] = useControlState(control);
+    let [value, setValue] = useControlValue(control);
 
     if(value === undefined && !options.includes(value)) {
         value = options[0];

@@ -1,5 +1,5 @@
-import {memberType} from '../block-types/types';
-import {resolveImportRefs} from '../compilers/MotokoCompiler';
+import {memberType} from '../../block-types/types';
+import {resolveImportRefs} from '../MotokoCompiler';
 
 export default function compileGlobalMotoko(editor) {
 
@@ -15,5 +15,5 @@ export default function compileGlobalMotoko(editor) {
         return result ? `\n  ${result}` : '';
     }).join('\n')}\n}`);
 
-    return `${prefixes.join('\n')}\n\n${actorCode}`;
+    return `${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`;
 }

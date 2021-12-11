@@ -2,7 +2,7 @@ import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import {bindNodeInput} from '../../../../utils/bindNodeInput';
-import useControlState from '../../../../hooks/useControlState';
+import useControlValue from '../../../../hooks/useControlValue';
 
 const Container = styled.div`
   cursor: pointer;
@@ -20,8 +20,8 @@ export default function CommentNodeView({block, nodeHandle}) {
     const {/*editor,*/ node/*, bindControl*/} = nodeHandle.props;
     const {selected} = nodeHandle.state;
 
-    const [text, setText] = useControlState(node.controls.get('text'));
-    const [width, setWidth] = useControlState(node.controls.get('widthPixels'));
+    const [text, setText] = useControlValue(node.controls.get('text'));
+    const [width, setWidth] = useControlValue(node.controls.get('widthPixels'));
 
     return (
         <Container className="pt-2 ps-2 pe-4 rounded-3" selected={selected}>

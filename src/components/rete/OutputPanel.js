@@ -4,7 +4,7 @@ import styled, {css} from 'styled-components';
 import {FiClipboard, FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
 import {FaPlay} from 'react-icons/fa';
 import CodeEditor from '../monaco/CodeEditor';
-import compileGlobalMotoko from '../../utils/compileGlobalMotoko';
+import compileGlobalMotoko from '../../compilers/global/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
 import useOutputPanelVisibleState from '../../hooks/settings/useOutputPanelVisibleState';
 import useFullscreenPanelState from '../../hooks/settings/useFullscreenPanelState';
@@ -43,11 +43,11 @@ const ClipboardButton = styled.div`
 
 const outputPanelId = 'output';
 
-export default function OutputPanel({getEditor}) {
+export default function OutputPanel({editor}) {
 
-    // Get current output source code
+    // Generate output source code
     const getOutput = () => {
-        return compileGlobalMotoko(getEditor());
+        return compileGlobalMotoko(editor);
     };
 
     const [visible, setVisible] = useOutputPanelVisibleState();

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import useControlState from '../../../../hooks/useControlState';
+import useControlValue from '../../../../hooks/useControlValue';
 import {bindNodeInput} from '../../../../utils/bindNodeInput';
 
 const Container = styled.div`
@@ -21,8 +21,8 @@ export default function RegionNodeView({block, nodeHandle}) {
     const {/*editor,*/ node/*, bindControl*/} = nodeHandle.props;
     const {selected} = nodeHandle.state;
 
-    const [width, setWidth] = useControlState(node.controls.get('widthPixels'));
-    const [height, setHeight] = useControlState(node.controls.get('heightPixels'));
+    const [width, setWidth] = useControlValue(node.controls.get('widthPixels'));
+    const [height, setHeight] = useControlValue(node.controls.get('heightPixels'));
 
     const bindContainer = (el) => {
         if(!el) {

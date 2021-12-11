@@ -1,10 +1,10 @@
 import React from 'react';
-import useControlState from '../../../hooks/useControlState';
+import useControlValue from '../../../hooks/useControlValue';
 import TypeSelect from '../../common/inputs/TypeSelect';
 
 
 export default function TypeControlHandle({abstract, control, bindInput}) {
-    let [value, setValue] = useControlState(control);
+    let [value, setValue] = useControlValue(control);
 
     let constraintType = control.config.type.generics[0];
 

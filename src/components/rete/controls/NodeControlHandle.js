@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import useControlState from '../../../hooks/useControlState';
+import useControlValue from '../../../hooks/useControlValue';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContext';
 import useListener from '../../../hooks/utils/useListener';
 import getNodeLabel from '../../../utils/getNodeLabel';
@@ -8,7 +8,7 @@ import {getBlock} from '../../../editor/blocks';
 
 
 export default function NodeControlHandle({editor, control, bindInput}) {
-    let [value, setValue] = useControlState(control);
+    let [value, setValue] = useControlValue(control);
 
     let [nodes, setNodes] = useState(() => [...editor.nodes]);
 

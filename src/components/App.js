@@ -7,6 +7,7 @@ import GlobalTooltip from './GlobalTooltip';
 import {BrowserRouter} from 'react-router-dom';
 import TabLayout from './TabLayout';
 import GlobalTheme from './GlobalTheme';
+import GlobalTutorial from './GlobalTutorial';
 
 
 export default function App() {
@@ -20,12 +21,12 @@ export default function App() {
     });
 
     return (
-
         <React.StrictMode>
+            <GlobalTutorial/>
+            <GlobalTooltip/>
             <BrowserRouter>
                 <GlobalTheme>
-                    <GlobalTooltip/>
-                    <ToastContainer/>
+                    <ToastContainer style={{marginTop: '5rem'}}/>
                     <TabLayout/>
                     {/*<Switch>*/}
                     {/*    <Route path="/editor">*/}

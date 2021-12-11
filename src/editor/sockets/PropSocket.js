@@ -19,7 +19,7 @@ export default class PropSocket extends Rete.Socket {
         // return this.name === typeString ? this.name : `${this.name} (${typeString})`;
 
         const text = type.toTypeString();
-        return type.data.description ? `${text} : ${type.data.description}` : text;
+        return type.data.info ? `${text} : ${type.data.info}` : text;
     }
 
     findType() {

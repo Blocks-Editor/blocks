@@ -1,10 +1,10 @@
 import React from 'react';
-import useControlState from '../../../hooks/useControlState';
+import useControlValue from '../../../hooks/useControlValue';
 import CodeEditor from '../../monaco/CodeEditor';
 
 
 export default function CodeControlHandle({control, bindInput}) {
-    let [value, setValue] = useControlState(control);
+    let [value, setValue] = useControlValue(control);
 
     return (
         <div ref={bindInput} style={{height: 150}}>

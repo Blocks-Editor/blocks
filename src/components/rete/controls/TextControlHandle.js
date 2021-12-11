@@ -1,10 +1,10 @@
 import React from 'react';
-import useControlState from '../../../hooks/useControlState';
+import useControlValue from '../../../hooks/useControlValue';
 import classNames from 'classnames';
 
 
 export default function TextControlHandle({control, bindInput, validation: {minLength, maxLength}}) {
-    let [value, setValue] = useControlState(control);
+    let [value, setValue] = useControlValue(control);
 
     let invalid = !control.validate(value);
 

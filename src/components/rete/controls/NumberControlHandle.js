@@ -1,9 +1,9 @@
 import React from 'react';
-import useControlState from '../../../hooks/useControlState';
+import useControlValue from '../../../hooks/useControlValue';
 
 
 export default function NumberControlHandle({control, bindInput, validation: {min, max, step}}) {
-    let [value, setValue] = useControlState(control);
+    let [value, setValue] = useControlValue(control);
 
     return (
         <input

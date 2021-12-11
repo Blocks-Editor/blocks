@@ -1,24 +1,14 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import AreaPlugin from 'rete-area-plugin';
-import ConnectionPlugin from 'rete-connection-plugin';
-import ContextMenuPlugin from '../../plugins/rete-blocks-contextmenu-plugin';
-import AutoArrangePlugin from 'rete-auto-arrange-plugin';
-import ReactRenderPlugin from 'rete-react-render-plugin';
 import EventsContext, {
     EDITOR_CHANGE_EVENT,
     EDITOR_SAVE_EVENT,
     ERROR_EVENT,
     PROJECT_LOAD_EVENT,
 } from '../../contexts/EventsContext';
-import NodeHandle from './nodes/NodeHandle';
 import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/utils/useListener';
-import BlocksNodeEditor from '../../editor/BlocksNodeEditor';
-import VerticalSortPlugin from '../../plugins/rete-vertical-sort-plugin';
-import ConnectionDropPlugin from '../../plugins/rete-connection-drop-plugin';
-import ConnectionOpacityPlugin from '../../plugins/rete-connection-opacity-plugin';
-import DragButtonPlugin from '../../plugins/rete-drag-button-plugin';
 import classNames from 'classnames';
 import styled from 'styled-components';
 import EditorMenu from './EditorMenu';
@@ -27,96 +17,12 @@ import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
 import OutputPanel from './OutputPanel';
 import useAutosaveState from '../../hooks/settings/useAutosaveState';
+import createEditor from '../../editor/createEditor';
+import {EDITOR_STORE} from '../../observables/editorStore';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
-const editorName = process.env.REACT_APP_EDITOR_NAME;
-const editorVersion = process.env.REACT_APP_EDITOR_VERSION;
-
 const inputTags = ['input', 'textarea'];
-
-function findCategory(socket) {
-    return socket.type?./*findType?.()*/data.category ?? socket.data.category ?? 'none';
-}
-
-// noinspection JSCheckFunctionSignatures
-function createEditor(element) {
-
-    let editor = new BlocksNodeEditor(editorName + '@' + editorVersion, element);
-    editor.use(ReactRenderPlugin, {
-        component: NodeHandle,
-    });
-    // editor.use(HistoryPlugin); // TODO: set up undo/redo history
-    editor.use(ConnectionPlugin);
-    // editor.use(CommentPlugin);
-    // editor.use(SelectionPlugin, {
-    //     enabled: true,
-    // });
-    // noinspection JSCheckFunctionSignatures
-    editor.use(AutoArrangePlugin);
-    // noinspection JSCheckFunctionSignatures
-    editor.use(AreaPlugin, {
-        background: (() => {
-            let background = document.createElement('div');
-            background.classList.add('grid');
-            background.style.pointerEvents = 'none';
-            // noinspection JSUnresolvedVariable
-            if(!window.chrome) {
-                editor.on('zoom', ({zoom}) => {
-                    // Fix flickering grid on non-Chrome browsers
-                    background.classList.toggle('far', zoom <= 1);
-                    background.classList.toggle('d-none', zoom <= .5);
-                });
-            }
-            editor.on('destroy', () => background.remove());
-            return background;
-        })(),
-        snap: {size: 16, dynamic: true},
-    });
-    editor.use(ContextMenuPlugin);
-    editor.use(ConnectionDropPlugin);
-    editor.use(ConnectionOpacityPlugin);
-    editor.use(VerticalSortPlugin);
-    // noinspection JSCheckFunctionSignatures
-    editor.use(DragButtonPlugin, {editorButton: 2});
-
-    let mouseMoved = false;
-    editor.view.container.addEventListener('mousedown', (e) => {
-        mouseMoved = false;
-    });
-    editor.on('mousemove', (e) => {
-        mouseMoved = true;
-    });
-    editor.on('click', ({e}) => {
-        // Deselect nodes when clicking background
-        if(!mouseMoved) {
-            editor.selected.clear();
-            editor.nodes.forEach(node => node.update());
-        }
-    });
-
-    editor.on('zoom', ({source}) => source !== 'dblclick'); // Prevent double-click zoom
-    editor.on('nodeselect', node => !editor.selected.contains(node)); // Allow dragging multiple nodes
-    editor.on('renderconnection', ({el, connection}) => {
-        // TODO: update with socket type
-        // let inputCategory = findCategory(connection.input.socket);
-        // let outputCategory = findCategory(connection.output.socket);
-        // if(connection.input.socket.data.reversed) {
-        //     [inputCategory, outputCategory] = [outputCategory, inputCategory];
-        // }
-        // el.querySelector('.connection').classList.add(
-        //     `socket-input-category-${inputCategory}`,
-        //     `socket-output-category-${outputCategory}`,
-        // );
-        let category = findCategory((connection.input.socket.data.reversed ? connection.input : connection.output).socket);
-        el.querySelector('.connection').classList.add(
-            `socket-output-category-${category}`,
-        );
-    });
-
-    return editor;
-}
-
 
 const EditorContainer = styled.div`
     width: 100%;
@@ -124,12 +30,11 @@ const EditorContainer = styled.div`
 `;
 
 export default function Editor({hideMenu, onSetup, onChange, onSave, className, ...others}) {
+    const [editor, setEditor] = useState(null);
     const [autosave] = useAutosaveState();
 
     const events = useContext(EventsContext);
     const connectionAwareList = useContext(ConnectionAwareListContext);
-
-    let editor = null;
 
     useListener(events, EDITOR_CHANGE_EVENT, (_editor) => {
         if(_editor === editor) {
@@ -145,18 +50,26 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
         }
     });
 
-    const bindEditor = (element) => {
-        if(editor) {
-            editor.silent = true;
-            editor.clear();
-            editor.components.clear();
-            editor.destroy();
+    let element;
+
+    const lastEditor = editor;
+    const bindContainer = (container) => {
+        if(lastEditor && !element) {
+            lastEditor.silent = true;
+            lastEditor.clear();
+            lastEditor.components.clear();
+            lastEditor.destroy();
         }
-        if(!element) {
+        if(!container) {
             return;
         }
 
-        editor = createEditor(element);
+        if(!element) {
+            element = document.createElement('div');
+        }
+        container.append(element);
+
+        let editor = lastEditor || createEditor(element);
 
         window.EDITOR = editor; // Browser debugging
 
@@ -294,6 +207,9 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
         // };
         // document.addEventListener('mouseup', onMouseUp);
         // editor.on('destroy', () => document.removeEventListener('mouseup', onMouseUp));
+
+        setEditor(editor);
+        EDITOR_STORE.set(editor);
     };
 
     const loadFileContent = content => {
@@ -306,22 +222,20 @@ export default function Editor({hideMenu, onSetup, onChange, onSave, className, 
         }
     };
 
-    // Temporary workaround to loading order
-    const getEditor = () => editor;
-
     return (
         <FileDropZone options={{noClick: true, accept: DROP_ZONE_EXTENSIONS.join(',')}} onFileContent={loadFileContent}>
             <EditorContainer
+                ref={bindContainer}
                 className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
                 {...others}>
-                {!hideMenu && (
-                    <EditorMenu
-                        getEditor={getEditor}
-                        onLoadFileContent={loadFileContent}
-                    />
+                {editor && (
+                    <>
+                        {!hideMenu && (
+                            <EditorMenu editor={editor} onLoadFileContent={loadFileContent}/>
+                        )}
+                        <OutputPanel editor={editor}/>
+                    </>
                 )}
-                <OutputPanel getEditor={getEditor}/>
-                <div ref={bindEditor}/>
             </EditorContainer>
         </FileDropZone>
     );
