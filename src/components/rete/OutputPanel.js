@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react';
 import classNames from 'classnames';
 import styled, {css} from 'styled-components';
-import {FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
-import {FaCopy, FaPlay} from 'react-icons/fa';
+import {FiClipboard, FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
+import {FaPlay} from 'react-icons/fa';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
@@ -85,7 +85,7 @@ export default function OutputPanel({getEditor}) {
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
                     <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
                         <small>{copied ? 'Copied! ' : 'Copy to Clipboard'}</small>
-                        <FaCopy className="ms-2"/>
+                        <FiClipboard className="ms-2"/>
                     </ClipboardButton>
                 </CopyToClipboard>
                 <a

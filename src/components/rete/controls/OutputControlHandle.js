@@ -4,7 +4,6 @@ import useListener from '../../../hooks/utils/useListener';
 import Loading from '../../common/Loading';
 import CopyToClipboardButton from '../../common/CopyToClipboardButton';
 
-
 export default function OutputControlHandle({control, bindInput, query}) {
 
     const findValue = async () => {
