@@ -46,6 +46,7 @@ const block = memberBlock({
     controls: [{
         key: 'stable',
         type: boolType,
+        advanced: true,
         // }, {
         //     key: 'readonly',
         //     type: 'Bool',

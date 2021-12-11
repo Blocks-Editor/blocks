@@ -30,8 +30,11 @@ export function SocketHandle(props) {
     };
 
     // Update whether the socket is requesting a connection
+    let timeout;
     const updateRequested = useCallback(() => {
-        setTimeout(() => {
+        clearTimeout(timeout);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        timeout = setTimeout(() => {
             // TODO: memory leak?
             let requested = !io.connections.length;
             if(requested) {
@@ -77,7 +80,9 @@ export function SocketHandle(props) {
             if(index !== -1) {
                 connectionAwareList.splice(index, 1);
             }
+            clearTimeout(timeout);///
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [socket, io, connectionAwareList, updateRequested]);
 
     useReactTooltip();

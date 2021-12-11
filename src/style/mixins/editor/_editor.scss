@@ -131,6 +131,12 @@ $grid-area: $grid-size * 10000;
       background: #333;
     }
 
+    .prop {
+      &.advanced {
+        opacity: .5;
+      }
+    }
+
     .socket {
       background: #222;
       //border-color: #222 !important;

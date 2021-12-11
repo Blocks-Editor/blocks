@@ -4,10 +4,11 @@ import classNames from 'classnames';
 import {paramCase} from 'change-case';
 import getPropLabel from '../../../../utils/getPropLabel';
 import React from 'react';
-import useAdvancedPropsState from '../../../../hooks/settings/useAdvancedPropsState';
 
 export default function PropField({prop, node, hideLeft, hideRight, bindSocket, bindControl}) {
-    const [advanced] = useAdvancedPropsState();
+    // const [advanced] = useAdvancedPropsState();
+    // const advanced = !!node.data.__advanced;////
+    const advanced = true; // Always show advanced props for now
 
     let input = node.inputs.get(prop.key);
     let output = node.outputs.get(prop.key);
@@ -17,7 +18,7 @@ export default function PropField({prop, node, hideLeft, hideRight, bindSocket, 
         if(
             (!input || !input.connections.length) &&
             (!output || !output.connections.length) &&
-            (!node.data[prop.key])
+            (node.data[prop.key] === undefined)
         ) {
             return null;
         }
@@ -48,7 +49,7 @@ export default function PropField({prop, node, hideLeft, hideRight, bindSocket, 
     );
 
     return (
-        <div className={classNames('prop', 'key-' + paramCase(prop.key))}>
+        <div className={classNames('prop', 'key-' + paramCase(prop.key), !advanced && prop.advanced && 'advanced')}>
             <div className="input">
                 {leftSocket}
                 {controlField || (leftSocket && (
