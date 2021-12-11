@@ -12,7 +12,7 @@ const settingInputs = {
         return (
             <select className="form-control ml-5 w-auto" onChange={onChange} value={value}>
                 {options.map((option, i) => (
-                        <option value={option.value} key={i}>{option.label ?? option.value}</option>
+                        <option key={i} value={option.value}>{option.label ?? option.value}</option>
                     ),
                 )}
             </select>
@@ -122,10 +122,10 @@ export default function SettingsMenu() {
         <div className="p-3">
             <h3>Settings</h3>
             {settings.map((setting, i) => (
-                <>
+                <div key={i}>
                     <hr/>
-                    <Setting key={i} {...setting}/>
-                </>
+                    <Setting {...setting}/>
+                </div>
             ))}
         </div>
     );
