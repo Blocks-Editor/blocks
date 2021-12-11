@@ -45,7 +45,7 @@ function Setting({name, description, type, extras, props}) {
                 </div>
                 <span className="small text-muted">{description}</span>
             </div>
-            {extras && (
+            {extras && extras.length && (
                 <NestedContainer className="ps-3 py-1 rounded-3">
                     {extras.map((extra, i) => <Setting key={i} {...extra}/>)}
                 </NestedContainer>
