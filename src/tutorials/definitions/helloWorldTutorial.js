@@ -131,7 +131,7 @@ export const helloWorldTutorial = {
             const textNode = getTextNode(progress.editor);
             return (
                 <small>
-                    Your function is called <code>{functionNode.data.name}</code>{' '}
+                    Your function is named <code>{functionNode.data.name}</code>{' '}
                     with a return value of <code>"{textNode.data.value}"</code>.
                 </small>
             );
