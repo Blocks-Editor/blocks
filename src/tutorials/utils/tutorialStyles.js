@@ -1,7 +1,7 @@
 import {css} from 'styled-components';
 
 export const highlightStyle = css`
-    box-shadow: 0 0 1.5rem #FFFA !important;
+    box-shadow: 0 0 1.5rem #FFF !important;
 `;
 
 export function getNodeSelector(id, key) {

@@ -74,7 +74,12 @@ export const helloWorldTutorial = {
         isComplete(progress) {
             const node = getFunctionNode(progress.editor);
             const connections = node.outputs.get('body').connections;
-            return connections.find(conn => conn.input.node.id === returnNodeId);
+            if(connections.find(conn => conn.input.node.id === returnNodeId)) {
+                return true;
+            }
+            // Remove unexpected connections (we could alternatively ask the user to do this in a new step)
+            connections.forEach(conn => progress.editor.removeConnection(conn));
+            return false;
         },
     }, {
         ...createNodeStep('LiteralText', textNodeId),
@@ -95,7 +100,12 @@ export const helloWorldTutorial = {
         isComplete(progress) {
             const node = getReturnNode(progress.editor);
             const connections = node.inputs.get('value').connections;
-            return connections.find(conn => conn.input.node.id === returnNodeId);
+            if(connections.find(conn => conn.output.node.id === textNodeId)) {
+                return true;
+            }
+            // Remove unexpected connections (we could alternatively ask the user to do this in a new step)
+            connections.forEach(conn => progress.editor.removeConnection(conn));
+            return false;
         },
     }, {
         title: 'Define the text content',
@@ -116,6 +126,18 @@ export const helloWorldTutorial = {
                 ${highlightStyle}
             }
         `,
+        render(progress) {
+            const functionNode = getFunctionNode(progress.editor);
+            const textNode = getTextNode(progress.editor);
+            return (
+                <div>
+                    <small>
+                        Your function is called "{functionNode.data.name}"
+                        with a return value of "{textNode.data.value}".
+                    </small>
+                </div>
+            );
+        },
         isComplete(progress, {outputPanel}) {
             return outputPanel;
         },
