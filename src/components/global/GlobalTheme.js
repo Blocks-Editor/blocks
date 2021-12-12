@@ -1,7 +1,7 @@
-import useThemeState from '../hooks/persistent/useThemeState';
+import useThemeState from '../../hooks/persistent/useThemeState';
 import {useEffect} from 'react';
 import {ThemeProvider} from 'styled-components';
-import useThemePartsState from '../hooks/persistent/useThemePartsState';
+import useThemePartsState from '../../hooks/persistent/useThemePartsState';
 
 export default function GlobalTheme({children}) {
 

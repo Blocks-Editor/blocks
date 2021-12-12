@@ -26,7 +26,7 @@ const StyledFileDropZone = styled(FileDropZone)`
     }
 `;
 
-export default function LoadProjectMenu({className, ...others}) {
+export default function LoadProjectModal({className, ...others}) {
 
     const events = useContext(EventsContext);
     const loadFile = useContext(LoadFileContext);

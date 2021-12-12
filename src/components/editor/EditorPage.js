@@ -1,22 +1,22 @@
-import Editor from '../../rete/Editor';
+import Editor from './Editor';
 import React, {useCallback, useContext} from 'react';
-import useListener from '../../../hooks/utils/useListener';
+import useListener from '../../hooks/utils/useListener';
 import EventsContext, {
     PROJECT_CLEAR_EVENT,
     PROJECT_EXPORT_EVENT,
     PROJECT_LOAD_EVENT,
-} from '../../../contexts/EventsContext';
+} from '../../contexts/EventsContext';
 import FileSaver from 'file-saver';
 import {pascalCase} from 'change-case';
-import useRedraw from '../../../hooks/utils/useRedraw';
-import isEmbedded from '../../../utils/isEmbedded';
+import useRedraw from '../../hooks/utils/useRedraw';
+import isEmbedded from '../../utils/isEmbedded';
 import {parse} from 'querystring';
-import {EDITOR_STORE} from '../../../observables/editorStore';
-import {EDITOR_STATE_STORE} from '../../../observables/editorStateStore';
+import {EDITOR_STORE} from '../../observables/editorStore';
+import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
-const DEFAULT_STATE = require('../../../examples/files/DefaultProject.json');
+const DEFAULT_STATE = require('../../examples/files/DefaultProject.json');
 
 const embedded = isEmbedded();
 const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStorage()`

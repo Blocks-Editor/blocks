@@ -12,7 +12,7 @@ import EventsContext, {
     PROJECT_LOAD_EVENT,
 } from '../../contexts/EventsContext';
 import useListener from '../../hooks/utils/useListener';
-import LoadProjectMenu from './LoadProjectMenu';
+import LoadProjectModal from './LoadProjectModal';
 import {Modal} from 'react-bootstrap';
 import {
     CrosshairIcon,
@@ -26,7 +26,7 @@ import {
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
 import FloatingMenu from '../common/menus/FloatingMenu';
-import SettingsMenu from './SettingsMenu';
+import SettingsModal from './SettingsModal';
 import useOutputPanelVisibleState from '../../hooks/persistent/useOutputPanelVisibleState';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import TutorialCard from './TutorialCard';
@@ -221,10 +221,10 @@ export default function EditorMenu({editor}) {
                 onHide={() => setOpenMenu(null)}>
                 <Modal.Body>
                     {openMenu === 'load' && (
-                        <LoadProjectMenu/>
+                        <LoadProjectModal/>
                     )}
                     {openMenu === 'settings' && (
-                        <SettingsMenu/>
+                        <SettingsModal/>
                     )}
                 </Modal.Body>
             </Modal>

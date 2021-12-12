@@ -1,6 +1,6 @@
 import React from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-import EditorPage from './pages/editor/EditorPage';
+import EditorPage from './editor/EditorPage';
 // import {Layout, Model} from 'flexlayout-react';
 // import 'flexlayout-react/style/dark.scss';
 

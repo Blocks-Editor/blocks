@@ -1,6 +1,6 @@
-import useListener from '../hooks/utils/useListener';
-import {KEY_DOWN_STORE} from '../observables/keyDownStore';
-import {KEY_UP_STORE} from '../observables/keyUpStore';
+import useListener from '../../hooks/utils/useListener';
+import {KEY_DOWN_STORE} from '../../observables/keyDownStore';
+import {KEY_UP_STORE} from '../../observables/keyUpStore';
 
 // Misc. global observable state manager
 

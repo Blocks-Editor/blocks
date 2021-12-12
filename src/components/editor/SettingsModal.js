@@ -54,7 +54,7 @@ function Setting({name, description, type, extras, props}) {
     );
 }
 
-export default function SettingsMenu() {
+export default function SettingsModal() {
     const [theme, setTheme] = useThemeState();
     const [themeParts, setThemeParts] = useThemePartsState();
     const [autosave, setAutosave] = useAutosaveState();

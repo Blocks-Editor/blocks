@@ -10,8 +10,6 @@ import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import createEditor from '../../editor/createEditor';
 import ReactTooltip from 'react-tooltip';
 
-export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
-
 const inputTags = ['input', 'textarea'];
 
 

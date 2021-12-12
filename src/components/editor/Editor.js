@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import EditorMenu from './EditorMenu';
 import FileDropZone from '../common/FileDropZone';
 import OutputPanel from './OutputPanel';
-import EditorWrapper from './EditorWrapper';
+import EditorWrapper from '../rete/EditorWrapper';
 import useObservableState from '../../hooks/utils/useObservableState';
 import LoadBlocksFileContext from '../../contexts/LoadFileContext';
 

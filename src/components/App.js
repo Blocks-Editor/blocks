@@ -3,11 +3,11 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventsContext, {ERROR_EVENT} from '../contexts/EventsContext';
 import useListener from '../hooks/utils/useListener';
-import GlobalTooltip from './GlobalTooltip';
+import GlobalTooltip from './global/GlobalTooltip';
 import {BrowserRouter} from 'react-router-dom';
 import TabLayout from './TabLayout';
-import GlobalTheme from './GlobalTheme';
-import GlobalObservables from './GlobalObservables';
+import GlobalTheme from './global/GlobalTheme';
+import GlobalObservables from './global/GlobalObservables';
 
 
 export default function App() {
