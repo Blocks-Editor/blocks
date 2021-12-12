@@ -22,6 +22,7 @@ export const helloWorldTutorial = {
             return 'Right-click to open the context menu.';
         },
     }, {
-        title: '...Next',
+        title: 'Good job!',
+        info: '',
     }],
 };

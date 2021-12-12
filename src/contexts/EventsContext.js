@@ -6,7 +6,6 @@ export const EDITOR_SAVE_EVENT = 'editor-save';
 export const PROJECT_EXPORT_EVENT = 'project-export';
 export const PROJECT_LOAD_EVENT = 'project-load';
 export const PROJECT_CLEAR_EVENT = 'project-clear';
-export const NODE_SETUP_EVENT = 'node-setup';
 export const ERROR_EVENT = 'error';
 
 // TODO: fix HMR memory leak

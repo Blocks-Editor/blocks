@@ -11,6 +11,7 @@ import ConnectionDropPlugin from '../plugins/rete-connection-drop-plugin';
 import ConnectionOpacityPlugin from '../plugins/rete-connection-opacity-plugin';
 import VerticalSortPlugin from '../plugins/rete-vertical-sort-plugin';
 import DragButtonPlugin from '../plugins/rete-drag-button-plugin';
+import {RECENTLY_CREATED_NODE_STORE} from '../observables/recentlyCreatedNodeStore';
 
 
 const editorName = process.env.REACT_APP_EDITOR_NAME;
@@ -78,6 +79,10 @@ export default function createEditor(element) {
             `socket-output-category-${category}`,
         );
     });
+
+    editor.on('nodecreated',node=>{
+        RECENTLY_CREATED_NODE_STORE.set(node)
+    })
 
     return editor;
 }

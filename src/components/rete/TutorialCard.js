@@ -1,5 +1,5 @@
 import {Button, ButtonGroup, Card} from 'react-bootstrap';
-import React, {useContext} from 'react';
+import React from 'react';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useFamiliarityState, {FAMILIAR, LEARNING} from '../../hooks/persistent/useFamiliarityState';
 import styled from 'styled-components';
@@ -9,7 +9,7 @@ import getTutorialStep from '../../tutorials/utils/getTutorialStep';
 import useTutorialVariables from '../../hooks/useTutorialVariables';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import useListener from '../../hooks/utils/useListener';
-import EventsContext, {NODE_SETUP_EVENT} from '../../contexts/EventsContext';
+import useRedraw from '../../hooks/utils/useRedraw';
 
 const StyledCard = styled(Card)`
     opacity: .9;
@@ -41,7 +41,7 @@ function HelperCard({icon, title, tooltip, children, ...others}) {
 function TutorialProgressCard({progress, onComplete}) {
     const variables = useTutorialVariables(progress);
 
-    const {tutorial} = progress;
+    const {tutorial, editor} = progress;
 
     // const onNodeCreated = useMemo(() => {
     //     const listener = (node) => {
@@ -67,11 +67,15 @@ function TutorialProgressCard({progress, onComplete}) {
     // }, [progress, variables]);
     // useListener(progress.editor, 'nodecreated', onNodeCreated);
 
-    const events = useContext(EventsContext);
+    const redraw = useRedraw();/////
 
-    useListener(events, NODE_SETUP_EVENT, (node) => {
-        if(!progress.editor.silent) {
-            progress.step?.setupNode?.(node, progress, variables);
+    useListener(editor, 'prenodecreate', (node) => {
+        if(!editor.silent) {
+            const setup = progress.step?.setupNode;
+            if(setup) {
+                setup(node, progress, variables);
+                redraw();/////
+            }
         }
     });
 
@@ -80,7 +84,7 @@ function TutorialProgressCard({progress, onComplete}) {
     const step = getTutorialStep(progress, variables);
 
     if(!step) {
-        onComplete();
+        setTimeout(() => onComplete());
 
         return null; // Completion message?
     }
@@ -93,7 +97,7 @@ function TutorialProgressCard({progress, onComplete}) {
             title={step.title || tutorial.title}>
             {step.info}
             {rendered}
-            {!step.info && !rendered && tutorial.info}
+            {/*{!step.info && !rendered && tutorial.info}*/}
         </HelperCard>
     );
 }

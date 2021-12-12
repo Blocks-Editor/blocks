@@ -27,6 +27,8 @@ export default class BlockComponent extends Rete.Component {
     }
 
     async builder(node) {
+        // noinspection JSCheckFunctionSignatures
+        this.editor.trigger('prenodecreate', node, this);
 
         const addProp = (prop, isPropOutput) => {
             let title = getPropLabel(prop);

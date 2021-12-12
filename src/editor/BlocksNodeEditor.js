@@ -18,6 +18,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             type: new TypeCompiler(this),
             motoko: new MotokoCompiler(this),
         };
+
+        // Called before node creation
+        this.bind('prenodecreate');
     }
 
     off(event, listener) {
