@@ -29,8 +29,8 @@ export default function useTutorialProgressState() {
     return [
         progress,
         progress => {
-            setState(state ? {
-                ...state,
+            setState(progress ? {
+                ...progress,
                 editor: undefined,
                 tutorial: progress.tutorial?.id,
                 step: undefined,
