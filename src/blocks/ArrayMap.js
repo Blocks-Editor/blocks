@@ -1,7 +1,7 @@
 import {arrayType, effectType, unitType, valueType} from '../block-types/types';
 import {collectionCategory} from '../block-categories/categories';
 import {FaLayerGroup} from 'react-icons/fa';
-import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
+import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {arrayImportRef} from './NewArray';
 
 const block = {

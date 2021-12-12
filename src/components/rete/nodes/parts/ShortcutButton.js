@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {bindNodeInput} from '../../../../utils/bindNodeInput';
 import getBlockLabel from '../../../../utils/getBlockLabel';
-import {Button} from 'react-bootstrap';
 import EventsContext, {ERROR_EVENT} from '../../../../contexts/EventsContext';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
 
@@ -53,9 +52,9 @@ export default function ShortcutButton({editor, node, shortcut}) {
     useReactTooltip([block]);
 
     return (
-        <Button
+        <div
             ref={bindNodeInput}
-            className="node-shortcut-button px-1 pt-0 pb-1"
+            className="btn node-shortcut-button px-1 pt-0 pb-1"
             data-tip={getBlockLabel(block)}
             data-delay-show={100}
             style={{
@@ -69,6 +68,6 @@ export default function ShortcutButton({editor, node, shortcut}) {
             {block.icon
                 ? React.createElement(block.icon)
                 : getBlockLabel(block)}
-        </Button>
+        </div>
     );
 }

@@ -11,6 +11,7 @@ import {pascalCase} from 'change-case';
 import useRedraw from '../../../hooks/utils/useRedraw';
 import isEmbedded from '../../../utils/isEmbedded';
 import {parse} from 'querystring';
+import {EDITOR_STORE} from '../../../observables/editorStore';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
@@ -109,6 +110,7 @@ export default function EditorPage() {
 
     return (
         <Editor
+            observable={EDITOR_STORE}
             hideMenu={menuParam === 'hidden'}
             onSetup={onEditorSetup}
             onChange={onEditorChange}

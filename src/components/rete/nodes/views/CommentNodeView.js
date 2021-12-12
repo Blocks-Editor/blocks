@@ -2,7 +2,7 @@ import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import {bindNodeInput} from '../../../../utils/bindNodeInput';
-import useControlValue from '../../../../hooks/useControlValue';
+import useControlValue from '../../../../hooks/utils/useControlValue';
 
 const Container = styled.div`
   cursor: pointer;

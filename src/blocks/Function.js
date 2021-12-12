@@ -1,7 +1,7 @@
 import {asyncType, boolType, effectType, paramType, principalType, unitType} from '../block-types/types';
 import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
-import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
+import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 
 const defaultReturnType = unitType;
 

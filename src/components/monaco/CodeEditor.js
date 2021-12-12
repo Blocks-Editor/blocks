@@ -1,6 +1,6 @@
 import MonacoEditor from '@monaco-editor/react';
 import {configureMonaco} from '../../config/configureMonaco';
-import useThemeState from '../../hooks/settings/useThemeState';
+import useThemeState from '../../hooks/persistent/useThemeState';
 
 export default function CodeEditor({value, onChange, readOnly, ...others}) {
     // const monaco = useMonaco();

@@ -1,9 +1,13 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
 export default function useObservableState(observable) {
     const [value, setValue] = useState(observable.get());
 
-    useEffect(() => observable.subscribe(setValue), [observable]);
+    // Subscribe immediately
+    const unsubscribe = useMemo(() => observable.subscribe(setValue), [observable]);
+
+    // Unsubscribe on cleanup
+    useEffect(() => unsubscribe, [unsubscribe]);
 
     return [
         value,

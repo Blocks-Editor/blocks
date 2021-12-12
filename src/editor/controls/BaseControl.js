@@ -2,6 +2,19 @@ import * as Rete from 'rete';
 import TextControlHandle from '../../components/rete/controls/TextControlHandle';
 import EventEmitter from 'events';
 import {bindNodeInput} from '../../utils/bindNodeInput';
+import TypeControlHandle from '../../components/rete/controls/TypeControlHandle';
+import NodeControlHandle from '../../components/rete/controls/NodeControlHandle';
+import CheckboxControlHandle from '../../components/rete/controls/CheckboxControlHandle';
+import NumberControlHandle from '../../components/rete/controls/NumberControlHandle';
+
+// TODO: static assertions
+const controlTypes = {
+    text: TextControlHandle,
+    number: NumberControlHandle,
+    checkbox: CheckboxControlHandle,
+    node: NodeControlHandle,
+    type: TypeControlHandle,
+};
 
 export default class BaseControl extends Rete.Control {
     constructor(editor, key, name, config = {}) {
@@ -11,7 +24,7 @@ export default class BaseControl extends Rete.Control {
         this.config = config;
         this.editor = editor;
         this.render = 'react';
-        this.component = config.controlType || TextControlHandle;
+        this.component = (typeof config.controlType === 'string' ? controlTypes[config.controlType] : config.controlType) || TextControlHandle;
         this.props = {
             ...config.controlProps,
             validation: config.validation || {},

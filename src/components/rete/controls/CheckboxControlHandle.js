@@ -1,5 +1,5 @@
 import React from 'react';
-import useControlValue from '../../../hooks/useControlValue';
+import useControlValue from '../../../hooks/utils/useControlValue';
 
 
 export default function CheckboxControlHandle({control, bindInput}) {

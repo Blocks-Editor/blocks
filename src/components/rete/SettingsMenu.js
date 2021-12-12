@@ -1,10 +1,10 @@
 import React from 'react';
-import useThemeState from '../../hooks/settings/useThemeState';
+import useThemeState from '../../hooks/persistent/useThemeState';
 import useThemes from '../../hooks/useThemes';
-import useAdvancedPropsState from '../../hooks/settings/useAdvancedPropsState';
-import useLearningModeState from '../../hooks/settings/useLearningModeState';
+import useAdvancedPropsState from '../../hooks/persistent/useAdvancedPropsState';
+import useLearningModeState from '../../hooks/persistent/useLearningModeState';
 import {sentenceCase} from 'change-case';
-import useThemePartsState from '../../hooks/settings/useThemePartsState';
+import useThemePartsState from '../../hooks/persistent/useThemePartsState';
 import styled from 'styled-components';
 
 const settingInputs = {

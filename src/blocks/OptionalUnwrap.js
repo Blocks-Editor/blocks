@@ -1,7 +1,7 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {effectType, optionalType, valueType} from '../block-types/types';
 import {decompositionCategory} from '../block-categories/categories';
-import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
+import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 
 const block = statementBlock({
     title: 'Unwrap Optional',

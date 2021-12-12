@@ -1,6 +1,7 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {boolType, effectType, intType, unitType} from '../block-types/types';
-import {importRef, nodeIdentifierRef} from '../compilers/MotokoCompiler';
+import {importRef} from '../compilers/MotokoCompiler';
+import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 
 export const iterImportRef = importRef('mo:base/Iter');
 

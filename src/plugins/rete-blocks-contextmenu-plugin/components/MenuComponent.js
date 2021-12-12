@@ -3,7 +3,7 @@ import MenuAction from './MenuAction';
 import {FaRegStickyNote} from 'react-icons/fa';
 import getBlockLabel from '../../../utils/getBlockLabel';
 import useReactTooltip from '../../../hooks/useReactTooltip';
-import useLearningModeState from '../../../hooks/settings/useLearningModeState';
+import useLearningModeState from '../../../hooks/persistent/useLearningModeState';
 
 
 export default function MenuComponent({component, specialTitle, ...others}) {

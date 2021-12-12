@@ -1,4 +1,4 @@
-import {helloWorldTutorial} from './definitions/helloWorld';
+import {helloWorldTutorial} from './definitions/helloWorldTutorial';
 
 export const TUTORIALS = [
     helloWorldTutorial,

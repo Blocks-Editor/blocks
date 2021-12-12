@@ -1,7 +1,7 @@
 export const THEMES = [{
     id: 'minimal',
     name: 'Grey',
-    parts: [],
+    parts: ['monospace-labels'],
     monaco: 'vs-dark',
     styledComponents: {},
 }, {

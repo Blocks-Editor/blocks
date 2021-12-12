@@ -1,18 +1,14 @@
 import {Card} from 'react-bootstrap';
 import React from 'react';
 
-export default function TutorialCard({editor}) {
-    // const [progress, setProgress] = useTutorialProgressState();
+export default function TutorialCard({progress}) {
 
-    const progress = null;
+    const {tutorial} = progress;
 
-    if(!progress) {
-        return null;
-    }
     return (
         <Card>
             <Card.Header>
-                {progress.tutorial?.title}
+                {tutorial.title}
             </Card.Header>
             <Card.Body>
 

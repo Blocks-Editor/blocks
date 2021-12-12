@@ -1,11 +1,6 @@
 import Compiler from './Compiler';
 import {identifierType, typeType} from '../block-types/types';
-
-export function nodeIdentifierRef(node, key) {
-    // TODO: ensure `id` is a valid identifier
-    let id = typeof node === 'number' || typeof node === 'string' ? String(node) : node.id;
-    return `node__${id}${key ? '_' + key : ''}`;
-}
+import nodeIdentifierRef from './utils/nodeIdentifierRef';
 
 export function importRef(name) {
     return `$import$"${name}"`;

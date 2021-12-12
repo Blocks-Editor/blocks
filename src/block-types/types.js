@@ -1,9 +1,4 @@
-import TextControlHandle from '../components/rete/controls/TextControlHandle';
-import CheckboxControlHandle from '../components/rete/controls/CheckboxControlHandle';
-import NumberControlHandle from '../components/rete/controls/NumberControlHandle';
-import TypeControlHandle from '../components/rete/controls/TypeControlHandle';
-import NodeControlHandle from '../components/rete/controls/NodeControlHandle';
-import {nodeIdentifierRef} from '../compilers/MotokoCompiler';
+import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 
 class Type {
     constructor(name, parent, generics, data = {}, meta = {}) {
@@ -109,14 +104,14 @@ export const anyReversedType = createType('AnyReversed', {
 export const typeType = createType('Type', {
     parent: anyType,
     category: 'types',
-    controlType: TypeControlHandle,
+    controlType: 'type',
     defaultValue: type => type.generics[0],
     generics: [anyType],
 });
 export const nodeType = createType('Node', {
     parent: anyType,
     category: 'nodes',
-    controlType: NodeControlHandle,
+    controlType: 'node',
     toTypeString() {
         return this.meta.block ? `Node{block=${JSON.stringify(this.meta.block)}}` : 'Node';
     },
@@ -148,7 +143,7 @@ export const referenceType = createType('Reference', {
 });
 export const identifierType = createType('Identifier', {
     parent: referenceType,
-    controlType: TextControlHandle,
+    controlType: 'text',
     // defaultValue: '',
     validation: {
         pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
@@ -189,12 +184,12 @@ export const paramType = createType('Param', {
 // Value types
 export const boolType = createType('Bool', {
     parent: valueType,
-    controlType: CheckboxControlHandle,
+    controlType: 'checkbox',
     defaultValue: false,
 });
 export const charType = createType('Char', {
     parent: valueType,
-    controlType: TextControlHandle,
+    controlType: 'text',
     validation: {
         minLength: 1,
         maxLength: 1,
@@ -202,18 +197,18 @@ export const charType = createType('Char', {
 });
 export const textType = createType('Text', {
     parent: valueType,
-    controlType: TextControlHandle,
+    controlType: 'text',
     defaultValue: '',
 });
 export const floatType = createType('Float', {
     parent: valueType,
-    controlType: NumberControlHandle,
+    controlType: 'number',
     defaultValue: 0,
 });
 export const intType = createType('Int', {
     parent: floatType,
     category: 'integers',
-    controlType: NumberControlHandle,
+    controlType: 'number',
     validation: {
         step: 1,
     },
