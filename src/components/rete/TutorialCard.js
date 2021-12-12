@@ -5,20 +5,25 @@ import useFamiliarityState, {FAMILIAR, LEARNING} from '../../hooks/persistent/us
 import styled from 'styled-components';
 import {FaRegQuestionCircle} from 'react-icons/fa';
 import {helloWorldTutorial} from '../../tutorials/definitions/helloWorldTutorial';
+import getTutorialStep from '../../tutorials/utils/getTutorialStep';
+import useTutorialVariables from '../../hooks/useTutorialVariables';
 
 const StyledCard = styled(Card)`
     opacity: .9;
 `;
 
-function HelperCard({icon, title, children, ...others}) {
+function HelperCard({icon, title, tooltip, children, ...others}) {
+    // useReactTooltip();
+
     return (
         <StyledCard {...others}>
             {(icon || title) && (
                 <Card.Header>
-                    <h4 className="mb-0 d-flex align-items-center text-primary">
-                        <FaRegQuestionCircle/>
-                        {title && <span className="ms-3">{title}</span>}
-                    </h4>
+                    <h5
+                        className="mb-0 d-flex align-items-center text-muted">{/*data-tip={tooltip} data-place="right"*/}
+                        {icon || <FaRegQuestionCircle/>}
+                        {title && <span className="ms-3 text-primary">{title}</span>}
+                    </h5>
                 </Card.Header>
             )}
             <Card.Body>
@@ -31,10 +36,21 @@ function HelperCard({icon, title, children, ...others}) {
 function TutorialProgressCard({progress}) {
     const {tutorial} = progress;
 
+    const variables = useTutorialVariables(progress);
+
+    console.log(1);//////
+
+    const step = getTutorialStep(progress, variables);
+
+    // console.log(variables, step);////
+
     return (
         <HelperCard
-            title={tutorial.title}>
-
+            tooltip={`${tutorial.title} (${tutorial.info})`}
+            title={step.title || tutorial.title}>
+            {step.info}
+            {step.render?.(progress, variables)}
+            {!step.render && !step.info && tutorial.info}
         </HelperCard>
     );
 }

@@ -4,8 +4,6 @@ import {useEffect, useMemo, useState} from 'react';
 export default function useObjectObservable(object) {
     const [result, setResult] = useState({});
 
-    console.log(result)//////
-
     const unsubscribe = useMemo(() => {
         const callbacks = [];
         for(const [key, observable] of Object.entries(object)) {
