@@ -1,5 +1,5 @@
 import {Button, ButtonGroup, Card} from 'react-bootstrap';
-import React from 'react';
+import React, {useContext} from 'react';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useFamiliarityState, {FAMILIAR, LEARNING} from '../../hooks/persistent/useFamiliarityState';
 import styled from 'styled-components';
@@ -9,10 +9,12 @@ import getTutorialStep from '../../tutorials/utils/getTutorialStep';
 import useTutorialVariables from '../../hooks/useTutorialVariables';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import useListener from '../../hooks/utils/useListener';
+import EventsContext, {NODE_SETUP_EVENT} from '../../contexts/EventsContext';
 
 const StyledCard = styled(Card)`
     opacity: .9;
     box-shadow: 0 2px 12px #0005;
+    border: none;
 `;
 
 function HelperCard({icon, title, tooltip, children, ...others}) {
@@ -21,13 +23,12 @@ function HelperCard({icon, title, tooltip, children, ...others}) {
     return (
         <StyledCard {...others}>
             {(icon || title) && (
-                <Card.Header>
-                    <h5
-                        className="mb-0 d-flex align-items-center text-muted">
-                        {title && <span className="me-3 text-primary flex-grow-1">{title}</span>}
+                <Card.Header className="bg-primary">
+                    <h4 className="mb-0 d-flex align-items-center text-white">
+                        {title && <span className="me-3 flex-grow-1">{title}</span>}
                         <span data-tip={tooltip} data-place="top" data-delay-show={0}>{icon ||
                         <FaRegQuestionCircle/>}</span>
-                    </h5>
+                    </h4>
                 </Card.Header>
             )}
             <Card.Body>
@@ -66,8 +67,9 @@ function TutorialProgressCard({progress, onComplete}) {
     // }, [progress, variables]);
     // useListener(progress.editor, 'nodecreated', onNodeCreated);
 
-    useListener(progress.editor, 'nodecreated', (node) => {
-        console.log(12345);////
+    const events = useContext(EventsContext);
+
+    useListener(events, NODE_SETUP_EVENT, (node) => {
         if(!progress.editor.silent) {
             progress.step?.setupNode?.(node, progress, variables);
         }
@@ -99,6 +101,12 @@ function TutorialProgressCard({progress, onComplete}) {
 export default function TutorialCard() {
     const [progress, setProgress] = useTutorialProgressState();
     const [familiarity, setFamiliarity] = useFamiliarityState();
+
+    // Temp: browser debug
+    window.resetTutorial = () => {
+        setProgress(null);
+        setFamiliarity(null);
+    };
 
     const onAccept = () => {
         setProgress({

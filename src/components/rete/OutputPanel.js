@@ -92,7 +92,7 @@ export default function OutputPanel({editor}) {
                     href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/"
                     target="_blank"
                     rel="noreferrer"
-                    style={{textDecoration: 'none'}}>{/*Temporary style until Nate makes this actually look good*/}
+                    style={{textDecoration: 'none'}}>
                     <Button variant="outline-success" className="d-flex flex-grow-1">
                         <FaPlay className="mt-1 me-2"/>
                         Motoko Playground
