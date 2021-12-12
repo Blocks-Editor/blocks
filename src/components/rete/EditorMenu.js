@@ -104,7 +104,7 @@ const StyledZoomIcon = styled(CrosshairIcon)`
 //     }
 // `;
 
-export default function EditorMenu({editor, onLoadFileContent}) {
+export default function EditorMenu({editor}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
@@ -221,7 +221,7 @@ export default function EditorMenu({editor, onLoadFileContent}) {
                 onHide={() => setOpenMenu(null)}>
                 <Modal.Body>
                     {openMenu === 'load' && (
-                        <LoadProjectMenu onLoadFileContent={onLoadFileContent}/>
+                        <LoadProjectMenu/>
                     )}
                     {openMenu === 'settings' && (
                         <SettingsMenu/>

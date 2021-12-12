@@ -7,6 +7,7 @@ import FileDropZone from '../common/FileDropZone';
 import OutputPanel from './OutputPanel';
 import EditorWrapper from './EditorWrapper';
 import useObservableState from '../../hooks/utils/useObservableState';
+import LoadBlocksFileContext from '../../contexts/LoadFileContext';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
@@ -15,7 +16,7 @@ const EditorContainer = styled.div`
     height: 100vh;
 `;
 
-function EditorControls({observable, hideMenu, loadFileContent}) {
+function EditorControls({observable, hideMenu}) {
     const [editor] = useObservableState(observable);
 
     if(!editor) {
@@ -24,7 +25,7 @@ function EditorControls({observable, hideMenu, loadFileContent}) {
     return (
         <>
             {!hideMenu && (
-                <EditorMenu editor={editor} onLoadFileContent={loadFileContent}/>
+                <EditorMenu editor={editor}/>
             )}
             <OutputPanel editor={editor}/>
         </>
@@ -35,7 +36,7 @@ export default function Editor({observable, hideMenu, onSetup, onChange, onSave,
 
     const events = useContext(EventsContext);
 
-    const loadFileContent = content => {
+    const loadBlocksFile = content => {
         try {
             const project = JSON.parse(content);
             events.emit(PROJECT_LOAD_EVENT, project);
@@ -46,18 +47,22 @@ export default function Editor({observable, hideMenu, onSetup, onChange, onSave,
     };
 
     return (
-        <FileDropZone options={{noClick: true, accept: DROP_ZONE_EXTENSIONS.join(',')}} onFileContent={loadFileContent}>
-            <EditorContainer
-                className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
-                {...others}>
-                <EditorControls observable={observable} hideMenu={hideMenu} loadFileContent={loadFileContent}/>
-                <EditorWrapper
-                    observable={observable}
-                    onSetup={onSetup}
-                    onChange={onChange}
-                    onSave={onSave}
-                />
-            </EditorContainer>
-        </FileDropZone>
+        <LoadBlocksFileContext.Provider value={loadBlocksFile}>
+            <FileDropZone
+                options={{noClick: true, accept: DROP_ZONE_EXTENSIONS.join(',')}}
+                onFileContent={loadBlocksFile}>
+                <EditorContainer
+                    className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
+                    {...others}>
+                    <EditorControls observable={observable} hideMenu={hideMenu}/>
+                    <EditorWrapper
+                        observable={observable}
+                        onSetup={onSetup}
+                        onChange={onChange}
+                        onSave={onSave}
+                    />
+                </EditorContainer>
+            </FileDropZone>
+        </LoadBlocksFileContext.Provider>
     );
 }
