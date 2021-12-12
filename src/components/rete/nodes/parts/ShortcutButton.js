@@ -3,6 +3,7 @@ import {bindNodeInput} from '../../../../utils/bindNodeInput';
 import getBlockLabel from '../../../../utils/getBlockLabel';
 import EventsContext, {ERROR_EVENT} from '../../../../contexts/EventsContext';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
+import classNames from 'classnames';
 
 export default function ShortcutButton({editor, node, shortcut}) {
     const {block} = shortcut;
@@ -54,7 +55,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
     return (
         <div
             ref={bindNodeInput}
-            className="btn node-shortcut-button px-1 pt-0 pb-1"
+            className={classNames('btn node-shortcut-button px-1 pt-0 pb-1', `shortcut-block-${block.name}`)}
             data-tip={getBlockLabel(block)}
             data-delay-show={100}
             style={{

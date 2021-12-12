@@ -16,13 +16,13 @@ export default function useTutorialProgressState() {
         if(!tutorial) {
             return null;
         }
-        const stepIndex = Math.min(state.stepIndex || 0, tutorial.steps.length - 1);
+        // const stepIndex = Math.min(state.stepIndex || 0, tutorial.steps.length - 1);
         return Object.freeze({
             ...state,
             editor,
             tutorial,
-            stepIndex,
-            step: tutorial.steps[stepIndex],
+            // stepIndex,
+            // step: tutorial.steps[stepIndex],
         });
     }, [editor, state]);
 
@@ -33,7 +33,7 @@ export default function useTutorialProgressState() {
                 ...progress,
                 editor: undefined,
                 tutorial: progress.tutorial?.id,
-                step: undefined,
+                // step: undefined,
             } : null);
         },
     ];

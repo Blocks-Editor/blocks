@@ -2,13 +2,24 @@ import {CONTEXT_MENU_STORE} from '../../observables/contextMenuStore';
 import {createNodeStep} from '../steps/createNodeStep';
 import {css} from 'styled-components';
 import {getTutorialNode} from '../utils/getTutorialNode';
-import {highlightNode} from '../utils/tutorialStyles';
+import {
+    highlightContextMenuComponent,
+    highlightNode,
+    highlightNodeShortcut,
+    highlightStyle,
+} from '../utils/tutorialStyles';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
+import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
 
-// Custom ID for the tutorial's function block
-const functionNodeId = 'helloWorldFunction';
+// Custom ID for the tutorial blocks
+const functionNodeId = 'helloFunction';
+const returnNodeId = 'helloReturn';
+const textNodeId = 'helloText';
 
-const getFunctionNode = (editor) => getTutorialNode(editor, functionNodeId);
+// TODO: automatic lookup
+const getFunctionNode = editor => getTutorialNode(editor, functionNodeId);
+const getReturnNode = editor => getTutorialNode(editor, returnNodeId);
+const getTextNode = editor => getTutorialNode(editor, textNodeId);
 
 // Global style when tutorial is active
 const style = css`
@@ -21,15 +32,19 @@ export const helloWorldTutorial = {
     info: 'Create a simple Blocks smart contract',
     style,
     setupVariables(progress) {
-        // Update tutorial on context menu and editor state changes
+        // Update tutorial based on these observables
         return {
             contextMenu: CONTEXT_MENU_STORE,
             editorState: EDITOR_STATE_STORE,
+            outputPanel: OUTPUT_PANEL_STATE,
         };
     },
     steps: [{
         ...createNodeStep('Function', functionNodeId),
         title: 'Create a function',
+        style: css`
+            ${highlightContextMenuComponent('Function')}
+        `,
         render(progress, {contextMenu}) {
             if(!contextMenu) {
                 return 'Right-click somewhere in the editor.';
@@ -47,7 +62,62 @@ export const helloWorldTutorial = {
         `,
         isComplete(progress) {
             const node = getFunctionNode(progress.editor);
-            return node?.data.name;
+            return node.data.name;
+        },
+    }, {
+        ...createNodeStep('Return', returnNodeId),
+        title: 'Add a return statement',
+        info: 'Click and drag the highlighted icon.',
+        style: css`
+            ${highlightNodeShortcut(functionNodeId, 'Return')}
+        `,
+        isComplete(progress) {
+            const node = getFunctionNode(progress.editor);
+            const connections = node.outputs.get('body').connections;
+            return connections.find(conn => conn.input.node.id === returnNodeId);
+        },
+    }, {
+        ...createNodeStep('LiteralText', textNodeId),
+        title: 'Return a text value',
+        style: css`
+            ${highlightNode(returnNodeId, 'value')}
+            ${highlightContextMenuComponent('LiteralText')}
+        `,
+        render(progress, {contextMenu}) {
+            if(!contextMenu) {
+                return 'Click and drag from the "Value" socket.';
+            }
+            if(!contextMenu.context) {
+                return 'Make sure to drag from the "Value" socket on the "Return" block.';
+            }
+            return 'Search for the "Text" block.';
+        },
+        isComplete(progress) {
+            const node = getReturnNode(progress.editor);
+            const connections = node.inputs.get('value').connections;
+            return connections.find(conn => conn.input.node.id === returnNodeId);
+        },
+    }, {
+        title: 'Define the text content',
+        info: 'Write something in the "Value" text box.',
+        style: css`
+            ${highlightNode(textNodeId, 'value')}
+        `,
+        isComplete(progress) {
+            const node = getTextNode(progress.editor);
+            return node.data.value;
+        },
+    }, {
+        title: 'View the smart contract',
+        info: 'Click the highlighted "Compile" button.',
+        style: css`
+            .compile-button {
+                border: 1px solid white;
+                ${highlightStyle}
+            }
+        `,
+        isComplete(progress, {outputPanel}) {
+            return outputPanel;
         },
     }],
 };

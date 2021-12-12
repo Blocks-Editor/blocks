@@ -30,6 +30,7 @@ export default function MenuComponent({component, specialTitle, ...others}) {
         <MenuAction
             icon={React.createElement(block?.icon || category?.data.icon || FaRegStickyNote)}
             color={category?.data.color}
+            className={`component-${component.name}`}
             {...others}>
             {specialTitle !== undefined ? `${specialTitle} (${title})` : title}
         </MenuAction>

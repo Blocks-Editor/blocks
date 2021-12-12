@@ -9,7 +9,7 @@ import getTutorialStep from '../../tutorials/utils/getTutorialStep';
 import useTutorialVariables from '../../hooks/useTutorialVariables';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import useListener from '../../hooks/utils/useListener';
-import {FiSmile} from 'react-icons/all';
+import {FiSmile} from 'react-icons/fi';
 
 const StyledCard = styled(Card)`
     opacity: .9;
@@ -52,18 +52,16 @@ function TutorialProgressCard({progress, onComplete}) {
 
     const {tutorial, editor} = progress;
 
+    const step = getTutorialStep(progress, variables);
+
     // Allow tutorials to intercept node creation
     useListener(editor, 'prenodecreate', (node) => {
-        if(!editor.silent) {
-            if(progress.step?.setupNode) {
-                progress.step?.setupNode(node, progress, variables);
+        if(!editor.silent && step) {
+            if(step.setupNode) {
+                step.setupNode(node, progress, variables);
             }
         }
     });
-
-    // console.log(variables, step);////
-
-    const step = getTutorialStep(progress, variables);
 
     if(!step) {
         // Tutorial completed
@@ -121,8 +119,6 @@ export default function TutorialCard() {
     const onComplete = useCallback(() => {
         setProgress(null);
     }, [setProgress]);
-
-    console.log(progress)////
 
     if(progress) {
         return (

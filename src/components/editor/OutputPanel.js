@@ -6,7 +6,7 @@ import {FaPlay} from 'react-icons/fa';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../compilers/utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
-import useOutputPanelVisibleState from '../../hooks/persistent/useOutputPanelVisibleState';
+import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useFullscreenPanelState from '../../hooks/persistent/useFullscreenPanelState';
 import useListener from '../../hooks/utils/useListener';
 import {Button} from 'react-bootstrap';
@@ -50,7 +50,7 @@ export default function OutputPanel({editor}) {
         return compileGlobalMotoko(editor);
     };
 
-    const [visible, setVisible] = useOutputPanelVisibleState();
+    const [panel, setPanel] = useOutputPanelState();
     const [fullscreen, setFullscreen] = useFullscreenPanelState();
     const [output, setOutput] = useState('');
     const [copied, setCopied] = useState(false);
@@ -62,10 +62,10 @@ export default function OutputPanel({editor}) {
     return (
         <OutputContainer
             className={classNames('output-panel px-3 pt-3')}
-            closed={!visible}
+            closed={!panel}
             fullscreen={fullscreen === outputPanelId}>
             <div className="d-flex justify-content-between align-items-center mb-2">
-                <div className="clickable px-2 pb-2" onClick={() => setVisible(false)}>
+                <div className="clickable px-2 pb-2" onClick={() => setPanel(null)}>
                     <FiX size={18}/>
                 </div>
                 <h3 className="mx-3 mb-0 noselect">Compiled Output</h3>

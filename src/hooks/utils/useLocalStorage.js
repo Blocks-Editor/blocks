@@ -8,21 +8,27 @@ const storage = isEmbedded() ? {} : window.localStorage;
 
 const observableMap = new Map();
 
+export function makeLocalStorageObservable(key, defaultValue) {
+    if(observableMap.has(key)) {
+        throw new Error(`Local storage observable already exists for key: ${key}`);
+    }
+    let observable;
+    try {
+        const item = storage[key];
+        observable = makeObservable(item ? JSON.parse(item) : defaultValue);
+    }
+    catch(error) {
+        console.error(error);
+        observable = makeObservable(defaultValue);
+    }
+    observableMap.set(key, observable);
+    return observable;
+}
+
 export default function useLocalStorage(key, defaultValue) {
 
     // Find or create global observable value for key
-    let observable = observableMap.get(key);
-    if(!observable) {
-        try {
-            const item = storage[key];
-            observable = makeObservable(item ? JSON.parse(item) : defaultValue);
-        }
-        catch(error) {
-            console.error(error);
-            observable = makeObservable(defaultValue);
-        }
-        observableMap.set(key, observable);
-    }
+    const observable = observableMap.get(key) || makeLocalStorageObservable(key, defaultValue);
 
     const [storedValue, setStoredValue] = useObservableState(observable);
 

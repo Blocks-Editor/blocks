@@ -27,7 +27,7 @@ import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
 import FloatingMenu from '../common/menus/FloatingMenu';
 import SettingsModal from './SettingsModal';
-import useOutputPanelVisibleState from '../../hooks/persistent/useOutputPanelVisibleState';
+import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import TutorialCard from './TutorialCard';
 
@@ -109,7 +109,7 @@ export default function EditorMenu({editor}) {
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
-    const [outputPanelVisible, setOutputPanelVisible] = useOutputPanelVisibleState();
+    const [outputPanel, setOutputPanel] = useOutputPanelState();
     const [autosave] = useAutosaveState();
 
     const events = useContext(EventsContext);
@@ -209,9 +209,9 @@ export default function EditorMenu({editor}) {
             </FloatingMenu>
             <FloatingMenu bottom right>
                 <MenuButton
-                    className="text-uppercase h4 text-muted"
+                    className="compile-button text-uppercase h4 text-muted"
                     tooltip="Compile to Motoko"
-                    onMouseDown={() => setOutputPanelVisible(!outputPanelVisible)}>
+                    onMouseDown={() => setOutputPanel(!outputPanel)}>
                     <small>Compile</small>
                 </MenuButton>
             </FloatingMenu>
