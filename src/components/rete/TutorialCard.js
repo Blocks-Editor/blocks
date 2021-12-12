@@ -2,14 +2,13 @@ import {Button, ButtonGroup, Card} from 'react-bootstrap';
 import React from 'react';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useFamiliarityState, {FAMILIAR, LEARNING} from '../../hooks/persistent/useFamiliarityState';
-import styled from 'styled-components';
+import styled, {createGlobalStyle} from 'styled-components';
 import {FaRegQuestionCircle} from 'react-icons/fa';
 import {helloWorldTutorial} from '../../tutorials/definitions/helloWorldTutorial';
 import getTutorialStep from '../../tutorials/utils/getTutorialStep';
 import useTutorialVariables from '../../hooks/useTutorialVariables';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import useListener from '../../hooks/utils/useListener';
-import useRedraw from '../../hooks/utils/useRedraw';
 
 const StyledCard = styled(Card)`
     opacity: .9;
@@ -17,7 +16,12 @@ const StyledCard = styled(Card)`
     border: none;
 `;
 
-function HelperCard({icon, title, tooltip, children, ...others}) {
+const GlobalStyle = createGlobalStyle`
+    ${props => props.tutorialCss}
+    ${props => props.stepCss}
+`;
+
+function HelperCard({title, icon, iconTooltip, children, ...others}) {
     useReactTooltip();
 
     return (
@@ -26,7 +30,7 @@ function HelperCard({icon, title, tooltip, children, ...others}) {
                 <Card.Header className="bg-primary py-3">
                     <h4 className="mb-0 d-flex align-items-center text-white">
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
-                        <span data-tip={tooltip} data-place="top" data-delay-show={0}>{icon ||
+                        <span data-tip={iconTooltip} data-place="top" data-delay-show={0}>{icon ||
                         <FaRegQuestionCircle/>}</span>
                     </h4>
                 </Card.Header>
@@ -43,38 +47,11 @@ function TutorialProgressCard({progress, onComplete}) {
 
     const {tutorial, editor} = progress;
 
-    // const onNodeCreated = useMemo(() => {
-    //     const listener = (node) => {
-    //         if(!progress.editor.silent) {
-    //             progress.step?.setupNode?.(node, progress, variables);
-    //         }
-    //     };
-    //     progress.editor.on('nodecreated', listener);
-    //     return listener;
-    // }, [progress, variables]);
-    //
-    // useEffect(() => {
-    //     return () => {
-    //         // removeListener() polyfill
-    //         progress.editor.off('nodecreated', onNodeCreated)
-    //     };
-    // }, [onNodeCreated, progress.editor]);
-
-    // const onNodeCreated = useCallback((node) => {
-    //     if(!progress.editor.silent) {
-    //         progress.step?.setupNode?.(node, progress, variables);
-    //     }
-    // }, [progress, variables]);
-    // useListener(progress.editor, 'nodecreated', onNodeCreated);
-
-    const redraw = useRedraw();/////
-
+    // Allow tutorials to intercept node creation
     useListener(editor, 'prenodecreate', (node) => {
         if(!editor.silent) {
-            const setup = progress.step?.setupNode;
-            if(setup) {
-                setup(node, progress, variables);
-                redraw();/////
+            if(progress.step?.setupNode) {
+                progress.step?.setupNode(node, progress, variables);
             }
         }
     });
@@ -84,7 +61,7 @@ function TutorialProgressCard({progress, onComplete}) {
     const step = getTutorialStep(progress, variables);
 
     if(!step) {
-        setTimeout(() => onComplete());
+        setTimeout(onComplete);
 
         return null; // Completion message?
     }
@@ -93,11 +70,13 @@ function TutorialProgressCard({progress, onComplete}) {
 
     return (
         <HelperCard
-            tooltip={`${tutorial.title} (${tutorial.info})`}
-            title={step.title || tutorial.title}>
+            title={step.title || tutorial.title}
+            iconTooltip={`${tutorial.title} (${tutorial.info})`}>
             {step.info}
             {rendered}
-            {/*{!step.info && !rendered && tutorial.info}*/}
+            {(tutorial.style || step.style) && (
+                <GlobalStyle tutorialCss={tutorial.style} stepCss={step.style}/>
+            )}
         </HelperCard>
     );
 }

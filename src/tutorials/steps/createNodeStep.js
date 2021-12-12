@@ -1,12 +1,12 @@
-import {hasNode} from '../helpers/hasNode';
+import {getTutorialNode} from '../utils/getTutorialNode';
 
-export const createNodeStep = (name,id) => {
+export const createNodeStep = (name, id) => {
     return {
         isComplete(progress) {
-            return hasNode(progress.editor, id);
+            return getTutorialNode(progress.editor, id);
         },
         setupNode(node, progress) {
-            if(node.name === name) {
+            if(node.name === name && !getTutorialNode(progress.editor, id)) {
                 node.id = id;
             }
         },

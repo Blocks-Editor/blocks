@@ -7,6 +7,7 @@ import GlobalTooltip from './GlobalTooltip';
 import {BrowserRouter} from 'react-router-dom';
 import TabLayout from './TabLayout';
 import GlobalTheme from './GlobalTheme';
+import GlobalObservables from './GlobalObservables';
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
 
     return (
         <React.StrictMode>
+            <GlobalObservables/>
             <GlobalTooltip/>
             <BrowserRouter>
                 <GlobalTheme>
