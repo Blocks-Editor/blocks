@@ -5,6 +5,7 @@ const block = literalBlock({
     title: 'Text',
     customSearch(text) {
         if(text.startsWith('"') || text.startsWith('\'')) {
+            text = text.slice(1);
             if(text.endsWith('"') || text.endsWith('\'')) {
                 text = text.slice(-1);
             }

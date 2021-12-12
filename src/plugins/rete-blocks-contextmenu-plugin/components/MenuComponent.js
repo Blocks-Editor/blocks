@@ -32,7 +32,7 @@ export default function MenuComponent({component, specialTitle, ...others}) {
             color={category?.data.color}
             className={`component-${component.name}`}
             {...others}>
-            {specialTitle !== undefined ? `${specialTitle} (${title})` : title}
+            {specialTitle !== undefined ? <>{specialTitle} <span style={{opacity: .5}}>({title})</span></> : title}
         </MenuAction>
     );
 }

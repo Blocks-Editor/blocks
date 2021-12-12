@@ -53,7 +53,10 @@ export default function PlacementMenu() {
         if(block.customSearch) {
             let custom = block.customSearch(searchText);
             if(custom) {
-                (Array.isArray(custom) ? custom : [custom]).forEach(opt => opt.component = component);
+                (Array.isArray(custom) ? custom : [custom]).forEach(option => {
+                    option.component = component;
+                    options.push(option);
+                });
             }
         }
     });
@@ -111,7 +114,7 @@ export default function PlacementMenu() {
 
     let menuItems = options.map((option, i) => (
         <MenuComponent
-            key={option.title || option.component.name}
+            key={`${option.title}${option.component.name}${i}`}
             component={option.component}
             specialTitle={option.title}
             selected={index === i}
