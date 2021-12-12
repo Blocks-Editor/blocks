@@ -16,7 +16,7 @@ const OutputContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 55px; // Magic temporary evil number
+    top: 54px; // Magic temporary evil number
     bottom: 0;
     right: 0;
     width: 40%;
@@ -78,13 +78,13 @@ export default function OutputPanel({editor}) {
                     }
                 </div>
             </div>
-            <div className="flex-grow-1 text-muted">
+            <div className="flex-grow-1">
                 <CodeEditor value={output} readOnly={true}/>
             </div>
             <div className="bottom-bar d-flex flex-row align-items-center justify-content-end py-2">
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
                     <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
-                        <small>{copied ? 'Copied! ' : 'Copy to Clipboard'}</small>
+                        <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>
                         <FiClipboard className="ms-2"/>
                     </ClipboardButton>
                 </CopyToClipboard>

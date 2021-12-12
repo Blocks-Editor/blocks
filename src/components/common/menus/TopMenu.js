@@ -17,10 +17,10 @@ const MenuContainer = styled.div`
         left: 0;
         right: 0;
         bottom: 0;
-        height: 3px;
+        height: 2px;
         background: linear-gradient(90deg, #00EFFB, #8649E1, #F900E3);
         z-index: -1;
-        margin-bottom: -3px;
+        margin-bottom: -2px;
     }
 
 `;
