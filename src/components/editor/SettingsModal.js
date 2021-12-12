@@ -40,7 +40,7 @@ function Setting({name, description, type, extras, props}) {
         <>
             <div className="w-100 py-1 px-3 d-flex flex-column align-items-start justify-content-center">
                 <div className="w-100 d-flex flex-row align-items-center justify-content-between">
-                    <span className="flex-grow-1" style={{fontWeight: 600}}>{name}</span>
+                    <span className="flex-grow-1" style={{fontWeight: 500}}>{name}</span>
                     {SettingInput && <SettingInput {...props}/>}
                 </div>
                 <span className="small text-muted">{description}</span>
