@@ -70,6 +70,7 @@ export const helloWorldTutorial = {
         info: 'Click and drag the highlighted icon.',
         style: css`
             ${highlightNodeShortcut(functionNodeId, 'Return')}
+            ${highlightNode(returnNodeId) /* Highlight return node if already exists */}
         `,
         isComplete(progress) {
             const node = getFunctionNode(progress.editor);
@@ -85,8 +86,9 @@ export const helloWorldTutorial = {
         ...createNodeStep('LiteralText', textNodeId),
         title: 'Return a text value',
         style: css`
-            ${highlightNode(returnNodeId, 'value')}
             ${highlightContextMenuComponent('LiteralText')}
+            ${highlightNode(returnNodeId, 'value')}
+            ${highlightNode(textNodeId) /* Highlight text node if already exists */}
         `,
         render(progress, {contextMenu}) {
             if(!contextMenu) {
