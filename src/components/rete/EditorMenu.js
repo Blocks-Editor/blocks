@@ -30,7 +30,6 @@ import SettingsMenu from './SettingsMenu';
 import useOutputPanelVisibleState from '../../hooks/persistent/useOutputPanelVisibleState';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import TutorialCard from './TutorialCard';
-import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -111,7 +110,6 @@ export default function EditorMenu({editor, onLoadFileContent}) {
     const [zoomAnimating, setZoomAnimating] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
     const [outputPanelVisible, setOutputPanelVisible] = useOutputPanelVisibleState();
-    const [tutorialProgress] = useTutorialProgressState();
     const [autosave] = useAutosaveState();
 
     const events = useContext(EventsContext);
@@ -193,9 +191,7 @@ export default function EditorMenu({editor, onLoadFileContent}) {
                 </div>
             </TopMenu>
             <FloatingMenu top left>
-                {tutorialProgress && (
-                    <TutorialCard progress={tutorialProgress}/>
-                )}
+                <TutorialCard/>
             </FloatingMenu>
             <FloatingMenu bottom left>
                 <MenuButton
@@ -213,7 +209,7 @@ export default function EditorMenu({editor, onLoadFileContent}) {
             </FloatingMenu>
             <FloatingMenu bottom right>
                 <MenuButton
-                    className="text-uppercase h4 fw-normal text-muted"
+                    className="text-uppercase h4 text-muted"
                     tooltip="Compile to Motoko"
                     onMouseDown={() => setOutputPanelVisible(!outputPanelVisible)}>
                     <small>Compile</small>
