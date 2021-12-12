@@ -35,6 +35,10 @@ function install(editor, config = {}) {
         // }
         e.stopPropagation?.();
 
+        if(!context && e.ctrlKey) {
+            context = {};////
+        }
+
         if(!editor.trigger('showcontextmenu', {e, node, context})) {
             return;
         }
