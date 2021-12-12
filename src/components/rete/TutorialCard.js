@@ -1,5 +1,5 @@
 import {Button, ButtonGroup, Card} from 'react-bootstrap';
-import React from 'react';
+import React, {useCallback} from 'react';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useFamiliarityState, {FAMILIAR, LEARNING} from '../../hooks/persistent/useFamiliarityState';
 import styled, {createGlobalStyle} from 'styled-components';
@@ -9,11 +9,13 @@ import getTutorialStep from '../../tutorials/utils/getTutorialStep';
 import useTutorialVariables from '../../hooks/useTutorialVariables';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import useListener from '../../hooks/utils/useListener';
+import {FiSmile} from 'react-icons/all';
 
 const StyledCard = styled(Card)`
     opacity: .9;
     box-shadow: 0 2px 12px #0005;
     border: none;
+    max-width: 30rem;
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -61,9 +63,19 @@ function TutorialProgressCard({progress, onComplete}) {
     const step = getTutorialStep(progress, variables);
 
     if(!step) {
-        setTimeout(onComplete);
+        // setTimeout(onComplete);
 
-        return null; // Completion message?
+        return (
+            <HelperCard
+                title="Congratulations!"
+                icon={<FiSmile/>}>
+                You completed our "{tutorial.title}" tutorial.
+                <hr/>
+                <ButtonGroup className="d-flex">
+                    <Button variant="success" onMouseDown={() => onComplete()}>Close</Button>
+                </ButtonGroup>
+            </HelperCard>
+        );
     }
 
     const rendered = step.render?.(progress, variables);
@@ -91,18 +103,23 @@ export default function TutorialCard() {
         setFamiliarity(null);
     };
 
-    const onAccept = () => {
+    const onAccept = useCallback(() => {
         setProgress({
             tutorial: helloWorldTutorial,
         });
         setFamiliarity(LEARNING);
-    };
-    const onDecline = () => {
+    }, [setFamiliarity, setProgress]);
+    const onDecline = useCallback(() => {
         setFamiliarity(FAMILIAR);
-    };
+    }, [setFamiliarity]);
+    const onComplete = useCallback(() => {
+        setProgress(null);
+    }, [setProgress]);
 
     if(progress) {
-        return <TutorialProgressCard progress={progress} onComplete={() => setProgress(null)}/>;
+        return (
+            <TutorialProgressCard progress={progress} onComplete={onComplete}/>
+        );
     }
     if(!familiarity) {
         return (

@@ -5,6 +5,7 @@ import {getTutorialNode} from '../utils/getTutorialNode';
 import {highlightNode} from '../utils/tutorialStyles';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 
+// Custom ID for the tutorial's function block
 const functionNodeId = 'helloWorldFunction';
 
 const getFunctionNode = (editor) => getTutorialNode(editor, functionNodeId);
@@ -33,7 +34,7 @@ export const helloWorldTutorial = {
             if(contextMenu) {
                 return 'Select the "Function" block.';
             }
-            return 'Right-click to open the context menu.';
+            return 'Right-click somewhere in the editor to open the context menu.';
         },
     }, {
         title: 'Name the function',
@@ -45,8 +46,5 @@ export const helloWorldTutorial = {
             const node = getFunctionNode(progress.editor);
             return node?.data.name;
         },
-    }, {
-        title: 'Good job!',
-        info: '',
     }],
 };
