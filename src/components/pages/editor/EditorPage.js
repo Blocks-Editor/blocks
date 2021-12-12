@@ -12,6 +12,7 @@ import useRedraw from '../../../hooks/utils/useRedraw';
 import isEmbedded from '../../../utils/isEmbedded';
 import {parse} from 'querystring';
 import {EDITOR_STORE} from '../../../observables/editorStore';
+import {EDITOR_STATE_STORE} from '../../../observables/editorStateStore';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
@@ -64,6 +65,14 @@ export default function EditorPage() {
         }
     });
 
+    const sendMessage = (message) => {
+        if(embedded) {
+            console.log('Sending message:', message);
+            let targetOrigin = '*'; // TODO: restrict target origin
+            window.parent.postMessage(message, targetOrigin);
+        }
+    };
+
     const onEditorSetup = useCallback(async (loadState, editor) => {
         let stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
         nextEditorState = null;
@@ -81,31 +90,24 @@ export default function EditorPage() {
         }
     }, []);
 
+    // let previousState = {};
     const onEditorChange = useCallback((editor) => {
-        // if(embedded) {
-        //     // TODO: dry with onEditorSave()
-        //     let message = {
-        //         type: 'change',
-        //         state: JSON.stringify(editor.toJSON()),
-        //     };
-        //     console.log('Sending message:', message);
-        //     window.parent.postMessage(message, '*'); // TODO: restrict target origin
-        // }
+        const state = editor.toJSON();
+        // const patch = compare(previousState, state);
+        // previousState = state;
+        // console.log('Patch:', patch);///
+
+        EDITOR_STATE_STORE.set(state);
     }, []);
 
     const onEditorSave = useCallback((state, editor) => {
         // console.log('Saving:', state);
         let stateString = JSON.stringify(state);
         storage[STORAGE_EDITOR_STATE] = stateString;
-        if(embedded) {
-            let message = {
-                type: 'save',
-                state: stateString,
-            };
-            console.log('Sending message:', message);
-            let targetOrigin = '*'; // TODO: restrict target origin
-            window.parent.postMessage(message, targetOrigin);
-        }
+        sendMessage({
+            type: 'save',
+            state: stateString,
+        });
     }, []);
 
     return (

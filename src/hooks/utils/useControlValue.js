@@ -12,7 +12,9 @@ export default function useControlValue(control) {
         control.notifyEditorChange?.();
     });
 
-    useListener(control.events, 'update', () => events.emit(EDITOR_CHANGE_EVENT, control, value));
+    useListener(control.events, 'update', () => {
+        events.emit(EDITOR_CHANGE_EVENT, control.editor, control);
+    });
 
     return [
         value,
