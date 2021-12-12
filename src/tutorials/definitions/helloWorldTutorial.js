@@ -130,12 +130,10 @@ export const helloWorldTutorial = {
             const functionNode = getFunctionNode(progress.editor);
             const textNode = getTextNode(progress.editor);
             return (
-                <div>
-                    <small>
-                        Your function is called "{functionNode.data.name}"
-                        with a return value of "{textNode.data.value}".
-                    </small>
-                </div>
+                <small>
+                    Your function is called <code>{functionNode.data.name}</code>{' '}
+                    with a return value of <code>"{textNode.data.value}"</code>.
+                </small>
             );
         },
         isComplete(progress, {outputPanel}) {

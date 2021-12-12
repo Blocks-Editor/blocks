@@ -86,8 +86,9 @@ function TutorialProgressCard({progress, onComplete}) {
         <HelperCard
             title={step.title || tutorial.title}
             iconTooltip={`${tutorial.title} (${tutorial.info})`}>
-            {step.info}
             {rendered}
+            {rendered&&step.info&&<hr/>}
+            {step.info}
             {(tutorial.style || step.style) && (
                 <GlobalStyle tutorialCss={tutorial.style} stepCss={step.style}/>
             )}
