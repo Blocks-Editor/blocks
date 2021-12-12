@@ -61,7 +61,8 @@ export default class Compiler {
                     return this._compileConnection(c, c.input, c.output, 'outputs');
                 }
                 if(input.control) {
-                    return input.control.getValue();
+                    // return input.control.getValue();
+                    return this._compileControl(input.control, key);
                 }
             }
             else {
@@ -77,8 +78,8 @@ export default class Compiler {
         }
 
         if(prop.control) {
-            let control = this._control(node, prop.key);
-            return this.postCompile(control.getValue(), node, key);
+            let control = this._control(node, key);
+            return this._compileControl(control, key);
         }
     }
 
@@ -197,6 +198,10 @@ export default class Compiler {
         //     throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
         // }
         return this.getOutput(to.node, to.key);
+    }
+
+    _compileControl(control, key) {
+        return this.postCompile(control.getValue(), control.getNode(), key);
     }
 
     _prop(node, key) {

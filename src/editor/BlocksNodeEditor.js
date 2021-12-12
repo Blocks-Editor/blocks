@@ -123,6 +123,17 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         return this.createNode(component, data, {x: x - 80, y: y - 20});
     }
 
+    updateNode(node) {
+        node.update();
+        setTimeout(() => {
+            for(const io of [...node.inputs.values(), ...node.outputs.values()]) {
+                for(const conn of io.connections) {
+                    this.view.connections.get(conn)?.update();
+                }
+            }
+        });
+    }
+
     connect(output, input, data) {
         if(output.node && output.node === input.node) {
             return;

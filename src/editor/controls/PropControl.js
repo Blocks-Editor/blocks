@@ -15,6 +15,10 @@ export default class PropControl extends BaseControl {
         // let value = super.getDefaultValue();
         // return value !== undefined ? value : this.config.type?.getDefaultValue();
 
+        if('controlDefault' in this.config) {
+            return this.config.controlDefault;
+        }
+
         return this.config.type?.getDefaultValue();
     }
 

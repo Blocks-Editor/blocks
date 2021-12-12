@@ -60,11 +60,13 @@ const block = memberBlock({
         },
     }],
     controls: [
-        visibilityControlProp(), {
+        visibilityControlProp(),
+        {
             key: 'query',
             type: boolType,
             advanced: true,
-        }],
+        },
+    ],
 }, {
     toMotoko({name, visibility, query, params, body}, node, compiler) {
         let hasCaller = node.outputs.get('caller').connections.length;

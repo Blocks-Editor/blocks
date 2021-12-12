@@ -13,6 +13,7 @@ import isEmbedded from '../../utils/isEmbedded';
 import {parse} from 'querystring';
 import {EDITOR_STORE} from '../../observables/editorStore';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
+import {UndoRedoHistory} from '../../plugins/rete-blocks-history-plugin';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
@@ -24,6 +25,8 @@ const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStora
 if(embedded) {
     console.log('Using embedded mode.');
 }
+
+const history = new UndoRedoHistory(50);
 
 let nextEditorState;
 
@@ -48,7 +51,7 @@ export default function EditorPage() {
     });
 
     useListener(events, PROJECT_EXPORT_EVENT, state => {
-        let data = JSON.stringify(state);
+        const data = JSON.stringify(state);
         FileSaver.saveAs(new Blob([data]), `${pascalCase(state.name || 'project')}.blocks`);
     });
 
@@ -68,13 +71,13 @@ export default function EditorPage() {
     const sendMessage = (message) => {
         if(embedded) {
             console.log('Sending message:', message);
-            let targetOrigin = '*'; // TODO: restrict target origin
+            const targetOrigin = '*'; // TODO: restrict target origin
             window.parent.postMessage(message, targetOrigin);
         }
     };
 
     const onEditorSetup = useCallback(async (loadState, editor) => {
-        let stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
+        const stateString = nextEditorState ? JSON.stringify(nextEditorState) : storage[STORAGE_EDITOR_STATE];
         nextEditorState = null;
 
         let state;
@@ -97,12 +100,14 @@ export default function EditorPage() {
         // previousState = state;
         // console.log('Patch:', patch);///
 
+        editor.trigger('history', state);
+
         EDITOR_STATE_STORE.set(state);
     }, []);
 
     const onEditorSave = useCallback((state, editor) => {
         // console.log('Saving:', state);
-        let stateString = JSON.stringify(state);
+        const stateString = JSON.stringify(state);
         storage[STORAGE_EDITOR_STATE] = stateString;
         sendMessage({
             type: 'save',
@@ -117,6 +122,7 @@ export default function EditorPage() {
             onSetup={onEditorSetup}
             onChange={onEditorChange}
             onSave={onEditorSave}
+            history={history}
         />
     );
 }

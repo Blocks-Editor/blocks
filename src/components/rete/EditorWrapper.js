@@ -13,7 +13,7 @@ import ReactTooltip from 'react-tooltip';
 const inputTags = ['input', 'textarea'];
 
 
-export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
+export default function EditorWrapper({observable, onSetup, onChange, onSave, history}) {
     const [autosave] = useAutosaveState();
 
     const events = useContext(EventsContext);
@@ -46,13 +46,14 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
             return;
         }
 
-        editor = createEditor(container);
+        editor = createEditor(container, {
+            history,
+        });
 
         window.EDITOR = editor; // Browser debugging
 
-        let onKeyDown = (event) => {
-            // let key = String.fromCharCode(event.which).toLowerCase();
-            let key = event.key;
+        const onKeyDown = (event) => {
+            const key = event.key;
 
             if(event.ctrlKey || event.metaKey) {
                 // if(key === 'q') {
@@ -63,6 +64,12 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
                     events.emit(EDITOR_SAVE_EVENT, editor);
                     console.log('Saved successfully');
                 }
+                if(key === 'z') {
+                    editor.trigger(event.shiftKey ? 'redo' : 'undo');
+                }
+                if(key === 'y') {
+                    editor.trigger('redo');
+                }
             }
             else if(!document.activeElement || !inputTags.includes(document.activeElement.nodeName.toLowerCase())) {
                 if(key === 'Delete') {
@@ -70,7 +77,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
                     ReactTooltip.hide();
                 }
                 else {
-                    let block = SHORTCUT_KEYS.get(key);
+                    const block = SHORTCUT_KEYS.get(key);
                     if(block) {
                         editor.createNodeAtCursor(editor.getComponent(block.name))
                             .catch(err => events.emit('error', err));
@@ -81,8 +88,8 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
         document.addEventListener('keydown', onKeyDown);
         editor.on('destroy', () => document.removeEventListener('keydown', onKeyDown));
 
-        for(let block of BLOCK_MAP.values()) {
-            let node = new BlockComponent(block);
+        for(const block of BLOCK_MAP.values()) {
+            const node = new BlockComponent(block);
             editor.register(node);
         }
 
@@ -102,7 +109,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
             if(!state) {
                 return false;
             }
-            let result = await editor.fromJSON(state);
+            const result = await editor.fromJSON(state);
             if(result) {
                 editor.view.resize();
                 AreaPlugin.zoomAt(editor);
@@ -115,7 +122,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
         // TODO: dry with rete-blocks-contextmenu-plugin
         const handleConnectionEnd = (startIO, endIO) => {
             currentIO = null;
-            for(let listener of connectionAwareList) {
+            for(const listener of connectionAwareList) {
                 listener(false, startIO, endIO);
             }
         };
@@ -126,9 +133,9 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
         });
         editor.on('connectionpick', io => {
             // Remove connection on ctrl+click
-            // noinspection JSDeprecatedSymbols, JSUnresolvedVariable
+            const connection = io.connections[0];
+// noinspection JSDeprecatedSymbols, JSUnresolvedVariable
             if(window.event.ctrlKey) {
-                let connection = io.connections[0];
                 if(connection) {
                     editor.removeConnection(connection);
                 }
@@ -140,17 +147,17 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
                 handleConnectionEnd(currentIO, io);
                 return;
             }
-            let prevConnections = [...io.connections];
+            const prevConnections = [...io.connections];
             setTimeout(() => {
                 if(io.connections.length < prevConnections.length) {
                     // Connection is being removed
-                    let connection = prevConnections.find(c => !io.connections.includes(c));
+                    const connection = prevConnections.find(c => !io.connections.includes(c));
                     currentIO = (io === connection.input ? connection.output : connection.input);
                 }
                 else {
                     currentIO = io;
                 }
-                for(let listener of connectionAwareList) {
+                for(const listener of connectionAwareList) {
                     listener(true, currentIO);
                 }
             });
@@ -159,7 +166,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
             if(!connectionMouseMoved) {
                 return;
             }
-            let prevConnections = [...io.connections];
+            const prevConnections = [...io.connections];
             setTimeout(() => {
                 // Prevent activating if connections changed
                 if(io.connections.length !== prevConnections.length || io.connections.some((conn, i) =>

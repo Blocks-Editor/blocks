@@ -32,7 +32,7 @@ function EditorControls({observable, hideMenu}) {
     );
 }
 
-export default function Editor({observable, hideMenu, onSetup, onChange, onSave, className, ...others}) {
+export default function Editor({observable, hideMenu, onSetup, onChange, onSave, history, className, ...others}) {
 
     const events = useContext(EventsContext);
 
@@ -60,6 +60,7 @@ export default function Editor({observable, hideMenu, onSetup, onChange, onSave,
                         onSetup={onSetup}
                         onChange={onChange}
                         onSave={onSave}
+                        history={history}
                     />
                 </EditorContainer>
             </FileDropZone>

@@ -132,7 +132,7 @@ $grid-area: $grid-size * 10000;
     }
 
     .prop {
-      &.advanced {
+      &.advanced, &.key-editor-advanced {
         opacity: .5;
       }
     }

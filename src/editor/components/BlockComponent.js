@@ -76,5 +76,12 @@ export default class BlockComponent extends Rete.Component {
             let title = getPropLabel(prop);
             node.addControl(new PropControl(this.editor, prop, title));
         }
+
+        // // Advanced mode control if relevant
+        // if(this.block.props.find(prop => prop.advanced)) {
+        //     node.addControl(new BaseControl(this.editor, 'editor:advanced', 'Advanced', {
+        //         controlType: CheckboxControlHandle,
+        //     }));
+        // }
     }
 }

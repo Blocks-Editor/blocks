@@ -22,6 +22,14 @@ export function makeLocalStorageObservable(key, defaultValue) {
         observable = makeObservable(defaultValue);
     }
     observableMap.set(key, observable);
+    observable.subscribe(value => {
+        if(value !== undefined) {
+            storage[key] = JSON.stringify(value);
+        }
+        else {
+            delete storage[key];
+        }
+    });
     return observable;
 }
 
@@ -38,12 +46,6 @@ export default function useLocalStorage(key, defaultValue) {
             try {
                 const valueToStore = value instanceof Function ? value(storedValue) : value;
                 setStoredValue(valueToStore);
-                if(valueToStore !== undefined) {
-                    storage[key] = JSON.stringify(valueToStore);
-                }
-                else {
-                    delete storage[key];
-                }
             }
             catch(error) {
                 console.error(error);

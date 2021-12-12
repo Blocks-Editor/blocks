@@ -47,9 +47,10 @@ const block = memberBlock({
         key: 'stable',
         type: boolType,
         advanced: true,
-        // }, {
-        //     key: 'readonly',
-        //     type: 'Bool',
+    }, {
+        key: 'readonly',
+        type: 'Bool',
+        advanced: true,
     }],
 }, {
     toMotoko({stable, name, initialValue}, node, compiler) {

@@ -1,6 +1,7 @@
 import {basename} from 'path';
 import {getType} from '../block-types/types';
 import {defaultCategory, getCategory} from '../block-categories/categories';
+import {advancedProp} from '../block-patterns/control-patterns';
 
 // Temp: `/utils/jest/requireContextTransform`
 // noinspection JSUnresolvedVariable
@@ -65,6 +66,11 @@ blockContext.keys().forEach(path => {
         addProps(block, block.inputs, 'input');
         addProps(block, block.controls, 'control');
 
+        // TODO: refactor to a distant land
+        if(!('editor:advanced' in block.props) && Object.values(block.props).find(prop => prop.advanced)) {
+            addProp(block, advancedProp(), 'control');
+        }
+
         // Rearrange block inputs/outputs/controls
         block.inputs = [];
         block.outputs = [];
@@ -93,7 +99,6 @@ blockContext.keys().forEach(path => {
         // Type deserialization
         for(let prop of Object.values(block.props)) {
             if(!prop.type && (prop.input || prop.output) && prop.control) {
-                console.log(prop);///
                 throw new Error(`Type not found for ${block.name} : ${prop.key}`);
             }
             if(prop.type) {
@@ -119,6 +124,17 @@ function addProps(block, propList, type) {
             block.props[prop.key] = prop;
         }
     }
+}
+
+function addProp(block, prop, type) {
+    if(prop.key && block.props[prop.key] === prop) {
+        return;
+    }
+    if(block.props.hasOwnProperty(prop.key)) {
+        throw new Error(`Duplicate prop in ${block.name}: ${prop.key}`);
+    }
+    prop[type] = prop[type] || true;
+    block.props[prop.key] = prop;
 }
 
 

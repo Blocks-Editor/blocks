@@ -12,6 +12,7 @@ import ConnectionOpacityPlugin from '../plugins/rete-connection-opacity-plugin';
 import VerticalSortPlugin from '../plugins/rete-vertical-sort-plugin';
 import DragButtonPlugin from '../plugins/rete-drag-button-plugin';
 import {CREATE_NODE_STORE} from '../observables/createNodeStore';
+import HistoryPlugin from '../plugins/rete-blocks-history-plugin';
 
 
 const editorName = process.env.REACT_APP_EDITOR_NAME;
@@ -21,13 +22,13 @@ function findCategory(socket) {
     return socket.type?./*findType?.()*/data.category ?? socket.data.category ?? 'none';
 }
 
-export default function createEditor(element) {
+export default function createEditor(element, {history} = {}) {
 
     let editor = new BlocksNodeEditor(editorName + '@' + editorVersion, element);
     editor.use(ReactRenderPlugin, {
         component: NodeHandle,
     });
-    // editor.use(HistoryPlugin); // TODO: set up undo/redo history
+    editor.use(HistoryPlugin, {history});
     editor.use(ConnectionPlugin);
     // editor.use(SelectionPlugin, {
     //     enabled: true,
@@ -80,9 +81,9 @@ export default function createEditor(element) {
         );
     });
 
-    editor.on('nodecreated',node=>{
-        CREATE_NODE_STORE.set(node)
-    })
+    editor.on('nodecreated', node => {
+        CREATE_NODE_STORE.set(node);
+    });
 
     return editor;
 }

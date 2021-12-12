@@ -7,6 +7,7 @@ const block = memberBlock({
     info: 'An actor-level type definition',
     category: typeCategory,
     topRight: 'type',
+    global: true,
     shortcuts: [{
         block: 'TypeMemberReference',
         nodeKey: 'typeNode',

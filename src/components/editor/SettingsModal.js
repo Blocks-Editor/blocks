@@ -59,7 +59,6 @@ export default function SettingsModal() {
     const [themeParts, setThemeParts] = useThemePartsState();
     const [autosave, setAutosave] = useAutosaveState();
     const [learningMode, setLearningMode] = useLearningModeState();
-    // const [advanced, setAdvanced] = useAdvancedPropsState();
 
     const themes = useThemes();
 
@@ -106,16 +105,6 @@ export default function SettingsModal() {
                 setLearningMode(!learningMode);
             },
         },
-        // }, {
-        //     name: 'Advanced Mode',
-        //     description: 'Displays additional properties for complex use cases.',
-        //     type: 'toggle',
-        //     props: {
-        //         value: advanced,
-        //         onChange() {
-        //             setAdvanced(!advanced);
-        //         },
-        //     },
     }];
 
     return (

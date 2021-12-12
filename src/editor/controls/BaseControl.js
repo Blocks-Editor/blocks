@@ -81,5 +81,7 @@ export default class BaseControl extends Rete.Control {
     setValue(value) {
         this.putData(this.key, value);
         this.events.emit('update', value);
+
+        this.config.onChange?.(this);////
     }
 }
