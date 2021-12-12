@@ -23,7 +23,7 @@ function HelperCard({icon, title, tooltip, children, ...others}) {
     return (
         <StyledCard {...others}>
             {(icon || title) && (
-                <Card.Header className="bg-primary">
+                <Card.Header className="bg-primary py-3">
                     <h4 className="mb-0 d-flex align-items-center text-white">
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
                         <span data-tip={tooltip} data-place="top" data-delay-show={0}>{icon ||
