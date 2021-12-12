@@ -16,6 +16,8 @@ const StyledCard = styled(Card)`
     box-shadow: 0 2px 12px #0005;
     border: none;
     max-width: 30rem;
+    font-size: 18px;
+    font-weight: 500;
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -32,8 +34,9 @@ function HelperCard({title, icon, iconTooltip, children, ...others}) {
                 <Card.Header className="bg-primary py-3">
                     <h4 className="mb-0 d-flex align-items-center text-white">
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
-                        <span data-tip={iconTooltip} data-place="top" data-delay-show={0}>{icon ||
-                        <FaRegQuestionCircle/>}</span>
+                        <span data-tip={iconTooltip} data-place="top" data-delay-show={0}>
+                            {icon || <FaRegQuestionCircle/>}
+                        </span>
                     </h4>
                 </Card.Header>
             )}
@@ -63,8 +66,7 @@ function TutorialProgressCard({progress, onComplete}) {
     const step = getTutorialStep(progress, variables);
 
     if(!step) {
-        // setTimeout(onComplete);
-
+        // Tutorial completed
         return (
             <HelperCard
                 title="Congratulations!"
@@ -78,8 +80,10 @@ function TutorialProgressCard({progress, onComplete}) {
         );
     }
 
+    // Custom JSX from tutorial step
     const rendered = step.render?.(progress, variables);
 
+    // Tutorial in progress
     return (
         <HelperCard
             title={step.title || tutorial.title}
@@ -109,12 +113,16 @@ export default function TutorialCard() {
         });
         setFamiliarity(LEARNING);
     }, [setFamiliarity, setProgress]);
+
     const onDecline = useCallback(() => {
         setFamiliarity(FAMILIAR);
     }, [setFamiliarity]);
+
     const onComplete = useCallback(() => {
         setProgress(null);
     }, [setProgress]);
+
+    console.log(progress)////
 
     if(progress) {
         return (

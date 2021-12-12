@@ -31,10 +31,13 @@ export const helloWorldTutorial = {
         ...createNodeStep('Function', functionNodeId),
         title: 'Create a function',
         render(progress, {contextMenu}) {
-            if(contextMenu) {
-                return 'Select the "Function" block.';
+            if(!contextMenu) {
+                return 'Right-click somewhere in the editor.';
             }
-            return 'Right-click somewhere in the editor to open the context menu.';
+            if(contextMenu.node) {
+                return 'Make sure to right-click on empty space.';
+            }
+            return 'Select the "Function" block.';
         },
     }, {
         title: 'Name the function',
