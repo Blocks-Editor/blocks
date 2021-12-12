@@ -24,6 +24,7 @@ export default function CopyToClipboardButton({text, size, buttonRef, ...others}
                 ref={buttonRef}
                 size={size || 'sm'}
                 variant="outline-light"
+                className="d-flex py-2"
                 data-tip={copied ? undefined : 'Copy to Clipboard'}
                 onClick={showTooltip}>
                 <span ref={ref => tooltipRef = ref} data-tip="Copied!"/>
