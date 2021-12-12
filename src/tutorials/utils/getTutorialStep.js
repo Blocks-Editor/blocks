@@ -9,5 +9,5 @@ export default function getTutorialStep(progress, variables) {
         }
         i++;
     }
-    return tutorial.steps[i];
+    return i === tutorial.steps.length ? null : tutorial.steps[i];
 }

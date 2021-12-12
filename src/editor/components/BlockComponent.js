@@ -1,12 +1,11 @@
 import Rete from 'rete';
 import PropControl from '../controls/PropControl';
-import BaseComponent from './BaseComponent';
 import PropSocket from '../sockets/PropSocket';
 import PropOutputSocket from '../sockets/PropOutputSocket';
 import {sentenceCase} from 'change-case';
 import getPropLabel from '../../utils/getPropLabel';
 
-export default class BlockComponent extends BaseComponent {
+export default class BlockComponent extends Rete.Component {
 
     constructor(block) {
         super(block.name);
@@ -17,6 +16,14 @@ export default class BlockComponent extends BaseComponent {
             ...block.title?.split(' ').filter(s => s) || [],
             ...block.keywords || [],
         ];
+    }
+
+    getEditorNode(node) {
+        return this.editor.nodes.find(n => n.id === node.id);
+    }
+
+    getControls(node) {
+        return this.getEditorNode(node).controls;
     }
 
     async builder(node) {
@@ -56,14 +63,6 @@ export default class BlockComponent extends BaseComponent {
             return prop.control || (!!socket.data.reversed === isOutput && socket.data.controlType && !prop.multi);
         };
 
-        delete node.meta.title;
-        // if(this.block.title) {
-        //     node.meta.title = this.block.title;
-        // }
-        // else {
-        //     delete node.meta.title;
-        // }
-
         for(let prop of this.block.inputs) {
             addProp(prop, false);
         }
@@ -75,11 +74,5 @@ export default class BlockComponent extends BaseComponent {
             let title = getPropLabel(prop);
             node.addControl(new PropControl(this.editor, prop, title));
         }
-
-        // this.block.builder?.apply(this, arguments);
     }
-
-    // async worker(node, inputs, outputs, ...args) {
-    //     await this.block.worker?.apply(this, arguments);
-    // }
 }

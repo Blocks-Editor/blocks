@@ -8,10 +8,15 @@ export default function useObjectObservable(object) {
         const callbacks = [];
         for(const [key, observable] of Object.entries(object)) {
             result[key] = observable.get();
-            callbacks.push(observable.subscribe(value => setResult({...result, [key]: value})));
+            callbacks.push(observable.subscribe(value => {
+                if(value !== result[key]) {
+                    setResult({...result, [key]: value});
+                }
+            }));
         }
         return () => callbacks.forEach(callback => callback());
-    }, [object, result]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [object, /* result */]);
 
     useEffect(() => unsubscribe, [unsubscribe]);
     return result;

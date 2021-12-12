@@ -17,13 +17,13 @@ export default function useTutorialProgressState() {
             return null;
         }
         const stepIndex = Math.min(state.stepIndex || 0, tutorial.steps.length - 1);
-        return {
+        return Object.freeze({
             ...state,
             editor,
             tutorial,
             stepIndex,
             step: tutorial.steps[stepIndex],
-        };
+        });
     }, [editor, state]);
 
     return [

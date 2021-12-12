@@ -4,6 +4,8 @@ import NodeCompiler from '../compilers/NodeCompiler';
 import TypeCompiler from '../compilers/TypeCompiler';
 import ControlCompiler from '../compilers/ControlCompiler';
 
+// Custom Rete.js node editor implementation
+
 export default class BlocksNodeEditor extends Rete.NodeEditor {
     constructor(...args) {
         super(...args);
@@ -16,6 +18,17 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             type: new TypeCompiler(this),
             motoko: new MotokoCompiler(this),
         };
+    }
+
+    off(event, listener) {
+        const events = this.events[event];
+        if(!events) {
+            return;
+        }
+        const index = events.indexOf(listener);
+        if(index !== -1) {
+            events.splice(index, 1);
+        }
     }
 
     // noinspection JSCheckFunctionSignatures

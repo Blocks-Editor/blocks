@@ -8,6 +8,7 @@ import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import createEditor from '../../editor/createEditor';
+import ReactTooltip from 'react-tooltip';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
@@ -68,6 +69,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave}) {
             else if(!document.activeElement || !inputTags.includes(document.activeElement.nodeName.toLowerCase())) {
                 if(key === 'Delete') {
                     editor.selected.each(n => editor.removeNode(n));
+                    ReactTooltip.hide();
                 }
                 else {
                     let block = SHORTCUT_KEYS.get(key);

@@ -1,11 +1,11 @@
 import React from 'react';
 import useThemeState from '../../hooks/persistent/useThemeState';
 import useThemes from '../../hooks/useThemes';
-import useAdvancedPropsState from '../../hooks/persistent/useAdvancedPropsState';
 import useLearningModeState from '../../hooks/persistent/useLearningModeState';
 import {sentenceCase} from 'change-case';
 import useThemePartsState from '../../hooks/persistent/useThemePartsState';
 import styled from 'styled-components';
+import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -40,7 +40,7 @@ function Setting({name, description, type, extras, props}) {
         <>
             <div className="w-100 py-1 px-3 d-flex flex-column align-items-start justify-content-center">
                 <div className="w-100 d-flex flex-row align-items-center justify-content-between">
-                    <span className="flex-grow-1">{name}</span>
+                    <span className="flex-grow-1" style={{fontWeight: 600}}>{name}</span>
                     {SettingInput && <SettingInput {...props}/>}
                 </div>
                 <span className="small text-muted">{description}</span>
@@ -57,7 +57,7 @@ function Setting({name, description, type, extras, props}) {
 export default function SettingsMenu() {
     const [theme, setTheme] = useThemeState();
     const [themeParts, setThemeParts] = useThemePartsState();
-    const [autosave, setAutosave] = useAdvancedPropsState();
+    const [autosave, setAutosave] = useAutosaveState();
     const [learningMode, setLearningMode] = useLearningModeState();
     // const [advanced, setAdvanced] = useAdvancedPropsState();
 
@@ -120,7 +120,7 @@ export default function SettingsMenu() {
 
     return (
         <div className="p-3">
-            <h3>Settings</h3>
+            <h3 className="fw-light">Settings</h3>
             {settings.map((setting, i) => (
                 <div key={i}>
                     <hr/>
