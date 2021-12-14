@@ -121,6 +121,7 @@ export default function PlacementMenu() {
             onAction={() => handleCreateOption(option)}
         />
     ));
+
     return context ? (
         <MenuSearch
             value={searchText}

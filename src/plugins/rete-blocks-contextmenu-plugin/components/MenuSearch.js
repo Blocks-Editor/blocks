@@ -20,7 +20,7 @@ export default function MenuSearch({value, onChange, onAction, onKeyDown, childr
     });
 
     return (
-        <>
+        <div onMouseDown={event => event.stopPropagation()}>
             <input
                 type="text"
                 className="context-menu-search"
@@ -28,13 +28,12 @@ export default function MenuSearch({value, onChange, onAction, onKeyDown, childr
                 ref={bindInput}
                 autoComplete="blocks-search"
                 value={value || ''}
-                onClick={event => event.stopPropagation()}
                 onChange={onChange && (event => onChange(event.target.value))}
                 onKeyDown={handleKeyDown}
                 {...others}/>
             <div className="context-menu-search-area">
                 {children}
             </div>
-        </>
+        </div>
     );
 }
