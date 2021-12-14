@@ -43,6 +43,7 @@ const block = memberBlock({
     }],
     inputs: [{
         key: 'params',
+        title: 'Parameters',
         type: paramType,
         multi: true,
     }, {

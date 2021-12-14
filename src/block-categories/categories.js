@@ -102,6 +102,7 @@ export const literalCategory = createCategory({
     name: 'Literal',
     // color: '#8fa',
     icon: FaPlusCircle,
+    priority: 6,
 });
 export const decompositionCategory = createCategory({
     name: 'Decomposition',
@@ -112,4 +113,5 @@ export const commentCategory = createCategory({
     name: 'Comment',
     // color: '#ccc',
     icon: FaCommentAlt,
+    priority: -1,
 });

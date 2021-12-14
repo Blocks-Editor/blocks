@@ -61,8 +61,8 @@ export default class Compiler {
                     return this._compileConnection(c, c.input, c.output, 'outputs');
                 }
                 if(input.control) {
-                    // return input.control.getValue();
-                    return this._compileControl(input.control, key);
+                    return input.control.getValue();
+                    // return this._compileControl(input.control, key);///!!!
                 }
             }
             else {

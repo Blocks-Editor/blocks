@@ -2,15 +2,16 @@ import React, {useContext, useState} from 'react';
 import classNames from 'classnames';
 import styled, {css} from 'styled-components';
 import {FiClipboard, FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
-import {FaPlay} from 'react-icons/fa';
+import {FaLink, FaPlay} from 'react-icons/fa';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../compilers/utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
 import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useFullscreenPanelState from '../../hooks/persistent/useFullscreenPanelState';
 import useListener from '../../hooks/utils/useListener';
-import {Button} from 'react-bootstrap';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
+import ExternalLink from '../common/ExternalLink';
+import useReactTooltip from '../../hooks/useReactTooltip';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -59,6 +60,8 @@ export default function OutputPanel({editor}) {
 
     useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput) & setCopied(false));
 
+    useReactTooltip();
+
     return (
         <OutputContainer
             className={classNames('output-panel px-3 pt-3')}
@@ -81,23 +84,38 @@ export default function OutputPanel({editor}) {
             <div className="flex-grow-1">
                 <CodeEditor value={output} readOnly={true}/>
             </div>
-            <div className="bottom-bar d-flex flex-row align-items-center justify-content-end py-2">
+            <div className="bottom-bar d-flex flex-row align-items-center justify-content-between py-2">
+                {/*<CopyToClipboard text={output} onCopy={() => setCopied(true)}>*/}
+                {/*    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">*/}
+                {/*        <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>*/}
+                {/*        <FiClipboard className="ms-2"/>*/}
+                {/*    </ClipboardButton>*/}
+                {/*</CopyToClipboard>*/}
+                <ExternalLink href="https://smartcontracts.org/docs/language-guide/basic-concepts.html">
+                    <div
+                        className="btn btn-outline-secondary d-flex flex-grow-1"
+                        data-tip="Learn more about the Motoko programming language.">
+                        <FaLink className="mt-1 me-2"/>
+                        Documentation
+                    </div>
+                </ExternalLink>
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
-                    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">
-                        <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>
-                        <FiClipboard className="ms-2"/>
+                    <ClipboardButton
+                        className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-4"
+                        data-tip="Copy to Clipboard"
+                        data-delay-show={100}>
+                        <FiClipboard className="h5 mb-0"/>
+                        {copied && <small className="ms-2">Copied!</small>}
                     </ClipboardButton>
                 </CopyToClipboard>
-                <a
-                    href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/"
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{textDecoration: 'none'}}>
-                    <Button variant="outline-success" className="d-flex flex-grow-1">
+                <ExternalLink href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/">
+                    <div
+                        className="btn btn-outline-success d-flex flex-grow-1"
+                        data-tip="Run and deploy your smart contract on Motoko Playground.">
                         <FaPlay className="mt-1 me-2"/>
-                        Motoko Playground
-                    </Button>
-                </a>
+                        Playground
+                    </div>
+                </ExternalLink>
             </div>
         </OutputContainer>
     );

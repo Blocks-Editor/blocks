@@ -1,5 +1,4 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {paramCase} from 'change-case';
 import classNames from 'classnames';
 import Rete, {Output} from 'rete';
 import ConnectionAwareListContext from '../../../contexts/ConnectionAwareListContext';
@@ -8,7 +7,7 @@ import useReactTooltip from '../../../hooks/useReactTooltip';
 // Derived from: https://github.com/retejs/react-render-plugin/blob/master/src/Socket.jsx
 
 export function SocketHandle(props) {
-    const {type, socket, innerRef, io} = props;
+    const {type, propKey, socket, innerRef, io} = props;
 
     const [relevant, setRelevant] = useState(false);
     const [requested, setRequested] = useState(null);
@@ -97,7 +96,7 @@ export function SocketHandle(props) {
             className={classNames(
                 'socket',
                 type,
-                paramCase(socket.name),
+                propKey && 'key-' + propKey,
                 relevant && 'relevant',
                 multiple && 'multiple',
                 reversed && 'reversed',
