@@ -46,6 +46,7 @@ export default function DefaultNodeView({block, nodeHandle}) {
                     <div>
                         <SocketHandle
                             type="input"
+                            propKey={block.topLeft}
                             socket={topLeft.socket}
                             io={topLeft}
                             innerRef={bindSocket}
@@ -67,6 +68,7 @@ export default function DefaultNodeView({block, nodeHandle}) {
                     <div>
                         <SocketHandle
                             type="output"
+                            propKey={block.topRight}
                             socket={topRight.socket}
                             io={topRight}
                             innerRef={bindSocket}

@@ -69,10 +69,12 @@ function install(editor, {history} = {}) {
         history.add(state);
     });
     editor.on('undo', () => {
-        history.undo();
+        // const state = history.undo();
+        // editor.fromJSON(state);
     });
     editor.on('redo', () => {
-        history.redo();
+        // const state = history.redo();
+        // editor.fromJSON(state);
     });
 
     const onKeyDown = (event) => {

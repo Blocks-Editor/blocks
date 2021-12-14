@@ -28,6 +28,7 @@ export default function PropField({prop, node, hideLeft, hideRight, bindSocket, 
         <SocketHandle
             type="input"
             socket={input.socket}
+            propKey={prop.key}
             io={input}
             innerRef={bindSocket}
         />
@@ -35,6 +36,7 @@ export default function PropField({prop, node, hideLeft, hideRight, bindSocket, 
     let rightSocket = output && !hideRight && (
         <SocketHandle
             type="output"
+            propKey={prop.key}
             socket={output.socket}
             io={output}
             innerRef={bindSocket}
