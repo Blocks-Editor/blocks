@@ -46,9 +46,8 @@ export function highlightNodeSocket(id, key) {
 
 export function highlightNodeShortcut(id, blockName) {
     return css`
-        ${highlightNode(id)}
         ${getNodeSelector(id)} .node-shortcut-button.shortcut-block-${blockName} {
-            border: 1px solid white !important;
+            border: 2px solid white !important;
             ${highlightStyle}
         }
     `;
