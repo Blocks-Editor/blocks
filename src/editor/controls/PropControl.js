@@ -22,8 +22,11 @@ export default class PropControl extends BaseControl {
         return this.config.type?.getDefaultValue();
     }
 
-    // Called every EDITOR_CHANGE_EVENT when control is visible
-    notifyEditorChange() {
-        // this.config.prop.onUpdateControl?.(this, this.getNode(), this.editor);
+    getValue() {
+        let value = super.getValue();
+        if(this.config.type?.fromJSON) {
+            value = this.config.type.fromJSON(value, this);
+        }
+        return value;
     }
 }

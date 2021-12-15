@@ -28,8 +28,8 @@ const style = css`
 
 export const helloWorldTutorial = {
     id: 'hello-world',
-    title: 'Hello, World!',
-    info: 'Create a simple Blocks smart contract',
+    name: 'Hello, World!',
+    description: 'Create a simple Blocks smart contract.',
     style,
     setupVariables(progress) {
         // Update tutorial based on these observables

@@ -27,7 +27,7 @@ export default function CommentNodeView({block, nodeHandle}) {
         <Container className="pt-2 ps-2 pe-4 rounded-3" selected={selected}>
             {/*<div className="">Comment</div>*/}
             <StyledTextArea
-                style={{width: width || 200}}
+                style={{width: width || 300}}
                 rows={1}
                 maxRows={100}
                 ref={bindNodeInput}

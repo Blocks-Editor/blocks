@@ -107,6 +107,9 @@ export const typeType = createType('Type', {
     controlType: 'type',
     defaultValue: type => type.generics[0],
     generics: [anyType],
+    fromJSON(value) {
+        return getType(value);
+    },
 });
 export const nodeType = createType('Node', {
     parent: anyType,

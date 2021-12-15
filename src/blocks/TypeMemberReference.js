@@ -23,7 +23,7 @@ const block = {
             if(!typeNode) {
                 return;
             }
-            return compiler.editor.compilers.types.getInput(typeNode, 'type');
+            return compiler.editor.compilers.type.getInput(typeNode, 'type');
         },
         // toMotoko({name}) {
         //     return name;

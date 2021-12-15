@@ -11,8 +11,8 @@ export default class TypeCompiler extends Compiler {
     }
 
     postCompile(type, node, key) {
-        if(type === undefined) {
-            return;
+        if(typeof type === 'string' || typeof type === 'number' || typeof type === 'boolean' || type === null || type === undefined) {
+            return type;/////////
         }
         type = getType(type);
         if(type.isAbstract()) {

@@ -9,7 +9,6 @@ export default function useControlValue(control) {
     const events = useContext(EventsContext);
     useListener(events, EDITOR_CHANGE_EVENT, () => {
         updateVisualValue(control.getValue());
-        control.notifyEditorChange?.();
     });
 
     useListener(control.events, 'update', () => {

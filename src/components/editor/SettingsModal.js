@@ -6,6 +6,7 @@ import {sentenceCase} from 'change-case';
 import useThemePartsState from '../../hooks/persistent/useThemePartsState';
 import styled from 'styled-components';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
+import MenuModal from '../common/MenuModal';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -108,14 +109,13 @@ export default function SettingsModal() {
     }];
 
     return (
-        <div className="p-3">
-            <h3 className="fw-light">Settings</h3>
+        <MenuModal title="Settings">
             {settings.map((setting, i) => (
                 <div key={i}>
-                    <hr/>
+                    {i > 0 && <hr/>}
                     <Setting {...setting}/>
                 </div>
             ))}
-        </div>
+        </MenuModal>
     );
 }

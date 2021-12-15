@@ -54,6 +54,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         if(!this.beforeImport(json)) {
             return false;
         }
+
         // TODO: refactor serialization
         this.projectName = json.name || '';
         this.projectDescription = json.description || '';
@@ -78,27 +79,31 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                 const node = nodes[id];
 
                 Object.entries(jsonNode.outputs).forEach(([key, jsonOutput]) => {
+                    try {
+                        jsonOutput.connections.forEach(jsonConnection => {
+                            const nodeId = jsonConnection.node;
+                            const data = jsonConnection.data;
+                            const targetOutput = node.outputs.get(key);
+                            const otherNode = nodes[nodeId];
+                            if(!otherNode) {
+                                hadError = true;
+                                return this.trigger('error', `Tried to connect to unknown node ${node.id}`);
+                            }
+                            const targetInput = otherNode.inputs.get(jsonConnection.input);
 
-                    jsonOutput.connections.forEach(jsonConnection => {
-                        const nodeId = jsonConnection.node;
-                        const data = jsonConnection.data;
-                        const targetOutput = node.outputs.get(key);
-                        const otherNode = nodes[nodeId];
-                        if(!otherNode) {
-                            hadError = true;
-                            return this.trigger('error', `Tried to connect to unknown node ${node.id}`);
-                        }
-                        const targetInput = otherNode.inputs.get(jsonConnection.input);
+                            if(!targetOutput || !targetInput) {
+                                hadError = true;
+                                return this.trigger('error', `IO not found for node ${node.id}`);
+                            }
 
-                        if(!targetOutput || !targetInput) {
-                            hadError = true;
-                            return this.trigger('error', `IO not found for node ${node.id}`);
-                        }
-
-                        this.connect(targetOutput, targetInput, data);
-                    });
+                            this.connect(targetOutput, targetInput, data);
+                        });
+                    }
+                    catch(e) {
+                        hadError = true;
+                        return this.trigger('error', e);
+                    }
                 });
-
             });
         }
         catch(e) {

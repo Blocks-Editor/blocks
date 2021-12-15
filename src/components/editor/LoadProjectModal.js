@@ -6,15 +6,10 @@ import {getExampleProjects} from '../../examples/examples';
 import FileDropZone from '../common/FileDropZone';
 import {DROP_ZONE_EXTENSIONS} from './Editor';
 import LoadFileContext from '../../contexts/LoadFileContext';
+import MenuModalOption from '../common/MenuModalOption';
 
 const MenuContainer = styled.div`
     padding: 20px;
-`;
-
-const LoadProjectItemContainer = styled.div`
-    :hover {
-        background: #0001;
-    }
 `;
 
 const StyledFileDropZone = styled(FileDropZone)`
@@ -42,13 +37,12 @@ export default function LoadProjectModal({className, ...others}) {
                 <h5>Import a .blocks file . . .</h5>
             </StyledFileDropZone>
             {examples.map((example, i) => (
-                <LoadProjectItemContainer
+                <MenuModalOption
                     key={i}
-                    className="clickable mt-2 px-3 py-2"
+                    name={example.name}
+                    description={example.description || '(No description provided)'}
                     onClick={() => events.emit(PROJECT_LOAD_EVENT, example)}>
-                    <h4 className="fw-normal">{example.name}</h4>
-                    <div className="text-muted">{example.description || '(No description provided)'}</div>
-                </LoadProjectItemContainer>
+                </MenuModalOption>
             ))}
         </MenuContainer>
     );

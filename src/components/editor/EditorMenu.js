@@ -20,6 +20,7 @@ import {
     FilePlusIcon,
     FolderOpenIcon,
     FolderWideIcon,
+    LearningIcon,
     SaveIcon,
     SettingsIcon,
 } from '../common/Icon';
@@ -30,6 +31,7 @@ import SettingsModal from './SettingsModal';
 import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import TutorialCard from './TutorialCard';
+import TutorialsModal from './TutorialsModal';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -183,7 +185,12 @@ export default function EditorMenu({editor}) {
                         {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
-                        className="float-end"
+                        tooltip="Tutorials"
+                        onMouseDown={() => setOpenMenu('tutorials')}>
+                        <LearningIcon/>
+                    </MenuButton>
+                    <MenuButton
+                        // className="float-end"
                         tooltip="Settings"
                         onMouseDown={() => setOpenMenu('settings')}>
                         <SettingsIcon/>
@@ -222,6 +229,9 @@ export default function EditorMenu({editor}) {
                 <Modal.Body>
                     {openMenu === 'load' && (
                         <LoadProjectModal/>
+                    )}
+                    {openMenu === 'tutorials' && (
+                        <TutorialsModal/>
                     )}
                     {openMenu === 'settings' && (
                         <SettingsModal/>
