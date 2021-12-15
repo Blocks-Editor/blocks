@@ -1,8 +1,10 @@
 import {identifierType, paramType, typeType, valueType} from '../block-types/types';
 import {paramCategory} from '../block-categories/categories';
+import {FOR_REUSABLE_LOGIC} from '../editor/useCases';
 
 const block = {
     info: 'An input parameter to a class or function',
+    useCases: [FOR_REUSABLE_LOGIC],
     topLeft: 'param',
     topRight: 'value',
     category: paramCategory,

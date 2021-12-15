@@ -1,4 +1,5 @@
-import React, {useMemo, useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
+import useReactTooltip from '../../../hooks/useReactTooltip';
 
 export default function ContextMenu({x, y, children, style: styleProp, handleCloseMenu, ...others}) {
 
@@ -32,6 +33,9 @@ export default function ContextMenu({x, y, children, style: styleProp, handleClo
         moveIntoWindow();
         el.onresize = moveIntoWindow;
     }, [y]);
+
+    // Fix initial tooltip value
+    useReactTooltip();
 
     return (
         <div

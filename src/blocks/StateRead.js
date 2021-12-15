@@ -1,9 +1,11 @@
 import {nodeType, valueType} from '../block-types/types';
 import {stateCategory} from '../block-categories/categories';
 import {stateReadIcon} from './State';
+import {FOR_BUILDING_API} from '../editor/useCases';
 
 const block = {
     title: 'Read State',
+    useCases: [FOR_BUILDING_API],
     category: stateCategory,
     icon: stateReadIcon,
     topRight: 'value',

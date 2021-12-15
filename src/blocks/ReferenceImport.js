@@ -1,10 +1,12 @@
 import {referenceType, textType} from '../block-types/types';
 import {FaItalic} from 'react-icons/fa';
 import {importRef} from '../compilers/MotokoCompiler';
+import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 
 const block = {
     title: 'Import Reference',
     // category: defaultCategory,
+    useCases: [FOR_CUSTOM_LOGIC],
     icon: FaItalic,
     topRight: 'value',
     outputs: [{

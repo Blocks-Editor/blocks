@@ -23,9 +23,9 @@ export default function MenuComponent({component, specialTitle, ...others}) {
         };
     }
 
-    const title = getBlockLabel(block) || component.name;
-
     useReactTooltip();
+
+    const title = getBlockLabel(block) || component.name;
 
     return (
         <MenuAction

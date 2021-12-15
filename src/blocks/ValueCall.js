@@ -2,10 +2,12 @@ import {statementBlock} from '../block-patterns/statement-patterns';
 import {functionType, valueType} from '../block-types/types';
 import {FaRegPlayCircle} from 'react-icons/fa';
 import {functionCategory} from '../block-categories/categories';
+import {FOR_CUSTOM_LOGIC, FOR_REUSABLE_LOGIC} from '../editor/useCases';
 
 const block = statementBlock({
-    info: 'Invoke a function value',
     title: 'Call Value',
+    info: 'Invoke a callable value',
+    useCases: [FOR_REUSABLE_LOGIC, FOR_CUSTOM_LOGIC],
     category: functionCategory,
     icon: FaRegPlayCircle,
     inputs: [{
