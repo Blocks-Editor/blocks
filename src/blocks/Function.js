@@ -1,7 +1,17 @@
-import {asyncType, boolType, effectType, paramType, principalType, unitType} from '../block-types/types';
+import {
+    asyncType,
+    boolType,
+    effectType,
+    functionType,
+    paramType,
+    principalType,
+    tupleType,
+    unitType,
+} from '../block-types/types';
 import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
+import {FOR_BUILDING_API, FOR_REUSABLE_LOGIC} from '../editor/useCases';
 
 const defaultReturnType = unitType;
 
@@ -17,6 +27,7 @@ export function getFunctionReturnType(node, editor) {
 
 const block = memberBlock({
     info: 'Evaluate based on given input parameters',
+    useCases: [FOR_BUILDING_API, FOR_REUSABLE_LOGIC],
     category: functionCategory,
     topRight: 'body',
     global: true,
@@ -58,6 +69,17 @@ const block = memberBlock({
         advanced: true,
         toMotoko(args, node, compiler) {
             return `${nodeIdentifierRef(node)}.caller`;
+        },
+    }, {
+        key: 'lambda',
+        type: functionType,
+        advanced: true,
+        inferType({params}, node, compiler) {
+            const returnType = getFunctionReturnType(node, compiler.editor);
+            return functionType.of(tupleType.of(...params), returnType);
+        },
+        toMotoko({name}) {
+            return name;
         },
     }],
     controls: [

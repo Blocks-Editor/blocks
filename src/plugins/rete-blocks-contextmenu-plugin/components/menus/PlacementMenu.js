@@ -50,7 +50,7 @@ export default function PlacementMenu() {
     // Add custom search results from relevant components
     components.forEach(component => {
         let block = component.block;
-        if(block.customSearch) {
+        if(searchText && block.customSearch) {
             let custom = block.customSearch(searchText);
             if(custom) {
                 (Array.isArray(custom) ? custom : [custom]).forEach(option => {

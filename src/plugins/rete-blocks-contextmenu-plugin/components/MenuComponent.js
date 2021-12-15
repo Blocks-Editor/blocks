@@ -11,7 +11,6 @@ export default function MenuComponent({component, specialTitle, ...others}) {
     const category = block?.category;
     const [learningMode] = useLearningModeState();
 
-    useReactTooltip();
     if(block?.info) {
         let tooltip = block.info.endsWith('.') ? block.info : `${block.info}.`;
         if(learningMode && block.useCases?.length) {
@@ -25,6 +24,8 @@ export default function MenuComponent({component, specialTitle, ...others}) {
     }
 
     const title = getBlockLabel(block) || component.name;
+
+    useReactTooltip();
 
     return (
         <MenuAction

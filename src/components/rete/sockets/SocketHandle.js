@@ -89,10 +89,6 @@ export function SocketHandle(props) {
 
     useReactTooltip();
 
-    const socketColor = (
-        <div className="socket-color w-100 h-100"/>
-    );
-
     return (
         <div
             ref={bindRef}
@@ -110,7 +106,7 @@ export function SocketHandle(props) {
             // title={socket.name}
             data-tip={`${socket.findLabel?.() || socket.name}`}>
             <div className="requested-wrapper w-100 h-100">
-                {socketColor}
+                <div className="socket-color w-100 h-100"/>
             </div>
         </div>
     );
