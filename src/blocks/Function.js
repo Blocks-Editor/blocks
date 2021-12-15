@@ -12,6 +12,7 @@ import {computeMemberName, memberBlock, visibilityControlProp} from '../block-pa
 import {functionCategory} from '../block-categories/categories';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {FOR_BUILDING_API, FOR_REUSABLE_LOGIC} from '../editor/useCases';
+import {formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
 
 const defaultReturnType = unitType;
 
@@ -103,8 +104,8 @@ const block = memberBlock({
             modifiers,
             hasCaller ? nodeIdentifierRef(node) : '',
             query ? 'query' : '',
-            `func ${name || ''}(${params.join(', ')})${returnString !== '()' ? ` : ${returnString}` : ''}`,
-            `{ ${body || ''} };`,
+            `func ${name || ''}${formatParentheses(params.join(', '))}${returnString !== '()' ? ` : ${returnString}` : ''}`,
+            formatStatementBlock(body || ''),
         ];
     },
 });

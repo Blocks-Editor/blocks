@@ -1,5 +1,6 @@
 import {valueType} from '../block-types/types';
 import {operatorCategory} from '../block-categories/categories';
+import {formatParentheses} from '../editor/format/formatHelpers';
 
 const block = {
     title: '(await a)',
@@ -18,7 +19,7 @@ const block = {
             return input.generics[0];
         },
         toMotoko({input}) {
-            return `(await ${input})`;
+            return formatParentheses(`await ${input}`);
         },
     }],
 };

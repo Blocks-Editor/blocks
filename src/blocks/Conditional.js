@@ -1,5 +1,6 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {boolType, effectType} from '../block-types/types';
+import {formatCurlyBraces, formatParentheses} from '../editor/format/formatHelpers';
 
 const block = statementBlock({
     title: 'if() then {} else {}',
@@ -25,7 +26,12 @@ const block = statementBlock({
         return falseCase;
     }
 
-    let falsePart = falseCase ? ` else { ${falseCase} }` : '';
-    return `if (${condition}) { ${trueCase || ''} }${falsePart};`;
+    let falsePart = falseCase ? ['else', formatCurlyBraces(falseCase)] : '';
+    return [
+        'if',
+        formatParentheses(condition),
+        formatCurlyBraces(trueCase || ''),
+        falsePart,
+    ];
 });
 export default block;

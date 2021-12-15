@@ -3,6 +3,7 @@ import {anyType, typeType, valueType} from '../block-types/types';
 import {expressionCategory} from '../block-categories/categories';
 import CodeControlHandle from '../components/rete/controls/CodeControlHandle';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
+import {formatCurlyBraces} from '../editor/format/formatHelpers';
 
 const block = {
     title: '{ Expression }',
@@ -29,7 +30,7 @@ const block = {
             return type;
         },
         toMotoko({inputs, expression}) {
-            return `do { ${parseCodeBlockInputs(inputs, expression)} }`;
+            return `do ${formatCurlyBraces(parseCodeBlockInputs(inputs, expression))}`;
         },
     }],
     controls: [{

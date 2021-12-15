@@ -8,6 +8,10 @@
     "quotes": [
       "warn",
       "single"
+    ],
+    "quote-props": [
+      "warn",
+      "as-needed"
     ]
   }
 }

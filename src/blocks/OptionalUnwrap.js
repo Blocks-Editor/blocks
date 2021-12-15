@@ -3,6 +3,7 @@ import {effectType, optionalType, valueType} from '../block-types/types';
 import {decompositionCategory} from '../block-categories/categories';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {FOR_ERROR_HANDLING} from '../editor/useCases';
+import {formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
 
 const block = statementBlock({
     title: 'Unwrap Optional',
@@ -41,6 +42,10 @@ const block = statementBlock({
     let valuePart = valueCase ? `case (?${nodeIdentifierRef(node)}) {${valueCase}};` : '';
     let nullPart = nullCase ? `case null {${nullCase}};` : '';
 
-    return `switch (${input}) { ${valuePart}${nullPart && ' ' + nullPart} };`;
+    return [
+        'switch',
+        formatParentheses(input),
+        formatStatementBlock(`${valuePart}${nullPart && ' ' + nullPart}`),
+    ];
 });
 export default block;

@@ -1,5 +1,6 @@
 import {boolType, valueType} from '../block-types/types';
 import {decompositionCategory} from '../block-categories/categories';
+import {formatCurlyBraces, formatParentheses} from '../editor/format/formatHelpers';
 
 const block = {
     title: 'Map Bool',
@@ -29,7 +30,7 @@ const block = {
             else if(condition === false) {
                 return falseCase;
             }
-            return `(if (${condition}) { ${trueCase} } else { ${falseCase} })`;
+            return formatParentheses(`if ${formatParentheses(condition)} ${formatCurlyBraces(trueCase)} else ${formatCurlyBraces(falseCase)}`);
         },
     }],
 };

@@ -1,5 +1,6 @@
 import {memberType} from '../../block-types/types';
 import {resolveImportRefs} from '../MotokoCompiler';
+import prettyPrintMotoko from '../../editor/format/prettyPrintMotoko';
 
 export default function compileGlobalMotoko(editor) {
 
@@ -19,5 +20,5 @@ export default function compileGlobalMotoko(editor) {
         return result ? `\n  ${result}` : '';
     }).join('\n')}\n}`);
 
-    return `${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`;
+    return prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`);
 }

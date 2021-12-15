@@ -1,5 +1,6 @@
 import {boolType, floatType, getType} from '../block-types/types';
 import {operatorCategory} from '../block-categories/categories';
+import {formatParentheses} from '../editor/format/formatHelpers';
 
 export function unaryOperatorBlock(type, symbol, evaluate) {
     type = getType(type);
@@ -48,7 +49,7 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
             key: 'result',
             type: resultType,
             toMotoko({left, right}) {
-                return `(${left} ${symbol} ${right})`;
+                return formatParentheses(`${left} ${symbol} ${right}`);
             },
             // inferType({left, right}) {
             //     return left.getSharedType(right);
