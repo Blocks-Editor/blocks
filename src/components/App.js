@@ -8,10 +8,14 @@ import {BrowserRouter} from 'react-router-dom';
 import TabLayout from './TabLayout';
 import GlobalTheme from './global/GlobalTheme';
 import GlobalObservables from './global/GlobalObservables';
+import useWindowSize from '../hooks/useWindowSize';
+import MobilePage from './MobilePage';
 
+const mobileBreakpoint = 768;
 
 export default function App() {
     const events = useContext(EventsContext);
+    const windowSize = useWindowSize();
 
     useListener(events, ERROR_EVENT, err => {
         toast(err, {
@@ -27,7 +31,10 @@ export default function App() {
             <BrowserRouter>
                 <GlobalTheme>
                     <ToastContainer style={{marginTop: '5rem'}}/>
-                    <TabLayout/>
+                    {windowSize.width < mobileBreakpoint ?
+                        <MobilePage/> :
+                        <TabLayout/>
+                    }
                     {/*<Switch>*/}
                     {/*    <Route path="/editor">*/}
                     {/*        <EditorPage/>*/}
