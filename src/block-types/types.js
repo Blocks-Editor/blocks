@@ -1,4 +1,5 @@
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
+import {MOTOKO_KEYWORDS} from '../config/configureMonaco';
 
 class Type {
     constructor(name, parent, generics, data = {}, meta = {}) {
@@ -150,6 +151,7 @@ export const identifierType = createType('Identifier', {
     // defaultValue: '',
     validation: {
         pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
+        custom: value => !MOTOKO_KEYWORDS.includes(value),
     },
     defaultInput(prop, node) {
         // Create placeholder identifier
