@@ -103,7 +103,7 @@ const StyledLearningIcon = styled(LearningIcon)`
 
     &.enabled {
         //stroke: var(--bs-primary) !important;
-        transform: scale(1.2) !important;
+        transform: scale(1.3) !important;
         //box-shadow: 0 0 12px inset #0003;
         border-radius: 50%;
         outline: 2px solid var(--bs-primary);
