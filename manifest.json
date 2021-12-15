@@ -1,6 +1,7 @@
 {
   "short_name": "Blocks.",
   "name": "Blocks.",
+  "description": "A visual drag-and-drop smart contract editor.",
   "icons": [
     {
       "src": "img/favicon/android-chrome-192x192.png",
