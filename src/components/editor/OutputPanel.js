@@ -46,11 +46,6 @@ const outputPanelId = 'output';
 
 export default function OutputPanel({editor}) {
 
-    // Generate output source code
-    const getOutput = () => {
-        return compileGlobalMotoko(editor);
-    };
-
     const [panel, setPanel] = useOutputPanelState();
     const [fullscreen, setFullscreen] = useFullscreenPanelState();
     const [output, setOutput] = useState('');
@@ -58,14 +53,29 @@ export default function OutputPanel({editor}) {
 
     const events = useContext(EventsContext);
 
-    useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput) & setCopied(false));
+    const closed = !panel;
+
+    // Generate output source code
+    const getOutput = () => {
+        return compileGlobalMotoko(editor);
+    };
+
+    useListener(events, EDITOR_CHANGE_EVENT, () => {
+        setOutput(closed ? '' : getOutput());
+        setCopied(false);
+    });
 
     useReactTooltip();
+
+    // Regenerate output after opening panel
+    if(!closed && !output) {
+        setOutput(getOutput());
+    }
 
     return (
         <OutputContainer
             className={classNames('output-panel px-3 pt-3')}
-            closed={!panel}
+            closed={closed}
             fullscreen={fullscreen === outputPanelId}>
             <div className="d-flex justify-content-between align-items-center mb-2">
                 <div className="clickable px-2 pb-2" onClick={() => setPanel(null)}>
@@ -91,7 +101,9 @@ export default function OutputPanel({editor}) {
                 {/*        <FiClipboard className="ms-2"/>*/}
                 {/*    </ClipboardButton>*/}
                 {/*</CopyToClipboard>*/}
-                <ExternalLink className="flex-grow-1" href="https://smartcontracts.org/docs/language-guide/basic-concepts.html">
+                <ExternalLink
+                    className="flex-grow-1"
+                    href="https://smartcontracts.org/docs/language-guide/basic-concepts.html">
                     <div
                         className="btn btn-outline-secondary d-flex justify-content-center"
                         data-tip="Learn more about the Motoko programming language.">
