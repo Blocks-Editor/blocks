@@ -8,6 +8,6 @@ it('renders without errors/warnings', async () => {
 
     await waitFor(async () => {
         // noinspection JSCheckFunctionSignatures
-        expect(await result.findByText('hello() : async Text')).toBeInTheDocument();
+        expect(await result.findByText('hey() : async Text')).toBeInTheDocument();
     });
 });

@@ -1,5 +1,6 @@
 import {getBlock} from './blocks';
 
+/* eslint-disable quote-props */
 const shortcutKeys = {
     'c': 'Comment',
     'd': 'CommentRegion',

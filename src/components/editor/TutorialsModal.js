@@ -27,6 +27,13 @@ export default function TutorialsModal() {
                     </MenuModalOption>
                 );
             })}
+            {/*<hr/>*/}
+            {/*{SHORTCUT_KEYS.entries().map((key, block) => (*/}
+            {/*    <div key={key} className="d-flex align-items-center">*/}
+            {/*        <label className="flex-grow-1">{key}</label>*/}
+            {/*        <span>{getBlockLabel(block)}</span>*/}
+            {/*    </div>*/}
+            {/*))}*/}
         </MenuModal>
     );
 }

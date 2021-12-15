@@ -72,7 +72,7 @@ const block = memberBlock({
             return `${nodeIdentifierRef(node)}.caller`;
         },
     }, {
-        key: 'lambda',
+        key: 'function',
         type: functionType,
         advanced: true,
         inferType({params}, node, compiler) {

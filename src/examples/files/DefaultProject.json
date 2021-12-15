@@ -7,7 +7,7 @@
       "id": 740,
       "data": {
         "visibility": "public",
-        "name": "hello",
+        "name": "hey",
         "editor:advanced": false,
         "query": false
       },
@@ -35,7 +35,7 @@
         "caller": {
           "connections": []
         },
-        "lambda": {
+        "function": {
           "connections": []
         }
       },
