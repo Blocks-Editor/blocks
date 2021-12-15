@@ -1,4 +1,12 @@
 export function formatParentheses(string) {
+    // Remove trivial double parentheses
+    if(string.startsWith('(') && string.endsWith(')')) {
+        const s = string.substring(1, string.length - 1);
+        if(!s.includes('(') && !s.includes(')')) {
+            string = s;
+        }
+    }
+
     return `(${string})`;
 }
 
