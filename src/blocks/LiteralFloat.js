@@ -4,7 +4,7 @@ import {floatType} from '../block-types/types';
 const block = literalBlock({
     title: 'Float',
     customSearch(text) {
-        const value = parseInt(text);
+        const value = +text;
         if(!isNaN(value)) {
             return {
                 title: value,

@@ -79,16 +79,15 @@ export function SocketHandle(props) {
             if(index !== -1) {
                 connectionAwareList.splice(index, 1);
             }
+            else {
+                console.warn('Missing connection aware listener on cleanup');
+            }
             clearTimeout(timeout);///
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [socket, io, connectionAwareList, updateRequested]);
 
     useReactTooltip();
-
-    const socketColor = (
-        <div className="socket-color w-100 h-100"/>
-    );
 
     return (
         <div
@@ -107,7 +106,7 @@ export function SocketHandle(props) {
             // title={socket.name}
             data-tip={`${socket.findLabel?.() || socket.name}`}>
             <div className="requested-wrapper w-100 h-100">
-                {socketColor}
+                <div className="socket-color w-100 h-100"/>
             </div>
         </div>
     );

@@ -46,11 +46,6 @@ const outputPanelId = 'output';
 
 export default function OutputPanel({editor}) {
 
-    // Generate output source code
-    const getOutput = () => {
-        return compileGlobalMotoko(editor);
-    };
-
     const [panel, setPanel] = useOutputPanelState();
     const [fullscreen, setFullscreen] = useFullscreenPanelState();
     const [output, setOutput] = useState('');
@@ -58,14 +53,29 @@ export default function OutputPanel({editor}) {
 
     const events = useContext(EventsContext);
 
-    useListener(events, EDITOR_CHANGE_EVENT, () => setOutput(getOutput) & setCopied(false));
+    const closed = !panel;
+
+    // Generate output source code
+    const getOutput = () => {
+        return compileGlobalMotoko(editor);
+    };
+
+    useListener(events, EDITOR_CHANGE_EVENT, () => {
+        setOutput(closed ? '' : getOutput());
+        setCopied(false);
+    });
 
     useReactTooltip();
+
+    // Regenerate output after opening panel
+    if(!closed && !output) {
+        setOutput(getOutput());
+    }
 
     return (
         <OutputContainer
             className={classNames('output-panel px-3 pt-3')}
-            closed={!panel}
+            closed={closed}
             fullscreen={fullscreen === outputPanelId}>
             <div className="d-flex justify-content-between align-items-center mb-2">
                 <div className="clickable px-2 pb-2" onClick={() => setPanel(null)}>
@@ -91,9 +101,11 @@ export default function OutputPanel({editor}) {
                 {/*        <FiClipboard className="ms-2"/>*/}
                 {/*    </ClipboardButton>*/}
                 {/*</CopyToClipboard>*/}
-                <ExternalLink href="https://smartcontracts.org/docs/language-guide/basic-concepts.html">
+                <ExternalLink
+                    className="flex-grow-1"
+                    href="https://smartcontracts.org/docs/language-guide/basic-concepts.html">
                     <div
-                        className="btn btn-outline-secondary d-flex flex-grow-1"
+                        className="btn btn-outline-secondary d-flex justify-content-center"
                         data-tip="Learn more about the Motoko programming language.">
                         <FaLink className="mt-1 me-2"/>
                         Documentation
@@ -101,16 +113,16 @@ export default function OutputPanel({editor}) {
                 </ExternalLink>
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
                     <ClipboardButton
-                        className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-4"
+                        className="clickable d-flex justify-content-center py-2 px-4"
                         data-tip="Copy to Clipboard"
                         data-delay-show={100}>
                         <FiClipboard className="h5 mb-0"/>
                         {copied && <small className="ms-2">Copied!</small>}
                     </ClipboardButton>
                 </CopyToClipboard>
-                <ExternalLink href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/">
+                <ExternalLink className="flex-grow-1" href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/">
                     <div
-                        className="btn btn-outline-success d-flex flex-grow-1"
+                        className="btn btn-outline-success d-flex justify-content-center"
                         data-tip="Run and deploy your smart contract on Motoko Playground.">
                         <FaPlay className="mt-1 me-2"/>
                         Playground

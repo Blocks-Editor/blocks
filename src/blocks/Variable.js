@@ -2,10 +2,12 @@ import {statementBlock} from '../block-patterns/statement-patterns';
 import {identifierType, valueType} from '../block-types/types';
 import {paramCategory} from '../block-categories/categories';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
+import {FOR_REUSABLE_LOGIC} from '../editor/useCases';
 
 const block = statementBlock({
     title: 'Local Variable',
     info: 'Store and retrieve data from within a function',
+    useCases: [FOR_REUSABLE_LOGIC],
     category: paramCategory,
     inputs: [{
         key: 'name',

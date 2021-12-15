@@ -1,5 +1,6 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {boolType, effectType, unitType} from '../block-types/types';
+import {formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
 
 const block = statementBlock({
     title: 'while() {}',
@@ -13,6 +14,10 @@ const block = statementBlock({
         optional: true,
     }],
 }, ({condition, loop}) => {
-    return `while (${condition}) { ${loop ?? ''} };`;
+    return [
+        'while',
+        formatParentheses(condition),
+        formatStatementBlock(loop ?? ''),
+    ];
 });
 export default block;

@@ -1,11 +1,13 @@
 import {arrayType, boolType, mutableArrayType, typeType, valueType} from '../block-types/types';
 import {importRef} from '../compilers/MotokoCompiler';
 import {collectionCategory} from '../block-categories/categories';
+import {FOR_STORING_DATA} from '../editor/useCases';
 
 export const arrayImportRef = importRef('mo:base/Array');
 
 const block = {
     title: 'Create Array',
+    useCases: [FOR_STORING_DATA],
     category: collectionCategory,
     icon: collectionCategory.data.icon,
     topRight: 'value',

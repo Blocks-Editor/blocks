@@ -2,12 +2,14 @@ import {boolType, unitType, valueType} from '../block-types/types';
 import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 import {FaAngleDoubleRight, FaAngleRight} from 'react-icons/fa';
+import {FOR_BUILDING_API, FOR_STORING_DATA} from '../editor/useCases';
 
 export const stateReadIcon = FaAngleRight;
 export const stateWriteIcon = FaAngleDoubleRight;
 
 const block = memberBlock({
     info: 'A persistent smart contract variable',
+    useCases: [FOR_BUILDING_API, FOR_STORING_DATA],
     topRight: 'value',
     category: stateCategory,
     global: true,

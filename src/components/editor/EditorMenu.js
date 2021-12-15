@@ -20,6 +20,7 @@ import {
     FilePlusIcon,
     FolderOpenIcon,
     FolderWideIcon,
+    LearningIcon,
     SaveIcon,
     SettingsIcon,
 } from '../common/Icon';
@@ -30,6 +31,8 @@ import SettingsModal from './SettingsModal';
 import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import TutorialCard from './TutorialCard';
+import TutorialsModal from './TutorialsModal';
+import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -95,14 +98,17 @@ const StyledZoomIcon = styled(CrosshairIcon)`
     }
 `;
 
-// const StyledLearningIcon = styled(LearningIcon)`
-//     transition: .2s transform ease-out;
-//
-//     &.enabled {
-//         color: #333;
-//         transform: scale(1.2) !important;
-//     }
-// `;
+const StyledLearningIcon = styled(LearningIcon)`
+    transition: .2s transform ease-out;
+
+    &.enabled {
+        //stroke: var(--bs-primary) !important;
+        transform: scale(1.3) !important;
+        //box-shadow: 0 0 12px inset #0003;
+        border-radius: 50%;
+        outline: 2px solid var(--bs-primary);
+    }
+`;
 
 export default function EditorMenu({editor}) {
     const [name, setName] = useState('');
@@ -111,6 +117,7 @@ export default function EditorMenu({editor}) {
     const [openMenu, setOpenMenu] = useState(null);
     const [outputPanel, setOutputPanel] = useOutputPanelState();
     const [autosave] = useAutosaveState();
+    const [progress] = useTutorialProgressState();
 
     const events = useContext(EventsContext);
 
@@ -183,7 +190,12 @@ export default function EditorMenu({editor}) {
                         {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
-                        className="float-end"
+                        tooltip="Tutorials"
+                        onMouseDown={() => setOpenMenu('tutorials')}>
+                        <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
+                    </MenuButton>
+                    <MenuButton
+                        // className="float-end"
                         tooltip="Settings"
                         onMouseDown={() => setOpenMenu('settings')}>
                         <SettingsIcon/>
@@ -222,6 +234,9 @@ export default function EditorMenu({editor}) {
                 <Modal.Body>
                     {openMenu === 'load' && (
                         <LoadProjectModal/>
+                    )}
+                    {openMenu === 'tutorials' && (
+                        <TutorialsModal/>
                     )}
                     {openMenu === 'settings' && (
                         <SettingsModal/>

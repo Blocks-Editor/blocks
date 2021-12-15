@@ -1,11 +1,16 @@
 import {memberType} from '../../block-types/types';
 import {resolveImportRefs} from '../MotokoCompiler';
+import prettyPrintMotoko from '../../editor/format/prettyPrintMotoko';
 
 export default function compileGlobalMotoko(editor) {
 
     const memberNodes = editor.nodes
         .filter(n => {
-            const type = /* reversed */ n.inputs.get('member')?.socket.findType?.();
+            const io = n.inputs.get('member');
+            if(!io || io.connections.length) {
+                return false;
+            }
+            const type = /* reversed */ io.socket.findType?.();
             return type && memberType.isSubtype(type);
         })
         .sort((a, b) => a.position[1] - b.position[1]);
@@ -15,5 +20,5 @@ export default function compileGlobalMotoko(editor) {
         return result ? `\n  ${result}` : '';
     }).join('\n')}\n}`);
 
-    return `${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`;
+    return prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`);
 }

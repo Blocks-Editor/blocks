@@ -3,10 +3,12 @@ import {nodeType, valueType} from '../block-types/types';
 import {FaPlayCircle} from 'react-icons/fa';
 import {functionCategory} from '../block-categories/categories';
 import {getFunctionReturnType} from './Function';
+import {FOR_REUSABLE_LOGIC} from '../editor/useCases';
 
 const block = statementBlock({
     info: 'Invoke a function in this project',
     title: 'Call Function',
+    useCases: [FOR_REUSABLE_LOGIC],
     category: functionCategory,
     icon: FaPlayCircle,
     computeTitle(node, editor) {

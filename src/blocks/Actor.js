@@ -1,5 +1,6 @@
 import {containerType, identifierType, memberType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
+import {formatMembers, formatStatementBlock} from '../editor/format/formatHelpers';
 
 const block = {
     info: 'An actor which can be deployed as a smart contract',
@@ -24,7 +25,11 @@ const block = {
         key: 'actor',
         type: containerType,
         toMotoko({name, members}) {
-            return `actor${name ? ' ' + name : ''} { ${members.join(' ')} };`;
+            return [
+                'actor',
+                name,
+                formatStatementBlock(formatMembers(members)),
+            ];
         },
     }],
 };

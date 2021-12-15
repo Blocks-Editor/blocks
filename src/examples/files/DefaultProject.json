@@ -6,7 +6,10 @@
     "740": {
       "id": 740,
       "data": {
-        "visibility": "public"
+        "visibility": "public",
+        "name": "hey",
+        "editor:advanced": false,
+        "query": false
       },
       "inputs": {
         "name": {
@@ -21,9 +24,18 @@
           "connections": []
         },
         "body": {
-          "connections": []
+          "connections": [
+            {
+              "node": 1025,
+              "input": "statement",
+              "data": {}
+            }
+          ]
         },
         "caller": {
+          "connections": []
+        },
+        "function": {
           "connections": []
         }
       },
@@ -32,6 +44,59 @@
         0
       ],
       "name": "Function"
+    },
+    "1025": {
+      "id": 1025,
+      "data": {},
+      "inputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 1029,
+              "output": "value",
+              "data": {}
+            }
+          ]
+        },
+        "statement": {
+          "connections": [
+            {
+              "node": 740,
+              "output": "body",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        640,
+        0
+      ],
+      "name": "Return"
+    },
+    "1029": {
+      "id": 1029,
+      "data": {
+        "value": "Hello, world!"
+      },
+      "inputs": {},
+      "outputs": {
+        "value": {
+          "connections": [
+            {
+              "node": 1025,
+              "input": "value",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        416,
+        64
+      ],
+      "name": "LiteralText"
     }
   }
 }

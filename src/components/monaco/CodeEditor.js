@@ -17,6 +17,13 @@ export default function CodeEditor({value, onChange, readOnly, ...others}) {
             theme={theme.monaco || 'vs-dark'}
             defaultLanguage="motoko"
             beforeMount={configureMonaco}
+            // onMount={(editor, monaco) => {
+            //     setTimeout(() => {
+            //         console.log(editor.getAction('editor.action.formatDocument').run());
+            //
+            //         // console.log(editor.trigger('actor{public func test() : Text {}}', 'editor.action.formatDocument'));
+            //     },500);
+            // }}
             value={value}
             // path={fileName}
             onChange={onEditorChange}

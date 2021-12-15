@@ -103,6 +103,7 @@ export default function EditorPage() {
         editor.trigger('history', state);
 
         EDITOR_STATE_STORE.set(state);
+        // UNSAVED_CHANGES_STORE.set(true);
     }, []);
 
     const onEditorSave = useCallback((state, editor) => {
@@ -113,6 +114,7 @@ export default function EditorPage() {
             type: 'save',
             state: stateString,
         });
+        // UNSAVED_CHANGES_STORE.set(false);
     }, []);
 
     return (

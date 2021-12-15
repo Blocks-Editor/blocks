@@ -1,6 +1,7 @@
 import {containerType, identifierType, memberType, paramType, principalType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
+import {formatMembers, formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
 
 // TODO: subclasses
 let thisName = 'this';
@@ -16,7 +17,7 @@ const block = {
         if(!name) {
             return;
         }
-        return `actor class ${name}(${params.join(', ')})`;
+        return `actor class ${name}${formatParentheses(params.join(', '))}`;
     },
     inputs: [{
         key: 'name',
@@ -37,7 +38,7 @@ const block = {
         toMotoko({name, params, members}, node, compiler) {
             let hasCaller = node.outputs.get('caller').connections.length;
 
-            return `${hasCaller ? `shared (${nodeIdentifierRef(node)})` : ''}actor class${name ? ' ' + name : ''}(${params.join(', ')}) = ${thisName} { ${members.join(' ')} };`;
+            return `${hasCaller ? `shared (${nodeIdentifierRef(node)}) ` : ''}actor class${name ? ' ' + name : ''}${formatParentheses(params.join(', '))} = ${thisName} ${formatStatementBlock(formatMembers(members))}`;
         },
         // }, {
         //     key: 'this',

@@ -3,6 +3,7 @@ import {collectionCategory} from '../block-categories/categories';
 import {FaLayerGroup} from 'react-icons/fa';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {arrayImportRef} from './NewArray';
+import {formatCurlyBraces} from '../editor/format/formatHelpers';
 
 const block = {
     title: 'Replace Items (Array)',
@@ -32,7 +33,7 @@ const block = {
             let fromTypeString = compiler.getTypeString(fromType);
             let toTypeString = compiler.getTypeString(toType);
 
-            return `${arrayImportRef}.map<${fromTypeString}, ${toTypeString}>(${array}, func (${nodeIdentifierRef(node)} : ${fromTypeString}) : ${toTypeString} { ${body} })`;
+            return `${arrayImportRef}.map<${fromTypeString}, ${toTypeString}>(${array}, func (${nodeIdentifierRef(node)} : ${fromTypeString}) : ${toTypeString} ${formatCurlyBraces(body)})`;
         },
     }, {
         key: 'item',

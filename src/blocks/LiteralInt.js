@@ -4,8 +4,8 @@ import {intType} from '../block-types/types';
 const block = literalBlock({
     title: 'Integer',
     customSearch(text) {
-        const value = parseInt(text);
-        if(isFinite(value)) {
+        const value = +text;
+        if(value % 1 === 0) {
             return {
                 title: value,
                 data: {

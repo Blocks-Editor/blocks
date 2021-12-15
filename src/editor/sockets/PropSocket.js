@@ -1,5 +1,6 @@
 import Rete from 'rete';
 import {getType} from '../../block-types/types';
+import flattenUniqueTypes from '../../utils/flattenUniqueTypes';
 
 export default class PropSocket extends Rete.Socket {
     constructor(title, prop) {
@@ -14,12 +15,16 @@ export default class PropSocket extends Rete.Socket {
     }
 
     findLabel() {
-        let type = this.findType();
-        // let typeString = type.toTypeString();
-        // return this.name === typeString ? this.name : `${this.name} (${typeString})`;
+        const type = this.findType();
 
-        const text = type.toTypeString();
-        return type.data.info ? `${text} : ${type.data.info}` : text;
+        let text = type.toTypeString();
+        for(const relevant of flattenUniqueTypes(type)) {
+            const info = relevant.meta.info || relevant.data.info;
+            if(info) {
+                text += `<br>${relevant.name} : ${info}`;
+            }
+        }
+        return text;
     }
 
     findType() {

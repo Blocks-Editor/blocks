@@ -1,9 +1,9 @@
-import {typeCategory} from '../block-categories/categories';
+import {literalCategory} from '../block-categories/categories';
 import {tupleType, valueType} from '../block-types/types';
 
 const block = {
     title: 'Pair',
-    category: typeCategory,
+    category: literalCategory,
     topRight: 'value',
     computeTitle(node, editor) {
         let type = editor.compilers.type.getOutput(node, 'value');//?.generics[0];

@@ -7,6 +7,7 @@ const block = {
     category: typeCategory,
     icon: FaAngleRight,
     topRight: 'type',
+    hidden: true,////
     computeTitle(node, editor) {
         let typeNode = editor.compilers.node.getInput(node, 'typeNode');
         console.log(typeNode);
@@ -23,7 +24,7 @@ const block = {
             if(!typeNode) {
                 return;
             }
-            return compiler.editor.compilers.types.getInput(typeNode, 'type');
+            return compiler.editor.compilers.type.getInput(typeNode, 'type');
         },
         // toMotoko({name}) {
         //     return name;

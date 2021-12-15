@@ -1,12 +1,14 @@
 import {mapType, textType, typeType, valueType} from '../block-types/types';
 import {importRef} from '../compilers/MotokoCompiler';
 import {collectionCategory} from '../block-categories/categories';
+import {FOR_STORING_DATA} from '../editor/useCases';
 
 export const hashMapImportRef = importRef('mo:base/HashMap');
 export const textImportRef = importRef('mo:base/Text');
 
 const block = {
     title: 'Create Map',
+    useCases: [FOR_STORING_DATA],
     category: collectionCategory,
     icon: collectionCategory.data.icon,
     topRight: 'value',

@@ -69,7 +69,7 @@ function TutorialProgressCard({progress, onComplete}) {
             <HelperCard
                 title="Congratulations!"
                 icon={<FiSmile/>}>
-                You completed our "{tutorial.title}" tutorial.
+                You completed our "{tutorial.name}" tutorial.
                 <hr/>
                 <ButtonGroup className="d-flex">
                     <Button variant="success" onMouseDown={() => onComplete()}>Close</Button>
@@ -84,8 +84,8 @@ function TutorialProgressCard({progress, onComplete}) {
     // Tutorial in progress
     return (
         <HelperCard
-            title={step.title || tutorial.title}
-            iconTooltip={`${tutorial.title} (${tutorial.info})`}>
+            title={step.title || tutorial.name}
+            iconTooltip={`${tutorial.name} (${tutorial.description})`}>
             {step.info}
             {rendered && step.info && <hr/>}
             {rendered}

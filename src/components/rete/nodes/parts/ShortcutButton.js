@@ -50,7 +50,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
         }
     };
 
-    useReactTooltip([block]);
+    useReactTooltip();
 
     return (
         <div

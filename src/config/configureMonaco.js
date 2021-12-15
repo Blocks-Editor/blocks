@@ -2,6 +2,14 @@ import nightOwlTheme from 'monaco-themes/themes/Night Owl.json';
 
 // Derived from: https://github.com/dfinity/motoko-playground/blob/main/src/config/monacoConfig.js
 
+export const MOTOKO_KEYWORDS = [
+    'actor', 'and', 'async', 'assert', 'await', 'break', 'case', 'catch', 'class',
+    'continue', 'debug', 'else', 'false', 'for', 'func', 'if', 'in', 'import',
+    'module', 'not', 'null', 'object', 'or', 'label', 'let', 'loop', 'private',
+    'public', 'return', 'shared', 'try', 'throw', 'debug_show', 'query', 'switch',
+    'true', 'type', 'var', 'while', 'stable', 'flexible', 'system',
+];
+
 export const configureMonaco = (monaco) => {
     monaco.editor.defineTheme('night-owl', nightOwlTheme);
 
@@ -28,13 +36,7 @@ export const configureMonaco = (monaco) => {
         defaultToken: '',
         tokenPostfix: '.mo',
         // prettier-ignore
-        keywords: [
-            'actor', 'and', 'async', 'assert', 'await', 'break', 'case', 'catch', 'class',
-            'continue', 'debug', 'else', 'false', 'for', 'func', 'if', 'in', 'import',
-            'module', 'not', 'null', 'object', 'or', 'label', 'let', 'loop', 'private',
-            'public', 'return', 'shared', 'try', 'throw', 'debug_show', 'query', 'switch',
-            'true', 'type', 'var', 'while', 'stable', 'flexible', 'system',
-        ],
+        keywords: MOTOKO_KEYWORDS,
         accessmodifiers: ['public', 'private', 'shared'],
         // prettier-ignore
         typeKeywords: [

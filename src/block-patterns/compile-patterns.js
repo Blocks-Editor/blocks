@@ -2,14 +2,15 @@ import {anyReversedType, anyType} from '../block-types/types';
 import OutputControlHandle from '../components/rete/controls/OutputControlHandle';
 import {compilerCategory} from '../block-categories/categories';
 import {resolveImportRefs} from '../compilers/MotokoCompiler';
+import prettyPrintMotoko from '../editor/format/prettyPrintMotoko';
 
-export function compileBlock(compilerKey,block, displayFn) {
+export function compileBlock(compilerKey, block, displayFn) {
     function queryFor(inputKey) {
         return (control, node, editor) => {
             let value = editor.compilers[compilerKey].getInput(node, inputKey);
             let string = displayFn ? displayFn(value) : value;
             const [prefixes, code] = resolveImportRefs(string);
-            return [...prefixes, code].join(' ');
+            return prettyPrintMotoko([...prefixes, code].join(' '));
         };
     }
 

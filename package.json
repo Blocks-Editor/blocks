@@ -46,7 +46,6 @@
     "husky": "^7.0.4",
     "jest-fail-on-console": "^2.1.1",
     "lint-staged": "^12.1.2",
-    "prettier": "^2.5.0",
     "react-scripts": "^4.0.3",
     "webpack-filter-warnings-plugin": "^1.2.1"
   },
@@ -56,7 +55,7 @@
     "test": "cross-env CI=1 craco test",
     "test:watch": "craco test",
     "precommit": "lint-staged",
-    "prebuild": "npm run test:unit",
+    "prebuild": "npm run test",
     "build": "npm run prebuild && craco build",
     "deploy": "cross-env PUBLIC_URL=https://blocks-editor.github.io/blocks npm run build && gh-pages -d build"
   },

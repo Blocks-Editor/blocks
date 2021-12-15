@@ -1,4 +1,5 @@
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
+import {MOTOKO_KEYWORDS} from '../config/configureMonaco';
 
 class Type {
     constructor(name, parent, generics, data = {}, meta = {}) {
@@ -107,8 +108,12 @@ export const typeType = createType('Type', {
     controlType: 'type',
     defaultValue: type => type.generics[0],
     generics: [anyType],
+    fromJSON(value) {
+        return getType(value);
+    },
 });
 export const nodeType = createType('Node', {
+    info: 'A specific node in the editor',
     parent: anyType,
     category: 'nodes',
     controlType: 'node',
@@ -129,6 +134,7 @@ export const valueType = createType('Value', {
     },
 });
 export const customType = createType('Custom', {
+    info: 'A custom user-defined value',
     // abstract: true, // TEMP
     parent: valueType,
     arbitraryGenerics: true,
@@ -138,15 +144,18 @@ export const customType = createType('Custom', {
     // },
 });
 export const referenceType = createType('Reference', {
+    info: 'A programmatic reference to a value, type, function, actor, class, object, or module',
     parent: anyType,
     category: 'references',
 });
 export const identifierType = createType('Identifier', {
+    info: 'A programmatic name consisting of letters and underscores',
     parent: referenceType,
     controlType: 'text',
     // defaultValue: '',
     validation: {
         pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
+        custom: value => !MOTOKO_KEYWORDS.includes(value),
     },
     defaultInput(prop, node) {
         // Create placeholder identifier
@@ -154,6 +163,7 @@ export const identifierType = createType('Identifier', {
     },
 });
 export const effectType = createType('Effect', {
+    info: 'A statement which runs after calling a function',
     parent: anyReversedType,
     category: 'effects',
     generics: [valueType],
@@ -162,32 +172,38 @@ export const effectType = createType('Effect', {
     },
 });
 export const memberType = createType('Member', {
+    info: 'Something defined within a container (actor, object, class, or module)',
     parent: anyReversedType,
     singleOutput: true,
     category: 'members',
 });
-export const containerType = createType('Container', {
-    parent: anyReversedType,
-    singleOutput: true,
-    category: 'containers',
-});
 export const moduleType = createType('Module', {
+    info: 'A group of related containers (actors, objects, classes, and/or modules)',
     parent: anyReversedType,
     singleOutput: true,
     category: 'modules',
 });
-export const paramType = createType('Param', {
+export const containerType = createType('Container', {
+    info: 'An actor, object, class, or module',
+    parent: anyReversedType,
+    singleOutput: true,
+    category: 'containers',
+});
+export const paramType = createType('Parameter', {
+    info: 'An input parameter to a function, class, or actor',
     parent: anyReversedType,
     category: 'parameters',
 });
 
 // Value types
 export const boolType = createType('Bool', {
+    info: 'A logical value representing "true" or "false"',
     parent: valueType,
     controlType: 'checkbox',
     defaultValue: false,
 });
 export const charType = createType('Char', {
+    info: 'A single character of text',
     parent: valueType,
     controlType: 'text',
     validation: {
@@ -196,16 +212,22 @@ export const charType = createType('Char', {
     },
 });
 export const textType = createType('Text', {
+    info: 'A sequence of letters, numbers, emojis, and other characters',
     parent: valueType,
     controlType: 'text',
     defaultValue: '',
 });
 export const floatType = createType('Float', {
+    info: 'A real / decimal / floating-point number (-0.1, 123, 1e5)',
     parent: valueType,
-    controlType: 'number',
+    controlType: 'text',
+    validation: {
+        custom: value => !isNaN(+value),
+    },
     defaultValue: 0,
 });
 export const intType = createType('Int', {
+    info: 'An integer (..., -2, -1, 0, 1, 2, ...)',
     parent: floatType,
     category: 'integers',
     controlType: 'number',
@@ -214,6 +236,7 @@ export const intType = createType('Int', {
     },
 });
 export const natType = createType('Nat', {
+    info: 'A natural number (0, 1, 2, ...)',
     parent: floatType,
     category: 'naturals',
     validation: {
@@ -222,16 +245,20 @@ export const natType = createType('Nat', {
     },
 });
 export const blobType = createType('Blob', {
+    info: 'Immutable binary data (similar to an HTML5 blob)',
     parent: valueType,
 });
 export const principalType = createType('Principal', {
+    info: 'A wallet or smart contract address',
     parent: valueType,
     category: 'principals',
 });
 export const errorType = createType('Error', {
+    info: 'An error value for custom exception handling',
     parent: valueType,
 });
 export const tupleType = createType('Tuple', {
+    info: 'A combination of multiple values in a specific order',
     abstract: true,
     arbitraryGenerics: true,
     parent: valueType,
@@ -244,9 +271,12 @@ export const tupleType = createType('Tuple', {
 // export const unitType = createType('Unit', {
 //     parent: tupleType,
 // });
-export const unitType = createType('Unit', tupleType.of());
+export const unitType = createType('Unit', tupleType.withMeta({
+    info: 'A type with only one possible value, equivalent to an empty tuple',
+}));
 if(tupleType === unitType) throw new Error(); // TODO: move to tests
 export const objectType = createType('Object', {
+    info: 'An object which can include values, functions, types, or other members',
     abstract: true,
     arbitraryGenerics: true,
     parent: valueType,
@@ -257,6 +287,7 @@ export const objectType = createType('Object', {
     },
 });
 export const functionType = createType('Function', {
+    info: 'A callable sequence of events which optionally returns a value',
     parent: valueType,
     generics: [valueType, valueType],
     genericNames: ['input', 'output'],
@@ -266,6 +297,7 @@ export const functionType = createType('Function', {
     },
 });
 export const optionalType = createType('Optional', {
+    info: 'A value which has the possibility of being null',
     parent: valueType,
     generics: [valueType],
     category: 'optionals',
@@ -274,15 +306,18 @@ export const optionalType = createType('Optional', {
     },
 });
 export const nullType = createType('Null', {
+    info: 'An "Optional" value representing nothing',
     parent: valueType,
     alwaysSubtype: optionalType,
 });
 export const collectionType = createType('Collection', {
+    info: 'A compound data structure such as an Array or Map',
     abstract: true,
     parent: valueType,
     category: 'collections',
 });
 export const arrayType = createType('Array', {
+    info: 'An ordered sequence of values with a specific type',
     parent: collectionType,
     generics: [valueType],
     genericNames: ['item'],
@@ -299,14 +334,16 @@ export const mutableArrayType = createType('MutableArray', {
     },
 });
 export const mapType = createType('Map', {
+    info: 'A lookup or dictionary from one set of values to another',
     parent: collectionType,
     generics: [valueType, valueType],
     genericNames: ['key', 'value'],
     toMotoko([key, value]) {
-        return `HashMap.HashMap<${key}, ${value}>`;
+        return `HashMap.HashMap<${key}, ${value}>`; // TODO: import reference
     },
 });
-export const asyncType = createType('Async', {
+export const asyncType = createType('Future', {
+    info: 'An asynchronous value or process',
     parent: valueType,
     generics: [valueType],
     category: 'futures',
