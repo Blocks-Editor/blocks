@@ -17,6 +17,6 @@ const block = statementBlock({
         type: valueType,
     }],
 }, ({array, value}) => {
-    return `(${array} := ${arrayImportRef}.append([${value}], ${array}));`;
+    return `${array} := ${arrayImportRef}.append([${value}], ${array});`;
 });
 export default block;
