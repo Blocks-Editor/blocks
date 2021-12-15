@@ -79,6 +79,9 @@ export function SocketHandle(props) {
             if(index !== -1) {
                 connectionAwareList.splice(index, 1);
             }
+            else {
+                console.warn('Missing connection aware listener on cleanup');
+            }
             clearTimeout(timeout);///
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
