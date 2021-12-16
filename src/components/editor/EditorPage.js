@@ -23,7 +23,7 @@ const embedded = isEmbedded();
 const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStorage()`
 
 if(embedded) {
-    console.log('Using embedded mode.');
+    console.log('Blocks: using embedded mode.');
 }
 
 const history = new UndoRedoHistory(50);
