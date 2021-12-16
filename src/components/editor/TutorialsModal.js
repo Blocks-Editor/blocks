@@ -4,6 +4,7 @@ import MenuModal from '../common/MenuModal';
 import MenuModalOption from '../common/MenuModalOption';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import {FiX} from 'react-icons/fi';
+import classNames from 'classnames';
 
 const tutorials = TUTORIALS;
 
@@ -20,8 +21,8 @@ export default function TutorialsModal() {
                     <MenuModalOption
                         key={i}
                         name={tutorial.name}
-                        selected={selected}
                         description={tutorial.description || '(No description provided)'}
+                        className={classNames(selected && 'text-info')}
                         onClick={() => setProgress(selected ? null : {tutorial})}>
                         {selected && <span className="h5 mb-0 text-muted"><FiX/></span>}
                     </MenuModalOption>

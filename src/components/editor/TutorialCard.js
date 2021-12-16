@@ -26,7 +26,7 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledCardHeader = styled(Card.Header)`
-    background: #8649E1
+    //background: #8649E1
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -41,7 +41,7 @@ function HelperCard({title, icon, iconTooltip, children, ...others}) {
     return (
         <StyledCard {...others}>
             {(icon || title) && (
-                <StyledCardHeader className="helper-card-header py-3">
+                <StyledCardHeader className="helper-card-header bg-info py-3">
                     <h4 className="mb-0 d-flex align-items-center justify-content-start text-white">
                         <span className="me-3 mb-1" data-tip={iconTooltip} data-place="top" data-delay-show={0}>
                             {icon || <StyledLearningIcon/>}
