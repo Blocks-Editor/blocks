@@ -130,5 +130,11 @@ export default function PlacementMenu() {
             onAction={handleSearchAction}>
             {menuItems}
         </MenuSearch>
-    ) : menuItems;
+    ) : (
+        <>
+            {/* Experimental global placement header */}
+            <div className="noselect p-2 text-light" style={{opacity: .5, background: '#FFF2'}}>Place anywhere:</div>
+            {menuItems}
+        </>
+    );
 }

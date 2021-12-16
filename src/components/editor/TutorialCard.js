@@ -9,9 +9,9 @@ import useTutorialVariables from '../../hooks/useTutorialVariables';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import useListener from '../../hooks/utils/useListener';
 import {FiSmile, FiX} from 'react-icons/fi';
-import {ReactComponent as Learning} from '../../assets/icons/learning.svg';
+import {LearningIcon} from '../common/Icon';
 
-const StyledLearning = styled(Learning)`
+const StyledLearning = styled(LearningIcon)`
     width: 24px;
     fill: #FFF;
 `;
@@ -27,7 +27,7 @@ const StyledCard = styled(Card)`
 
 const StyledCardHeader = styled(Card.Header)`
     background: #8649E1
-`
+`;
 
 const GlobalStyle = createGlobalStyle`
     ${props => props.tutorialCss}
@@ -44,11 +44,14 @@ function HelperCard({title, icon, iconTooltip, children, ...others}) {
                 <StyledCardHeader className="helper-card-header py-3">
                     <h4 className="mb-0 d-flex align-items-center justify-content-start text-white">
                         <span className="mx-2 mb-1" data-tip={iconTooltip} data-place="top" data-delay-show={0}>
-                            {icon || <StyledLearning />}
+                            {icon || <StyledLearning/>}
                         </span>
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
                         <span className="flex-grow-1 float-end">
-                            <FiX className="clickable text-white" onClick={() => {setProgress(null)}} />
+                            <FiX
+                                className="clickable text-white" onClick={() => {
+                                setProgress(null);
+                            }}/>
                         </span>
                     </h4>
                 </StyledCardHeader>

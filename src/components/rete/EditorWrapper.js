@@ -128,13 +128,18 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
         };
         let currentIO = null;
         let connectionMouseMoved = false;
-        editor.on('mousemove', m => {
+        editor.on('mousemove', () => {
             connectionMouseMoved = true;
         });
         editor.on('connectionpick', io => {
+            // noinspection JSUnresolvedVariable
+            if(window.event.button !== 0) {
+                return; // Rete.js hotfix
+            }
+
             // Remove connection on ctrl+click
             const connection = io.connections[0];
-// noinspection JSDeprecatedSymbols, JSUnresolvedVariable
+            // noinspection JSDeprecatedSymbols, JSUnresolvedVariable
             if(window.event.ctrlKey) {
                 if(connection) {
                     editor.removeConnection(connection);
@@ -182,7 +187,6 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
 
         // const onMouseUp = event => {
         //     if(currentIO) {
-        //         console.log(1234)
         //         handleConnectionEnd(currentIO);
         //     }
         // };

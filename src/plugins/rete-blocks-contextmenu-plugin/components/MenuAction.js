@@ -6,7 +6,7 @@ export default function MenuAction({icon, color, selected, onAction, children, s
         <div
             className={classNames(className, 'context-menu-action', selected && 'selected')}
             style={{color, userSelect: 'none', ...style}}
-            onMouseDown={event => event.button === 0 && onAction(event)} {...others}>
+            onMouseDown={event => event.button === 0 && onAction?.(event)} {...others}>
             {icon && <MenuIcon>{icon}</MenuIcon>}
             {children}
         </div>

@@ -3,9 +3,11 @@ import {createNodeStep} from '../steps/createNodeStep';
 import {css} from 'styled-components';
 import {getTutorialNode} from '../utils/getTutorialNode';
 import {
+    animationStyle,
     highlightContextMenuComponent,
     highlightNode,
-    highlightNodeShortcut, highlightNodeSocket,
+    highlightNodeShortcut,
+    highlightNodeSocket,
     highlightStyle,
 } from '../utils/tutorialStyles';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
@@ -47,7 +49,7 @@ export const helloWorldTutorial = {
         `,
         render(progress, {contextMenu}) {
             if(!contextMenu) {
-                return 'Right-click somewhere on the page.';
+                return 'Right-click somewhere in the editor space.';
             }
             if(contextMenu.node) {
                 return 'Make sure to right-click on empty space.';
@@ -119,7 +121,7 @@ export const helloWorldTutorial = {
             return <>Type <code>text</code> into the search bar and click on the outlined result.</>;
         },
     }, {
-        title: 'Connect the Text value',
+        title: 'Connect the Text block',
         info: 'Connect the two indicated sockets.',
         style: css`
             ${highlightNodeSocket(returnNodeId, 'value')}
@@ -136,7 +138,7 @@ export const helloWorldTutorial = {
             return false;
         },
     }, {
-        title: 'Define the text content',
+        title: 'Define the Text content',
         // info: 'Write something in the "Value" text box.',
         style: css`
             ${highlightNode(textNodeId, 'value')}
@@ -161,6 +163,7 @@ export const helloWorldTutorial = {
             .compile-button {
                 border: 1px solid white;
                 ${highlightStyle}
+                ${animationStyle}
             }
         `,
         render(progress) {

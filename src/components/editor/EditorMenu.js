@@ -145,7 +145,7 @@ export default function EditorMenu({editor}) {
     return (
         <>
             <TopMenu>
-                <MenuItem>
+                <MenuItem className="d-none d-sm-block">
                     <a href="https://blocks-editor.github.io/" target="_blank" rel="noreferrer">
                         <BlocksLogo
                             className="pt-1"

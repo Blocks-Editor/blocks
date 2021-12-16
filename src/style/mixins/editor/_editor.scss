@@ -259,6 +259,7 @@ $grid-area: $grid-size * 10000;
       min-width: 10em;
       max-height: 25em;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .context-menu-icon {

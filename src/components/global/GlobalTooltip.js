@@ -11,16 +11,16 @@ const StyledReactTooltip = styled(ReactTooltip)`
 `;
 
 export default function GlobalTooltip() {
-    const afterShow = (event) => {
-        // console.log(event);///
-    };
+    // const afterShow = (event) => {
+    //     console.log(event);///
+    // };
 
     return (
         <StyledReactTooltip
             backgroundColor="#111"
             place="bottom"
             delayShow={250}
-            afterShow={afterShow}
+            // afterShow={afterShow}
             multiline={true}
         />
     );
