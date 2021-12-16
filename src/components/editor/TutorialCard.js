@@ -3,13 +3,18 @@ import React, {useCallback} from 'react';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useFamiliarityState, {FAMILIAR, LEARNING} from '../../hooks/persistent/useFamiliarityState';
 import styled, {createGlobalStyle} from 'styled-components';
-import {FaRegQuestionCircle} from 'react-icons/fa';
 import {helloWorldTutorial} from '../../tutorials/definitions/helloWorldTutorial';
 import getTutorialStep from '../../tutorials/utils/getTutorialStep';
 import useTutorialVariables from '../../hooks/useTutorialVariables';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import useListener from '../../hooks/utils/useListener';
-import {FiSmile} from 'react-icons/fi';
+import {FiSmile, FiX} from 'react-icons/fi';
+import {ReactComponent as Learning} from '../../assets/icons/learning.svg';
+
+const StyledLearning = styled(Learning)`
+    width: 24px;
+    fill: #FFF;
+`;
 
 const StyledCard = styled(Card)`
     opacity: .9;
@@ -20,6 +25,10 @@ const StyledCard = styled(Card)`
     font-weight: 500;
 `;
 
+const StyledCardHeader = styled(Card.Header)`
+    background: #8649E1
+`
+
 const GlobalStyle = createGlobalStyle`
     ${props => props.tutorialCss}
     ${props => props.stepCss}
@@ -27,20 +36,24 @@ const GlobalStyle = createGlobalStyle`
 
 function HelperCard({title, icon, iconTooltip, children, ...others}) {
     useReactTooltip();
+    const [, setProgress] = useTutorialProgressState();
 
     return (
         <StyledCard {...others}>
             {(icon || title) && (
-                <Card.Header className="bg-primary py-3">
-                    <h4 className="mb-0 d-flex align-items-center text-white">
+                <StyledCardHeader className="helper-card-header py-3">
+                    <h4 className="mb-0 d-flex align-items-center justify-content-start text-white">
+                        <span className="mx-2 mb-1" data-tip={iconTooltip} data-place="top" data-delay-show={0}>
+                            {icon || <StyledLearning />}
+                        </span>
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
-                        <span data-tip={iconTooltip} data-place="top" data-delay-show={0}>
-                            {icon || <FaRegQuestionCircle/>}
+                        <span className="flex-grow-1 float-end">
+                            <FiX className="clickable text-white" onClick={() => {setProgress(null)}} />
                         </span>
                     </h4>
-                </Card.Header>
+                </StyledCardHeader>
             )}
-            <Card.Body>
+            <Card.Body className="helper-card-body">
                 {children}
             </Card.Body>
         </StyledCard>
