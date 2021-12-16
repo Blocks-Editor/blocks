@@ -11,7 +11,7 @@ import useListener from '../../hooks/utils/useListener';
 import {FiSmile, FiX} from 'react-icons/fi';
 import {LearningIcon} from '../common/Icon';
 
-const StyledLearning = styled(LearningIcon)`
+const StyledLearningIcon = styled(LearningIcon)`
     width: 24px;
     fill: #FFF;
 `;
@@ -43,11 +43,11 @@ function HelperCard({title, icon, iconTooltip, children, ...others}) {
             {(icon || title) && (
                 <StyledCardHeader className="helper-card-header py-3">
                     <h4 className="mb-0 d-flex align-items-center justify-content-start text-white">
-                        <span className="mx-2 mb-1" data-tip={iconTooltip} data-place="top" data-delay-show={0}>
-                            {icon || <StyledLearning/>}
+                        <span className="me-3 mb-1" data-tip={iconTooltip} data-place="top" data-delay-show={0}>
+                            {icon || <StyledLearningIcon/>}
                         </span>
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
-                        <span className="flex-grow-1 float-end">
+                        <span className="float-end">
                             <FiX
                                 className="clickable text-white" onClick={() => {
                                 setProgress(null);
