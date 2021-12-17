@@ -2,9 +2,13 @@ import useLocalStorage from '../utils/useLocalStorage';
 import {useMemo} from 'react';
 import {TUTORIALS} from '../../tutorials/tutorials';
 import useNodeEditor from '../useNodeEditor';
+import getEmbedConfig from '../../utils/getEmbedConfig';
 
 export default function useTutorialProgressState() {
-    const [state, setState] = useLocalStorage('blocks.tutorialProgress', null);
+    const defaultTutorial = getEmbedConfig('tutorial');
+    const defaultState = defaultTutorial ? {tutorial: defaultTutorial} : null;
+
+    const [state, setState] = useLocalStorage('blocks.tutorialProgress', defaultState);
 
     const editor = useNodeEditor();
 

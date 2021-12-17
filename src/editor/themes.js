@@ -17,7 +17,7 @@ export const THEMES = [{
     monaco: 'night-owl',
     styledComponents: {},
 // }, {
-//     id: 'lightdark',
+//     id: 'light-dark',
 //     name: 'Light-Dark',
 //     parts: ['monospace-labels'],
 //     monaco: 'vs-dark',

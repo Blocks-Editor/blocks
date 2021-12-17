@@ -10,10 +10,10 @@ import FileSaver from 'file-saver';
 import {pascalCase} from 'change-case';
 import useRedraw from '../../hooks/utils/useRedraw';
 import isEmbedded from '../../utils/isEmbedded';
-import {parse} from 'querystring';
 import {EDITOR_STORE} from '../../observables/editorStore';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {UndoRedoHistory} from '../../plugins/rete-blocks-history-plugin';
+import getEmbedConfig from '../../utils/getEmbedConfig';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
@@ -33,7 +33,7 @@ let nextEditorState;
 export default function EditorPage() {
     const redraw = useRedraw();
 
-    const {menu: menuParam} = parse(window.location.search.substring(1));
+    const menuParam = getEmbedConfig('menu');
 
     const events = useContext(EventsContext);
 
