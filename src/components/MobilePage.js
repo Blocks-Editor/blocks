@@ -12,9 +12,7 @@ export default function MobilePage() {
             <span className="display-3 pb-5">Hey there!</span>
             <span className="text-muted px-5">
                 If you are interested in using Blocks on a mobile device,
-                please check out
-                <br/>
-                <a href="https://github.com/Blocks-Editor/blocks/issues/78">this GitHub discussion</a>.
+                please check out <a className="text-nowrap" href="https://github.com/Blocks-Editor/blocks/issues/78">this GitHub discussion</a>.
             </span>
         </MobilePanel>
     );
