@@ -48,12 +48,19 @@ const block = {
         //     toMotoko({}) {
         //         return thisName;
         //     },
-    }, {
+    }, /*{
         key: 'caller',
         type: principalType,
         advanced: true,
         toMotoko(args, node, compiler) {
             return `${nodeIdentifierRef(node)}.caller`;
+        },
+    }, */{
+        key: 'self',
+        type: principalType,
+        advanced: true,
+        toMotoko(args, node, compiler) {
+            return thisName;
         },
     }],
     controls: [
