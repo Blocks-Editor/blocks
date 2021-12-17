@@ -33,7 +33,7 @@ function KeyboardShortcut({binding, className, children, ...others}) {
             {(Array.isArray(binding) ? binding : [binding]).map((key, i) => (
                 <label key={`${key}${i}`} className="ms-1">
                     {/*{i > 0 && <span>+</span>}*/}
-                    <KeyContainer className={classNames(className)} {...others}>
+                    <KeyContainer className={classNames(className, 'text-info')} {...others}>
                         {key}
                     </KeyContainer>
                 </label>
@@ -87,6 +87,12 @@ export default function TutorialsModal() {
                 </KeyboardShortcut>
                 <KeyboardShortcut binding={['ctrl', 'right mouse']}>
                     Context Menu (+)
+                </KeyboardShortcut>
+                <KeyboardShortcut binding={'delete'}>
+                    Delete Selected Blocks
+                </KeyboardShortcut>
+                <KeyboardShortcut binding={['ctrl', 'left mouse']}>
+                    Remove Connection
                 </KeyboardShortcut>
                 {[...SHORTCUT_KEYS.keys()].sort().map(key => (
                     <KeyboardShortcut key={key} binding={key}>
