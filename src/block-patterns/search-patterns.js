@@ -6,7 +6,7 @@ export function findNodeSearchOptions(text, editor, componentName, nodeKey) {
                 return [{
                     title,
                     data: {
-                        [nodeKey]: node,
+                        [nodeKey]: node.id,
                     },
                 }];
             }
