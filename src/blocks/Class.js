@@ -1,4 +1,4 @@
-import {identifierType, memberType, paramType, principalType} from '../block-types/types';
+import {containerType, identifierType, memberType, paramType, principalType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {formatMembers, formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
@@ -7,18 +7,17 @@ import {formatMembers, formatParentheses, formatStatementBlock} from '../editor/
 let thisName = 'this';
 
 const block = {
-    info: 'An object-oriented class of actors',
+    info: 'An object-oriented class',
     category: actorCategory,
     topLeft: 'parent',
     topRight: 'members',
-    // global: true,
-    hidden: true,///
+    global: true,
     computeTitle(node, editor) {
         let {name, params} = editor.compilers.motoko.getInputArgs(node);
         if(!name) {
             return;
         }
-        return `actor class ${name}${formatParentheses(params.join(', '))}`;
+        return `class ${name}${formatParentheses(params.join(', '))}`;
     },
     inputs: [{
         key: 'name',
@@ -35,7 +34,7 @@ const block = {
     }],
     outputs: [{
         key: 'parent',
-        type: memberType,
+        type: containerType,
         toMotoko({name, params, members}, node, compiler) {
             let hasCaller = node.outputs.get('caller').connections.length;
 

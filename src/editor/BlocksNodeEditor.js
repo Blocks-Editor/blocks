@@ -21,6 +21,15 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
 
         // Called before node creation
         this.bind('prenodecreate');
+
+        // Clear all event listeners after destroy
+        this.on('destroy', () => {
+            setTimeout(() => {
+                for(let array of Object.values(this.events)) {
+                    array.length = 0;
+                }
+            });
+        });
     }
 
     off(event, listener) {

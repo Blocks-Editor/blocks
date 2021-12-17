@@ -144,12 +144,12 @@ export const customType = createType('Custom', {
     // },
 });
 export const referenceType = createType('Reference', {
-    info: 'A programmatic reference to a value, type, function, actor, class, object, or module',
+    info: 'A programmatic path to a value, type, function, actor, class, object, or module',
     parent: anyType,
     category: 'references',
 });
 export const identifierType = createType('Identifier', {
-    info: 'A programmatic name consisting of letters and underscores',
+    info: 'A name consisting of letters and underscores',
     parent: referenceType,
     controlType: 'text',
     // defaultValue: '',
@@ -177,20 +177,20 @@ export const memberType = createType('Member', {
     singleOutput: true,
     category: 'members',
 });
-export const moduleType = createType('Module', {
-    info: 'A group of related containers (actors, objects, classes, and/or modules)',
-    parent: anyReversedType,
-    singleOutput: true,
-    category: 'modules',
-});
 export const containerType = createType('Container', {
     info: 'An actor, object, class, or module',
-    parent: anyReversedType,
+    parent: memberType,
     singleOutput: true,
     category: 'containers',
 });
+export const moduleType = createType('Module', {
+    info: 'A group of related containers (actors, objects, classes, and/or modules)',
+    parent: memberType,
+    singleOutput: true,
+    category: 'modules',
+});
 export const paramType = createType('Parameter', {
-    info: 'An input parameter to a function, class, or actor',
+    info: 'An input to a function, class, or actor',
     parent: anyReversedType,
     category: 'parameters',
 });
@@ -218,7 +218,7 @@ export const textType = createType('Text', {
     defaultValue: '',
 });
 export const floatType = createType('Float', {
-    info: 'A real / decimal / floating-point number (-0.1, 123, 1e5)',
+    info: 'A decimal number (-0.1, 123, 1.0e5)',
     parent: valueType,
     controlType: 'text',
     validation: {
@@ -227,7 +227,7 @@ export const floatType = createType('Float', {
     defaultValue: 0,
 });
 export const intType = createType('Int', {
-    info: 'An integer (..., -2, -1, 0, 1, 2, ...)',
+    info: 'A numeric integer (..., -2, -1, 0, 1, 2, ...)',
     parent: floatType,
     category: 'integers',
     controlType: 'number',

@@ -3,6 +3,7 @@ import {tupleType, valueType} from '../block-types/types';
 
 const block = {
     title: 'Pair',
+    info: 'An ordered pair of two values',
     category: literalCategory,
     topRight: 'value',
     computeTitle(node, editor) {

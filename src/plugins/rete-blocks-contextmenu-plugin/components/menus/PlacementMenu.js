@@ -35,7 +35,8 @@ export default function PlacementMenu() {
     let [searchText, setSearchText] = useState('');
     let [index, setIndex] = useState(0);
 
-    let {editor, mouse, context} = useContext(MenuContext);
+    const menu = useContext(MenuContext);
+    const {editor, mouse, context} = menu;
 
     let components = useEditorComponents(editor, c => [-(c.block?.category.data.priority || 0), c.block?.category.root.name || '', c.data.title || c.name]);
     if(context) {
@@ -46,24 +47,30 @@ export default function PlacementMenu() {
         searchText = '';
     }
 
-    let options = [];
+    const options = [];
     // Add custom search results from relevant components
     components.forEach(component => {
-        let block = component.block;
-        if(searchText && block.customSearch) {
-            let custom = block.customSearch(searchText);
-            if(custom) {
-                (Array.isArray(custom) ? custom : [custom]).forEach(option => {
-                    option.component = component;
-                    options.push(option);
-                });
+        try {
+            const block = component.block;
+            if(searchText && block.customSearch) {
+                const custom = block.customSearch(searchText, menu);
+                if(custom) {
+                    (Array.isArray(custom) ? custom : [custom]).forEach(option => {
+                        option.component = component;
+                        options.push(option);
+                    });
+                }
             }
+        }
+        catch(e) {
+            console.warn(`Error while adding custom search result for ${component.name}`);
+            console.warn(e);
         }
     });
 
     // Filter components by search text
     if(searchText) {
-        let lower = searchText.toLowerCase();
+        const lower = searchText.toLowerCase();
         components = components.filter(c => c.keywords?.some(k => k.toLowerCase().startsWith(lower)) || c.name.toLowerCase().startsWith(lower));
     }
     options.push(...components.map(component => ({component})));
@@ -96,7 +103,7 @@ export default function PlacementMenu() {
         editor.addNode(node);
 
         if(context) {
-            let {input, output} = context;
+            const {input, output} = context;
             if(input) {
                 const output = [...node.outputs.values()].find(output => input.socket.compatibleWith(output.socket));
                 if(output) {
@@ -112,7 +119,7 @@ export default function PlacementMenu() {
         }
     }, [editor, mouse, context]);
 
-    let menuItems = options.map((option, i) => (
+    const menuItems = options.map((option, i) => (
         <MenuComponent
             key={`${option.title}${option.component.name}${i}`}
             component={option.component}

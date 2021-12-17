@@ -1,16 +1,17 @@
-import {containerType, identifierType, memberType} from '../block-types/types';
+import {containerType, identifierType, memberType, objectType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
 import {formatMembers, formatStatementBlock} from '../editor/format/formatHelpers';
+import {visibilityControlProp} from '../block-patterns/member-patterns';
 
 const block = {
-    info: 'An object which can be deployed as a smart contract',
+    info: objectType.data.info,
     category: actorCategory,
-    topLeft: 'actor',
+    topLeft: 'parent',
     topRight: 'members',
     // global: true,
     computeTitle(node, editor) {
         let {name} = editor.compilers.motoko.getInputArgs(node);
-        return name && `actor ${name}`;
+        return name && `object ${name}`;
     },
     inputs: [{
         key: 'name',
@@ -22,15 +23,19 @@ const block = {
         multi: true,
     }],
     outputs: [{
-        key: 'object',
+        key: 'parent',
         type: containerType,
-        toMotoko({name, members}) {
+        toMotoko({visibility, name, members}) {
             return [
+                visibility,
                 'object',
                 name,
                 formatStatementBlock(formatMembers(members)),
             ];
         },
     }],
+    controls: [
+        visibilityControlProp(),
+    ],
 };
 export default block;

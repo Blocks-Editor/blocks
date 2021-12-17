@@ -4,6 +4,7 @@ import {stateReadIcon} from './State';
 
 const block = {
     title: 'Get (Collection)',
+    info: 'Retrieve an item corresponding to the given key',
     category: collectionCategory,
     icon: stateReadIcon,
     topRight: 'value',

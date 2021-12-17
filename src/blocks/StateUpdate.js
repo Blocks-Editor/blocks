@@ -6,6 +6,7 @@ import {FOR_STORING_DATA} from '../editor/useCases';
 
 const block = statementBlock({
     title: 'Write State',
+    info: 'Set the value of a state',
     useCases: [FOR_STORING_DATA],
     category: stateCategory,
     icon: stateWriteIcon,

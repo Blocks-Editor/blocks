@@ -4,6 +4,7 @@ import {FaPlayCircle} from 'react-icons/fa';
 import {functionCategory} from '../block-categories/categories';
 import {getFunctionReturnType} from './Function';
 import {FOR_REUSABLE_LOGIC} from '../editor/useCases';
+import {findNodeSearchOptions} from '../block-patterns/search-patterns';
 
 const block = statementBlock({
     info: 'Invoke a function in this project',
@@ -20,6 +21,9 @@ const block = statementBlock({
         let paramNames = editor.compilers.node.getInput(functionNode, 'params')
             .map(n => editor.compilers.motoko.getInput(n, 'name'));
         return name && `${name}(${paramNames.join(', ')})`;
+    },
+    customSearch(text, {editor}) {
+        return findNodeSearchOptions(text, editor, 'Function', 'functionNode');
     },
     inputs: [{
         key: 'args',

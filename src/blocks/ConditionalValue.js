@@ -4,6 +4,7 @@ import {formatCurlyBraces, formatParentheses} from '../editor/format/formatHelpe
 
 const block = {
     title: 'Map Bool',
+    info: 'Choose a value based on a given condition',
     category: decompositionCategory,
     topLeft: 'condition',
     topRight: 'result',

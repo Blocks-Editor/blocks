@@ -4,6 +4,7 @@ import {FaPencilAlt} from 'react-icons/fa';
 
 const block = {
     title: 'Custom Type',
+    info: 'A special user-defined type',
     category: typeCategory,
     topRight: 'value',
     icon: FaPencilAlt,

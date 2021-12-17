@@ -6,6 +6,7 @@ import {FaRegCaretSquareLeft} from 'react-icons/fa';
 
 const block = statementBlock({
     title: 'Prepend (Array)',
+    info: 'Add an item to the beginning of an array',
     category: collectionCategory,
     icon: FaRegCaretSquareLeft,
     inputs: [{

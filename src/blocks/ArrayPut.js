@@ -5,6 +5,7 @@ import {stateWriteIcon} from './State';
 
 const block = statementBlock({
     title: 'Put (Array)',
+    info: 'Set the item at a specific index',
     category: collectionCategory,
     icon: stateWriteIcon,
     // deprecated: true,

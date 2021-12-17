@@ -2,6 +2,7 @@ import {literalCategory} from '../block-categories/categories';
 
 export function literalBlock(block, type, stringifier) {
     return {
+        info: type.data.info,
         category: literalCategory,
         topRight: 'value',
         ...block,

@@ -12,7 +12,7 @@ export default function MenuComponent({component, specialTitle, ...others}) {
     const [learningMode] = useLearningModeState();
 
     if(block?.info) {
-        let tooltip = block.info.endsWith('.') ? block.info : `${block.info}.`;
+        let tooltip = block.info;
         if(learningMode && block.useCases?.length) {
             tooltip += `<br>Use cases: ${block.useCases.join(', ')}`;
         }

@@ -4,6 +4,7 @@ import {FaSitemap} from 'react-icons/fa';
 
 const block = {
     title: 'Size (Collection)',
+    info: 'Determine the size (or length) of a collection',
     category: collectionCategory,
     icon: FaSitemap,
     inputs: [{

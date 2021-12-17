@@ -7,6 +7,7 @@ import {formatCurlyBraces} from '../editor/format/formatHelpers';
 
 const block = {
     title: 'Replace Items (Array)',
+    info: 'Replace each item based on the given logic',
     category: collectionCategory,
     icon: FaLayerGroup,
     topRight: 'body',

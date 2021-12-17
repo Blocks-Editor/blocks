@@ -2,13 +2,18 @@ import {nodeType, valueType} from '../block-types/types';
 import {stateCategory} from '../block-categories/categories';
 import {stateReadIcon} from './State';
 import {FOR_BUILDING_API} from '../editor/useCases';
+import {findNodeSearchOptions} from '../block-patterns/search-patterns';
 
 const block = {
     title: 'Read State',
+    info: 'Get the current value of a state',
     useCases: [FOR_BUILDING_API],
     category: stateCategory,
     icon: stateReadIcon,
     topRight: 'value',
+    customSearch(text, {editor}) {
+        return findNodeSearchOptions(text, editor, 'State', 'stateNode');
+    },
     outputs: [{
         key: 'value',
         type: valueType,

@@ -4,6 +4,7 @@ import {formatCurlyBraces, formatParentheses} from '../editor/format/formatHelpe
 
 const block = statementBlock({
     title: 'if() then {} else {}',
+    info: 'Evaluate based on a given condition',
     inputs: [{
         key: 'condition',
         type: boolType,

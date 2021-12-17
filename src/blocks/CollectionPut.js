@@ -4,6 +4,7 @@ import {collectionCategory} from '../block-categories/categories';
 import {stateWriteIcon} from './State';
 
 const block = statementBlock({
+    info: 'Update an item corresponding to the given key',
     title: 'Put (Collection)',
     category: collectionCategory,
     icon: stateWriteIcon,

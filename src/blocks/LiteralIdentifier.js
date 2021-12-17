@@ -3,6 +3,7 @@ import {FaItalic} from 'react-icons/fa';
 
 const block = {
     title: 'Name',
+    info: identifierType.data.info,
     // category: defaultCategory,
     icon: FaItalic,
     topRight: 'value',

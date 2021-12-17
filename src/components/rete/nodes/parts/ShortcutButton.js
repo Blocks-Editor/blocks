@@ -4,10 +4,13 @@ import getBlockLabel from '../../../../utils/getBlockLabel';
 import EventsContext, {ERROR_EVENT} from '../../../../contexts/EventsContext';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
 import classNames from 'classnames';
+import useLearningModeState from '../../../../hooks/persistent/useLearningModeState';
 
 export default function ShortcutButton({editor, node, shortcut}) {
     const {block} = shortcut;
     const {category} = block;
+
+    const [learningMode] = useLearningModeState();
 
     const events = useContext(EventsContext);
 
@@ -52,11 +55,13 @@ export default function ShortcutButton({editor, node, shortcut}) {
 
     useReactTooltip();
 
+    const label = getBlockLabel(block);
+
     return (
         <div
             ref={bindNodeInput}
             className={classNames('btn node-shortcut-button px-1 pt-0 pb-1', `shortcut-block-${block.name}`)}
-            data-tip={getBlockLabel(block)}
+            data-tip={learningMode && block.info ? `${label} : ${block.info}` : label}
             data-delay-show={100}
             style={{
                 // background: 'none',

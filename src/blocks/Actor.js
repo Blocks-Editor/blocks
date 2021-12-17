@@ -8,6 +8,7 @@ const block = {
     topLeft: 'actor',
     topRight: 'members',
     // global: true,
+    hidden: true,///
     computeTitle(node, editor) {
         let {name} = editor.compilers.motoko.getInputArgs(node);
         return name && `actor ${name}`;
