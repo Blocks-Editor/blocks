@@ -2,6 +2,7 @@ import {containerType, identifierType, memberType, paramType, principalType} fro
 import {actorCategory} from '../block-categories/categories';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {formatMembers, formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
+import {visibilityControlProp} from '../block-patterns/member-patterns';
 
 // TODO: subclasses
 let thisName = 'this';
@@ -12,6 +13,7 @@ const block = {
     topLeft: 'parent',
     topRight: 'members',
     global: true,
+    hidden: true,///
     computeTitle(node, editor) {
         let {name, params} = editor.compilers.motoko.getInputArgs(node);
         if(!name) {
@@ -35,10 +37,10 @@ const block = {
     outputs: [{
         key: 'parent',
         type: containerType,
-        toMotoko({name, params, members}, node, compiler) {
+        toMotoko({visibility, name, params, members}, node, compiler) {
             let hasCaller = node.outputs.get('caller').connections.length;
 
-            return `${hasCaller ? `shared (${nodeIdentifierRef(node)}) ` : ''}actor class${name ? ' ' + name : ''}${formatParentheses(params.join(', '))} = ${thisName} ${formatStatementBlock(formatMembers(members))}`;
+            return `${visibility} ${hasCaller ? `shared (${nodeIdentifierRef(node)}) ` : ''}class${name ? ' ' + name : ''}${formatParentheses(params.join(', '))} = ${thisName} ${formatStatementBlock(formatMembers(members))}`;
         },
         // }, {
         //     key: 'this',
@@ -49,9 +51,13 @@ const block = {
     }, {
         key: 'caller',
         type: principalType,
+        advanced: true,
         toMotoko(args, node, compiler) {
             return `${nodeIdentifierRef(node)}.caller`;
         },
     }],
+    controls: [
+        visibilityControlProp(),
+    ],
 };
 export default block;
