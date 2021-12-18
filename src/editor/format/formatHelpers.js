@@ -11,7 +11,6 @@ export function formatParentheses(string) {
             string = s;
         }
     }
-
     return `(${string})`;
 }
 
