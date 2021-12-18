@@ -1,5 +1,5 @@
 import useLocalStorage from '../utils/useLocalStorage';
-import {useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import {TUTORIALS} from '../../tutorials/tutorials';
 import useNodeEditor from '../useNodeEditor';
 import getEmbedConfig from '../../utils/getEmbedConfig';
@@ -30,15 +30,14 @@ export default function useTutorialProgressState() {
         });
     }, [editor, state]);
 
-    return [
-        progress,
-        progress => {
-            setState(progress ? {
-                ...progress,
-                editor: undefined,
-                tutorial: progress.tutorial?.id,
-                // step: undefined,
-            } : null);
-        },
-    ];
+    const setProgress = useCallback(progress => {
+        setState(progress ? {
+            ...progress,
+            editor: undefined,
+            tutorial: progress.tutorial?.id,
+            // step: undefined,
+        } : null);
+    }, [setState]);
+
+    return [progress, setProgress];
 }

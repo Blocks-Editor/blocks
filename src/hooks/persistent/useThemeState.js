@@ -1,6 +1,7 @@
 import useLocalStorage from '../utils/useLocalStorage';
 import useThemes from '../useThemes';
 import getQueryConfig from '../../utils/getEmbedConfig';
+import {useCallback} from 'react';
 
 const defaultTheme = 2;
 
@@ -10,6 +11,6 @@ export default function useThemeState() {
 
     return [
         themes.find(theme => theme.id === id) || themes[defaultTheme],
-        id => setId(id),
+        useCallback(id => setId(id), [setId]),
     ];
 }

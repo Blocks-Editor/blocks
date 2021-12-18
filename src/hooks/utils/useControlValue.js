@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useCallback, useContext, useState} from 'react';
 import useListener from './useListener';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
 
@@ -15,8 +15,7 @@ export default function useControlValue(control) {
         events.emit(EDITOR_CHANGE_EVENT, control.editor, control);
     });
 
-    return [
-        value,
-        value => control.setValue(value),
-    ];
+    const setValue = useCallback(value => control.setValue(value), [control]);
+
+    return [value, setValue];
 }

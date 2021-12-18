@@ -35,8 +35,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function HelperCard({title, icon, iconTooltip, children, ...others}) {
-    useReactTooltip();
     const [, setProgress] = useTutorialProgressState();
+
+    useReactTooltip();
 
     return (
         <StyledCard {...others}>
