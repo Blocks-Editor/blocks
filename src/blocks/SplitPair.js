@@ -8,10 +8,11 @@ const block = {
     inputs: [{
         key: 'value',
         title: 'Pair',
-        type: tupleType.of([valueType, valueType]),
+        type: tupleType.of(valueType, valueType),
     }],
     outputs: [{
         key: 'left',
+        type: valueType,
         inferType({value}) {
             if(value) {
                 return value.generics[0];
@@ -22,6 +23,7 @@ const block = {
         },
     }, {
         key: 'right',
+        type: valueType,
         inferType({value}) {
             if(value) {
                 return value.generics[1];
