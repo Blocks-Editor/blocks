@@ -15,6 +15,10 @@ export default function ShortcutButton({editor, node, shortcut}) {
     const events = useContext(EventsContext);
 
     const onClick = async event => {
+        if(event.button !== 0) {
+            return;
+        }
+
         try {
             let component = editor.components.get(block.name);
             if(!component) {

@@ -16,11 +16,13 @@ const block = statementBlock({
         type: functionType,
     }, {
         key: 'args',
+        title: 'Inputs',
         type: valueType,
         multi: true,
     }],
     outputs: [{
         key: 'value',
+        title: 'Result',
         type: valueType,
         inferType({callable}) {
             if(functionType.isSubtype(callable)) {

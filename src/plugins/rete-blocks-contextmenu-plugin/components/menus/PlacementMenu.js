@@ -27,8 +27,10 @@ function findRelevantComponents(input, output, components) {
     }
     // Permissive for outputs but not inputs
     return components.filter(c =>
-        (!inputType || c.block.outputs.some((prop) => inputType.isSubtype(prop.type))) &&
-        (!outputType || c.block.inputs.some((prop) => outputType.isSubtype(prop.type) || prop.type.isSubtype(outputType))));
+        (!inputType || c.block.outputs.some((prop) =>
+            !prop.hidden && !prop.advanced/*****/ && inputType.isSubtype(prop.type))) &&
+        (!outputType || c.block.inputs.some((prop) =>
+            !prop.hidden && !prop.advanced/*****/ && (outputType.isSubtype(prop.type) || prop.type.isSubtype(outputType)))));
 }
 
 export default function PlacementMenu() {
@@ -99,22 +101,33 @@ export default function PlacementMenu() {
         setSearchText('');
         editor.trigger('hidecontextmenu');
 
-        const node = await createNode(component, {data, meta, position: mouse});
+        const position = context?.input ? {
+            x: mouse.x - 200, // TODO: compute width of module
+            y: mouse.y,
+        } : mouse;
+
+        const node = await createNode(component, {data, meta, position});
         editor.addNode(node);
 
         if(context) {
-            const {input, output} = context;
-            if(input) {
-                const output = [...node.outputs.values()].find(output => input.socket.compatibleWith(output.socket));
+            try {
+                const {input, output} = context;
+                if(input) {
+                    const output = [...node.outputs.values()].find(output => input.socket.compatibleWith(output.socket));
+                    if(output) {
+                        editor.connect(output, input);
+                    }
+                }
                 if(output) {
-                    editor.connect(output, input);
+                    const input = [...node.inputs.values()].find(input => input.socket.compatibleWith(output.socket));
+                    if(input) {
+                        editor.connect(output, input);
+                    }
                 }
             }
-            if(output) {
-                const input = [...node.inputs.values()].find(input => input.socket.compatibleWith(output.socket));
-                if(input) {
-                    editor.connect(output, input);
-                }
+            catch(err) {
+                console.error('Unable to connect relevant input/output');
+                console.error(err);
             }
         }
     }, [editor, mouse, context]);

@@ -27,11 +27,13 @@ const block = statementBlock({
     },
     inputs: [{
         key: 'args',
+        title: 'Inputs',
         type: valueType,
         multi: true, // TODO: separate arg sockets
     }],
     outputs: [{
         key: 'value',
+        title: 'Result',
         type: valueType,
         inferType(_, node, compiler) {
             let functionNode = compiler.editor.compilers.node.getInput(node, 'functionNode');
