@@ -12,6 +12,7 @@ import {
 } from '../utils/tutorialStyles';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
+import {EDITOR_SELECTION_STORE} from '../../observables/editorSelectionStore';
 
 // Custom ID for the tutorial blocks
 const functionNodeId = 'helloFunction';
@@ -38,6 +39,7 @@ export const helloWorldTutorial = {
         return {
             contextMenu: CONTEXT_MENU_STORE,
             editorState: EDITOR_STATE_STORE,
+            editorSelection: EDITOR_SELECTION_STORE,
             outputPanel: OUTPUT_PANEL_STATE,
         };
     },
@@ -55,6 +57,12 @@ export const helloWorldTutorial = {
                 return 'Make sure to right-click on empty space.';
             }
             return <>Select the <code>Function</code> block.</>;
+        },
+    }, {
+        title: 'Clear the selection',
+        info: 'Left-click somewhere in the editor space.',
+        isComplete(progress, {editorSelection}) {
+            return !editorSelection.length || getReturnNode(progress.editor);
         },
     }, {
         title: 'Name the function',
@@ -78,7 +86,7 @@ export const helloWorldTutorial = {
     }, {
         ...createNodeStep('Return', returnNodeId),
         title: 'Add a Return statement',
-        info: 'Click and drag the outlined box.',
+        info: 'Click and drag the outlined button.',
         style: css`
             ${highlightNodeShortcut(functionNodeId, 'Return')}
             ${highlightNode(returnNodeId) /* Highlight return node if already exists */}

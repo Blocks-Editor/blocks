@@ -13,6 +13,7 @@ import VerticalSortPlugin from '../plugins/rete-vertical-sort-plugin';
 import DragButtonPlugin from '../plugins/rete-drag-button-plugin';
 import {CREATE_NODE_STORE} from '../observables/createNodeStore';
 import HistoryPlugin from '../plugins/rete-blocks-history-plugin';
+import {EDITOR_SELECTION_STORE} from '../observables/editorSelectionStore';
 
 
 const editorName = process.env.REACT_APP_EDITOR_NAME;
@@ -24,7 +25,7 @@ function findCategory(socket) {
 
 export default function createEditor(element, {history} = {}) {
 
-    let editor = new BlocksNodeEditor(editorName + '@' + editorVersion, element);
+    const editor = new BlocksNodeEditor(editorName + '@' + editorVersion, element);
     editor.use(ReactRenderPlugin, {
         component: NodeHandle,
     });
@@ -36,7 +37,7 @@ export default function createEditor(element, {history} = {}) {
     editor.use(AutoArrangePlugin);
     editor.use(AreaPlugin, {
         background: (() => {
-            let background = document.createElement('div');
+            const background = document.createElement('div');
             background.classList.add('grid');
             background.style.pointerEvents = 'none';
             if(!window.chrome) {
@@ -57,6 +58,15 @@ export default function createEditor(element, {history} = {}) {
     editor.use(VerticalSortPlugin);
     editor.use(DragButtonPlugin, {editorButton: 2});
 
+    // Notify selection changed
+    const updateSelection = () => setTimeout(() => {
+        const previous = EDITOR_SELECTION_STORE.get();
+        const current = editor.selected.list;
+        if(previous.length !== current.length || previous.some((x, i) => x !== current[i])) {
+            EDITOR_SELECTION_STORE.set([...current]);
+        }
+    });
+
     let mouseMoved = false;
     editor.view.container.addEventListener('mousedown', (e) => {
         mouseMoved = false;
@@ -70,12 +80,14 @@ export default function createEditor(element, {history} = {}) {
             editor.selected.clear();
             editor.nodes.forEach(node => node.update());
         }
+        updateSelection();
     });
 
     editor.on('zoom', ({source}) => source !== 'dblclick'); // Prevent double-click zoom
     editor.on('nodeselect', node => !editor.selected.contains(node)); // Allow dragging multiple nodes
+    editor.on('nodeselected', () => updateSelection());
     editor.on('renderconnection', ({el, connection}) => {
-        let category = findCategory((connection.input.socket.data.reversed ? connection.input : connection.output).socket);
+        const category = findCategory((connection.input.socket.data.reversed ? connection.input : connection.output).socket);
         el.querySelector('.connection').classList.add(
             `socket-output-category-${category}`,
         );
