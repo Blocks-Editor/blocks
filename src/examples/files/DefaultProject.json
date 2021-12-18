@@ -9,7 +9,7 @@
         "visibility": "public",
         "name": "hey",
         "editor:advanced": false,
-        "query": false
+        "query": true
       },
       "inputs": {
         "name": {
