@@ -3,6 +3,7 @@ import {collectionCategory} from '../block-categories/categories';
 import {FaLayerGroup} from 'react-icons/fa';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {arrayImportRef} from './NewArray';
+import {formatCurlyBraces} from '../editor/format/formatHelpers';
 
 const block = {
     title: 'Filter Items (Array)',
@@ -27,7 +28,7 @@ const block = {
             let type = array?.generics[0] || unitType;
             let typeString = compiler.getTypeString(type);
 
-            return `${arrayImportRef}.filter<${typeString}>(${array}, func (${nodeIdentifierRef(node)} : ${typeString}) : Bool { ${body} })`;
+            return `${arrayImportRef}.filter<${typeString}>(${array}, func (${nodeIdentifierRef(node)} : ${typeString}) : Bool ${formatCurlyBraces(body)})`;
         },
     }, {
         key: 'item',
