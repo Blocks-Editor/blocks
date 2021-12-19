@@ -20,6 +20,6 @@ export default function useListener(target, event, listener, options) {
                 target.off(event, listener);
             }
         };
-    });
+    }, [target, event, listener, options]);
     return listener;
 }

@@ -33,6 +33,7 @@ import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import TutorialCard from './TutorialCard';
 import TutorialsModal from './TutorialsModal';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
+import useTimeout from '../../hooks/utils/useTimeout';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -131,7 +132,7 @@ export default function EditorMenu({editor}) {
     });
 
     /// Temp, until projectName refactor
-    setTimeout(() => {
+    useTimeout(() => {
         setName(editor.projectName);
     });
 
@@ -196,7 +197,7 @@ export default function EditorMenu({editor}) {
                     </MenuButton>
                     <MenuButton
                         // className="float-end"
-                        tooltip="Settings"
+                        tooltip="Options"
                         onMouseDown={() => setOpenMenu('settings')}>
                         <SettingsIcon/>
                     </MenuButton>

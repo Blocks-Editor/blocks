@@ -30,7 +30,7 @@ const shortcutKeys = {
     'f': 'LiteralFloat',
     // 's': 'LiteralText',
     'a': 'NewArray',
-    'm': 'NewTextHashMap',
+    'm': 'NewHashMap',
 
     // Optionals
     'o': 'Optional',

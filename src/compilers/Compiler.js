@@ -23,7 +23,7 @@ export default class Compiler {
         return result;
     }
 
-    getNode(node) {
+    getNode(node, silent = false) {
         if(node instanceof Rete.Node) {
             return node;
         }
@@ -32,7 +32,7 @@ export default class Compiler {
         }
         let id = String(typeof node === 'string' || typeof node === 'number' ? node : node.id);
         node = this.editor.nodes.find(node => String(node.id) === id);
-        if(!node) {
+        if(!node && !silent) {
             throw new Error(`Node does not exist: ${id}`);
         }
         return node;
@@ -44,7 +44,10 @@ export default class Compiler {
     }
 
     getInput(node, key) {
-        node = this.getNode(node);
+        node = this.getNode(node, true);
+        if(!node) {
+            return;
+        }
         let block = this.getBlock(node);
         if(!block.props.hasOwnProperty(key)) {
             throw new Error(`Prop not found on ${node.name}: ${key}`);
@@ -84,7 +87,10 @@ export default class Compiler {
     }
 
     getOutput(node, key) {
-        node = this.getNode(node);
+        node = this.getNode(node, true);
+        if(!node) {
+            return;
+        }
         let prop = this._prop(node, key);
         try {
             let args = this.getInputArgs(node);
@@ -110,7 +116,11 @@ export default class Compiler {
     }
 
     getInputArgs(node) {
-        node = this.getNode(node);
+        node = this.getNode(node, true);
+        let args = {};
+        if(!node) {
+            return args;
+        }
         let block = this.getBlock(node);
         // if(block.__inputArgs?.[this.compileKey]) {
         //     for(let key in block.__inputCache[this.compileKey]) {
@@ -118,7 +128,6 @@ export default class Compiler {
         //     }// TODO: proper cache invalidation
         //     return block.__inputArgs[this.compileKey];
         // }
-        let args = {};
         for(let prop of Object.values(block.props)) {
             if(prop.input || prop.control) {
                 // let value = this.getInput(node, prop.key);

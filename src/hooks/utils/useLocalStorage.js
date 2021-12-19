@@ -1,6 +1,7 @@
 import isEmbedded from '../../utils/isEmbedded';
 import useObservableState from './useObservableState';
 import makeObservable from '../../utils/makeObservable';
+import {useCallback} from 'react';
 
 // Derived from: https://usehooks.com/useLocalStorage/
 
@@ -40,17 +41,19 @@ export default function useLocalStorage(key, defaultValue) {
 
     const [storedValue, setStoredValue] = useObservableState(observable);
 
+    const setValue = useCallback(value => {
+        try {
+            const valueToStore = value instanceof Function ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+        }
+        catch(error) {
+            console.error(error);
+        }
+    }, [storedValue, setStoredValue]);
+
     return [
         storedValue,
-        value => {
-            try {
-                const valueToStore = value instanceof Function ? value(storedValue) : value;
-                setStoredValue(valueToStore);
-            }
-            catch(error) {
-                console.error(error);
-            }
-        },
+        setValue,
         // observable,
     ];
 }

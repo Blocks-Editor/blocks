@@ -3,7 +3,7 @@ import {resolveImportRefs} from '../MotokoCompiler';
 import prettyPrintMotoko from '../../editor/format/prettyPrintMotoko';
 import {formatParentheses} from '../../editor/format/formatHelpers';
 import {pascalCase} from 'change-case';
-import {compileGlobalParameter} from '../../blocks/GlobalParameter';
+import {compileGlobalParameter} from '../../blocks/MainParameter';
 
 export function globalInstallRef(editor) {
     return 'install';

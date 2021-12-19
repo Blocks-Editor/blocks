@@ -21,7 +21,7 @@ const block = {
         return name && `${name} : ${type ? editor.compilers.motoko.getTypeString(type) : 'Any'}`;
     },
     shortcuts: [{
-        block: 'GlobalParameterRead',
+        block: 'MainParameterRead',
         nodeKey: 'configNode',
     }],
     inputs: [{

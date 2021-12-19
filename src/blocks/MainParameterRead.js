@@ -12,7 +12,7 @@ const block = {
     icon: stateReadIcon,
     topRight: 'value',
     customSearch(text, {editor}) {
-        return findNodeSearchOptions(text, editor, 'GlobalParameter', 'configNode');
+        return findNodeSearchOptions(text, editor, 'MainParameter', 'configNode');
     },
     outputs: [{
         key: 'value',
@@ -34,7 +34,7 @@ const block = {
     }],
     controls: [{
         key: 'configNode',
-        type: nodeType.withMeta({block: 'GlobalParameter'}),
+        type: nodeType.withMeta({block: 'MainParameter'}),
     }],
 };
 export default block;

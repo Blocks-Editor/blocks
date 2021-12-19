@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
     ${props => props.stepCss}
 `;
 
-function HelperCard({title, icon, iconTooltip, children, ...others}) {
+function HelperCard({title, icon, iconTooltip, hideCloseButton, children, ...others}) {
     const [, setProgress] = useTutorialProgressState();
 
     useReactTooltip();
@@ -48,12 +48,14 @@ function HelperCard({title, icon, iconTooltip, children, ...others}) {
                             {icon || <StyledLearningIcon/>}
                         </span>
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
-                        <span className="float-end">
+                        {!hideCloseButton && (
+                            <span className="float-end">
                             <FiX
                                 className="clickable text-white" onClick={() => {
                                 setProgress(null);
                             }}/>
                         </span>
+                        )}
                     </h4>
                 </StyledCardHeader>
             )}
@@ -145,8 +147,7 @@ export default function TutorialCard() {
     }
     if(!familiarity) {
         return (
-            <HelperCard
-                title="New to Blocks?">
+            <HelperCard title="New to Blocks?" hideCloseButton={true}>
                 <ButtonGroup className="d-flex">
                     <Button variant="success" onMouseDown={onAccept}>Start Tutorial</Button>
                     <Button variant="" className="text-muted" onMouseDown={onDecline}>Skip</Button>

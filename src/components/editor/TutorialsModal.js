@@ -5,49 +5,8 @@ import MenuModalOption from '../common/MenuModalOption';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import {FiX} from 'react-icons/fi';
 import classNames from 'classnames';
-import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
-import getBlockLabel from '../../utils/getBlockLabel';
-import styled from 'styled-components';
 
 const tutorials = TUTORIALS;
-
-const ShortcutContainer = styled.div`
-    font-weight: 500;
-
-    :hover {
-        background: #0001;
-    }
-`;
-
-const KeyContainer = styled.code`
-    background: #0001;
-    padding: .25rem .5rem;
-    border-radius: .5rem;
-    white-space: nowrap;
-`;
-
-function KeyboardShortcut({binding, className, children, ...others}) {
-    return (
-        <ShortcutContainer className="p-1 d-flex align-items-center">
-            <label className="mb-0 flex-grow-1">{children}</label>
-            {(Array.isArray(binding) ? binding : [binding]).map((key, i) => (
-                <label key={`${key}${i}`} className="ms-1">
-                    {/*{i > 0 && <span>+</span>}*/}
-                    <KeyContainer className={classNames(className, 'text-info')} {...others}>
-                        {key}
-                    </KeyContainer>
-                </label>
-            ))}
-        </ShortcutContainer>
-    );
-}
-
-const BlockShortcutContainer = styled.div`
-    padding: .5rem 1rem;
-    background: #0001;
-    max-height: 20rem;
-    overflow-y: auto;
-`;
 
 export default function TutorialsModal() {
     const [progress, setProgress] = useTutorialProgressState();
@@ -76,30 +35,6 @@ export default function TutorialsModal() {
                     </MenuModalOption>
                 );
             })}
-            <h3 className="mt-4 fw-light">Keyboard Shortcuts</h3>
-            <hr/>
-            <BlockShortcutContainer>
-                <KeyboardShortcut binding={['left mouse']}>
-                    Select & Drag
-                </KeyboardShortcut>
-                <KeyboardShortcut binding={['right mouse']}>
-                    Context Menu
-                </KeyboardShortcut>
-                <KeyboardShortcut binding={['ctrl', 'right mouse']}>
-                    Context Menu (+)
-                </KeyboardShortcut>
-                <KeyboardShortcut binding={'delete'}>
-                    Delete Selected Blocks
-                </KeyboardShortcut>
-                <KeyboardShortcut binding={['ctrl', 'left mouse']}>
-                    Remove Connection
-                </KeyboardShortcut>
-                {[...SHORTCUT_KEYS.keys()].sort().map(key => (
-                    <KeyboardShortcut key={key} binding={key}>
-                        <span className="text-muted">{getBlockLabel(SHORTCUT_KEYS.get(key))}</span>
-                    </KeyboardShortcut>
-                ))}
-            </BlockShortcutContainer>
         </MenuModal>
     );
 }

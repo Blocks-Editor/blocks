@@ -7,6 +7,7 @@ import useThemePartsState from '../../hooks/persistent/useThemePartsState';
 import styled from 'styled-components';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import MenuModal from '../common/MenuModal';
+import KeyBindingDetail from './KeyBindingDetail';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -112,10 +113,13 @@ export default function SettingsModal() {
         <MenuModal title="Settings">
             {settings.map((setting, i) => (
                 <div key={i}>
-                    {i > 0 && <hr/>}
                     <Setting {...setting}/>
+                    <hr/>
                 </div>
             ))}
+            <h4 className="mt-4 fw-light">Keyboard Shortcuts</h4>
+            {/*<hr/>*/}
+            <KeyBindingDetail/>
         </MenuModal>
     );
 }

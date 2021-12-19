@@ -3,6 +3,7 @@ import MotokoCompiler from '../compilers/MotokoCompiler';
 import NodeCompiler from '../compilers/NodeCompiler';
 import TypeCompiler from '../compilers/TypeCompiler';
 import ControlCompiler from '../compilers/ControlCompiler';
+import compileGlobalMotoko from '../compilers/utils/compileGlobalMotoko';
 
 // Custom Rete.js node editor implementation
 
@@ -45,10 +46,23 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
 
     // noinspection JSCheckFunctionSignatures
     toJSON() {
+        const language = 'motoko';
+        let output;
+        try {
+            // TODO: optimize / refactor?
+            output = compileGlobalMotoko(this);
+        }
+        catch(err) {
+            console.warn(`Error while compiling before save: ${err}`);
+            // console.warn(err);
+        }
+
         let json = {
             name: this.projectName,
             description: this.projectDescription,
             version: this.id,
+            language,
+            output: output || null,
             ...super.toJSON(),
         };
         delete json.id;

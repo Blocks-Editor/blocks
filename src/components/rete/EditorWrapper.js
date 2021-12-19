@@ -41,6 +41,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
             editor.clear();
             editor.components.clear();
             editor.destroy();
+            editor = null;
         }
         if(!container) {
             return;
@@ -193,11 +194,10 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
         // document.addEventListener('mouseup', onMouseUp);
         // editor.on('destroy', () => document.removeEventListener('mouseup', onMouseUp));
 
-        observable.set(editor);
-
-        (async () => {
+        setTimeout(() => (async () => {
             await onSetup?.(loadState, editor);
-        })().catch(err => events.emit(ERROR_EVENT, err));
+            observable.set(editor);
+        })().catch(err => events.emit(ERROR_EVENT, err)));
     };
 
     // // Workaround for initialization order
