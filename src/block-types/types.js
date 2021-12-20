@@ -50,6 +50,9 @@ class Type {
         if(this.data.alwaysSubtype === other) {
             return true;///
         }
+        if(this.data.isSpecialSubtype?.call(this, other)) {
+            return true;
+        }
         if(this.data.arbitraryGenerics && other.parent && this.name === other.parent.name) {
             // e.g. `Tuple : Tuple<A, B, C>`
             return true;
@@ -361,13 +364,37 @@ export const asyncType = createType('Future', {
         return `async ${value}`;
     },
 });
-// export const andType = createType('And', {
-//     parent: valueType,
-//     generics: [valueType, valueType],
-//     toMotoko([a, b]) {
-//         return `(${a} and ${b})`;
-//     },
-// });
+export const unionType = createType('Union', {
+    info: 'Any of the specified types',
+    abstract: true,
+    parent: valueType,
+    arbitraryGenerics: true,
+    controlType: 'type',
+    isSpecialSubtype(other) {
+        return this.generics.some(t => t.isSubtype(other));
+    },
+    toMotoko(values) {
+        return formatParentheses(values.join(' or '));
+    },
+});
+export const intersectionType = createType('Intersection', {
+    info: 'All of the specified types',
+    abstract: true,
+    parent: valueType,
+    arbitraryGenerics: true,
+    controlType: 'type',
+    isSpecialSubtype(other) {
+        console.log(other);////
+        return this.generics.all(t => t.isSubtype(other));
+    },
+    toMotoko(values) {
+        return formatParentheses(values.join(' and '));
+    },
+});
+export const noneType = createType('None', {
+    info: 'A type with no possible value',
+    parent: valueType,
+});
 
 // // Fixed-size int values
 // export const int64Type = createType('Int64', {

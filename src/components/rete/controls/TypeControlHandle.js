@@ -1,12 +1,16 @@
 import React from 'react';
 import useControlValue from '../../../hooks/utils/useControlValue';
 import TypeSelect from '../../common/inputs/TypeSelect';
+import {typeType} from '../../../block-types/types';
 
 
 export default function TypeControlHandle({abstract, control, bindInput}) {
     let [value, setValue] = useControlValue(control);
 
-    let constraintType = control.config.type.generics[0];
+    let constraintType = control.config.type;
+    if(typeType.isSubtype(constraintType)) {
+        constraintType = constraintType.generics[0];
+    }
 
     let invalid = !control.validate(value);
 
