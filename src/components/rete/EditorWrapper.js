@@ -9,6 +9,7 @@ import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContex
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import createEditor from '../../editor/createEditor';
 import ReactTooltip from 'react-tooltip';
+import useTimeout from '../../hooks/utils/useTimeout';
 
 const inputTags = ['input', 'textarea'];
 
@@ -39,9 +40,9 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
     const bindElement = (container) => {
         if(editor) {
             editor.silent = true;
-            editor.destroy();
             editor.clear();
             editor.components.clear();
+            editor.destroy();
             editor = null;
         }
         if(!container) {
@@ -106,20 +107,6 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
             }
         });
         editor.on('error', err => events.emit(ERROR_EVENT, err));
-
-        async function loadState(state) {
-            if(!state) {
-                return false;
-            }
-            const result = await editor.fromJSON(state);
-            if(result) {
-                editor.view.resize();
-                AreaPlugin.zoomAt(editor);
-                events.emit(EDITOR_CHANGE_EVENT, editor);
-                editor.nodes.forEach(node => node.update()); // Redraw nodes
-            }
-            return result;
-        }
 
         // TODO: dry with rete-blocks-contextmenu-plugin
         const handleConnectionEnd = (startIO, endIO) => {
@@ -194,17 +181,28 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
         // };
         // document.addEventListener('mouseup', onMouseUp);
         // editor.on('destroy', () => document.removeEventListener('mouseup', onMouseUp));
-
-        setTimeout(() => (async () => {
-            await onSetup?.(loadState, editor);
-            observable.set(editor);
-        })().catch(err => events.emit(ERROR_EVENT, err)));
     };
 
-    // // Workaround for initialization order
-    // useTimeout(() => {
-    //   EDITOR_STORE.set(editor)
-    // });
+    async function loadState(state) {
+        if(!state) {
+            return false;
+        }
+        const result = await editor.fromJSON(state);
+        if(result) {
+            editor.view.resize();
+            AreaPlugin.zoomAt(editor);
+            editor.nodes.forEach(node => node.update()); // Redraw nodes
+            // TODO: remove setTimeout() workaround
+            setTimeout(() => events.emit(EDITOR_CHANGE_EVENT, editor));
+            // events.emit(EDITOR_CHANGE_EVENT, editor);
+        }
+        return result;
+    }
+
+    useTimeout(() => (async () => {
+        await onSetup?.(loadState, editor);
+        observable.set(editor);
+    })().catch(err => events.emit(ERROR_EVENT, err)));
 
     return (
         <div className="h-100" ref={bindElement}/>

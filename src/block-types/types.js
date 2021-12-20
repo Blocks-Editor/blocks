@@ -268,6 +268,9 @@ export const tupleType = createType('Tuple', {
     toTypeString() {
         return this === tupleType ? this.name : `(${this.generics.map(t => t.toTypeString()).join(', ')})`;
     },
+    toMotoko(values) {
+        return `(${values.join(', ')})`;
+    },
 });
 // export const unitType = createType('Unit', {
 //     parent: tupleType,
@@ -284,7 +287,10 @@ export const objectType = createType('Object', {
     category: 'objects',
     // controlType: ,
     toTypeString() {
-        return `(${this.generics.map((t, i) => `${this.genericNames[i]}: ${t.toTypeString()}`).join(', ')})`;
+        return `{${this.generics.map((t, i) => `${this.genericNames[i]}: ${t.toTypeString()}`).join(', ')}}`;
+    },
+    toMotoko(values) {
+        return `{${values.map((t, i) => `${this.genericNames[i]}: ${t}`).join(', ')}}`;
     },
 });
 export const functionType = createType('Function', {
