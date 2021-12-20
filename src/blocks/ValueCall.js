@@ -26,7 +26,7 @@ const block = statementBlock({
         type: valueType,
         inferType({callable}) {
             if(functionType.isSubtype(callable)) {
-                return callable;
+                return callable.generics[1];
             }
             return functionType;///
         },
