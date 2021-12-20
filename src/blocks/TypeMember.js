@@ -8,7 +8,7 @@ const block = memberBlock({
     category: typeCategory,
     topRight: 'type',
     // global: true,
-    // hidden: true,////
+    hidden: true,////
     shortcuts: [{
         block: 'TypeMemberReference',
         nodeKey: 'typeNode',

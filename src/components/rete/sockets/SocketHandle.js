@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Rete, {Output} from 'rete';
 import ConnectionAwareListContext from '../../../contexts/ConnectionAwareListContext';
 import useReactTooltip from '../../../hooks/useReactTooltip';
+import useLearningModeState from '../../../hooks/persistent/useLearningModeState';
 
 // Derived from: https://github.com/retejs/react-render-plugin/blob/master/src/Socket.jsx
 
@@ -11,6 +12,8 @@ export function SocketHandle(props) {
 
     const [relevant, setRelevant] = useState(false);
     const [requested, setRequested] = useState(null);
+
+    const [learningMode] = useLearningModeState();
 
     const connectionAwareList = useContext(ConnectionAwareListContext);
 
@@ -34,7 +37,6 @@ export function SocketHandle(props) {
         clearTimeout(timeout);
         // eslint-disable-next-line react-hooks/exhaustive-deps
         timeout = setTimeout(() => {
-            // TODO: memory leak?
             let requested = !io.connections.length;
             if(requested) {
                 const prop = socket.findProp?.();
@@ -104,7 +106,7 @@ export function SocketHandle(props) {
                 'category-' + socketType.data.category,
             )}
             // title={socket.name}
-            data-tip={`${socket.findLabel?.() || socket.name}`}>
+            data-tip={`${(learningMode && socket.findLabel?.()) || socket.name}`}>
             <div className="requested-wrapper w-100 h-100">
                 <div className="socket-color w-100 h-100"/>
             </div>

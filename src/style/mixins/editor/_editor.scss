@@ -186,7 +186,10 @@ $grid-area: $grid-size * 10000;
 
       &.requested {
         background: black;
-        transform: scale(.9) !important;
+
+        &:not(.relevant) {
+          transform: scale(.9) !important;
+        }
 
         .requested-wrapper:not(:hover) {
           // Requested sockets should have a subtle animation
