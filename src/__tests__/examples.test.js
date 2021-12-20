@@ -23,6 +23,8 @@ for(const example of getExampleProjects()) {
 
         await act(async () => {
             await editor.fromJSON(example);
+
+            await new Promise(resolve => setTimeout(resolve));///
         });
 
         expect(editor.nodes.length).toBeGreaterThan(0);

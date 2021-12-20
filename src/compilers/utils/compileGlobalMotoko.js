@@ -51,6 +51,7 @@ export default function compileGlobalMotoko(editor) {
     }).join('\n')}\n}`);
 
     // console.log(prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`))///
+    // throw new Error()
 
     return prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`);
 }

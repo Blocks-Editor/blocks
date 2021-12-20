@@ -13,7 +13,7 @@ export default class Compiler {
         this.editor = editor;
         this.compileKey = compileKey;
 
-        this._caching = true;
+        this._caching = false;
         this._inputCache = new Map();
         this._outputCache = new Map();
     }
