@@ -446,6 +446,9 @@ function getGenericType(parent, generics) {
     if(parent === tupleType && !generics.length) {
         return unitType; // TODO: refactor special case
     }
+    if(parent === asyncType && generics.length && asyncType.isSubtype(generics[0])) {
+        return generics[0]; // TODO: refactor special case
+    }
     if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenerics) {
         return getType(parent);
     }
