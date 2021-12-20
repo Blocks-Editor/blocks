@@ -276,7 +276,7 @@ export const tupleType = createType('Tuple', {
 //     parent: tupleType,
 // });
 export const unitType = createType('Unit', tupleType.withMeta({
-    info: 'A type with only one possible value, equivalent to the empty tuple',
+    info: 'An empty tuple; the only possible value for the "Unit" type',
 }));
 if(tupleType === unitType) throw new Error(); // TODO: move to tests
 export const objectType = createType('Object', {
@@ -442,6 +442,9 @@ function createType(name, data) {
 function getGenericType(parent, generics) {
     if(typeof parent === 'string') {
         parent = getType(parent);
+    }
+    if(parent === tupleType && !generics.length) {
+        return unitType; // TODO: refactor special case
     }
     if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenerics) {
         return getType(parent);
