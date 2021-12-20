@@ -1,4 +1,4 @@
-import {typeType, valueType} from '../block-types/types';
+import {identifierType, typeType, valueType} from '../block-types/types';
 import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {typeCategory} from '../block-categories/categories';
 
@@ -19,6 +19,9 @@ const block = memberBlock({
         return type && `${name || '(?)'} = ${editor.compilers.motoko.getTypeString(type)}`;
     },
     inputs: [{
+        key: 'name',
+        type: identifierType,
+    }, {
         key: 'typeInput',
         title: 'Definition',
         type: typeType.of(valueType),

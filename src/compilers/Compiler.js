@@ -12,6 +12,10 @@ export default class Compiler {
     constructor(editor, compileKey) {
         this.editor = editor;
         this.compileKey = compileKey;
+
+        this._caching = true;
+        this._inputCache = new Map();
+        this._outputCache = new Map();
     }
 
     // Default output value if `[compileKey]` does not exist on block property
@@ -30,7 +34,7 @@ export default class Compiler {
         if(!node) {
             throw new Error(`Node cannot be ${JSON.stringify(node)}`);
         }
-        let id = String(typeof node === 'string' || typeof node === 'number' ? node : node.id);
+        const id = String(typeof node === 'string' || typeof node === 'number' ? node : node.id);
         node = this.editor.nodes.find(node => String(node.id) === id);
         if(!node && !silent) {
             throw new Error(`Node does not exist: ${id}`);
@@ -48,19 +52,29 @@ export default class Compiler {
         if(!node) {
             return;
         }
-        let block = this.getBlock(node);
+        const cacheKey = this._cacheKey(node, key);
+        if(this._caching && this._inputCache.has(cacheKey)) {
+            return this._inputCache.get(cacheKey);
+        }
+        const result = this._getInput(node, key);
+        this._inputCache.set(cacheKey, result);
+        return result;
+    }
+
+    _getInput(node, key) {
+        const block = this.getBlock(node);
         if(!block.props.hasOwnProperty(key)) {
             throw new Error(`Prop not found on ${node.name}: ${key}`);
         }
-        let prop = block.props[key];
+        const prop = block.props[key];
         if(prop.input) {
             if(!prop.type.data.reversed) {
-                let input = this._input(node, key);
+                const input = this._input(node, key);
                 if(prop.multi) {
                     return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
                 }
                 if(input.connections.length) {
-                    let c = input.connections[0];
+                    const c = input.connections[0];
                     return this._compileConnection(c, c.input, c.output, 'outputs');
                 }
                 if(input.control) {
@@ -69,19 +83,19 @@ export default class Compiler {
                 }
             }
             else {
-                let output = this._output(node, key);
+                const output = this._output(node, key);
                 if(prop.multi) {
                     return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
                 }
                 if(output.connections.length) {
-                    let c = output.connections[0];
+                    const c = output.connections[0];
                     return this._compileConnection(c, c.output, c.input, 'inputs');
                 }
             }
         }
 
         if(prop.control) {
-            let control = this._control(node, key);
+            const control = this._control(node, key);
             return this._compileControl(control, key);
         }
     }
@@ -91,9 +105,19 @@ export default class Compiler {
         if(!node) {
             return;
         }
-        let prop = this._prop(node, key);
+        const cacheKey = this._cacheKey(node, key);
+        if(this._caching && this._outputCache.has(cacheKey)) {
+            return this._outputCache.get(cacheKey);
+        }
+        const result = this._getOutput(node, key);
+        this._outputCache.set(cacheKey, result);
+        return result;
+    }
+
+    _getOutput(node, key) {
+        const prop = this._prop(node, key);
         try {
-            let args = this.getInputArgs(node);
+            const args = this.getInputArgs(node);
             if(!args) {
                 return;
             }
@@ -121,14 +145,14 @@ export default class Compiler {
         if(!node) {
             return args;
         }
-        let block = this.getBlock(node);
+        const block = this.getBlock(node);
         // if(block.__inputArgs?.[this.compileKey]) {
         //     for(let key in block.__inputCache[this.compileKey]) {
         //         delete block.__inputCache[this.compileKey][key];
         //     }// TODO: proper cache invalidation
         //     return block.__inputArgs[this.compileKey];
         // }
-        for(let prop of Object.values(block.props)) {
+        for(const prop of Object.values(block.props)) {
             if(prop.input || prop.control) {
                 // let value = this.getInput(node, prop.key);
                 // if(value === undefined && !prop.optional) {
@@ -165,7 +189,7 @@ export default class Compiler {
         }
         if(process.env.NODE_ENV !== 'production') {
             // Throw error on missing key
-            let target = args;
+            const target = args;
             args = new Proxy({}, {
                 get: (_, key) => {
                     if(!target.hasOwnProperty(key)) {
@@ -191,6 +215,11 @@ export default class Compiler {
     //     return this._control(node, key).getValue();
     // }
 
+    clearCache() {
+        this._inputCache.clear();
+        this._outputCache.clear();
+    }
+
     getTypeString(type) {
         // console.log('/////', type);///
         type = getType(type);
@@ -214,7 +243,7 @@ export default class Compiler {
     }
 
     _prop(node, key) {
-        let block = this.getBlock(node);
+        const block = this.getBlock(node);
         if(!block.props.hasOwnProperty(key)) {
             throw new Error(`Prop does not exist in ${node.name}: ${key}`);
         }
@@ -240,5 +269,9 @@ export default class Compiler {
             throw new Error(`Control not found on ${node.name}: ${key}`);
         }
         return node.controls.get(key);
+    }
+
+    _cacheKey(node, key) {
+        return `${node.id}.${key}`;
     }
 }

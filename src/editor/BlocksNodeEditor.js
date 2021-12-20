@@ -20,8 +20,15 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             motoko: new MotokoCompiler(this),
         };
 
+        // Called when the editor changes state
+        this.bind('change');
+
         // Called before node creation
         this.bind('prenodecreate');
+
+        this.on('change', () => {
+            Object.values(this.compilers).forEach(compiler => compiler.clearCache());
+        });
 
         // Clear all event listeners after destroy
         this.on('destroy', () => {

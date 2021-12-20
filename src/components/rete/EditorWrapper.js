@@ -23,6 +23,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
 
     useListener(events, EDITOR_CHANGE_EVENT, (_editor) => {
         if(_editor === editor) {
+            editor.trigger('change');
             onChange?.(editor);
             if(autosave) {
                 events.emit(EDITOR_SAVE_EVENT, editor);
@@ -98,10 +99,12 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
         editor.on(['nodecreated', 'noderemoved', 'nodedragged', 'connectioncreated', 'connectionremoved'], async () => {
             if(!editor.silent) {
                 // Debounce change events
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    events.emit(EDITOR_CHANGE_EVENT, editor);
-                });
+                if(timeout !== undefined) {
+                    timeout = setTimeout(() => {
+                        timeout = undefined;
+                        events.emit(EDITOR_CHANGE_EVENT, editor);
+                    });
+                }
             }
         });
         editor.on('error', err => events.emit(ERROR_EVENT, err));

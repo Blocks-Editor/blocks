@@ -2,7 +2,7 @@ import {
     asyncType,
     boolType,
     effectType,
-    functionType,
+    functionType, identifierType,
     paramType,
     principalType,
     tupleType,
@@ -54,6 +54,9 @@ const block = memberBlock({
         }],
     }],
     inputs: [{
+        key: 'name',
+        type: identifierType,
+    }, {
         key: 'params',
         title: 'Parameters',
         type: paramType,

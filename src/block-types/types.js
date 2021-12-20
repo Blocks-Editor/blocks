@@ -272,7 +272,7 @@ export const tupleType = createType('Tuple', {
 //     parent: tupleType,
 // });
 export const unitType = createType('Unit', tupleType.withMeta({
-    info: 'A type with only one possible value, equivalent to an empty tuple',
+    info: 'A type with only one possible value, equivalent to the empty tuple',
 }));
 if(tupleType === unitType) throw new Error(); // TODO: move to tests
 export const objectType = createType('Object', {

@@ -10,7 +10,7 @@ let thisName = 'this';
 const block = {
     info: 'An object-oriented class',
     category: actorCategory,
-    topLeft: 'parent',
+    topLeft: 'member',
     topRight: 'members',
     global: true,
     hidden: true,///
@@ -35,7 +35,7 @@ const block = {
         multi: true,
     }],
     outputs: [{
-        key: 'parent',
+        key: 'member',
         type: containerType,
         toMotoko({visibility, name, params, members}, node, compiler) {
             let hasCaller = node.outputs.get('caller').connections.length;

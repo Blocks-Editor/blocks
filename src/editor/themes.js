@@ -18,7 +18,7 @@ export const THEMES = [{
 //     styledComponents: {},
 // }, {
     id: 'grey',
-    name: 'Blueprint',
+    name: 'Grey',
     parts: ['monospace-labels'],
     monaco: 'vs-dark',
     styledComponents: {},

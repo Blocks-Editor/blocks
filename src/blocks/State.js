@@ -1,4 +1,4 @@
-import {boolType, unitType, valueType} from '../block-types/types';
+import {boolType, identifierType, unitType, valueType} from '../block-types/types';
 import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 import {FaAngleDoubleRight, FaAngleRight} from 'react-icons/fa';
@@ -27,6 +27,9 @@ const block = memberBlock({
         nodeKey: 'stateNode',
     }],
     inputs: [{
+        key: 'name',
+        type: identifierType,
+    }, {
         //     key: 'type',
         //     type: 'Type',
         // }, {

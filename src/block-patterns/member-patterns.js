@@ -1,4 +1,4 @@
-import {identifierType, memberType} from '../block-types/types';
+import {memberType} from '../block-types/types';
 import {stringSelectProp} from './control-patterns';
 
 
@@ -28,13 +28,13 @@ export function memberBlock(block, memberProp) {
     return {
         topLeft: 'member',
         ...block,
-        inputs: [
-            {
-                key: 'name',
-                type: identifierType,
-            },
-            ...block.inputs || [],
-        ],
+        // inputs: [
+        //     {
+        //         key: 'name',
+        //         type: identifierType,
+        //     },
+        //     ...block.inputs || [],
+        // ],
         outputs: [
             {
                 key: 'member',
