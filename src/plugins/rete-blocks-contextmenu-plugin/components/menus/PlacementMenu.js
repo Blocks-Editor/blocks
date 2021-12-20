@@ -102,7 +102,7 @@ export default function PlacementMenu() {
         editor.trigger('hidecontextmenu');
 
         const position = context?.input ? {
-            x: mouse.x - 200, // TODO: compute width of module
+            x: mouse.x - 180, // TODO: compute width of module
             y: mouse.y,
         } : mouse;
 

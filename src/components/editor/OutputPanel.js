@@ -61,6 +61,7 @@ export default function OutputPanel({editor}) {
     };
 
     useListener(events, EDITOR_CHANGE_EVENT, () => {
+        console.log('change')///////
         setOutput(closed ? '' : getOutput());
         setCopied(false);
     });

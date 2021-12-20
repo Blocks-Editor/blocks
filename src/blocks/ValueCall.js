@@ -3,7 +3,7 @@ import {functionType, valueType} from '../block-types/types';
 import {FaRegPlayCircle} from 'react-icons/fa';
 import {functionCategory} from '../block-categories/categories';
 import {FOR_CUSTOM_LOGIC, FOR_REUSABLE_LOGIC} from '../editor/useCases';
-import {formatParentheses} from '../editor/format/formatHelpers';
+import {formatOptionalParentheses} from '../editor/format/formatHelpers';
 
 const block = statementBlock({
     title: 'Call Value',
@@ -31,11 +31,11 @@ const block = statementBlock({
             return functionType;///
         },
         toMotoko({callable, args}, node, compiler) {
-            return `(${callable})(${args.join(', ')})`;
+            return `${formatOptionalParentheses(callable)}(${args.join(', ')})`;
         },
     }],
 }, ({callable, args}, node, compiler) => {
 
-    return `ignore ${callable}${formatParentheses(args.join(', '))};`;
+    return `ignore ${callable}${formatOptionalParentheses(args.join(', '))};`;
 });
 export default block;

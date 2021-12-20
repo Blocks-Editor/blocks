@@ -39,9 +39,9 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
     const bindElement = (container) => {
         if(editor) {
             editor.silent = true;
+            editor.destroy();
             editor.clear();
             editor.components.clear();
-            editor.destroy();
             editor = null;
         }
         if(!container) {
@@ -99,12 +99,10 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
         editor.on(['nodecreated', 'noderemoved', 'nodedragged', 'connectioncreated', 'connectionremoved'], async () => {
             if(!editor.silent) {
                 // Debounce change events
-                if(timeout !== undefined) {
-                    timeout = setTimeout(() => {
-                        timeout = undefined;
-                        events.emit(EDITOR_CHANGE_EVENT, editor);
-                    });
-                }
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    events.emit(EDITOR_CHANGE_EVENT, editor);
+                });
             }
         });
         editor.on('error', err => events.emit(ERROR_EVENT, err));

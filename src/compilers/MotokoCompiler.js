@@ -41,7 +41,7 @@ export default class MotokoCompiler extends Compiler {
         if(typeType.isSubtype(prop.type)) {
             let type = prop.type.generics[0];
             if(type && !type.isAbstract()) {
-                return this.getTypeString();
+                return this.getTypeString(type);
             }
         }
     }

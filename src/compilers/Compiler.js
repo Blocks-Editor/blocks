@@ -56,6 +56,7 @@ export default class Compiler {
         if(this._caching && this._inputCache.has(cacheKey)) {
             return this._inputCache.get(cacheKey);
         }
+        this._inputCache.set(cacheKey, undefined);
         const result = this._getInput(node, key);
         this._inputCache.set(cacheKey, result);
         return result;
@@ -109,6 +110,7 @@ export default class Compiler {
         if(this._caching && this._outputCache.has(cacheKey)) {
             return this._outputCache.get(cacheKey);
         }
+        this._outputCache.set(cacheKey, undefined);
         const result = this._getOutput(node, key);
         this._outputCache.set(cacheKey, result);
         return result;
@@ -146,32 +148,15 @@ export default class Compiler {
             return args;
         }
         const block = this.getBlock(node);
-        // if(block.__inputArgs?.[this.compileKey]) {
-        //     for(let key in block.__inputCache[this.compileKey]) {
-        //         delete block.__inputCache[this.compileKey][key];
-        //     }// TODO: proper cache invalidation
-        //     return block.__inputArgs[this.compileKey];
-        // }
         for(const prop of Object.values(block.props)) {
             if(prop.input || prop.control) {
-                // let value = this.getInput(node, prop.key);
-                // if(value === undefined && !prop.optional) {
-                //     this.editor.trigger('warn', `Missing input on ${block.name}: ${prop.key}`);
-                //     return;
-                // }
-                // args[prop.key] = value;
-
-                let cached = false;
-                let cachedValue;
-
+                // Lazy-compile inputs
+                let loaded = false;
+                let loadedValue;
                 Object.defineProperty(args, prop.key, {
                     get: () => {
-                        // let cache = block.__inputCache[this.compileKey];
-                        // if(cache.hasOwnProperty(prop.key)) {
-                        //     return cache[prop.key];
-                        // }
-                        if(cached) {
-                            return cachedValue;
+                        if(loaded) {
+                            return loadedValue;
                         }
                         let value = this.getInput(node, prop.key);
                         if(value === undefined && !prop.optional) {
@@ -180,8 +165,7 @@ export default class Compiler {
                                 throw new UndefinedInputError(block, prop.key);
                             }
                         }
-                        // cache[prop.key] = value;
-                        cached = true;
+                        loaded = true;
                         return value;
                     },
                 });
@@ -199,21 +183,8 @@ export default class Compiler {
                 },
             });
         }
-        // TODO: refactor caching
-        // [block.__inputArgs || (block.__inputArgs = {})][this.compileKey] = args;
-        // [block.__inputCache || (block.__inputCache = {})][this.compileKey] = {};
-        // this.editor.on('process', ()=>{
-        //     for(let key in block.__inputCache) {
-        //         delete block.__inputCache[key];
-        //     }
-        // })///
         return args;
     }
-
-    // getControl(node, key) {
-    //     node = this.getNode(node);
-    //     return this._control(node, key).getValue();
-    // }
 
     clearCache() {
         this._inputCache.clear();
@@ -221,9 +192,9 @@ export default class Compiler {
     }
 
     getTypeString(type) {
-        // console.log('/////', type);///
         type = getType(type);
-        return type?.data[this.compileKey]?.(type.generics.map(t => this.getTypeString(t)), this) || type.toTypeString();
+        const generics = type.generics.map(t => this.getTypeString(t));
+        return type?.data[this.compileKey]?.(generics, this) || (generics.length ? `${type.name}<${generics.join(', ')}>` : type.name);
     }
 
     inferType(node, key) {
@@ -231,10 +202,6 @@ export default class Compiler {
     }
 
     _compileConnection(connection, from, to) {
-        // let prop = this._prop(to.node, to.key);
-        // if(!prop[this.compileKey]) {
-        //     throw new Error(`Cannot compile property of ${from.node.name} with key: ${prop.key}`);
-        // }
         return this.getOutput(to.node, to.key);
     }
 

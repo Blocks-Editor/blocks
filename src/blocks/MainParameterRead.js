@@ -5,7 +5,7 @@ import {FOR_CONFIGURATION} from '../editor/useCases';
 import {findNodeSearchOptions} from '../block-patterns/search-patterns';
 
 const block = {
-    title: 'Read Config',
+    title: 'Read Main Parameter',
     info: 'Get a top-level configuration value',
     useCases: [FOR_CONFIGURATION],
     category: paramCategory,

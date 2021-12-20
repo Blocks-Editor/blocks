@@ -5,17 +5,22 @@ import {formatParentheses} from '../../editor/format/formatHelpers';
 import {pascalCase} from 'change-case';
 import {compileGlobalParameter} from '../../blocks/MainParameter';
 
-export function globalInstallRef(editor) {
-    return 'install';
-}
-
-export function globalObjectRef(editor) {
-    return 'this';
-}
-
 const defaultActorName = 'Main';
 
+export function mainSharedRef(editor) {
+    return `${defaultActorName}__install`;
+}
+
+export function mainInstanceRef(editor) {
+    return `${defaultActorName}__this`;
+}
+
+const installerBlockName = 'MainInstaller';
+const mainParameterBlockName = 'MainParameter';
+
 export default function compileGlobalMotoko(editor) {
+
+    const actorName = pascalCase(editor.projectName) || defaultActorName;
 
     const memberNodes = editor.nodes
         .filter(node => {
@@ -28,22 +33,24 @@ export default function compileGlobalMotoko(editor) {
         })
         .sort((a, b) => a.position[1] - b.position[1]);
 
-    const configNodes = editor.nodes
-        .filter(node => node.name === 'GlobalParameter');
+    const installerNodes = editor.nodes.filter(node => node.name === installerBlockName.name);
+    const paramNodes = editor.nodes.filter(node => node.name === mainParameterBlockName.name);
 
-    const actorName = pascalCase(editor.projectName) || defaultActorName;
+    const installerPart = installerNodes.length && `shared ${formatParentheses(mainSharedRef(editor))}`;
 
-    const actorClassPart = /*configNodes.length && */`${formatParentheses(configNodes.map(node => {
-        // return editor.compilers.motoko.getOutput(node, 'param');
+    const thisPart = '';//`= ${mainInstanceRef(editor)}`
+    const classPart = (thisPart || paramNodes.length) && `${formatParentheses(paramNodes.map(node => {
         return compileGlobalParameter(node, editor.compilers.motoko);
-    }).join(', '))} = ${globalObjectRef(editor)}`;
+    }).join(', '))}`;
 
-    const actorPart = `shared ${formatParentheses(globalInstallRef(editor))} actor ${actorClassPart ? `class ${actorName}${actorClassPart}` : actorName}`;
+    const actorPart = `${installerPart ? `${installerPart} ` : ''}actor ${classPart ? `class ${actorName}${classPart}` : actorName}${thisPart ? ` ${thisPart}` : ''}`;
 
     const [prefixes, actorCode] = resolveImportRefs(`${actorPart} {${memberNodes.map(node => {
         const result = editor.compilers.motoko.getOutput(node, 'member');
         return result ? `\n  ${result}` : '';
     }).join('\n')}\n}`);
+
+    // console.log(prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`))///
 
     return prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`);
 }

@@ -1,5 +1,6 @@
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {MOTOKO_KEYWORDS} from '../config/configureMonaco';
+import {formatParentheses} from '../editor/format/formatHelpers';
 
 class Type {
     constructor(name, parent, generics, data = {}, meta = {}) {
@@ -294,6 +295,9 @@ export const functionType = createType('Function', {
     category: 'functions',
     toTypeString() {
         return `${this.generics[0].toTypeString()} -> ${this.generics[1].toTypeString()}`;
+    },
+    toMotoko([input, output]) {
+        return formatParentheses(`${input} -> ${output}`);
     },
 });
 export const optionalType = createType('Optional', {

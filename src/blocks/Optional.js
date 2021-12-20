@@ -1,6 +1,7 @@
 import {optionalType, valueType} from '../block-types/types';
 import {operatorCategory} from '../block-categories/categories';
 import {FOR_ERROR_HANDLING} from '../editor/useCases';
+import {formatOptionalParentheses} from '../editor/format/formatHelpers';
 
 const block = {
     title: 'Wrap Optional (?a)',
@@ -20,7 +21,7 @@ const block = {
             return optionalType.of(input);
         },
         toMotoko({input}) {
-            return `(?${input})`;
+            return `?${formatOptionalParentheses(input)}`;
         },
     }, {
         key: 'null',

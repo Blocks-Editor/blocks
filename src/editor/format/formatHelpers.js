@@ -14,6 +14,14 @@ export function formatParentheses(string) {
     return `(${string})`;
 }
 
+export function formatOptionalParentheses(string) {
+    string = prepare(string);
+    if(string.includes(' ')) {
+        string = formatParentheses(string);
+    }
+    return string;
+}
+
 export function formatCurlyBraces(string) {
     string = prepare(string);
     return `{\n${string}\n}`;
