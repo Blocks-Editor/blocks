@@ -6,5 +6,5 @@ const block = compileBlock('type', {
     info: 'Display the type signature of an expression.',
     useCases: [FOR_DEBUGGING, FOR_LEARNING_MOTOKO, FOR_DOCUMENTATION],
     // global: true,
-}, type => type?.toTypeString());
+}, (type, node, editor) => type && editor.compilers.motoko.getTypeString(type));
 export default block;

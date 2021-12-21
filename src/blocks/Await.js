@@ -1,4 +1,4 @@
-import {valueType} from '../block-types/types';
+import {asyncType, valueType} from '../block-types/types';
 import {operatorCategory} from '../block-categories/categories';
 import {formatParentheses} from '../editor/format/formatHelpers';
 
@@ -9,8 +9,8 @@ const block = {
     topRight: 'result',
     inputs: [{
         key: 'input',
-        // type: asyncType,
-        type: valueType,//// Temporary
+        type: asyncType,
+        // type: valueType,//// Temporary
     }],
     outputs: [{
         key: 'result',

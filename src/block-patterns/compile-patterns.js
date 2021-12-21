@@ -8,9 +8,9 @@ export function compileBlock(compilerKey, block, displayFn) {
     function queryFor(inputKey) {
         return (control, node, editor) => {
             let value = editor.compilers[compilerKey].getInput(node, inputKey);
-            let string = displayFn ? displayFn(value) : value;
-            const [prefixes, code] = resolveImportRefs(string);
-            return prettyPrintMotoko([...prefixes, code].join(' '));
+            let string = displayFn ? displayFn(value, node, editor) : value;
+            const [/*prefixes*/, code] = resolveImportRefs(string);
+            return prettyPrintMotoko([/*...prefixes, */code].join(' '));
         };
     }
 

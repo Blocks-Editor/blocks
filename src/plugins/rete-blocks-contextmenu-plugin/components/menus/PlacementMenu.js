@@ -25,12 +25,11 @@ function findRelevantComponents(input, output, components) {
     if(inputType?.data.reversed || outputType?.data.reversed) {
         [inputType, outputType] = [outputType, inputType];
     }
-    // Permissive for outputs but not inputs
     return components.filter(c =>
         (!inputType || c.block.outputs.some((prop) =>
-            !prop.hidden && !prop.advanced/*****/ && inputType.isSubtype(prop.type))) &&
+            !prop.hidden && !prop.advanced/*****/ && (inputType.isSubtype(prop.type) || (prop.inferType && prop.type.isSubtype(inputType))))) &&
         (!outputType || c.block.inputs.some((prop) =>
-            !prop.hidden && !prop.advanced/*****/ && (outputType.isSubtype(prop.type) || prop.type.isSubtype(outputType)))));
+            !prop.hidden && !prop.advanced/*****/ && ((prop.inferType && outputType.isSubtype(prop.type)) || prop.type.isSubtype(outputType)))));
 }
 
 export default function PlacementMenu() {

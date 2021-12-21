@@ -3,10 +3,12 @@ import {functionCategory} from '../block-categories/categories';
 import {FOR_CONFIGURATION} from '../editor/useCases';
 import {formatCurlyBraces} from '../editor/format/formatHelpers';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
+import {FiAlignLeft} from 'react-icons/fi';
 
 const block = {
     info: 'Run a statement using the given value',
     useCases: [FOR_CONFIGURATION],
+    icon: FiAlignLeft,
     category: functionCategory,
     topLeft: 'input',
     topRight: 'statement',
