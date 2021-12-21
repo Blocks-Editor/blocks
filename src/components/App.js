@@ -9,21 +9,10 @@ import TabLayout from './TabLayout';
 import GlobalTheme from './global/GlobalTheme';
 import GlobalObservables from './global/GlobalObservables';
 import MobilePage from './MobilePage';
-import { isSafari } from 'react-device-detect';
+import {isSafari} from 'react-device-detect';
 
 export default function App() {
     const events = useContext(EventsContext);
-
-    useEffect(() => {
-        // Check user agent on load
-        if(isSafari) {
-            toast('Blocks currently has intermittent performance issues on Safari. For now, we recommend Chrome for the best experience.', {
-                autoClose: false
-            });
-        }
-    });
-
-
 
     useListener(events, ERROR_EVENT, err => {
         toast(err, {
@@ -32,13 +21,26 @@ export default function App() {
         });
     });
 
+    useEffect(() => {
+        // Check user agent on load
+        const storageFlag = 'blocks.safariWarning';
+        if(isSafari && !sessionStorage[storageFlag]) {
+            toast('If you\'re experiencing performance issues, we recommend using Blocks in Google Chrome or Mozilla Firefox.', {
+                autoClose: false,
+                onClose() {
+                    sessionStorage[storageFlag] = 'true';
+                },
+            });
+        }
+    });
+
     return (
         <React.StrictMode>
             <GlobalObservables/>
             <GlobalTooltip/>
             <BrowserRouter>
                 <GlobalTheme>
-                    <ToastContainer style={{marginTop: '5rem'}} position='top-center'/>
+                    <ToastContainer style={{marginTop: '5rem'}} position="top-right"/>
                     <div className="d-block d-sm-none w-100 h-100">
                         <MobilePage/>
                     </div>
