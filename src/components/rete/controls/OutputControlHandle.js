@@ -3,6 +3,7 @@ import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContex
 import useListener from '../../../hooks/utils/useListener';
 import Loading from '../../common/Loading';
 import CopyToClipboardButton from '../../common/CopyToClipboardButton';
+import CodeEditor from '../../monaco/CodeEditor';
 
 export default function OutputControlHandle({control, bindInput, query}) {
 
@@ -38,13 +39,28 @@ export default function OutputControlHandle({control, bindInput, query}) {
         <Loading promise={valuePromise}>
             {value => (value ?? null) && (
                 <div className="d-flex">
-                    <input
-                        type="text"
-                        className="w-100 small"
-                        readOnly
-                        ref={bindInput}
-                        value={value || ''}
-                    />
+                    {/*<input*/}
+                    {/*    type="text"*/}
+                    {/*    className="w-100 small"*/}
+                    {/*    readOnly*/}
+                    {/*    ref={bindInput}*/}
+                    {/*    value={value || ''}*/}
+                    {/*/>*/}
+                    <div ref={bindInput} className="w-100">
+                        <CodeEditor
+                            value={value}
+                            readOnly
+                            options={{
+                                lineNumbers: 'off',
+                                glyphMargin: false,
+                                folding: false,
+                                lineDecorationsWidth: 0,
+                                lineNumbersMinChars: 0,
+                                minimap: {
+                                    enabled: false,
+                                },
+                            }}/>
+                    </div>
                     <CopyToClipboardButton text={value} /* onCopy={() => setCopied(true)} */ >
                         {/*<Button*/}
                         {/*    ref={bindInput}*/}

@@ -2,7 +2,7 @@ import MonacoEditor from '@monaco-editor/react';
 import {configureMonaco} from '../../config/configureMonaco';
 import useThemeState from '../../hooks/persistent/useThemeState';
 
-export default function CodeEditor({value, onChange, readOnly, ...others}) {
+export default function CodeEditor({value, onChange, readOnly, options, ...others}) {
     // const monaco = useMonaco();
     const [theme] = useThemeState();
 
@@ -35,6 +35,7 @@ export default function CodeEditor({value, onChange, readOnly, ...others}) {
                 scrollBeyondLastLine: false,
                 fontSize: 16,
                 readOnly,
+                ...options,
             }}
             {...others}
         />
