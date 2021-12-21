@@ -62,7 +62,7 @@ export const helloWorldTutorial = {
         title: 'Clear the selection',
         info: 'Left-click somewhere in the editor space.',
         isComplete(progress, {editorSelection}) {
-            return !editorSelection.length || getReturnNode(progress.editor);
+            return !editorSelection?.length || getReturnNode(progress.editor);
         },
     }, {
         title: 'Name the function',
