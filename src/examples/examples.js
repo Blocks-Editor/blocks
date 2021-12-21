@@ -5,6 +5,7 @@ const examples = [
     // require('./files/WhoAmI.blocks.json'),
     require('./files/PhoneBook.blocks.json'),
     require('./files/ToDoList.blocks.json'),
+    require('./files/SimpleCurrency.blocks.json'),
 ];
 
 module.exports = {

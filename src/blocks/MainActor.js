@@ -7,6 +7,7 @@ const block = {
     category: actorCategory,
     topLeft: 'actor',
     // global: true,
+    hidden: true,///
     inputs: [],
     outputs: [{
         key: 'actor',

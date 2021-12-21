@@ -103,6 +103,7 @@ export function SocketHandle(props) {
                 reversed && 'reversed',
                 requested && 'requested',
                 !multiple && io.connections.length && 'occupied',
+                'type-' + socketType.name,
                 'category-' + socketType.data.category,
             )}
             // title={socket.name}

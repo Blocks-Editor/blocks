@@ -4,7 +4,7 @@ import {FOR_ERROR_HANDLING} from '../editor/useCases';
 import {formatOptionalParentheses} from '../editor/format/formatHelpers';
 
 const block = {
-    title: 'Wrap Optional (?a)',
+    title: 'Optional (?a)',
     info: 'Create an optional version of the input value',
     useCases: [FOR_ERROR_HANDLING],
     category: operatorCategory,

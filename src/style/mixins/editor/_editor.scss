@@ -48,7 +48,6 @@ $any-gradient-right: conic-gradient(at right, orange, yellow, green, blue, indig
   }
 }
 
-@include node-color("unit", $unit-color);
 @include node-color("category-default", $any-color);
 @include node-color("category-default", $any-gradient); // Prioritize gradient
 @include node-color("category-values", $value-color);
@@ -66,10 +65,12 @@ $any-gradient-right: conic-gradient(at right, orange, yellow, green, blue, indig
 @include node-color("category-containers", $container-color);
 @include node-color("category-parameters", $parameter-color);
 
-@include node-color("bool", $bool-color);
-@include node-color("float", $float-color);
 @include node-color("category-integers", $int-color);
 @include node-color("category-naturals", $nat-color);
+
+@include node-color("type-Bool", $bool-color);
+@include node-color("type-Float", $float-color);
+@include node-color("type-Unit", $unit-color);
 
 @keyframes socket-requested {
   from {
@@ -191,9 +192,13 @@ $grid-area: $grid-size * 10000;
           transform: scale(.9) !important;
         }
 
-        .requested-wrapper:not(:hover) {
+        .requested-wrapper {
           // Requested sockets should have a subtle animation
           animation: socket-requested 2.5s ease-in-out infinite;
+
+          &:hover {
+            animation-play-state: paused;
+          }
         }
       }
     }

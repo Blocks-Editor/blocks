@@ -4,10 +4,11 @@ import {FOR_CONFIGURATION} from '../editor/useCases';
 import {mainSharedRef} from '../compilers/utils/compileGlobalMotoko';
 
 const block = {
+    // title: 'Installer',
     info: 'The owner of the top-level smart contract',
     useCases: [FOR_CONFIGURATION],
     category: paramCategory,
-    global: true,
+    // global: true,
     outputs: [{
         key: 'caller',
         type: principalType,

@@ -9,6 +9,7 @@ export function compileGlobalParameter(node, compiler) {
 }
 
 const block = {
+    title: 'Config',
     info: 'A top-level input parameter to the smart contract',
     useCases: [FOR_CONFIGURATION],
     topRight: 'value',

@@ -33,8 +33,8 @@ export default function compileGlobalMotoko(editor) {
         })
         .sort((a, b) => a.position[1] - b.position[1]);
 
-    const installerNodes = editor.nodes.filter(node => node.name === installerBlockName.name);
-    const paramNodes = editor.nodes.filter(node => node.name === mainParameterBlockName.name);
+    const installerNodes = editor.nodes.filter(node => node.name === installerBlockName);
+    const paramNodes = editor.nodes.filter(node => node.name === mainParameterBlockName);
 
     const installerPart = installerNodes.length && `shared ${formatParentheses(mainSharedRef(editor))}`;
 

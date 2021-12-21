@@ -2,7 +2,8 @@ import {
     asyncType,
     boolType,
     effectType,
-    functionType, identifierType,
+    functionType,
+    identifierType,
     paramType,
     principalType,
     tupleType,
@@ -10,7 +11,6 @@ import {
 } from '../block-types/types';
 import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
-import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {FOR_BUILDING_API, FOR_REUSABLE_LOGIC} from '../editor/useCases';
 import {formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
 
@@ -72,8 +72,8 @@ const block = memberBlock({
         info: 'The remote principal which called this function',
         type: principalType,
         advanced: true,
-        toMotoko(args, node, compiler) {
-            return `${nodeIdentifierRef(node)}.caller`;
+        toMotoko({name}, node, compiler) {
+            return `${name}__install.caller`;
         },
     }, {
         key: 'function',
@@ -108,7 +108,7 @@ const block = memberBlock({
         let returnString = compiler.getTypeString(returnType);
         return [
             modifiers,
-            hasCaller ? nodeIdentifierRef(node) : '',
+            hasCaller ? formatParentheses(`${name}__install`) : '',
             query ? 'query' : '',
             `func ${name || ''}${formatParentheses(params.join(', '))}${returnString !== '()' ? ` : ${returnString}` : ''}`,
             formatStatementBlock(body || ''),

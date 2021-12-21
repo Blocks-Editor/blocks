@@ -1,9 +1,12 @@
-function prepare(string) {
+export function formatString(string) {
+    if(Array.isArray(string)) {
+        string = string.map(formatString).filter(s => s).join(' ');
+    }
     return string === '' || string === null || string === undefined ? '' : string;
 }
 
 export function formatParentheses(string) {
-    string = prepare(string);
+    string = formatString(string);
     // Remove trivial double parentheses
     if(string.startsWith('(') && string.endsWith(')')) {
         const s = string.substring(1, string.length - 1);
@@ -15,7 +18,7 @@ export function formatParentheses(string) {
 }
 
 export function formatOptionalParentheses(string) {
-    string = prepare(string);
+    string = formatString(string);
     if(string.includes(' ')) {
         string = formatParentheses(string);
     }
@@ -23,12 +26,12 @@ export function formatOptionalParentheses(string) {
 }
 
 export function formatCurlyBraces(string) {
-    string = prepare(string);
+    string = formatString(string);
     return `{\n${string}\n}`;
 }
 
 export function formatStatementBlock(string) {
-    string = prepare(string);
+    string = formatString(string);
     return `${formatCurlyBraces(string)};`;
 }
 
@@ -40,8 +43,12 @@ export function formatMembers(members) {
 }
 
 export function formatStatements(statement, after) {
+    statement = formatString(statement);
     if(!statement) {
         return after;
+    }
+    if(!statement.endsWith(';')) {
+        statement = `${statement};`;
     }
     return after ? `${statement}\n${after}` : statement;
 }

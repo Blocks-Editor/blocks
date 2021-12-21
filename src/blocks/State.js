@@ -1,8 +1,9 @@
-import {boolType, identifierType, unitType, valueType} from '../block-types/types';
+import {boolType, effectType, identifierType, unitType, valueType} from '../block-types/types';
 import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 import {FaAngleDoubleRight, FaAngleRight} from 'react-icons/fa';
 import {FOR_BUILDING_API, FOR_STORING_DATA} from '../editor/useCases';
+import {formatStatements} from '../editor/format/formatHelpers';
 
 export const stateReadIcon = FaAngleRight;
 export const stateWriteIcon = FaAngleDoubleRight;
@@ -10,7 +11,8 @@ export const stateWriteIcon = FaAngleDoubleRight;
 const block = memberBlock({
     info: 'A persistent smart contract variable',
     useCases: [FOR_BUILDING_API, FOR_STORING_DATA],
-    topRight: 'value',
+    // topRight: 'value',
+    topRight: 'setup',
     category: stateCategory,
     global: true,
     computeTitle(node, editor) {
@@ -33,6 +35,10 @@ const block = memberBlock({
         type: valueType,
         optional: true,
         request: true,
+    }, {
+        key: 'setup',
+        type: effectType.of(unitType),
+        optional: true,
     }],
     outputs: [{
         key: 'value',
@@ -56,13 +62,17 @@ const block = memberBlock({
         advanced: true,
     }],
 }, {
-    toMotoko({stable, readonly, name, initialValue}, node, compiler) {
+    toMotoko({stable, readonly, name, initialValue, setup}, node, compiler) {
         let modifiers = [!!stable && 'stable'].filter(m => m).join(' ');
         let type = compiler.editor.compilers.type.getInput(node, 'initialValue');
 
         initialValue = initialValue || '()';
 
-        return `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${type ? ` : ${compiler.getTypeString(type)}` : ''} = ${initialValue};`;
+        let statement = `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${type ? ` : ${compiler.getTypeString(type)}` : ''} = ${initialValue};`;
+        if(setup) {
+            statement = formatStatements(statement, setup);
+        }
+        return statement;
     },
 });
 export default block;

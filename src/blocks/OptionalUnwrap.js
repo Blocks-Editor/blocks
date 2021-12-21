@@ -1,12 +1,12 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
-import {effectType, optionalType, valueType} from '../block-types/types';
+import {boolType, effectType, optionalType, valueType} from '../block-types/types';
 import {decompositionCategory} from '../block-categories/categories';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {FOR_ERROR_HANDLING} from '../editor/useCases';
-import {formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
+import {formatOptionalParentheses, formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
 
 const block = statementBlock({
-    title: 'Unwrap Optional',
+    title: 'Check Non-Null',
     info: 'Run different logic depending on whether an Optional value is null',
     useCases: [FOR_ERROR_HANDLING],
     category: decompositionCategory,
@@ -15,20 +15,29 @@ const block = statementBlock({
         type: optionalType,
     }, {
         key: 'valueCase',
-        title: 'Value',
+        title: 'Has value',
         type: effectType,
         optional: true,
     }, {
         key: 'nullCase',
-        title: 'Null',
+        title: 'Value is null',
         type: effectType,
         optional: true,
     }],
     outputs: [{
+        key: 'condition',
+        title: '!= null',
+        type: boolType,
+        toMotoko({input}, node) {
+            return `${formatOptionalParentheses(nodeIdentifierRef(node))} != null`;
+        },
+    }, {
         key: 'value',
         type: valueType,
         inferType({input}) {
-            return input;
+            if(optionalType.isSubtype(input)) {
+                return input.generics[0];
+            }
         },
         toMotoko({input}, node) {
             return nodeIdentifierRef(node);
