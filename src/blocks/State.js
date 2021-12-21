@@ -15,7 +15,6 @@ const block = memberBlock({
     global: true,
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
-        // let name = editor.compilers.motoko.getInput(node, 'name');
         let type = editor.compilers.type.getInput(node, 'initialValue') || unitType;
         return name && `${name} : ${editor.compilers.motoko.getTypeString(type)}`;
     },
@@ -30,9 +29,6 @@ const block = memberBlock({
         key: 'name',
         type: identifierType,
     }, {
-        //     key: 'type',
-        //     type: 'Type',
-        // }, {
         key: 'initialValue',
         type: valueType,
         optional: true,
@@ -50,17 +46,18 @@ const block = memberBlock({
     }],
     controls: [{
         key: 'stable',
+        info: 'Preserve the state over canister upgrades: see the Motoko docs to learn more',
         type: boolType,
         advanced: true,
     }, {
         key: 'readonly',
-        type: 'Bool',
+        info: 'Readonly states cannot be reassigned, but value mutations are still possible',
+        type: boolType,
         advanced: true,
     }],
 }, {
-    toMotoko({stable, name, initialValue}, node, compiler) {
-        let readonly = false;/// TODO: infer and/or adjust shortcuts
-        let modifiers = [!!stable && 'stable'].filter(m => m).join(' '); //TODO: combine into single control
+    toMotoko({stable, readonly, name, initialValue}, node, compiler) {
+        let modifiers = [!!stable && 'stable'].filter(m => m).join(' ');
         let type = compiler.editor.compilers.type.getInput(node, 'initialValue');
 
         initialValue = initialValue || '()';
