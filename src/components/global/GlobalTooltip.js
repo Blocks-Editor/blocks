@@ -19,7 +19,7 @@ export default function GlobalTooltip() {
         <StyledReactTooltip
             backgroundColor="#111"
             place="bottom"
-            delayShow={250}
+            delayShow={200}
             // afterShow={afterShow}
             multiline={true}
         />

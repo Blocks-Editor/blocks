@@ -4,15 +4,21 @@ import classNames from 'classnames';
 import {paramCase} from 'change-case';
 import getPropLabel from '../../../../utils/getPropLabel';
 import React from 'react';
+import useReactTooltip from '../../../../hooks/useReactTooltip';
+import useLearningModeState from '../../../../hooks/persistent/useLearningModeState';
+import getInfoText from '../../../../utils/getInfoText';
 
 export default function PropField({prop, node, hideLeft, hideRight, bindSocket, bindControl}) {
-    // const [advanced] = useAdvancedPropsState();
-    const advanced = !!node.data['editor:advanced'];////
-    // const advanced = true; // Always show advanced props for now
 
-    let input = node.inputs.get(prop.key);
-    let output = node.outputs.get(prop.key);
-    let control = node.controls.get(prop.key) || (input?.showControl() && input.control);
+    const [learningMode] = useLearningModeState();
+
+    const advanced = !!node.data['editor:advanced'];
+
+    const input = node.inputs.get(prop.key);
+    const output = node.outputs.get(prop.key);
+    const control = node.controls.get(prop.key) || (input?.showControl() && input.control);
+
+    useReactTooltip();
 
     if(prop.advanced && !advanced) {
         if(
@@ -24,7 +30,7 @@ export default function PropField({prop, node, hideLeft, hideRight, bindSocket, 
         }
     }
 
-    let leftSocket = input && !hideLeft && (
+    const leftSocket = input && !hideLeft && (
         <SocketHandle
             type="input"
             socket={input.socket}
@@ -33,7 +39,7 @@ export default function PropField({prop, node, hideLeft, hideRight, bindSocket, 
             innerRef={bindSocket}
         />
     );
-    let rightSocket = output && !hideRight && (
+    const rightSocket = output && !hideRight && (
         <SocketHandle
             type="output"
             propKey={prop.key}
@@ -42,7 +48,7 @@ export default function PropField({prop, node, hideLeft, hideRight, bindSocket, 
             innerRef={bindSocket}
         />
     );
-    let controlField = control && (
+    const controlField = control && (
         <Control
             className={input ? 'input-control' : 'control'}
             control={control}
@@ -50,17 +56,27 @@ export default function PropField({prop, node, hideLeft, hideRight, bindSocket, 
         />
     );
 
+    const tooltip = learningMode ? getInfoText(prop.info) : null;
+    const tooltipDelay = 100;
+
     return (
-        <div className={classNames('prop', 'key-' + paramCase(prop.key), !advanced && prop.advanced && 'advanced')}>
+        <div
+            className={classNames('prop', 'key-' + paramCase(prop.key), !advanced && prop.advanced && 'advanced')}
+            data-tip={tooltip}
+            data-delay-show={tooltipDelay}>
             <div className="input">
                 {leftSocket}
                 {controlField || (leftSocket && (
-                    <div className="input-title">{getPropLabel(prop)}</div>
+                    <div className="input-title">
+                        {getPropLabel(prop)}
+                    </div>
                 ))}
             </div>
             <div className="output">
                 {!input && (rightSocket && (
-                    <div className="output-title">{getPropLabel(prop)}</div>
+                    <div className="output-title">
+                        {getPropLabel(prop)}
+                    </div>
                 ))}
                 {rightSocket}
             </div>

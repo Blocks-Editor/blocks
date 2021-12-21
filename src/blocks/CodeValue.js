@@ -1,7 +1,6 @@
-import {parseCodeBlockInputs} from '../block-patterns/code-patterns';
-import {anyType, typeType, valueType} from '../block-types/types';
+import {expressionArgsInput, expressionControl, parseCodeBlockInputs} from '../block-patterns/code-patterns';
+import {typeType, valueType} from '../block-types/types';
 import {expressionCategory} from '../block-categories/categories';
-import CodeControlHandle from '../components/rete/controls/CodeControlHandle';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 import {formatCurlyBraces} from '../editor/format/formatHelpers';
 
@@ -14,14 +13,13 @@ const block = {
     // topLeft: 'inputs',
     topRight: 'result',
     width: 14,
-    inputs: [{
-        key: 'inputs',
-        type: anyType,
-        multi: true,
-    }, {
-        key: 'type',
-        type: typeType.of(valueType),
-    }],
+    inputs: [
+        expressionArgsInput(),
+        {
+            key: 'type',
+            type: typeType.of(valueType),
+        },
+    ],
     outputs: [{
         key: 'result',
         type: valueType,
@@ -33,11 +31,8 @@ const block = {
             return `do ${formatCurlyBraces(parseCodeBlockInputs(inputs, expression))}`;
         },
     }],
-    controls: [{
-        key: 'expression',
-        config: {
-            controlType: CodeControlHandle,
-        },
-    }],
+    controls: [
+        expressionControl(),
+    ],
 };
 export default block;

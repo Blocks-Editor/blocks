@@ -1,7 +1,6 @@
-import {parseCodeBlockInputs} from '../block-patterns/code-patterns';
+import {expressionArgsInput, expressionControl, parseCodeBlockInputs} from '../block-patterns/code-patterns';
 import {customType, typeType, valueType} from '../block-types/types';
 import {expressionCategory} from '../block-categories/categories';
-import CodeControlHandle from '../components/rete/controls/CodeControlHandle';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 
 const block = {
@@ -13,14 +12,13 @@ const block = {
     // topLeft: 'inputs',
     topRight: 'result',
     width: 14,
-    inputs: [{
-        key: 'inputs',
-        type: typeType,
-        multi: true,
-    }, {
-        key: 'type',
-        type: typeType.of(valueType),
-    }],
+    inputs: [
+        expressionArgsInput(/* typeType */),
+        {
+            key: 'type',
+            type: typeType.of(valueType),
+        },
+    ],
     outputs: [{
         key: 'result',
         type: typeType.of(valueType),
@@ -31,11 +29,8 @@ const block = {
             return parseCodeBlockInputs(inputs, expression);
         },
     }],
-    controls: [{
-        key: 'expression',
-        config: {
-            controlType: CodeControlHandle,
-        },
-    }],
+    controls: [
+        expressionControl(),
+    ],
 };
 export default block;

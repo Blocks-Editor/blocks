@@ -8,14 +8,14 @@ Dark theme for Blocks.
 
     .node {
       border: 2px solid #00131C;
-      background: #022030;
+      background: #022030EE;
 
       &:not(.selected) .header {
         background: #00131C;
       }
 
       &:hover {
-        background: #02203088;
+        background: #022030DD;
       }
 
       .node-shortcut-button {

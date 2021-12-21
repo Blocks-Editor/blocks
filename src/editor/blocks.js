@@ -48,7 +48,6 @@ blockContext.keys().forEach(path => {
     block = {...block}; // HMR fix
     if(block) {
         block.name = name;
-        block.info = !block.info || block.info.endsWith('.') ? block.info : `${block.info}.`;
         if(blockNames.has(name)) {
             console.error(`Duplicate block name: ${name}`);
             return;

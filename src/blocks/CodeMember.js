@@ -1,7 +1,6 @@
-import {parseCodeBlockInputs} from '../block-patterns/code-patterns';
-import {memberType, typeType} from '../block-types/types';
+import {expressionArgsInput, expressionControl, parseCodeBlockInputs} from '../block-patterns/code-patterns';
+import {memberType} from '../block-types/types';
 import {expressionCategory} from '../block-categories/categories';
-import CodeControlHandle from '../components/rete/controls/CodeControlHandle';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 import {memberBlock} from '../block-patterns/member-patterns';
 
@@ -12,17 +11,12 @@ const block = memberBlock({
     category: expressionCategory,
     icon: expressionCategory.data.icon,
     width: 14,
-    inputs: [{
-        key: 'inputs',
-        type: typeType,
-        multi: true,
-    }],
-    controls: [{
-        key: 'expression',
-        config: {
-            controlType: CodeControlHandle,
-        },
-    }],
+    inputs: [
+        expressionArgsInput(),
+    ],
+    controls: [
+        expressionControl(),
+    ],
 }, {
     type: memberType,
     toMotoko({inputs, expression}) {

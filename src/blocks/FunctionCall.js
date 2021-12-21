@@ -5,6 +5,7 @@ import {functionCategory} from '../block-categories/categories';
 import {getFunctionReturnType} from './Function';
 import {FOR_REUSABLE_LOGIC} from '../editor/useCases';
 import {findNodeSearchOptions} from '../block-patterns/search-patterns';
+import {formatParentheses} from '../editor/format/formatHelpers';
 
 const block = statementBlock({
     info: 'Invoke a function in this project',
@@ -20,7 +21,7 @@ const block = statementBlock({
         let name = editor.compilers.motoko.getInput(functionNode, 'name');
         let paramNames = editor.compilers.node.getInput(functionNode, 'params')
             .map(n => editor.compilers.motoko.getInput(n, 'name'));
-        return name && `${name}(${paramNames.join(', ')})`;
+        return name && `${name}${formatParentheses(paramNames.join(', '))}`;
     },
     customSearch(text, {editor}) {
         return findNodeSearchOptions(text, editor, 'Function', 'functionNode');
@@ -34,6 +35,7 @@ const block = statementBlock({
     outputs: [{
         key: 'value',
         title: 'Result',
+        info: 'Call the function and output the result',
         type: valueType,
         inferType(_, node, compiler) {
             let functionNode = compiler.editor.compilers.node.getInput(node, 'functionNode');
@@ -63,6 +65,6 @@ const block = statementBlock({
     if(!name) {
         return;
     }
-    return `ignore ${name}(${args.join(', ')});`;
+    return `ignore ${name}${formatParentheses(args.join(', '))};`;
 });
 export default block;

@@ -69,6 +69,7 @@ const block = memberBlock({
     }],
     outputs: [{
         key: 'caller',
+        info: 'The remote principal which called this function',
         type: principalType,
         advanced: true,
         toMotoko(args, node, compiler) {
@@ -76,6 +77,7 @@ const block = memberBlock({
         },
     }, {
         key: 'function',
+        info: 'The callable function value',
         type: functionType,
         advanced: true,
         inferType({params}, node, compiler) {
@@ -90,6 +92,7 @@ const block = memberBlock({
         visibilityControlProp(),
         {
             key: 'query',
+            info: 'A query function runs faster but cannot modify state values',
             type: boolType,
             advanced: true,
         },

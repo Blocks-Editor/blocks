@@ -19,6 +19,7 @@ export function compileBlock(compilerKey, block, displayFn) {
         icon: compilerCategory.data.icon,
         topLeft: 'input',
         topRight: 'reversed',
+        width: 8,
         ...block,
         inputs: [{
             key: 'input',

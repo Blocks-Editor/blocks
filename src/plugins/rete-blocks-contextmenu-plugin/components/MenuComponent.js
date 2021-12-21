@@ -4,6 +4,7 @@ import {FaRegStickyNote} from 'react-icons/fa';
 import getBlockLabel from '../../../utils/getBlockLabel';
 import useReactTooltip from '../../../hooks/useReactTooltip';
 import useLearningModeState from '../../../hooks/persistent/useLearningModeState';
+import getInfoText from '../../../utils/getInfoText';
 
 
 export default function MenuComponent({component, specialTitle, ...others}) {
@@ -12,7 +13,7 @@ export default function MenuComponent({component, specialTitle, ...others}) {
     const [learningMode] = useLearningModeState();
 
     if(block?.info) {
-        let tooltip = block.info;
+        let tooltip = getInfoText(block.info);
         if(learningMode && block.useCases?.length) {
             tooltip += `<br>Use cases: ${block.useCases.join(', ')}`;
         }

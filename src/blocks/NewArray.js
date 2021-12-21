@@ -13,7 +13,7 @@ const block = {
     topRight: 'value',
     computeTitle(node, editor) {
         let type = editor.compilers.type.getOutput(node, 'value');
-        let mutable = editor.compilers.motoko.getOutput(node, 'mutable'); // TODO: control compiler?
+        let mutable = editor.compilers.motoko.getOutput(node, 'mutable');
         return type && `new Array [ ${mutable ? 'var ' : ''}${editor.compilers.motoko.getTypeString(type.generics[0])} ]`;
     },
     inputs: [{
@@ -28,7 +28,7 @@ const block = {
         key: 'value',
         type: arrayType,
         inferType({itemType}, node, compiler) {
-            let mutable = compiler.editor.compilers.motoko.getInput(node, 'mutable'); // TODO: simplify
+            let mutable = compiler.editor.compilers.motoko.getInput(node, 'mutable');
             return (mutable ? mutableArrayType : arrayType).of(itemType);
         },
         toMotoko({mutable, items}) {
@@ -37,6 +37,7 @@ const block = {
     }],
     controls: [{
         key: 'mutable',
+        info: 'Mutable arrays can dynamically replace elements after initialization',
         type: boolType,
     }],
 };

@@ -17,15 +17,17 @@ export default class PropSocket extends Rete.Socket {
     findLabel() {
         const type = this.findType();
 
-        // let text = type.toTypeString();
+        // let text = getInfoText(this.prop.info) || '';
         let text = '';
         for(const relevant of flattenUniqueTypes(type)) {
-            const info = relevant.meta.info || relevant.data.info;
-            if(info) {
-                if(text) {
-                    text += '<br>';
+            if(!relevant.data.abstract) {
+                const info = relevant.meta.info || relevant.data.info;
+                if(info) {
+                    if(text) {
+                        text += '<br>';
+                    }
+                    text += `${relevant.toTypeString()} : ${info}`;
                 }
-                text += `${relevant.toTypeString()} : ${info}`;
             }
         }
         return text;

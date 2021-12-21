@@ -24,6 +24,7 @@ const OutputContainer = styled.div`
     transition: 0.4s;
     z-index: 100;
     //padding-top: 95px;
+    opacity: .98;
 
     ${props => props.closed && css`
         transform: translateX(100%);

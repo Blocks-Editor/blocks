@@ -243,6 +243,7 @@ export const natType = createType('Nat', {
     info: 'A natural number (0, 1, 2, ...)',
     parent: floatType,
     category: 'naturals',
+    controlType: 'number',
     validation: {
         step: 1,
         min: 0,
@@ -303,7 +304,7 @@ export const functionType = createType('Function', {
     genericNames: ['input', 'output'],
     category: 'functions',
     toTypeString() {
-        return `${this.generics[0].toTypeString()} -> ${this.generics[1].toTypeString()}`;
+        return `(${this.generics[0].toTypeString()} -> ${this.generics[1].toTypeString()})`;
     },
     toMotoko([input, output]) {
         return formatParentheses(`${input} -> ${output}`);
@@ -470,12 +471,18 @@ function getGenericType(parent, generics) {
     if(typeof parent === 'string') {
         parent = getType(parent);
     }
+
+    // TODO: refactor special cases
     if(parent === tupleType && !generics.length) {
-        return unitType; // TODO: refactor special case
+        return unitType;
     }
+    // if(parent === tupleType && generics.length === 1) {
+    //     return generics[0];
+    // }
     if(parent === asyncType && generics.length && asyncType.isSubtype(generics[0])) {
-        return generics[0]; // TODO: refactor special case
+        return generics[0];
     }
+
     if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenerics) {
         return getType(parent);
     }
