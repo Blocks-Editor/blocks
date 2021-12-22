@@ -34,10 +34,15 @@ const SocialContainer = styled.div`
 
 const StyledSocialIcon = styled(SocialIcon)`
     transition: transform .1s ease-out;
-    
-    :hover {
+
+    // Funky edge rendering due to slightly different radii
+    //border-radius: 50%;
+    //box-shadow: 0 2px 8px #000A;
+
+    &:hover {
         transform: scale(1.1);
         transition: transform .05s ease-out;
+        //box-shadow: 0 4px 12px #000A;
     }
 `;
 
