@@ -16,14 +16,6 @@ const socials = [
     ['Medium', 'https://medium.com/@BlocksEditor'],
 ];
 
-// function SocialButton({href, icon, ...others}) {
-//     return (
-//         <a href={href} className="btn btn-lg rounded-circle" {...others}>
-//             {icon}
-//         </a>
-//     );
-// }
-
 // noinspection CssRedundantUnit (IE compatibility)
 const SocialContainer = styled.div`
     flex: 1 1 0px;
