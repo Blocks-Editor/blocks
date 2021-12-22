@@ -6,6 +6,7 @@ export const intImportRef = importRef('mo:base/Int');
 
 const block = {
     title: '(a // b)',
+    info: 'Integer division (remainder is discarded)',
     category: operatorCategory,
     topRight: 'result',
     inputs: [{
