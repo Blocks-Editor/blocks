@@ -34,4 +34,4 @@ export const SaveIcon = createIcon(Save);
 export const CrosshairIcon = createIcon(Crosshair);
 export const LearningIcon = createIcon(Learning);
 export const SettingsIcon = createIcon(Settings);
-export const CommunityIcon = FiShare2;//createIcon(Share);
+export const SocialIcon = FiShare2;//createIcon(Share);

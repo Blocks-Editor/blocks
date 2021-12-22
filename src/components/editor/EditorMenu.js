@@ -15,7 +15,7 @@ import useListener from '../../hooks/utils/useListener';
 import LoadProjectModal from './LoadProjectModal';
 import {Modal} from 'react-bootstrap';
 import {
-    CommunityIcon,
+    SocialIcon,
     CrosshairIcon,
     DownloadIcon,
     FilePlusIcon,
@@ -36,7 +36,7 @@ import TutorialsModal from './TutorialsModal';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useTimeout from '../../hooks/utils/useTimeout';
 import {logTelemetry} from '../../telemetry';
-import CommunityModal from './CommunityModal';
+import SocialModal from './SocialModal';
 import getQueryConfig from '../../utils/getQueryConfig';
 
 const BlocksLogo = styled.img`
@@ -115,7 +115,7 @@ const StyledLearningIcon = styled(LearningIcon)`
     }
 `;
 
-const StyledCommunityIcon = styled(CommunityIcon)`
+const StyledSocialIcon = styled(SocialIcon)`
 
 `;
 
@@ -214,9 +214,9 @@ export default function EditorMenu({editor}) {
                         <SettingsIcon/>
                     </MenuButton>
                     <MenuButton
-                        tooltip="Community"
-                        onMouseDown={() => setOpenMenu('community')}>
-                        <StyledCommunityIcon/>
+                        tooltip="Social"
+                        onMouseDown={() => setOpenMenu('social')}>
+                        <StyledSocialIcon/>
                     </MenuButton>
                     <MenuItem className="float-end opacity-50" tooltip="Blocks is currently in Open Beta testing.">
                         β
@@ -262,8 +262,8 @@ export default function EditorMenu({editor}) {
                     {openMenu === 'settings' && (
                         <SettingsModal/>
                     )}
-                    {openMenu === 'community' && (
-                        <CommunityModal/>
+                    {openMenu === 'social' && (
+                        <SocialModal/>
                     )}
                 </Modal.Body>
             </Modal>

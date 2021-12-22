@@ -38,7 +38,7 @@ const StyledSocialIcon = styled(SocialIcon)`
     }
 `;
 
-export default function CommunityModal() {
+export default function SocialModal() {
 
     return (
         <MenuModal title="Join our Community:">
