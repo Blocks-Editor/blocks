@@ -6,6 +6,7 @@ import {TUTORIAL_PROGRESS_STORE} from './hooks/persistent/useTutorialProgressSta
 import isEmbeddedMode from './utils/isEmbeddedMode';
 import {TUTORIAL_STEP_STORE} from './observables/tutorialStepStore';
 import {TELEMETRY_STORE} from './hooks/persistent/useTelemetryState';
+import {THEME_STORE} from './hooks/persistent/useThemeState';
 
 // Update GDPR opt-in/out
 analytics.app.automaticDataCollectionEnabled = TELEMETRY_STORE.get();
@@ -23,6 +24,7 @@ export function logTelemetry(id, options) {
     try {
         if(TELEMETRY_STORE.get()) {
             logEvent(analytics, id, {
+                theme: THEME_STORE.get(),
                 editor_version: EDITOR_VERSION,
                 editor_mode: isEmbeddedMode() ? 'embedded' : undefined,
                 project: EDITOR_STATE_STORE.get()?.name,
