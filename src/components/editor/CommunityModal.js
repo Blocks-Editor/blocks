@@ -26,20 +26,29 @@ const socials = [
 
 // noinspection CssRedundantUnit (IE compatibility)
 const SocialContainer = styled.div`
-    //flex: 1 1 0px;
+    flex: 1 1 0px;
     //width: 0;
     font-size: 11px;
     font-weight: 500;
 `;
 
+const StyledSocialIcon = styled(SocialIcon)`
+    transition: transform .1s ease-out;
+    
+    :hover {
+        transform: scale(1.1);
+        transition: transform .05s ease-out;
+    }
+`;
+
 export default function CommunityModal() {
 
     return (
-        <MenuModal title="Community">
-            <div className="text-center d-flex flex-wrap justify-content-start">
+        <MenuModal title="Join our Community:">
+            <div className="text-center d-flex flex-wrap justify-content-between">
                 {socials.map(([label, url]) => (
                     <SocialContainer key={url} className="mx-3 my-3">
-                        <SocialIcon url={url} target="_blank" rel="noreferrer"/>
+                        <StyledSocialIcon url={url} target="_blank" rel="noreferrer"/>
                         <div className="mt-2 opacity-75 noselect">{label}</div>
                     </SocialContainer>
                 ))}
