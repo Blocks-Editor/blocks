@@ -9,7 +9,7 @@ import EventsContext, {
 import FileSaver from 'file-saver';
 import {pascalCase} from 'change-case';
 import useRedraw from '../../hooks/utils/useRedraw';
-import isEmbedded from '../../utils/isEmbedded';
+import isEmbeddedMode from '../../utils/isEmbeddedMode';
 import {EDITOR_STORE} from '../../observables/editorStore';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {UndoRedoHistory} from '../../plugins/rete-blocks-history-plugin';
@@ -20,7 +20,7 @@ const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
 const DEFAULT_STATE = require('../../examples/files/DefaultProject.json');
 
-const embedded = isEmbedded();
+const embedded = isEmbeddedMode();
 const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStorage()`
 
 if(embedded) {

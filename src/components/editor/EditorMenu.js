@@ -15,6 +15,7 @@ import useListener from '../../hooks/utils/useListener';
 import LoadProjectModal from './LoadProjectModal';
 import {Modal} from 'react-bootstrap';
 import {
+    CommunityIcon,
     CrosshairIcon,
     DownloadIcon,
     FilePlusIcon,
@@ -23,7 +24,6 @@ import {
     LearningIcon,
     SaveIcon,
     SettingsIcon,
-    CommunityIcon,
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';

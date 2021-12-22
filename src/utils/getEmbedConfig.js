@@ -1,8 +1,6 @@
-import {parse} from 'querystring';
-import isEmbedded from './isEmbedded';
-
-const config = isEmbedded() ? parse(window.location.search.substring(1)) : {};
+import isEmbeddedMode from './isEmbeddedMode';
+import getQueryConfig from './getQueryConfig';
 
 export default function getEmbedConfig(key, defaultValue) {
-    return config.hasOwnProperty(key) ? config[key] : defaultValue;
+    return isEmbeddedMode() ? getQueryConfig(key, defaultValue) : defaultValue;
 }

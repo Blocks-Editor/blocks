@@ -1,11 +1,11 @@
-import isEmbedded from '../../utils/isEmbedded';
+import isEmbeddedMode from '../../utils/isEmbeddedMode';
 import useObservableState from './useObservableState';
 import makeObservable from '../../utils/makeObservable';
 import {useCallback} from 'react';
 
 // Derived from: https://usehooks.com/useLocalStorage/
 
-const storage = isEmbedded() ? {} : window.localStorage;
+const storage = isEmbeddedMode() ? {} : window.localStorage;
 
 const observableMap = new Map();
 

@@ -3,7 +3,7 @@ import {analytics} from './setupFirebase';
 import {EDITOR_STATE_STORE} from './observables/editorStateStore';
 import {EDITOR_VERSION} from './editor/createEditor';
 import {TUTORIAL_PROGRESS_STORE} from './hooks/persistent/useTutorialProgressState';
-import isEmbedded from './utils/isEmbedded';
+import isEmbeddedMode from './utils/isEmbeddedMode';
 import {TUTORIAL_STEP_STORE} from './observables/tutorialStepStore';
 import {TELEMETRY_STORE} from './hooks/persistent/useTelemetryState';
 
@@ -24,7 +24,7 @@ export function logTelemetry(id, options) {
         if(TELEMETRY_STORE.get()) {
             logEvent(analytics, id, {
                 editor_version: EDITOR_VERSION,
-                editor_mode: isEmbedded() ? 'embedded' : undefined,
+                editor_mode: isEmbeddedMode() ? 'embedded' : undefined,
                 project: EDITOR_STATE_STORE.get()?.name,
                 tutorial,
                 tutorial_step: TUTORIAL_STEP_STORE.get()?.title,
