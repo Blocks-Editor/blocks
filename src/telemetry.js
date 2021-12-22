@@ -26,7 +26,7 @@ export function logTelemetry(id, options) {
                 editor_version: EDITOR_VERSION,
                 editor_mode: isEmbedded() ? 'embedded' : undefined,
                 project: EDITOR_STATE_STORE.get()?.name,
-                tutorial: tutorial?.id || tutorial?.name,
+                tutorial,
                 tutorial_step: TUTORIAL_STEP_STORE.get()?.title,
                 ...options || {},
             });
