@@ -23,6 +23,7 @@ import {
     LearningIcon,
     SaveIcon,
     SettingsIcon,
+    CommunityIcon,
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
@@ -34,6 +35,8 @@ import TutorialCard from './TutorialCard';
 import TutorialsModal from './TutorialsModal';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useTimeout from '../../hooks/utils/useTimeout';
+import {logTelemetry} from '../../telemetry';
+import CommunityModal from './CommunityModal';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -111,16 +114,25 @@ const StyledLearningIcon = styled(LearningIcon)`
     }
 `;
 
+const StyledCommunityIcon = styled(CommunityIcon)`
+
+`;
+
 export default function EditorMenu({editor}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
-    const [openMenu, setOpenMenu] = useState(null);
+    const [openMenu, _setOpenMenu] = useState(null);
     const [outputPanel, setOutputPanel] = useOutputPanelState();
     const [autosave] = useAutosaveState();
     const [progress] = useTutorialProgressState();
 
     const events = useContext(EventsContext);
+
+    const setOpenMenu = menu => {
+        logTelemetry(menu ? 'menu_open' : 'menu_close', {interaction: menu || openMenu});
+        _setOpenMenu(menu);
+    };
 
     useListener(events, EDITOR_SAVE_EVENT, () => {
         setSaveAnimating(true);
@@ -196,11 +208,18 @@ export default function EditorMenu({editor}) {
                         <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
                     </MenuButton>
                     <MenuButton
-                        // className="float-end"
                         tooltip="Options"
                         onMouseDown={() => setOpenMenu('settings')}>
                         <SettingsIcon/>
                     </MenuButton>
+                    <MenuButton
+                        tooltip="Community"
+                        onMouseDown={() => setOpenMenu('community')}>
+                        <StyledCommunityIcon/>
+                    </MenuButton>
+                    <MenuItem className="float-end opacity-50" tooltip="Blocks is currently in Open Beta testing.">
+                        β
+                    </MenuItem>
                 </div>
             </TopMenu>
             <FloatingMenu top left>
@@ -241,6 +260,9 @@ export default function EditorMenu({editor}) {
                     )}
                     {openMenu === 'settings' && (
                         <SettingsModal/>
+                    )}
+                    {openMenu === 'community' && (
+                        <CommunityModal/>
                     )}
                 </Modal.Body>
             </Modal>

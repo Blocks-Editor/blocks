@@ -8,9 +8,8 @@ import {ReactComponent as Save} from '../../assets/icons/save.svg';
 import {ReactComponent as Crosshair} from '../../assets/icons/crosshair.svg';
 import {ReactComponent as Learning} from '../../assets/icons/learning.svg';
 import {ReactComponent as Settings} from '../../assets/icons/settings.svg';
+import {FiShare2} from 'react-icons/fi';
 
-// Convention here is `CONSTANT_CASE` for exported constants and `camelCase` otherwise.
-// This makes it easier to quickly know what values are globally accessible, since almost everything is a constant anyway.
 
 const defaultIconSize = 24;
 const defaultFill = 'rgb(108, 117, 125)';
@@ -35,3 +34,4 @@ export const SaveIcon = createIcon(Save);
 export const CrosshairIcon = createIcon(Crosshair);
 export const LearningIcon = createIcon(Learning);
 export const SettingsIcon = createIcon(Settings);
+export const CommunityIcon = FiShare2;//createIcon(Share);
