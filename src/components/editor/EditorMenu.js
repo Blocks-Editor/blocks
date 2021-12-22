@@ -116,7 +116,10 @@ const StyledLearningIcon = styled(LearningIcon)`
 `;
 
 const StyledSocialIcon = styled(SocialIcon)`
-
+    // Temporary
+    .menu-item:hover & {
+        color: #FFF8;
+    }
 `;
 
 export default function EditorMenu({editor}) {
