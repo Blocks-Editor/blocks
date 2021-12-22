@@ -37,6 +37,7 @@ import useTutorialProgressState from '../../hooks/persistent/useTutorialProgress
 import useTimeout from '../../hooks/utils/useTimeout';
 import {logTelemetry} from '../../telemetry';
 import CommunityModal from './CommunityModal';
+import getQueryConfig from '../../utils/getQueryConfig';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -122,7 +123,7 @@ export default function EditorMenu({editor}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
-    const [openMenu, _setOpenMenu] = useState(null);
+    const [openMenu, _setOpenMenu] = useState(getQueryConfig('menu', null));
     const [outputPanel, setOutputPanel] = useOutputPanelState();
     const [autosave] = useAutosaveState();
     const [progress] = useTutorialProgressState();
