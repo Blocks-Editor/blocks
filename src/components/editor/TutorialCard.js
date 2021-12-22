@@ -10,6 +10,7 @@ import useReactTooltip from '../../hooks/useReactTooltip';
 import useListener from '../../hooks/utils/useListener';
 import {FiSmile, FiX} from 'react-icons/fi';
 import {LearningIcon} from '../common/Icon';
+import {TUTORIAL_STEP_STORE} from '../../observables/tutorialStepStore';
 
 const StyledLearningIcon = styled(LearningIcon)`
     width: 24px;
@@ -72,6 +73,8 @@ function TutorialProgressCard({progress, onComplete}) {
     const {tutorial, editor} = progress;
 
     const step = getTutorialStep(progress, variables);
+    
+    TUTORIAL_STEP_STORE.set(step);
 
     // Allow tutorials to intercept node creation
     useListener(editor, 'prenodecreate', (node) => {

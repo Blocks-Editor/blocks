@@ -8,6 +8,7 @@ import OutputPanel from './OutputPanel';
 import EditorWrapper from '../rete/EditorWrapper';
 import useObservableState from '../../hooks/utils/useObservableState';
 import LoadBlocksFileContext from '../../contexts/LoadFileContext';
+import {logTelemetry} from '../../telemetry';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
@@ -37,6 +38,8 @@ export default function Editor({observable, hideMenu, onSetup, onChange, onSave,
     const events = useContext(EventsContext);
 
     const loadBlocksFile = content => {
+        logTelemetry('project_import');
+
         try {
             const project = JSON.parse(content);
             events.emit(PROJECT_LOAD_EVENT, project);

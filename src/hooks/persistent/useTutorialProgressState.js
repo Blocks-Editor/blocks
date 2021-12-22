@@ -1,14 +1,18 @@
-import useLocalStorage from '../utils/useLocalStorage';
+import {makeLocalStorageObservable} from '../utils/useLocalStorage';
 import {useCallback, useMemo} from 'react';
 import {TUTORIALS} from '../../tutorials/tutorials';
 import useNodeEditor from '../useNodeEditor';
 import getEmbedConfig from '../../utils/getEmbedConfig';
+import useObservableState from '../utils/useObservableState';
+import {logTelemetry} from '../../telemetry';
+
+const defaultTutorial = getEmbedConfig('tutorial');
+const defaultState = defaultTutorial ? {tutorial: defaultTutorial} : null;
+
+export const TUTORIAL_PROGRESS_STORE = makeLocalStorageObservable('blocks.tutorialProgress', defaultState);
 
 export default function useTutorialProgressState() {
-    const defaultTutorial = getEmbedConfig('tutorial');
-    const defaultState = defaultTutorial ? {tutorial: defaultTutorial} : null;
-
-    const [state, setState] = useLocalStorage('blocks.tutorialProgress', defaultState);
+    const [state, setState] = useObservableState(TUTORIAL_PROGRESS_STORE);
 
     const editor = useNodeEditor();
 
@@ -31,13 +35,20 @@ export default function useTutorialProgressState() {
     }, [editor, state]);
 
     const setProgress = useCallback(progress => {
+        if(!state && progress) {
+            setTimeout(() => logTelemetry('tutorial_start'));
+        }
+        else if(state && !progress) {
+            logTelemetry('tutorial_end');
+        }
+
         setState(progress ? {
             ...progress,
             editor: undefined,
             tutorial: progress.tutorial?.id,
             // step: undefined,
         } : null);
-    }, [setState]);
+    }, [state, setState]);
 
     return [progress, setProgress];
 }

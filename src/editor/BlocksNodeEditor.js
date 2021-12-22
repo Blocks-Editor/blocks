@@ -4,6 +4,7 @@ import NodeCompiler from '../compilers/NodeCompiler';
 import TypeCompiler from '../compilers/TypeCompiler';
 import ControlCompiler from '../compilers/ControlCompiler';
 import compileGlobalMotoko from '../compilers/utils/compileGlobalMotoko';
+import {logTelemetry} from '../telemetry';
 
 // Custom Rete.js node editor implementation
 
@@ -158,6 +159,16 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         return this.createNode(component, data, {x: x - 80, y: y - 20});
     }
 
+    addNode(node) {
+        super.addNode(node);
+        if(!this.silent) {
+            logTelemetry('node_create', {
+                node: String(node.id),
+                node_type: node.name,
+            });
+        }
+    }
+
     updateNode(node) {
         node.update();
         setTimeout(() => {
@@ -167,6 +178,16 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                 }
             }
         });
+    }
+
+    removeNode(node) {
+        super.removeNode(node);
+        if(!this.silent) {
+            logTelemetry('node_delete', {
+                node: String(node.id),
+                node_type: node.name,
+            });
+        }
     }
 
     connect(output, input, data) {

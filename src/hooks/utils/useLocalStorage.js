@@ -11,7 +11,8 @@ const observableMap = new Map();
 
 export function makeLocalStorageObservable(key, defaultValue) {
     if(observableMap.has(key)) {
-        throw new Error(`Local storage observable already exists for key: ${key}`);
+        // throw new Error(`Local storage observable already exists for key: ${key}`);
+        return observableMap.get(key);
     }
     let observable;
     try {

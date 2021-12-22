@@ -14,6 +14,7 @@ import {EDITOR_STORE} from '../../observables/editorStore';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {UndoRedoHistory} from '../../plugins/rete-blocks-history-plugin';
 import getEmbedConfig from '../../utils/getEmbedConfig';
+import {logTelemetry} from '../../telemetry';
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
@@ -38,6 +39,7 @@ export default function EditorPage() {
     const events = useContext(EventsContext);
 
     useListener(events, PROJECT_CLEAR_EVENT, () => {
+        logTelemetry('project_clear');
         // TODO: confirmation modal
         // delete storage[STORAGE_EDITOR_STATE];
         nextEditorState = DEFAULT_STATE;
@@ -45,6 +47,7 @@ export default function EditorPage() {
     });
 
     useListener(events, PROJECT_LOAD_EVENT, state => {
+        logTelemetry('project_load', {project: state.name || ''});
         // storage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
         nextEditorState = state;///
         redraw();

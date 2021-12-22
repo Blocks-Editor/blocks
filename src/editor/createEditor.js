@@ -16,8 +16,8 @@ import HistoryPlugin from '../plugins/rete-blocks-history-plugin';
 import {EDITOR_SELECTION_STORE} from '../observables/editorSelectionStore';
 
 
-const editorName = process.env.REACT_APP_EDITOR_NAME;
-const editorVersion = process.env.REACT_APP_EDITOR_VERSION;
+export const EDITOR_NAME = process.env.REACT_APP_EDITOR_NAME;
+export const EDITOR_VERSION = process.env.REACT_APP_EDITOR_VERSION;
 
 function findCategory(socket) {
     return socket.type?./*findType?.()*/data.category ?? socket.data.category ?? 'none';
@@ -25,7 +25,7 @@ function findCategory(socket) {
 
 export default function createEditor(element, {history} = {}) {
 
-    const editor = new BlocksNodeEditor(editorName + '@' + editorVersion, element);
+    const editor = new BlocksNodeEditor(EDITOR_NAME + '@' + EDITOR_VERSION, element);
     editor.use(ReactRenderPlugin, {
         component: NodeHandle,
     });

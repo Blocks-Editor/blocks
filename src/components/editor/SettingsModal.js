@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import MenuModal from '../common/MenuModal';
 import KeyBindingDetail from './KeyBindingDetail';
+import useTelemetryState from '../../hooks/persistent/useTelemetryState';
+import {FaRegSadCry, FaRegSmileBeam} from 'react-icons/fa';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -34,7 +36,7 @@ const NestedContainer = styled.div`
 /**
  * Creates a UI element for a given setting.
  */
-function Setting({name, description, type, extras, props}) {
+function Setting({name, description, note, type, extras, props}) {
 
     const SettingInput = settingInputs[type];
 
@@ -45,7 +47,10 @@ function Setting({name, description, type, extras, props}) {
                     <span className="flex-grow-1" style={{fontWeight: 500}}>{name}</span>
                     {SettingInput && <SettingInput {...props}/>}
                 </div>
-                <span className="small text-muted">{description}</span>
+                <div className="d-flex small text-muted align-content-between w-100">
+                    <div className="flex-grow-1">{description}</div>
+                    {!!note && <div>{note}</div>}
+                </div>
             </div>
             {extras && !!extras.length && (
                 <NestedContainer className="ps-3 py-1 rounded-3">
@@ -61,6 +66,8 @@ export default function SettingsModal() {
     const [themeParts, setThemeParts] = useThemePartsState();
     const [autosave, setAutosave] = useAutosaveState();
     const [learningMode, setLearningMode] = useLearningModeState();
+    const [telemetry, setTelemetry] = useTelemetryState();
+    // const [telemetryChanged, setTelemetryChanged] = useState(false);
 
     const themes = useThemes();
 
@@ -99,7 +106,7 @@ export default function SettingsModal() {
         },
     }, {
         name: 'Learning Mode',
-        description: 'Provides more detailed mouse-over tooltips.',
+        description: 'Show more details in mouse-over tooltips.',
         type: 'toggle',
         props: {
             value: learningMode,
@@ -107,6 +114,20 @@ export default function SettingsModal() {
                 setLearningMode(!learningMode);
             },
         },
+    }, {
+        name: 'Send anonymized usage statistics',
+        description: 'Help us improve the Blocks Editor.',
+        type: 'toggle',
+        props: {
+            value: telemetry,
+            onChange() {
+                setTelemetry(!telemetry);
+                // setTelemetryChanged(true);
+            },
+        },
+        note: telemetry
+            ? <FaRegSmileBeam className="text-success" title="Thank you!"/>
+            : <FaRegSadCry title=":("/>,
     }];
 
     return (
