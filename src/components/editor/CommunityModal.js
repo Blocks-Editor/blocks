@@ -12,8 +12,8 @@ const socials = [
     ['LinkedIn', 'https://www.linkedin.com/showcase/blocks-editor'],
     ['Telegram', 'https://t.me/BlocksEditor'],
     ['Reddit', 'https://www.reddit.com/r/BlocksEditor'],
-    ['Medium', 'https://medium.com/@blocks-editor'],
     ['YouTube', 'https://www.youtube.com/channel/UCuk-YEcSQ6-dYN-2Kvcvt-w'],
+    ['Medium', 'https://medium.com/@blocks-editor'],
 ];
 
 // function SocialButton({href, icon, ...others}) {
