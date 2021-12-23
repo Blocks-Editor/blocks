@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import ReactTooltip from 'react-tooltip';
 import useReactTooltip from '../../hooks/useReactTooltip';
 
-export default function CopyToClipboardButton({text, size, buttonRef, ...others}) {
+export default function CopyToClipboardButton({text, size, variant, buttonRef, ...others}) {
 
     const [copied, setCopied] = useState();
 
@@ -23,7 +23,7 @@ export default function CopyToClipboardButton({text, size, buttonRef, ...others}
             <Button
                 ref={buttonRef}
                 size={size || 'sm'}
-                variant="outline-light"
+                variant={variant || 'outline-light'}
                 className="d-flex py-2"
                 data-tip={copied ? undefined : 'Copy to Clipboard'}
                 onClick={showTooltip}>

@@ -138,7 +138,7 @@ export default function SettingsModal() {
                     <hr/>
                 </div>
             ))}
-            <h4 className="mt-4 fw-light">Keyboard Shortcuts</h4>
+            <h4 className="mt-4 mb-3 fw-normal">Keyboard Shortcuts</h4>
             {/*<hr/>*/}
             <KeyBindingDetail/>
         </MenuModal>
