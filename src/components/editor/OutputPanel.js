@@ -121,7 +121,7 @@ export default function OutputPanel({editor}) {
                         {copied && <small className="ms-2">Copied!</small>}
                     </ClipboardButton>
                 </CopyToClipboard>
-                <ExternalLink className="flex-grow-1" href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/">
+                <ExternalLink className="flex-grow-1" href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=_">
                     <div
                         className="btn btn-outline-success d-flex justify-content-center"
                         data-tip="Run and deploy your smart contract on Motoko Playground.">
