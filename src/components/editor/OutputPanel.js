@@ -2,16 +2,17 @@ import React, {useContext, useState} from 'react';
 import classNames from 'classnames';
 import styled, {css} from 'styled-components';
 import {FiClipboard, FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
-import {FaLink, FaPlay} from 'react-icons/fa';
+import {FaLink, FaPlay, FaSpinner} from 'react-icons/fa';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../compilers/utils/compileGlobalMotoko';
-import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
+import EventsContext, {EDITOR_CHANGE_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
 import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useFullscreenPanelState from '../../hooks/persistent/useFullscreenPanelState';
 import useListener from '../../hooks/utils/useListener';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 import ExternalLink from '../common/ExternalLink';
 import useReactTooltip from '../../hooks/useReactTooltip';
+import {createMotokoPlaygroundShareLink} from '../../integrations/motoko-playground/createMotokoPlaygroundShareLink';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -51,19 +52,30 @@ export default function OutputPanel({editor}) {
     const [fullscreen, setFullscreen] = useFullscreenPanelState();
     const [output, setOutput] = useState('');
     const [copied, setCopied] = useState(false);
+    const [playgroundPromise, setPlaygroundPromise] = useState(null);
 
     const events = useContext(EventsContext);
 
     const closed = !panel;
 
     // Generate output source code
-    const getOutput = () => {
-        return compileGlobalMotoko(editor);
-    };
+    const getOutput = () => compileGlobalMotoko(editor);
 
-    // const openPlayground = async () => {
-    //     const url = createMotokoPlaygroundShareLink();
-    // };
+    // Show an error message
+    const handleError = err => events.emit(ERROR_EVENT, err);
+
+    const handleOpenPlayground = () => {
+        let promise = playgroundPromise;
+        if(!promise) {
+            promise = createMotokoPlaygroundShareLink(output, handleError)
+                .then(url => {
+                    window.open(url, '_blank');
+                })
+                .catch(handleError)
+                .then(() => setPlaygroundPromise(null));
+            setPlaygroundPromise(promise);
+        }
+    };
 
     useListener(events, EDITOR_CHANGE_EVENT, () => {
         setOutput(closed ? '' : getOutput());
@@ -125,14 +137,19 @@ export default function OutputPanel({editor}) {
                         {copied && <small className="ms-2">Copied!</small>}
                     </ClipboardButton>
                 </CopyToClipboard>
-                <ExternalLink className="flex-grow-1" href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=_">
-                    <div
-                        className="btn btn-outline-success d-flex justify-content-center"
-                        data-tip="Run and deploy your smart contract on Motoko Playground.">
+                {/*<ExternalLink className="flex-grow-1" href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=_">*/}
+                <div
+                    className="btn btn-outline-success d-flex justify-content-center"
+                    onMouseDown={handleOpenPlayground}
+                    data-tip="Run and deploy your smart contract on Motoko Playground.">
+                    {playgroundPromise ? (
+                        <FaSpinner className="mt-1 me-2"/>
+                    ) : (
                         <FaPlay className="mt-1 me-2"/>
-                        Playground
-                    </div>
-                </ExternalLink>
+                    )}
+                    Playground
+                </div>
+                {/*</ExternalLink>*/}
             </div>
         </OutputContainer>
     );

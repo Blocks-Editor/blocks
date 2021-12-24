@@ -159,6 +159,8 @@ export default function EditorMenu({editor}) {
         events.emit(EDITOR_CHANGE_EVENT, editor);
     };
 
+    const betaSymbol = 'β';
+
     return (
         <>
             <TopMenu>
@@ -221,8 +223,11 @@ export default function EditorMenu({editor}) {
                         onMouseDown={() => setOpenMenu('social')}>
                         <StyledSocialIcon/>
                     </MenuButton>
-                    <MenuItem className="float-end opacity-50" tooltip="Blocks is currently in Open Beta testing.">
-                        β
+                    <MenuItem
+                        className="float-end opacity-50"
+                        tooltip="Blocks is currently in Open Beta testing."
+                        data-place="left">
+                        {betaSymbol}
                     </MenuItem>
                 </div>
             </TopMenu>
