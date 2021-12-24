@@ -21,10 +21,11 @@ const socials = [
 ];
 
 const wallets = [
-    ['ICP', '88e2a3d64a2bc737f5beb41bf6d4f03e8836caf6ba2ce851e4db4faa9e0193a7'],
-    // ['ETH', ''],
-    // ['BTC', ''],
-    ['USDC', '0x49644cc150e780E3C9767068cEA1319Aed64D43e'],
+    ['ICP', '184d1794cba6d6384e8487c702436eee7614aeb17cbfc94fcfa328b3f7bf7f75'],
+    ['ETH', '0xE977fa3a79fC45eB7c2C628d7D7De65483Cd0751'],
+    ['BTC', '3QpW3YxLBEvBpNn8PP53kvHXRktvKafu4w'],
+    ['USDC', '0x0b00230c684cCf1220bDD82970240F5e5E9b3f1C'],
+    ['USDT', '0x5274c12Fe17E00276D2cd1FB0aeb5eb9868E006f'],
 ];
 
 // noinspection CssRedundantUnit (IE compatibility)
@@ -100,7 +101,8 @@ export default function SocialModal() {
                                 }}>
                                 <div
                                     className="clickable h5 text-secondary ps-2 pb-1 m-0 d-flex"
-                                    onClick={event => event.stopPropagation()}>
+                                    onClick={event => event.stopPropagation()}
+                                    title="Copy wallet address">
                                     <FiClipboard className={classNames(copied === address && 'text-primary')}/>
                                 </div>
                             </CopyToClipboard>
