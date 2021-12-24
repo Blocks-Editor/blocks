@@ -24,8 +24,8 @@ const wallets = [
     ['ICP', '184d1794cba6d6384e8487c702436eee7614aeb17cbfc94fcfa328b3f7bf7f75'],
     ['ETH', '0xE977fa3a79fC45eB7c2C628d7D7De65483Cd0751'],
     ['BTC', '3QpW3YxLBEvBpNn8PP53kvHXRktvKafu4w'],
-    ['USDC', '0x0b00230c684cCf1220bDD82970240F5e5E9b3f1C'],
     ['USDT', '0x5274c12Fe17E00276D2cd1FB0aeb5eb9868E006f'],
+    ['USDC', '0x0b00230c684cCf1220bDD82970240F5e5E9b3f1C'],
 ];
 
 // noinspection CssRedundantUnit (IE compatibility)
@@ -72,6 +72,10 @@ export default function SocialModal() {
             <hr/>
             <h4 className="mt-4 mb-3 fw-normal">Support the Project!</h4>
             <div>
+                <p className="text-secondary">
+                    Blocks is a 100% open-source IC community project.
+                    Please donate to help keep the application running.
+                </p>
                 {wallets.map(([label, address]) => {
                     let inputElement;
                     const handleSelect = () => {
@@ -82,13 +86,13 @@ export default function SocialModal() {
                     };
                     return (
                         <div key={label + address} className="d-flex align-items-center my-2">
-                            <div className="text-end me-3" style={{width: '6rem', fontWeight: 500}}>
+                            <div className="text-end me-3" style={{width: '4rem', fontWeight: 500}}>
                                 {label}
                             </div>
                             <input
                                 ref={el => inputElement = el}
                                 type="text"
-                                className="form-control form-control-sm w-100 small"
+                                className="form-control form-control-sm font-monospace w-100 small"
                                 readOnly
                                 value={address}
                                 onFocus={handleSelect}
