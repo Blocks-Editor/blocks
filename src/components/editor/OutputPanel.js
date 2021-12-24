@@ -61,6 +61,10 @@ export default function OutputPanel({editor}) {
         return compileGlobalMotoko(editor);
     };
 
+    // const openPlayground = async () => {
+    //     const url = createMotokoPlaygroundShareLink();
+    // };
+
     useListener(events, EDITOR_CHANGE_EVENT, () => {
         setOutput(closed ? '' : getOutput());
         setCopied(false);
