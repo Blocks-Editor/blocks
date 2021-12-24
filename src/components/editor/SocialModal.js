@@ -58,7 +58,12 @@ export default function SocialModal() {
             <div className="text-center d-flex flex-wrap justify-content-between">
                 {socials.map(([label, url]) => (
                     <SocialContainer key={url} className="mx-3 my-3">
-                        <StyledSocialIcon url={url} target="_blank" rel="noreferrer"/>
+                        <StyledSocialIcon
+                            url={url} target="_blank" rel="noreferrer" onClick={() => {
+                            logTelemetry('social_visit', {
+                                interaction: label,
+                            });
+                        }}/>
                         <div className="mt-2 opacity-75 noselect">{label}</div>
                     </SocialContainer>
                 ))}
