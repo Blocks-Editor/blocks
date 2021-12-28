@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import useControlValue from '../../../hooks/utils/useControlValue';
+import useControlValue from '../../../hooks/useControlValue';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../contexts/EventsContext';
 import useListener from '../../../hooks/utils/useListener';
 import getNodeLabel from '../../../utils/getNodeLabel';

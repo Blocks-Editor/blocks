@@ -1,5 +1,5 @@
 import React from 'react';
-import useControlValue from '../../../hooks/utils/useControlValue';
+import useControlValue from '../../../hooks/useControlValue';
 
 
 export default function NumberControlHandle({control, bindInput, validation: {min, max, step}}) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import useControlValue from '../../../hooks/utils/useControlValue';
+import useControlValue from '../../../hooks/useControlValue';
 import TypeSelect from '../../common/inputs/TypeSelect';
 import {typeType} from '../../../block-types/types';
 

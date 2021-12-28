@@ -1,6 +1,6 @@
 import {useCallback, useContext, useState} from 'react';
-import useListener from './useListener';
-import EventsContext, {EDITOR_CHANGE_EVENT} from '../../contexts/EventsContext';
+import useListener from './utils/useListener';
+import EventsContext, {EDITOR_CHANGE_EVENT} from '../contexts/EventsContext';
 
 export default function useControlValue(control) {
     const value = control.getValue();

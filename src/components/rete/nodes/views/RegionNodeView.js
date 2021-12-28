@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import useControlValue from '../../../../hooks/utils/useControlValue';
+import useControlValue from '../../../../hooks/useControlValue';
 import {bindNodeInput} from '../../../../utils/bindNodeInput';
 
 const Container = styled.div`

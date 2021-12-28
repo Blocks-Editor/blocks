@@ -1,5 +1,5 @@
 import React from 'react';
-import useControlValue from '../../../hooks/utils/useControlValue';
+import useControlValue from '../../../hooks/useControlValue';
 import classNames from 'classnames';
 
 
