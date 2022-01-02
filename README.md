@@ -2,8 +2,11 @@
 
 ---
 
-*Blocks* is an online visual smart contract editor for the [Internet Computer](https://dfinity.org/).
+> *Blocks* is an online visual smart contract editor for the [Internet Computer](https://dfinity.org/).
 
+### [Landing Page](https://blocks-editor.github.io) / [Web Application](https://blocks-editor.github.io/blocks) / [Discord Community](https://discord.gg/jDDWtKwWQf)
+
+---
 
 ## External Usage
 
@@ -34,6 +37,17 @@ npm test
 ```bash
 npm run build
 ```
+
+## Support the Project
+
+*Blocks* is a 100% open-source IC community project.
+Please donate to help keep the application running.
+
+- ICP: `184d1794cba6d6384e8487c702436eee7614aeb17cbfc94fcfa328b3f7bf7f75`
+- ETH: `0xE977fa3a79fC45eB7c2C628d7D7De65483Cd0751`
+- BTC: `3QpW3YxLBEvBpNn8PP53kvHXRktvKafu4w`
+- USDT: `0x5274c12Fe17E00276D2cd1FB0aeb5eb9868E006f`
+- USDC: `0x0b00230c684cCf1220bDD82970240F5e5E9b3f1C`
 
 ---
 
