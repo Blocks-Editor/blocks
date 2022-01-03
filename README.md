@@ -8,9 +8,13 @@
 
 ---
 
-## External Usage
+## Embedded Mode
 
-Embed the Blocks Editor in your React application using the [react-blocks-editor](https://www.npmjs.com/package/react-blocks-editor) npm package.
+Customize the Blocks Editor for your React application using the [react-blocks-editor](https://www.npmjs.com/package/react-blocks-editor) npm package.
+
+## Contributions
+
+PRs are welcome! If you are looking for ideas on how to contribute, please check out the currently open [issues](https://github.com/Blocks-Editor/blocks/issues) and feel free to request clarification about anything that catches your interest. 
 
 ## Local Environment
 
@@ -37,10 +41,6 @@ npm test
 ```bash
 npm run build
 ```
-
-## Contribution Guidelines
-
-PRs are welcome! If you are looking for ideas on how to contribute, please check out the currently open [Issues](https://github.com/Blocks-Editor/blocks/issues) and feel free to request clarification about anything that catches your interest. 
 
 ## Support the Project
 
