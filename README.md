@@ -4,7 +4,7 @@
 
 > *Blocks* is an online visual smart contract editor for the [Internet Computer](https://dfinity.org/).
 
-### [Landing Page](https://blocks-editor.github.io) / [Web Application](https://blocks-editor.github.io/blocks) / [Discord Community](https://discord.gg/jDDWtKwWQf)
+### [Homepage](https://blocks-editor.github.io) / [Web Application](https://blocks-editor.github.io/blocks) / [Discord Community](https://discord.gg/jDDWtKwWQf)
 
 ---
 
@@ -37,6 +37,10 @@ npm test
 ```bash
 npm run build
 ```
+
+## Contribution Guidelines
+
+PRs are welcome! If you are looking for ideas on how to contribute, please check out the currently open [Issues](https://github.com/Blocks-Editor/blocks/issues) and feel free to request clarification about anything that catches your interest. 
 
 ## Support the Project
 
