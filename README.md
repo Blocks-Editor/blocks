@@ -2,7 +2,7 @@
 
 ---
 
-> *Blocks* is an online visual smart contract editor for the [Internet Computer](https://dfinity.org/).
+> *Blocks* is an online visual smart contract builder for the [Internet Computer](https://dfinity.org/).
 
 ### [Homepage](https://blocks-editor.github.io) / [Web Application](https://blocks-editor.github.io/blocks) / [Discord Community](https://discord.gg/jDDWtKwWQf)
 
