@@ -127,7 +127,7 @@ export default function SettingsModal() {
         },
         note: telemetry
             ? <FaRegSmileBeam className="text-success" title="Thank you!"/>
-            : <FaRegSadCry title=":("/>,
+            : telemetry !== null && <FaRegSadCry title=":("/>,
     }];
 
     return (
