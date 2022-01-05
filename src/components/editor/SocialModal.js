@@ -17,7 +17,7 @@ const socials = [
     ['Telegram', 'https://t.me/BlocksEditor'],
     ['Reddit', 'https://www.reddit.com/r/BlocksEditor'],
     ['YouTube', 'https://www.youtube.com/channel/UCuk-YEcSQ6-dYN-2Kvcvt-w'],
-    ['Medium', 'https://blocks-editor.medium.com/'],
+    ['Medium', 'https://blocks-editor.medium.com'],
 ];
 
 const wallets = [
