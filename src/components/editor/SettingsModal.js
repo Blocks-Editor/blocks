@@ -9,7 +9,6 @@ import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import MenuModal from '../common/MenuModal';
 import KeyBindingDetail from './KeyBindingDetail';
 import useTelemetryState from '../../hooks/persistent/useTelemetryState';
-import {FaRegSadCry, FaRegSmileBeam} from 'react-icons/fa';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -125,9 +124,9 @@ export default function SettingsModal() {
                 // setTelemetryChanged(true);
             },
         },
-        note: telemetry
-            ? <FaRegSmileBeam className="text-success" title="Thank you!"/>
-            : telemetry !== null && <FaRegSadCry title=":("/>,
+        // note: telemetry
+        //     ? <FaRegSmileBeam className="text-success" title="Thank you!"/>
+        //     : telemetry !== null && <FaRegSadCry title=":("/>,
     }];
 
     return (
