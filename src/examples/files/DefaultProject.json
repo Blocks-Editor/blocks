@@ -2,6 +2,8 @@
   "name": "",
   "description": "",
   "version": "blocks-webapp@0.1.0",
+  "language": "motoko",
+  "output": "actor Main {\n\tpublic query func hey() : async Text {\n\t\treturn \"Hello, world!\";\n\t};\n}",
   "nodes": {
     "740": {
       "id": 740,
@@ -70,7 +72,7 @@
       },
       "outputs": {},
       "position": [
-        640,
+        576,
         0
       ],
       "name": "Return"
@@ -93,7 +95,7 @@
         }
       },
       "position": [
-        416,
+        352,
         64
       ],
       "name": "LiteralText"
