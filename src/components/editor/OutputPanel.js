@@ -13,12 +13,13 @@ import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 import ExternalLink from '../common/ExternalLink';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import {createMotokoPlaygroundShareLink} from '../../integrations/motoko-playground/createMotokoPlaygroundShareLink';
+import {isMobile} from 'react-device-detect';
 
 const OutputContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 54px; // Magic temporary evil number
+    top: ${isMobile ? 0 : 54}px; // Magic temporary evil number
     bottom: 0;
     right: 0;
     width: 40%;
@@ -91,22 +92,24 @@ export default function OutputPanel({editor}) {
 
     return (
         <OutputContainer
-            className={classNames('output-panel px-3 pt-3')}
+            className={classNames('output-panel px-3 pt-3', closed && 'd-none d-sm-block')}
             closed={closed}
-            fullscreen={fullscreen === outputPanelId}>
-            <div className="d-flex justify-content-between align-items-center mb-2">
+            fullscreen={isMobile || fullscreen === outputPanelId}>
+            <div className={classNames('d-flex align-items-center mb-2', !isMobile && 'justify-content-between')}>
                 <div className="clickable px-2 pb-2" onClick={() => setPanel(null)}>
                     <FiX size={18}/>
                 </div>
                 <h3 className="mx-3 mb-0 noselect">Compiled Output</h3>
-                <div
-                    className="clickable px-2 pb-2"
-                    onClick={() => setFullscreen(fullscreen === outputPanelId ? false : outputPanelId)}>
-                    {fullscreen === outputPanelId
-                        ? <FiMinimize2 size={18}/> // TODO: horizontally flip icons and swap positions with close button?
-                        : <FiMaximize2 size={18}/>
-                    }
-                </div>
+                {!isMobile && (
+                    <div
+                        className="clickable px-2 pb-2"
+                        onClick={() => setFullscreen(fullscreen === outputPanelId ? false : outputPanelId)}>
+                        {fullscreen === outputPanelId
+                            ? <FiMinimize2 size={18}/> // TODO: horizontally flip icons and swap positions with close button?
+                            : <FiMaximize2 size={18}/>
+                        }
+                    </div>
+                )}
             </div>
             <div className="flex-grow-1">
                 <CodeEditor value={output} readOnly/>

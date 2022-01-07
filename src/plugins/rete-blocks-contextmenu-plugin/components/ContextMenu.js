@@ -1,11 +1,12 @@
 import React, {useCallback, useMemo} from 'react';
+import {isMobile} from 'react-device-detect';
 
 export default function ContextMenu({x, y, children, style: styleProp, handleCloseMenu, ...others}) {
 
     const style = useMemo(() => ({
         position: 'absolute',
         left: x,
-        top: y,
+        top: isMobile ? 200 : y,
         ...styleProp,
     }), [x, y, styleProp]);
 

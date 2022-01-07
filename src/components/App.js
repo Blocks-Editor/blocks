@@ -8,7 +8,6 @@ import {BrowserRouter} from 'react-router-dom';
 import TabLayout from './TabLayout';
 import GlobalTheme from './global/GlobalTheme';
 import GlobalObservables from './global/GlobalObservables';
-import MobilePage from './MobilePage';
 import {isSafari} from 'react-device-detect';
 
 export default function App() {
@@ -41,20 +40,12 @@ export default function App() {
             <BrowserRouter>
                 <GlobalTheme>
                     <ToastContainer style={{marginTop: '5rem'}} position="top-right"/>
-                    <div className="d-block d-sm-none w-100 h-100">
-                        <MobilePage/>
-                    </div>
-                    <div className="d-none d-sm-block w-100 h-100">
-                        <TabLayout/>
-                    </div>
-                    {/*<Switch>*/}
-                    {/*    <Route path="/editor">*/}
-                    {/*        <EditorPage/>*/}
-                    {/*    </Route>*/}
-                    {/*    <Route path="/">*/}
-                    {/*        <HomePage/>*/}
-                    {/*    </Route>*/}
-                    {/*</Switch>*/}
+                    {/*<div className="d-block d-sm-none w-100 h-100">*/}
+                    {/*    <MobilePage/>*/}
+                    {/*</div>*/}
+                    {/*<div className="d-none d-sm-block w-100 h-100">*/}
+                    <TabLayout/>
+                    {/*</div>*/}
                 </GlobalTheme>
             </BrowserRouter>
         </React.StrictMode>

@@ -15,7 +15,6 @@ import useListener from '../../hooks/utils/useListener';
 import LoadProjectModal from './LoadProjectModal';
 import {Modal} from 'react-bootstrap';
 import {
-    SocialIcon,
     CrosshairIcon,
     DownloadIcon,
     FilePlusIcon,
@@ -24,6 +23,7 @@ import {
     LearningIcon,
     SaveIcon,
     SettingsIcon,
+    SocialIcon,
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
@@ -178,7 +178,7 @@ export default function EditorMenu({editor}) {
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
-                        className="bg-light text-secondary"
+                        className="d-block d-sm-inline-block bg-light text-secondary mb-2 mb-sm-0"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, editor)}
@@ -224,7 +224,7 @@ export default function EditorMenu({editor}) {
                         <StyledSocialIcon/>
                     </MenuButton>
                     <MenuItem
-                        className="float-end opacity-50"
+                        className="float-md-end text-center px-4 opacity-50"
                         tooltip="Blocks is currently in Open Beta testing."
                         data-place="left">
                         {betaSymbol}
