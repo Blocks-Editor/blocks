@@ -10,7 +10,6 @@ const block = {
     inputs: [{
         key: 'input',
         type: asyncType,
-        // type: valueType,//// Temporary
     }],
     outputs: [{
         key: 'result',
