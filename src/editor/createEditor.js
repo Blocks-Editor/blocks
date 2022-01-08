@@ -93,6 +93,13 @@ export default function createEditor(element, {history} = {}) {
         );
     });
 
+    editor.on('nodecreate', node => {
+        // Ensure unique node ID
+        while(editor.nodes.some(other => node !== other && node.id === other.id)) {
+            // noinspection JSValidateTypes
+            node.id = Math.random().toString(36).slice(2);
+        }
+    });
     editor.on('nodecreated', node => {
         CREATE_NODE_STORE.set(node);
     });
