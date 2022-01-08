@@ -39,7 +39,7 @@ const block = {
         toMotoko({name, params, members}, node, compiler) {
             let hasCaller = node.outputs.get('caller').connections.length;
 
-            return `${hasCaller ? `shared (${nodeIdentifierRef(node)}) ` : ''}actor class${name ? ' ' + name : ''}${formatParentheses(params.join(', '))} = ${thisName} ${formatStatementBlock(formatMembers(members))}`;
+            return `${hasCaller ? `shared(${nodeIdentifierRef(node)}) ` : ''}actor class${name ? ' ' + name : ''}${formatParentheses(params.join(', '))} = ${thisName} ${formatStatementBlock(formatMembers(members))}`;
         },
         // }, {
         //     key: 'this',
