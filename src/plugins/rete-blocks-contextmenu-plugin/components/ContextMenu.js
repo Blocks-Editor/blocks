@@ -5,8 +5,8 @@ export default function ContextMenu({x, y, children, style: styleProp, handleClo
 
     const style = useMemo(() => ({
         position: 'absolute',
-        left: x,
-        top: isMobile ? 200 : y,
+        left: isMobile ? 150 : x,
+        top: isMobile ? 150 : y,
         ...styleProp,
     }), [x, y, styleProp]);
 
