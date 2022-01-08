@@ -264,8 +264,8 @@ $grid-area: $grid-size * 10000;
     }
 
     .context-menu-search-area {
-      min-width: 10em;
-      max-height: 25em;
+      min-width: 10rem;
+      //max-height: 25rem;
       overflow-y: auto;
       overflow-x: hidden;
     }

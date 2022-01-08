@@ -1,4 +1,5 @@
 import {useCallback} from 'react';
+import {isMobile} from 'react-device-detect';
 
 export default function MenuSearch({value, onChange, onAction, onKeyDown, children, ...others}) {
 
@@ -31,7 +32,7 @@ export default function MenuSearch({value, onChange, onAction, onKeyDown, childr
                 onChange={onChange && (event => onChange(event.target.value))}
                 onKeyDown={handleKeyDown}
                 {...others}/>
-            <div className="context-menu-search-area">
+            <div className="context-menu-search-area" style={{maxHeight: isMobile ? '20rem' : '25rem'}}>
                 {children}
             </div>
         </div>
