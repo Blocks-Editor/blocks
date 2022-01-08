@@ -8,6 +8,7 @@ const block = literalBlock({
         if(value % 1 === 0) {
             return {
                 title: value,
+                priority: 2,
                 data: {
                     value,
                 },

@@ -68,6 +68,7 @@ export default function PlacementMenu() {
             console.warn(e);
         }
     });
+    options.sort((a, b) => (b.priority || 0) - (a.priority || 0));
 
     // Filter components by search text
     if(searchText) {

@@ -8,6 +8,7 @@ const block = literalBlock({
         if(!isNaN(value)) {
             return {
                 title: value,
+                priority: 1,
                 data: {
                     value,
                 },

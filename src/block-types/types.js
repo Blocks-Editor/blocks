@@ -1,6 +1,7 @@
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {MOTOKO_KEYWORDS} from '../config/configureMonaco';
 import {formatParentheses} from '../editor/format/formatHelpers';
+import isPrincipal from '../utils/isPrincipal';
 
 class Type {
     constructor(name, parent, generics, data = {}, meta = {}) {
@@ -257,6 +258,9 @@ export const principalType = createType('Principal', {
     info: 'A wallet or smart contract address',
     parent: valueType,
     category: 'principals',
+    validation: {
+        custom: value => isPrincipal(value),
+    },
 });
 export const errorType = createType('Error', {
     info: 'An error value for custom exception handling',
