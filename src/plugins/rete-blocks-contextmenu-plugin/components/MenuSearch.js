@@ -32,7 +32,7 @@ export default function MenuSearch({value, onChange, onAction, onKeyDown, childr
                 onChange={onChange && (event => onChange(event.target.value))}
                 onKeyDown={handleKeyDown}
                 {...others}/>
-            <div className="context-menu-search-area" style={{maxHeight: isMobile ? '20rem' : '25rem'}}>
+            <div className="context-menu-search-area" style={{maxHeight: isMobile ? '15rem' : '25rem'}}>
                 {children}
             </div>
         </div>
