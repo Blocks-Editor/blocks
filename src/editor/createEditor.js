@@ -97,7 +97,7 @@ export default function createEditor(element, {history} = {}) {
         // Ensure unique node ID
         while(editor.nodes.some(other => node !== other && node.id === other.id)) {
             // noinspection JSValidateTypes
-            node.id = Math.random().toString(36).slice(2);
+            node.id = Math.random().toString(36).slice(2, 8);
         }
     });
     editor.on('nodecreated', node => {
