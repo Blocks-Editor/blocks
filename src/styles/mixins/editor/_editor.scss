@@ -88,6 +88,25 @@ $grid-color: #FFF2;
 $grid-size: 32px;
 $grid-area: $grid-size * 10000;
 
+
+@media (max-width: 576px) {
+  // Increase tappable region around sockets on mobile devices
+  $socket-mobile-tap-margin: 1rem;
+
+  .node-editor .socket {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -$socket-mobile-tap-margin * .5;
+      bottom: -$socket-mobile-tap-margin * .5;
+      left: -$socket-mobile-tap-margin;
+      right: -$socket-mobile-tap-margin;
+    }
+  }
+}
+
 .node-editor {
   background: #555;
 
