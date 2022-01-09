@@ -7,7 +7,7 @@ import {formatCurlyBraces, formatParentheses, formatStatementBlock} from '../edi
 import {optionImportRef} from './OptionalOrDefault';
 
 const block = statementBlock({
-    title: 'Transfer Amount (Map)',
+    title: 'Transfer (Map)',
     category: collectionCategory,
     icon: stateWriteIcon,
     // deprecated: true,
