@@ -9,14 +9,16 @@ import {logTelemetry} from '../../telemetry';
 
 const socials = [
     ['GitHub', 'https://github.com/Blocks-Editor/blocks'],
-    ['Discord', 'https://discord.gg/jDDWtKwWQf'],
     ['Twitter', 'https://twitter.com/BlocksEditor'],
-    ['Instagram', 'https://www.instagram.com/blocks_editor'],
-    ['Facebook', 'https://www.facebook.com/BlocksEditor'],
-    ['LinkedIn', 'https://www.linkedin.com/showcase/blocks-editor'],
-    ['Telegram', 'https://t.me/BlocksEditor'],
-    ['Reddit', 'https://www.reddit.com/r/BlocksEditor'],
-    ['YouTube', 'https://www.youtube.com/channel/UCuk-YEcSQ6-dYN-2Kvcvt-w'],
+    ['Discord', 'https://discord.gg/jDDWtKwWQf'],
+    // ...(isMobile ? [
+    // ['Instagram', 'https://www.instagram.com/blocks_editor'],
+    // ] : []),
+    // ['Facebook', 'https://www.facebook.com/BlocksEditor'],
+    // ['Reddit', 'https://www.reddit.com/r/BlocksEditor'],
+    // ['LinkedIn', 'https://www.linkedin.com/showcase/blocks-editor'],
+    // ['Telegram', 'https://t.me/BlocksEditor'],
+    // ['YouTube', 'https://www.youtube.com/channel/UCuk-YEcSQ6-dYN-2Kvcvt-w'],
     ['Medium', 'https://blocks-editor.medium.com'],
 ];
 
