@@ -15,8 +15,14 @@ class ObservableValue {
         if(this._value === newValue) {
             return;
         }
+        const previous = this._value;
         this._value = newValue;
-        this._listeners.forEach(fn => fn(this._value));
+        this._listeners.forEach(fn => fn(this._value, previous));
+    }
+
+    callAndSubscribe(listenerFn) {
+        listenerFn(this._value);
+        this.subscribe(listenerFn);
     }
 
     subscribe(listenerFn) {
