@@ -34,10 +34,9 @@ import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import TutorialCard from './TutorialCard';
 import TutorialsModal from './TutorialsModal';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
+import useEditorMenuState from '../../hooks/persistent/useEditorMenuState';
 import useTimeout from '../../hooks/utils/useTimeout';
-import {logTelemetry} from '../../telemetry';
 import SocialModal from './SocialModal';
-import getQueryConfig from '../../utils/getQueryConfig';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -126,17 +125,12 @@ export default function EditorMenu({editor}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
     const [zoomAnimating, setZoomAnimating] = useState(false);
-    const [openMenu, _setOpenMenu] = useState(getQueryConfig('menu', null));
+    const [openMenu, setOpenMenu] = useEditorMenuState();
     const [outputPanel, setOutputPanel] = useOutputPanelState();
     const [autosave] = useAutosaveState();
     const [progress] = useTutorialProgressState();
 
     const events = useContext(EventsContext);
-
-    const setOpenMenu = menu => {
-        logTelemetry(menu ? 'menu_open' : 'menu_close', {interaction: menu || openMenu});
-        _setOpenMenu(menu);
-    };
 
     useListener(events, EDITOR_SAVE_EVENT, () => {
         setSaveAnimating(true);
