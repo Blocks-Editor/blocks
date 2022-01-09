@@ -7,6 +7,7 @@ import isEmbeddedMode from './utils/isEmbeddedMode';
 import {TUTORIAL_STEP_STORE} from './observables/tutorialStepStore';
 import {TELEMETRY_STORE} from './hooks/persistent/useTelemetryState';
 import {THEME_STORE} from './hooks/persistent/useThemeState';
+import {isMobile} from 'react-device-detect';
 
 analyticsPromise.then(analytics => {
     if(analytics) {
@@ -30,6 +31,7 @@ export function logTelemetry(id, options) {
                     const tutorial = TUTORIAL_PROGRESS_STORE.get()?.tutorial;
 
                     logEvent(analytics, id, {
+                        mobile: isMobile,
                         theme: THEME_STORE.get(),
                         editor_version: EDITOR_VERSION,
                         editor_mode: isEmbeddedMode() ? 'embedded' : undefined,
