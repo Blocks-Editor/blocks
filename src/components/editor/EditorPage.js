@@ -54,6 +54,7 @@ export default function EditorPage() {
     });
 
     useListener(events, PROJECT_EXPORT_EVENT, state => {
+        logTelemetry('project_export', {project: state.name || ''});
         const data = JSON.stringify(state);
         FileSaver.saveAs(new Blob([data]), `${pascalCase(state.name || 'project')}.blocks`);
     });
