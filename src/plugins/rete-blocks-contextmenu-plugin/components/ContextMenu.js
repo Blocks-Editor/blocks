@@ -4,6 +4,7 @@ import {isMobile} from 'react-device-detect';
 export default function ContextMenu({x, y, children, style: styleProp, handleCloseMenu, ...others}) {
 
     const style = useMemo(() => ({
+        zIndex: 1000,
         position: 'absolute',
         left: isMobile ? 150 : x,
         top: isMobile ? 150 : y,

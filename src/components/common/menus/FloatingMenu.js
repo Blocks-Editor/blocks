@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import classNames from 'classnames';
+import {isMobile} from 'react-device-detect';
 
 let ContainerDiv = styled.div`
     position: absolute;
@@ -11,7 +12,7 @@ let ContainerDiv = styled.div`
 
     ${props => props.top && css`
         top: 0;
-        margin-top: 75px;
+        margin-top: ${isMobile ? 125 : 75}px;
     `};
 
     ${props => props.left && css`
