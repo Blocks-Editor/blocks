@@ -2,19 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import useControlValue from '../../../../hooks/useControlValue';
 import {bindNodeInput} from '../../../../utils/bindNodeInput';
+import {onAnyRelease} from '../../../../utils/eventHelpers';
 
 const Container = styled.div`
-  cursor: pointer;
-    // background: ${({selected}) => selected ? '#fff8' : '#fff3'};
-  border: 2px solid ${({selected}) => selected ? '#fffa' : '#fff8'};
+    cursor: pointer;
+        // background: ${({selected}) => selected ? '#fff8' : '#fff3'};
+    border: 2px solid ${({selected}) => selected ? '#fffa' : '#fff8'};
 `;
 
 const ResizeArea = styled.div`
-  pointer-events: none;
-  //cursor: default;
-  background: #fff1;
-  resize: both;
-  overflow: hidden;
+    pointer-events: none;
+    //cursor: default;
+    background: #fff1;
+    resize: both;
+    overflow: hidden;
 `;
 
 export default function RegionNodeView({block, nodeHandle}) {
@@ -37,7 +38,7 @@ export default function RegionNodeView({block, nodeHandle}) {
             <ResizeArea
                 ref={bindNodeInput}
                 style={{width: width || 300, height: height || 100}}
-                onMouseUp={event => setWidth(event.target.clientWidth) & setHeight(event.target.clientHeight)}
+                {...onAnyRelease(event => setWidth(event.target.clientWidth) & setHeight(event.target.clientHeight))}
             />
         </Container>
     );
