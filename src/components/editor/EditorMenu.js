@@ -37,6 +37,7 @@ import useTutorialProgressState from '../../hooks/persistent/useTutorialProgress
 import useEditorMenuState from '../../hooks/persistent/useEditorMenuState';
 import useTimeout from '../../hooks/utils/useTimeout';
 import SocialModal from './SocialModal';
+import {onLeftPress} from '../../utils/eventHelpers';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -180,7 +181,7 @@ export default function EditorMenu({editor}) {
                     {!autosave && (
                         <MenuButton
                             tooltip="Save Changes"
-                            onMouseDown={() => events.emit(EDITOR_SAVE_EVENT, editor)}>
+                            {...onLeftPress(() => events.emit(EDITOR_SAVE_EVENT, editor))}>
                             <StyledSaveIcon
                                 className={classNames(saveAnimating && 'animating')}
                                 onAnimationEnd={() => setSaveAnimating(false)}
@@ -189,32 +190,32 @@ export default function EditorMenu({editor}) {
                     )}
                     <MenuButton
                         tooltip="Export to File"
-                        onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON())}>
+                        {...onLeftPress(() => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON()))}>
                         <DownloadIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="New Project"
-                        onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)}>
+                        {...onLeftPress(() => events.emit(PROJECT_CLEAR_EVENT))}>
                         <FilePlusIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Load Project"
-                        onMouseDown={() => setOpenMenu('load')}>
+                        {...onLeftPress(() => setOpenMenu('load'))}>
                         {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
                         tooltip="Tutorials"
-                        onMouseDown={() => setOpenMenu('tutorials')}>
+                        {...onLeftPress(() => setOpenMenu('tutorials'))}>
                         <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Options"
-                        onMouseDown={() => setOpenMenu('settings')}>
+                        {...onLeftPress(() => setOpenMenu('settings'))}>
                         <SettingsIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Social"
-                        onMouseDown={() => setOpenMenu('social')}>
+                        {...onLeftPress(() => setOpenMenu('social'))}>
                         <StyledSocialIcon/>
                     </MenuButton>
                     <a
@@ -244,10 +245,10 @@ export default function EditorMenu({editor}) {
                 <MenuButton
                     className="round d-flex align-items-center justify-content-center"
                     tooltip="Reset Viewport"
-                    onMouseDown={() => {
+                    {...onLeftPress(() => {
                         AreaPlugin.zoomAt(editor);
                         setZoomAnimating(true);
-                    }}>
+                    })}>
                     <StyledZoomIcon
                         className={classNames(zoomAnimating && 'animating')}
                         onAnimationEnd={() => setZoomAnimating(false)}
@@ -258,7 +259,7 @@ export default function EditorMenu({editor}) {
                 <MenuButton
                     className="compile-button text-uppercase h4 text-muted"
                     tooltip="Compile to Motoko"
-                    onMouseDown={() => setOutputPanel(!outputPanel)}>
+                    {...onLeftPress(() => setOutputPanel(!outputPanel))}>
                     <small>Compile</small>
                 </MenuButton>
             </FloatingMenu>

@@ -14,6 +14,7 @@ import ExternalLink from '../common/ExternalLink';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import {createMotokoPlaygroundShareLink} from '../../integrations/motoko-playground/createMotokoPlaygroundShareLink';
 import {isMobile} from 'react-device-detect';
+import {onLeftPress} from '../../utils/eventHelpers';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -143,8 +144,8 @@ export default function OutputPanel({editor}) {
                 {/*<ExternalLink className="flex-grow-1" href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=_">*/}
                 <div
                     className="btn btn-outline-success d-flex justify-content-center"
-                    onMouseDown={handleOpenPlayground}
-                    data-tip="Run and deploy your smart contract on Motoko Playground.">
+                    data-tip="Run and deploy your smart contract on Motoko Playground."
+                    {...onLeftPress(handleOpenPlayground)}>
                     {playgroundPromise ? (
                         <FaSpinner className="mt-1 me-2"/>
                     ) : (

@@ -1,5 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {isMobile} from 'react-device-detect';
+import {onLeftPress} from '../../../utils/eventHelpers';
 
 export default function ContextMenu({x, y, children, style: styleProp, handleCloseMenu, ...others}) {
 
@@ -41,7 +42,7 @@ export default function ContextMenu({x, y, children, style: styleProp, handleClo
             style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, pointerEvents: 'all'}}
             ref={bindScreen}
             onKeyDown={e => e.keyCode === 27 /* escape */ && handleCloseMenu()}
-            onMouseDown={() => handleCloseMenu()}
+            {...onLeftPress(handleCloseMenu)}
             {...others}>
             <div className="context-menu-container" style={style} ref={bindContainer}>
                 <div className="context-menu">

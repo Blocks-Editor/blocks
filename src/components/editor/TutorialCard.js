@@ -11,6 +11,7 @@ import useListener from '../../hooks/utils/useListener';
 import {FiSmile, FiX} from 'react-icons/fi';
 import {LearningIcon} from '../common/Icon';
 import {TUTORIAL_STEP_STORE} from '../../observables/tutorialStepStore';
+import {onLeftPress} from '../../utils/eventHelpers';
 
 const StyledLearningIcon = styled(LearningIcon)`
     width: 24px;
@@ -73,7 +74,7 @@ function TutorialProgressCard({progress, onComplete}) {
     const {tutorial, editor} = progress;
 
     const step = getTutorialStep(progress, variables);
-    
+
     TUTORIAL_STEP_STORE.set(step);
 
     // Allow tutorials to intercept node creation
@@ -94,7 +95,7 @@ function TutorialProgressCard({progress, onComplete}) {
                 You completed our "{tutorial.name}" tutorial.
                 <hr/>
                 <ButtonGroup className="d-flex">
-                    <Button variant="success" onMouseDown={() => onComplete()}>Close</Button>
+                    <Button variant="success" {...onLeftPress(() => onComplete())}>Close</Button>
                 </ButtonGroup>
             </HelperCard>
         );
@@ -152,8 +153,8 @@ export default function TutorialCard() {
         return (
             <HelperCard title="New to Blocks?" hideCloseButton={true}>
                 <ButtonGroup className="d-flex">
-                    <Button variant="success" onMouseDown={onAccept}>Start Tutorial</Button>
-                    <Button variant="" className="text-muted" onMouseDown={onDecline}>Skip</Button>
+                    <Button variant="success" {...onLeftPress(onAccept)}>Start Tutorial</Button>
+                    <Button variant="" className="text-muted" {...onLeftPress(onDecline)}>Skip</Button>
                 </ButtonGroup>
             </HelperCard>
         );
