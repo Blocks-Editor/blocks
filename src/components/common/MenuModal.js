@@ -18,7 +18,9 @@ export default function MenuModal({title, className, children, ...others}) {
         <div className={classNames('p-3', className)} {...others}>
             <TitleContainer>
                 {title && <h3 className="fw-light mb-0">{title}</h3>}
-                <FiX size={18} className="mx-2 clickable" onClick={() => {setOpenMenu(null)}} />
+                <div className="clickable p-2" onClick={() => {setOpenMenu(null)}}>
+                    <FiX size={18}  />
+                </div>
             </TitleContainer>
             <hr/>
             {children}

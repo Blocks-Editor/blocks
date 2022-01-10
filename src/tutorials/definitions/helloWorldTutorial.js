@@ -13,6 +13,7 @@ import {
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
 import {EDITOR_SELECTION_STORE} from '../../observables/editorSelectionStore';
+import tutorialFormatter from '../../utils/tutorialFormatter';
 
 // Custom ID for the tutorial blocks
 const functionNodeId = 'helloFunction';
@@ -51,10 +52,10 @@ export const helloWorldTutorial = {
         `,
         render(progress, {contextMenu}) {
             if(!contextMenu) {
-                return 'Right-click somewhere in the editor space.';
+                return tutorialFormatter('{right-click} somewhere in the editor space.');
             }
             if(contextMenu.node) {
-                return 'Make sure to right-click on empty space.';
+                return 'Make sure to {right-click} on empty space.';
             }
             return <>Select the <code>Function</code> block.</>;
         },
@@ -86,7 +87,7 @@ export const helloWorldTutorial = {
     }, {
         ...createNodeStep('Return', returnNodeId),
         title: 'Add a Return statement',
-        info: 'Click and drag the outlined button.',
+        info: '{click-and-drag} the outlined button.',
         style: css`
             ${highlightNodeShortcut(functionNodeId, 'Return')}
             ${highlightNode(returnNodeId) /* Highlight return node if already exists */}
@@ -166,7 +167,7 @@ export const helloWorldTutorial = {
         },
     }, {
         title: 'View the smart contract',
-        info: 'Click the "Compile" button at the bottom-right of the page.',
+        info: 'Click the "Compile" button at the bottom right of the page.',
         style: css`
             .compile-button {
                 border: 1px solid white;
