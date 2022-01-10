@@ -12,6 +12,7 @@ function onEvents(eventKeys, listenerFn) {
             if(timeout === undefined) {
                 timeout = setTimeout(() => {
                     clearTimeout(timeout);
+                    timeout = undefined;
                     currentKey = undefined;
                 });
             }
