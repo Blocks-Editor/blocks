@@ -14,12 +14,12 @@ let StyledMenuItem = styled(MenuItem)`
         padding: 0 !important;
     }
 
-    :hover {
-        background: #F0F0F0;
-    }
+    &:hover {
+        background: #FFF1;
 
-    :hover > svg {
-        fill: url("#svg-block-gradient");
+        > svg {
+            fill: url("#svg-block-gradient");
+        }
     }
 `;
 
