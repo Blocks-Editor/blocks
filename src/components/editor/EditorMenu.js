@@ -218,7 +218,7 @@ export default function EditorMenu({editor}) {
                         <StyledSocialIcon/>
                     </MenuButton>
                     <a
-                        className="d-inline-block float-md-end text-center text-muted"
+                        className="float-md-end text-center text-muted"
                         href="https://github.com/Blocks-Editor/blocks"
                         target="_blank"
                         rel="noreferrer">
