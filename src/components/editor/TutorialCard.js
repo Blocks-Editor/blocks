@@ -11,7 +11,7 @@ import useListener from '../../hooks/utils/useListener';
 import {FiSmile, FiX} from 'react-icons/fi';
 import {LearningIcon} from '../common/Icon';
 import {TUTORIAL_STEP_STORE} from '../../observables/tutorialStepStore';
-import {onLeftPress} from '../../utils/eventHelpers';
+import {onLeftClick} from '../../utils/eventHelpers';
 
 const StyledLearningIcon = styled(LearningIcon)`
     width: 24px;
@@ -52,7 +52,7 @@ function HelperCard({title, icon, iconTooltip, hideCloseButton, children, ...oth
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
                         {!hideCloseButton && (
                             <span className="float-end">
-                            <FiX className="clickable text-white" {...onLeftPress(() => setProgress(null))}/>
+                            <FiX className="clickable text-white" {...onLeftClick(() => setProgress(null))}/>
                         </span>
                         )}
                     </h4>
@@ -92,7 +92,7 @@ function TutorialProgressCard({progress, onComplete}) {
                 You completed our "{tutorial.name}" tutorial.
                 <hr/>
                 <ButtonGroup className="d-flex">
-                    <Button variant="success" {...onLeftPress(() => onComplete())}>Close</Button>
+                    <Button variant="success" {...onLeftClick(() => onComplete())}>Close</Button>
                 </ButtonGroup>
             </HelperCard>
         );
@@ -150,8 +150,8 @@ export default function TutorialCard() {
         return (
             <HelperCard title="New to Blocks?" hideCloseButton={true}>
                 <ButtonGroup className="d-flex">
-                    <Button variant="success" {...onLeftPress(onAccept)}>Start Tutorial</Button>
-                    <Button variant="" className="text-muted" {...onLeftPress(onDecline)}>Skip</Button>
+                    <Button variant="success" {...onLeftClick(onAccept)}>Start Tutorial</Button>
+                    <Button variant="" className="text-muted" {...onLeftClick(onDecline)}>Skip</Button>
                 </ButtonGroup>
             </HelperCard>
         );

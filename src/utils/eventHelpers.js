@@ -23,7 +23,17 @@ function onEvents(eventKeys, listenerFn) {
 }
 
 export function onAnyClick(listenerFn) {
-    return onEvents(['onClick'], listenerFn);
+    return {
+        onClick: listenerFn,
+    };
+}
+
+export function onLeftClick(listenerFn) {
+    return onAnyClick(event => {
+        if(event.button === undefined || event.button === 0) {
+            return listenerFn(event);
+        }
+    });
 }
 
 export function onAnyPress(listenerFn) {

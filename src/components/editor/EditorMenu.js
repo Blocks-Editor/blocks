@@ -37,7 +37,7 @@ import useTutorialProgressState from '../../hooks/persistent/useTutorialProgress
 import useEditorMenuState from '../../hooks/persistent/useEditorMenuState';
 import useTimeout from '../../hooks/utils/useTimeout';
 import SocialModal from './SocialModal';
-import {onLeftPress} from '../../utils/eventHelpers';
+import {onLeftClick} from '../../utils/eventHelpers';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -181,7 +181,7 @@ export default function EditorMenu({editor}) {
                     {!autosave && (
                         <MenuButton
                             tooltip="Save Changes"
-                            {...onLeftPress(() => events.emit(EDITOR_SAVE_EVENT, editor))}>
+                            {...onLeftClick(() => events.emit(EDITOR_SAVE_EVENT, editor))}>
                             <StyledSaveIcon
                                 className={classNames(saveAnimating && 'animating')}
                                 onAnimationEnd={() => setSaveAnimating(false)}
@@ -190,32 +190,32 @@ export default function EditorMenu({editor}) {
                     )}
                     <MenuButton
                         tooltip="Export to File"
-                        {...onLeftPress(() => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON()))}>
+                        {...onLeftClick(() => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON()))}>
                         <DownloadIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="New Project"
-                        {...onLeftPress(() => events.emit(PROJECT_CLEAR_EVENT))}>
+                        {...onLeftClick(() => events.emit(PROJECT_CLEAR_EVENT))}>
                         <FilePlusIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Load Project"
-                        {...onLeftPress(() => setOpenMenu('load'))}>
+                        {...onLeftClick(() => setOpenMenu('load'))}>
                         {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
                         tooltip="Tutorials"
-                        {...onLeftPress(() => setOpenMenu('tutorials'))}>
+                        {...onLeftClick(() => setOpenMenu('tutorials'))}>
                         <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Options"
-                        {...onLeftPress(() => setOpenMenu('settings'))}>
+                        {...onLeftClick(() => setOpenMenu('settings'))}>
                         <SettingsIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Social"
-                        {...onLeftPress(() => setOpenMenu('social'))}>
+                        {...onLeftClick(() => setOpenMenu('social'))}>
                         <StyledSocialIcon/>
                     </MenuButton>
                     <a
@@ -245,7 +245,7 @@ export default function EditorMenu({editor}) {
                 <MenuButton
                     className="round d-flex align-items-center justify-content-center"
                     tooltip="Reset Viewport"
-                    {...onLeftPress(() => {
+                    {...onLeftClick(() => {
                         AreaPlugin.zoomAt(editor);
                         setZoomAnimating(true);
                     })}>
@@ -259,7 +259,7 @@ export default function EditorMenu({editor}) {
                 <MenuButton
                     className="compile-button text-uppercase h4 text-muted"
                     tooltip="Compile to Motoko"
-                    {...onLeftPress(() => setOutputPanel(!outputPanel))}>
+                    {...onLeftClick(() => setOutputPanel(!outputPanel))}>
                     <small>Compile</small>
                 </MenuButton>
             </FloatingMenu>

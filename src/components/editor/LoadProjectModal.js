@@ -7,7 +7,7 @@ import FileDropZone from '../common/FileDropZone';
 import {DROP_ZONE_EXTENSIONS} from './Editor';
 import LoadFileContext from '../../contexts/LoadFileContext';
 import MenuModalOption from '../common/MenuModalOption';
-import {onLeftPress} from '../../utils/eventHelpers';
+import {onLeftClick} from '../../utils/eventHelpers';
 
 const MenuContainer = styled.div`
     padding: 20px;
@@ -42,7 +42,7 @@ export default function LoadProjectModal({className, ...others}) {
                     key={i}
                     name={example.name}
                     description={example.description || '(No description provided)'}
-                    {...onLeftPress(() => events.emit(PROJECT_LOAD_EVENT, example))}>
+                    {...onLeftClick(() => events.emit(PROJECT_LOAD_EVENT, example))}>
                 </MenuModalOption>
             ))}
         </MenuContainer>

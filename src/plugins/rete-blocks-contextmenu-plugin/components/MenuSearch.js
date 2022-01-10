@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {isMobile} from 'react-device-detect';
-import {onLeftPress} from '../../../utils/eventHelpers';
+import {onLeftClick} from '../../../utils/eventHelpers';
 
 export default function MenuSearch({value, onChange, onAction, onKeyDown, children, ...others}) {
 
@@ -22,7 +22,7 @@ export default function MenuSearch({value, onChange, onAction, onKeyDown, childr
     });
 
     return (
-        <div {...onLeftPress(event => event.stopPropagation())}>
+        <div {...onLeftClick(event => event.stopPropagation())}>
             <input
                 type="text"
                 className="context-menu-search"

@@ -5,7 +5,7 @@ import MenuModalOption from '../common/MenuModalOption';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import {FiX} from 'react-icons/fi';
 import classNames from 'classnames';
-import {onLeftPress} from '../../utils/eventHelpers';
+import {onLeftClick} from '../../utils/eventHelpers';
 
 const tutorials = TUTORIALS;
 
@@ -31,7 +31,7 @@ export default function TutorialsModal() {
                             borderWidth: `4px ${selected ? 8 : 4}px`,
                             borderLeftColor: 'var(--bs-info)',
                         }} // TODO: refactor to styled-components
-                        {...onLeftPress(() => setProgress(selected ? null : {tutorial}))}>
+                        {...onLeftClick(() => setProgress(selected ? null : {tutorial}))}>
                         {selected && <span className="h5 mb-0 text-muted"><FiX/></span>}
                     </MenuModalOption>
                 );
