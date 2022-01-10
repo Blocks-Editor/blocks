@@ -60,7 +60,7 @@ export default function SocialModal() {
         <MenuModal title="Join our Community:" onClick={() => setCopied(null)}>
             <div className="text-center d-flex flex-wrap justify-content-between">
                 {socials.map(([label, url]) => (
-                    <SocialContainer key={url} className="mx-3 my-3">
+                    <SocialContainer key={url} className="mx-2 my-3">
                         <StyledSocialIcon
                             url={url} target="_blank" rel="noreferrer" onClick={() => {
                             logTelemetry('social_visit', {
