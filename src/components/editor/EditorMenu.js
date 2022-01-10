@@ -217,12 +217,24 @@ export default function EditorMenu({editor}) {
                         onMouseDown={() => setOpenMenu('social')}>
                         <StyledSocialIcon/>
                     </MenuButton>
-                    <MenuItem
-                        className="float-md-end text-center px-4 opacity-50"
-                        tooltip="Blocks is currently in Open Beta testing."
-                        data-place="left">
-                        {betaSymbol}
-                    </MenuItem>
+                    <a
+                        className="d-inline-block float-md-end text-center text-muted"
+                        href="https://github.com/Blocks-Editor/blocks"
+                        target="_blank"
+                        rel="noreferrer">
+                        {/*<MenuButton*/}
+                        {/*    className="px-2"*/}
+                        {/*    tooltip="Blocks is currently in Open Beta testing."*/}
+                        {/*    data-place="left">*/}
+                        {/*    <FaGithub/>*/}
+                        {/*</MenuButton>*/}
+                        <MenuItem
+                            className="px-4 opacity-50"
+                            tooltip="Blocks is currently in Open Beta testing."
+                            data-place="left">
+                            {betaSymbol}
+                        </MenuItem>
+                    </a>
                 </div>
             </TopMenu>
             <FloatingMenu top left>
