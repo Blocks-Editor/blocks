@@ -6,31 +6,29 @@ import {onAnyRelease} from '../../../../utils/eventHelpers';
 
 const Container = styled.div`
     cursor: pointer;
-        // background: ${({selected}) => selected ? '#fff8' : '#fff3'};
     border: 2px solid ${({selected}) => selected ? '#fffa' : '#fff8'};
 `;
 
 const ResizeArea = styled.div`
     pointer-events: none;
-    //cursor: default;
     background: #fff1;
     resize: both;
     overflow: hidden;
 `;
 
 export default function RegionNodeView({block, nodeHandle}) {
-    const {/*editor,*/ node/*, bindControl*/} = nodeHandle.props;
+    const {node} = nodeHandle.props;
     const {selected} = nodeHandle.state;
 
     const [width, setWidth] = useControlValue(node.controls.get('widthPixels'));
     const [height, setHeight] = useControlValue(node.controls.get('heightPixels'));
 
-    const bindContainer = (el) => {
-        if(!el) {
+    const bindContainer = (element) => {
+        if(!element) {
             return;
         }
         // Render behind other nodes
-        el.parentElement.style.zIndex = '-1';
+        element.parentElement.style.zIndex = String(-1);
     };
 
     return (
