@@ -17,16 +17,14 @@ function install(editor, config = {}) {
 
     let menu = null;
 
-    editor.on('hidecontextmenu', () => {
+    const hideContextMenu = () => {
         CONTEXT_MENU_STORE.set(null);
         if(menu) {
             menu.style.display = 'none';
         }
-    });
+    };
 
-    editor.on(['click', 'contextmenu'], () => {
-        editor.trigger('hidecontextmenu');
-    });
+    editor.on(['hidecontextmenu', 'contextmenu', 'click'], hideContextMenu);
 
     editor.on('contextmenu', ({e, node, context}) => {
         e.preventDefault?.();
@@ -139,6 +137,38 @@ function install(editor, config = {}) {
             });
         });
     });
+
+    // const getPosition = event => {
+    //     const touch = event.touches[0];
+    //     return {
+    //         x: touch.pageX,
+    //         y: touch.pageY,
+    //     };
+    // };
+    //
+    // // Mobile long press
+    // let start;
+    // let move;
+    // let longPressTimeout;
+    // let clickTimeout;
+    // editor.view.container.addEventListener('touchstart', event => {
+    //     start = getPosition(event);
+    //     move = undefined;
+    //     longPressTimeout = setTimeout(() => {
+    //         const moveThreshold = 25;
+    //         if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
+    //             editor.trigger('contextmenu', {e: event});
+    //         }
+    //     }, 500);
+    // });
+    // editor.view.container.addEventListener('touchmove', event => {
+    //     move = getPosition(event);
+    // });
+    // editor.view.container.addEventListener('touchend', event => {
+    //     clearTimeout(longPressTimeout);
+    //     clearTimeout(clickTimeout);
+    //     clickTimeout = setTimeout(() => clickTimeout = null, 300);
+    // });
 }
 
 const ContextMenuPlugin = {

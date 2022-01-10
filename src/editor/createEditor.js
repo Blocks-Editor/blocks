@@ -23,9 +23,9 @@ function findCategory(socket) {
     return socket.type?./*findType?.()*/data.category ?? socket.data.category ?? 'none';
 }
 
-export default function createEditor(element, {history} = {}) {
+export default function createEditor(container, {history} = {}) {
 
-    const editor = new BlocksNodeEditor(EDITOR_NAME + '@' + EDITOR_VERSION, element);
+    const editor = new BlocksNodeEditor(EDITOR_NAME + '@' + EDITOR_VERSION, container);
     editor.use(ReactRenderPlugin, {
         component: NodeHandle,
     });
