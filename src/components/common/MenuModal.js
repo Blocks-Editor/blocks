@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import classNames from 'classnames';
 import {FiX} from 'react-icons/fi';
 import useEditorMenuState from '../../hooks/persistent/useEditorMenuState';
+import {onLeftPress} from '../../utils/eventHelpers';
 
 const TitleContainer = styled.div`
     display: flex;
@@ -20,7 +21,7 @@ export default function MenuModal({title, className, children, ...others}) {
                 {title && <h3 className="fw-light mb-0">{title}</h3>}
                 <div
                     className="clickable p-2 mb-1"
-                    onClick={() => setOpenMenu(null)}>
+                    {...onLeftPress(() => setOpenMenu(null))}>
                     <FiX size={18}/>
                 </div>
             </TitleContainer>

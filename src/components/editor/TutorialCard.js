@@ -52,10 +52,7 @@ function HelperCard({title, icon, iconTooltip, hideCloseButton, children, ...oth
                         {title && <span className="me-3 flex-grow-1">{title}</span>}
                         {!hideCloseButton && (
                             <span className="float-end">
-                            <FiX
-                                className="clickable text-white" onClick={() => {
-                                setProgress(null);
-                            }}/>
+                            <FiX className="clickable text-white" {...onLeftPress(() => setProgress(null))}/>
                         </span>
                         )}
                     </h4>

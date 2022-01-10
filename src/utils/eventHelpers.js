@@ -22,6 +22,10 @@ function onEvents(eventKeys, listenerFn) {
     return result;
 }
 
+export function onAnyClick(listenerFn) {
+    return onEvents(['onClick'], listenerFn);
+}
+
 export function onAnyPress(listenerFn) {
     return onEvents(['onMouseDown', 'onTouchStart'], listenerFn);
 }

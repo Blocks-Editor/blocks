@@ -6,6 +6,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 import {FiClipboard} from 'react-icons/fi';
 import classNames from 'classnames';
 import {logTelemetry} from '../../telemetry';
+import {onAnyClick} from '../../utils/eventHelpers';
 
 const socials = [
     ['GitHub', 'https://github.com/Blocks-Editor/blocks'],
@@ -57,16 +58,16 @@ export default function SocialModal() {
     const [copied, setCopied] = useState(null);
 
     return (
-        <MenuModal title="Join our Community:" onClick={() => setCopied(null)}>
+        <MenuModal title="Join our Community:" {...onAnyClick(() => setCopied(null))}>
             <div className="text-center d-flex flex-wrap justify-content-between">
                 {socials.map(([label, url]) => (
                     <SocialContainer key={url} className="mx-2 my-3">
                         <StyledSocialIcon
-                            url={url} target="_blank" rel="noreferrer" onClick={() => {
+                            url={url} target="_blank" rel="noreferrer" {...onAnyClick(() => {
                             logTelemetry('social_visit', {
                                 interaction: label,
                             });
-                        }}/>
+                        })}/>
                         <div className="mt-2 opacity-75 noselect">{label}</div>
                     </SocialContainer>
                 ))}
@@ -107,7 +108,7 @@ export default function SocialModal() {
                                 }}>
                                 <div
                                     className="clickable h5 text-secondary ps-2 pb-1 m-0 d-flex"
-                                    onClick={event => event.stopPropagation()}
+                                    {...onAnyClick(event => event.stopPropagation())}
                                     title="Copy wallet address">
                                     <FiClipboard className={classNames(copied === address && 'text-primary')}/>
                                 </div>

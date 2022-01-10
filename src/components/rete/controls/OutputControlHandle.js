@@ -67,7 +67,7 @@ export default function OutputControlHandle({control, bindInput, query}) {
                         {/*    size="sm"*/}
                         {/*    variant="outline-light"*/}
                         {/*    data-tip={copied ? undefined : 'Copy to Clipboard'}*/}
-                        {/*    onClick={showTooltip}>*/}
+                        {/*    {...onAnyClick(showTooltip)}>*/}
                         {/*    <span ref={ref => tooltipRef = ref} data-tip="Copied!"/>*/}
                         {/*    <FaCopy/>*/}
                         {/*</Button>*/}

@@ -97,14 +97,14 @@ export default function OutputPanel({editor}) {
             closed={closed}
             fullscreen={isMobile || fullscreen === outputPanelId}>
             <div className={classNames('d-flex align-items-center mb-2', !isMobile && 'justify-content-between')}>
-                <div className="clickable px-2 pb-2" onClick={() => setPanel(null)}>
+                <div className="clickable px-2 pb-2" {...onLeftPress(() => setPanel(null))}>
                     <FiX size={18}/>
                 </div>
                 <h3 className="mx-3 mb-0 noselect">Compiled Output</h3>
                 {!isMobile && (
                     <div
                         className="clickable px-2 pb-2"
-                        onClick={() => setFullscreen(fullscreen === outputPanelId ? false : outputPanelId)}>
+                        {...onLeftPress(() => setFullscreen(fullscreen === outputPanelId ? false : outputPanelId))}>
                         {fullscreen === outputPanelId
                             ? <FiMinimize2 size={18}/> // TODO: horizontally flip icons and swap positions with close button?
                             : <FiMaximize2 size={18}/>
