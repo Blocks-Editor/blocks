@@ -7,7 +7,7 @@ import useEditorMenuState from '../../hooks/persistent/useEditorMenuState';
 const TitleContainer = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
 `;
 
@@ -18,7 +18,9 @@ export default function MenuModal({title, className, children, ...others}) {
         <div className={classNames('p-3', className)} {...others}>
             <TitleContainer>
                 {title && <h3 className="fw-light">{title}</h3>}
-                <FiX size={18} className="mx-2 clickable" onClick={() => {setOpenMenu(null)}} />
+                <div className="clickable p-2" onClick={() => {setOpenMenu(null)}}>
+                    <FiX size={18}  />
+                </div>
             </TitleContainer>
             <hr/>
             {children}
