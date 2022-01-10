@@ -19,7 +19,7 @@ export default function MenuModal({title, className, children, ...others}) {
             <TitleContainer>
                 {title && <h3 className="fw-light mb-0">{title}</h3>}
                 <div
-                    className="clickable p-2"
+                    className="clickable p-2 mb-1"
                     onClick={() => setOpenMenu(null)}>
                     <FiX size={18}/>
                 </div>
