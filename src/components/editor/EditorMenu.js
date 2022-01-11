@@ -173,7 +173,7 @@ export default function EditorMenu({editor}) {
                         />
                     </a>
                 </MenuItem>
-                <div className="w-100 px-3 py-2 py-sm-0 d-flex d-sm-block flex-wrap justify-content-between">
+                <div className="w-100 px-3 py-2 py-sm-0">
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
