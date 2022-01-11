@@ -108,7 +108,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                     jsonNode = {
                         id,
                         data: {},
+                        position: [0, 0],
                         ...jsonNode,
+                        name: jsonNode.type || jsonNode.name, // `type` allowed in place of `name`
                     };
 
                     const component = this.getComponent(jsonNode.name);
@@ -127,8 +129,14 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
 
                 if(jsonNode.outputs) {
                     Object.entries(jsonNode.outputs).forEach(([key, jsonOutput]) => {
+                        if(Array.isArray(jsonOutput)) {
+                            jsonOutput = {
+                                connections: jsonOutput,
+                            };
+                        }
+
                         try {
-                            jsonOutput.connections.forEach(jsonConnection => {
+                            jsonOutput.connections?.forEach(jsonConnection => {
                                 const nodeId = jsonConnection.node;
                                 const data = jsonConnection.data;
                                 const targetOutput = node.outputs.get(key);
