@@ -112,11 +112,10 @@ export default function EditorPage() {
 
     const onEditorSave = useCallback((state, editor) => {
         // console.log('Saving:', state);
-        const stateString = JSON.stringify(state);
-        storage[STORAGE_EDITOR_STATE] = stateString;
+        storage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
         sendMessage({
             type: 'save',
-            state: stateString,
+            state: state,
         });
         // UNSAVED_CHANGES_STORE.set(false);
     }, []);
