@@ -5,7 +5,7 @@ import EventsContext, {ERROR_EVENT} from '../../../../contexts/EventsContext';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
 import classNames from 'classnames';
 import useLearningModeState from '../../../../hooks/persistent/useLearningModeState';
-import {onLeftClick} from '../../../../utils/eventHelpers';
+import {onLeftPress} from '../../../../utils/eventHelpers';
 
 export default function ShortcutButton({editor, node, shortcut}) {
     const {block} = shortcut;
@@ -15,7 +15,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
 
     const events = useContext(EventsContext);
 
-    const handleClick = async event => {
+    const handlePress = async event => {
         if(event.button !== 0) {
             return;
         }
@@ -75,7 +75,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
                 cursor: 'grab',
                 // fontSize: '1em',
             }}
-            {...onLeftClick(handleClick)}>
+            {...onLeftPress(handlePress)}>
             {block.icon
                 ? React.createElement(block.icon)
                 : getBlockLabel(block)}
