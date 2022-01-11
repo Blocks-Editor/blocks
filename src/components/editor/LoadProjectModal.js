@@ -14,7 +14,7 @@ const MenuContainer = styled.div`
 `;
 
 const StyledFileDropZone = styled(FileDropZone)`
-    padding: 2rem 1rem;
+    padding: 2rem 0;
     border: 2px #0005 dashed;
 
     &.dragging, &:hover {
