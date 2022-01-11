@@ -86,7 +86,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
 
         // noinspection JSUnresolvedVariable
         json = {
-            id: json.version,
+            id: json.version || this.version,
             nodes: {},
             ...json,
         };
