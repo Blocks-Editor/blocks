@@ -3,6 +3,7 @@ import ReactTooltip from 'react-tooltip';
 import React from 'react';
 
 const StyledReactTooltip = styled(ReactTooltip)`
+    z-index: 1000;
     padding: .5em 1em !important;
 
     .multi-line {

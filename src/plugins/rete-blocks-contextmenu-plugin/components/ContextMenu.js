@@ -5,7 +5,7 @@ import {onLeftClick} from '../../../utils/eventHelpers';
 export default function ContextMenu({x, y, children, style: styleProp, handleCloseMenu, ...others}) {
 
     const style = useMemo(() => ({
-        zIndex: 1000,
+        zIndex: 500,
         position: 'absolute',
         left: isMobile ? 150 : x,
         top: isMobile ? 150 : y,
