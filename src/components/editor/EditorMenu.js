@@ -31,7 +31,6 @@ import FloatingMenu from '../common/menus/FloatingMenu';
 import SettingsModal from './SettingsModal';
 import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
-import TutorialCard from './TutorialCard';
 import TutorialsModal from './TutorialsModal';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useEditorMenuState from '../../hooks/persistent/useEditorMenuState';
@@ -242,9 +241,6 @@ export default function EditorMenu({editor}) {
                     </a>
                 </div>
             </TopMenu>
-            <FloatingMenu top left>
-                <TutorialCard/>
-            </FloatingMenu>
             <FloatingMenu bottom left>
                 <MenuButton
                     className="round d-flex align-items-center justify-content-center"

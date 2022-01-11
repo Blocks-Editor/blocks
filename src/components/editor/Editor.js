@@ -9,6 +9,8 @@ import EditorWrapper from '../rete/EditorWrapper';
 import useObservableState from '../../hooks/utils/useObservableState';
 import LoadBlocksFileContext from '../../contexts/LoadFileContext';
 import {logTelemetry} from '../../telemetry';
+import FloatingMenu from '../common/menus/FloatingMenu';
+import TutorialCard from './TutorialCard';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
@@ -28,6 +30,9 @@ function EditorControls({observable, hideMenu}) {
             {!hideMenu && (
                 <EditorMenu editor={editor}/>
             )}
+            <FloatingMenu top left>
+                <TutorialCard/>
+            </FloatingMenu>
             <OutputPanel editor={editor}/>
         </>
     );
