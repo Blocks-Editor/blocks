@@ -14,6 +14,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
 
         this.projectName = '';
         this.projectDescription = '';
+        this.version = this.id; // Preferred over Rete.js `id` property
         this.compilers = {
             control: new ControlCompiler(this),
             node: new NodeCompiler(this),
@@ -79,8 +80,16 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
     }
 
     async fromJSON(json) {
+        if(!json) {
+            return false;
+        }
+
         // noinspection JSUnresolvedVariable
-        json = {id: json.version, ...json};
+        json = {
+            id: json.version,
+            nodes: {},
+            ...json,
+        };
 
         if(!this.beforeImport(json)) {
             return false;
