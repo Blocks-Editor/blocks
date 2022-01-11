@@ -23,9 +23,9 @@ const DEFAULT_STATE = require('../../examples/files/DefaultProject.json');
 const embedded = isEmbeddedMode();
 const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStorage()`
 
-if(embedded) {
-    console.log('Blocks: using embedded mode.');
-}
+// if(embedded) {
+//     console.log('Blocks: using embedded mode.');
+// }
 
 const history = new UndoRedoHistory(50);
 
