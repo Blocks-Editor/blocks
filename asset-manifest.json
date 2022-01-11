@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "https://blocks-editor.github.io/blocks/static/css/main.4351b237.chunk.css",
-    "main.js": "https://blocks-editor.github.io/blocks/static/js/main.e35f78d3.chunk.js",
-    "main.js.map": "https://blocks-editor.github.io/blocks/static/js/main.e35f78d3.chunk.js.map",
+    "main.js": "https://blocks-editor.github.io/blocks/static/js/main.ac11ab4d.chunk.js",
+    "main.js.map": "https://blocks-editor.github.io/blocks/static/js/main.ac11ab4d.chunk.js.map",
     "runtime-main.js": "https://blocks-editor.github.io/blocks/static/js/runtime-main.44f656de.js",
     "runtime-main.js.map": "https://blocks-editor.github.io/blocks/static/js/runtime-main.44f656de.js.map",
     "static/css/2.58a45539.chunk.css": "https://blocks-editor.github.io/blocks/static/css/2.58a45539.chunk.css",
-    "static/js/2.a95fb75f.chunk.js": "https://blocks-editor.github.io/blocks/static/js/2.a95fb75f.chunk.js",
-    "static/js/2.a95fb75f.chunk.js.map": "https://blocks-editor.github.io/blocks/static/js/2.a95fb75f.chunk.js.map",
+    "static/js/2.9ef8d60d.chunk.js": "https://blocks-editor.github.io/blocks/static/js/2.9ef8d60d.chunk.js",
+    "static/js/2.9ef8d60d.chunk.js.map": "https://blocks-editor.github.io/blocks/static/js/2.9ef8d60d.chunk.js.map",
     "index.html": "https://blocks-editor.github.io/blocks/index.html",
     "static/css/2.58a45539.chunk.css.map": "https://blocks-editor.github.io/blocks/static/css/2.58a45539.chunk.css.map",
     "static/css/main.4351b237.chunk.css.map": "https://blocks-editor.github.io/blocks/static/css/main.4351b237.chunk.css.map",
-    "static/js/2.a95fb75f.chunk.js.LICENSE.txt": "https://blocks-editor.github.io/blocks/static/js/2.a95fb75f.chunk.js.LICENSE.txt",
+    "static/js/2.9ef8d60d.chunk.js.LICENSE.txt": "https://blocks-editor.github.io/blocks/static/js/2.9ef8d60d.chunk.js.LICENSE.txt",
     "static/media/index.scss": "https://blocks-editor.github.io/blocks/static/media/silkamono-medium-webfont.d58546ce.ttf",
     "static/media/crosshair.dd422401.svg": "https://blocks-editor.github.io/blocks/static/media/crosshair.dd422401.svg",
     "static/media/download.9a79f24e.svg": "https://blocks-editor.github.io/blocks/static/media/download.9a79f24e.svg",
@@ -28,8 +28,8 @@
   "entrypoints": [
     "static/js/runtime-main.44f656de.js",
     "static/css/2.58a45539.chunk.css",
-    "static/js/2.a95fb75f.chunk.js",
+    "static/js/2.9ef8d60d.chunk.js",
     "static/css/main.4351b237.chunk.css",
-    "static/js/main.e35f78d3.chunk.js"
+    "static/js/main.ac11ab4d.chunk.js"
   ]
 }
