@@ -173,11 +173,11 @@ export default function EditorMenu({editor}) {
                         />
                     </a>
                 </MenuItem>
-                <div className="w-100 px-3">
+                <div className="w-100 px-3 py-2 py-sm-0 d-flex d-sm-block flex-wrap justify-content-between">
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
-                        className="d-block d-sm-inline-block bg-light text-secondary mb-2 mb-sm-0"
+                        className="d-none d-sm-inline-block bg-light text-secondary mb-2 mb-sm-0"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, editor)}
@@ -223,7 +223,7 @@ export default function EditorMenu({editor}) {
                         <StyledSocialIcon/>
                     </MenuButton>
                     <a
-                        className="float-md-end text-center text-muted"
+                        className="float-sm-end text-center text-muted"
                         href="https://github.com/Blocks-Editor/blocks"
                         target="_blank"
                         rel="noreferrer">
@@ -271,7 +271,7 @@ export default function EditorMenu({editor}) {
                 show={openMenu}
                 onShow={() => ReactTooltip.hide()}
                 onHide={() => setOpenMenu(null)}>
-                <Modal.Body>
+                <Modal.Body className="bg-light rounded-1">
                     {openMenu === 'load' && (
                         <LoadProjectModal/>
                     )}

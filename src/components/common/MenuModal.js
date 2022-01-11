@@ -17,15 +17,19 @@ export default function MenuModal({title, className, children, ...others}) {
 
     return (
         <div className={classNames('p-3', className)} {...others}>
-            <TitleContainer>
-                {title && <h3 className="fw-light mb-0">{title}</h3>}
-                <div
-                    className="clickable p-2 mb-1"
-                    {...onLeftClick(() => setOpenMenu(null))}>
-                    <FiX size={18}/>
-                </div>
-            </TitleContainer>
-            <hr/>
+            {title && (
+                <>
+                    <TitleContainer>
+                        <h3 className="fw-light mb-0">{title}</h3>
+                        <div
+                            className="clickable p-2 mb-1"
+                            {...onLeftClick(() => setOpenMenu(null))}>
+                            <FiX size={18}/>
+                        </div>
+                    </TitleContainer>
+                    <hr/>
+                </>
+            )}
             {children}
         </div>
     );
