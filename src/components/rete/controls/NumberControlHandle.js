@@ -8,7 +8,7 @@ export default function NumberControlHandle({control, bindInput, validation: {mi
     return (
         <input
             type="number"
-            style={{width: '4em'}}
+            style={{width: '8em'}}
             ref={bindInput}
             min={min}
             max={max}

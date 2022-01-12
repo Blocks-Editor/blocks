@@ -5,7 +5,7 @@ import {importRef} from '../compilers/MotokoCompiler';
 export const principalImportRef = importRef('mo:base/Principal');
 
 const block = literalBlock({
-    title: 'Principal',
+    title: 'Principal (Address)',
     // customSearch(text) {
     //     if(isPrincipal(text)) {
     //         return {

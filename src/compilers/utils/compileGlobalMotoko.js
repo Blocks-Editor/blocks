@@ -8,11 +8,11 @@ import {compileGlobalParameter} from '../../blocks/MainParameter';
 const defaultActorName = 'Main';
 
 export function mainSharedRef(editor) {
-    return `${defaultActorName}__install`;
+    return 'main__install';
 }
 
 export function mainInstanceRef(editor) {
-    return `${defaultActorName}__this`;
+    return 'main__this';
 }
 
 const installerBlockName = 'MainInstaller';
@@ -39,7 +39,7 @@ export default function compileGlobalMotoko(editor) {
     const installerPart = installerNodes.length && `shared${formatParentheses(mainSharedRef(editor))}`;
 
     const thisPart = '';//`= ${mainInstanceRef(editor)}`
-    const classPart = (thisPart || paramNodes.length) && `${formatParentheses(paramNodes.map(node => {
+    const classPart = (installerPart || thisPart || paramNodes.length) && `${formatParentheses(paramNodes.map(node => {
         return compileGlobalParameter(node, editor.compilers.motoko);
     }).join(', '))}`;
 
