@@ -9,6 +9,7 @@ export default function ContextMenu({x, y, children, style: styleProp, handleClo
         position: 'absolute',
         left: isMobile ? 150 : x,
         top: isMobile ? 150 : y,
+        boxShadow: isMobile && '0 2px 10px #000E',
         ...styleProp,
     }), [x, y, styleProp]);
 
