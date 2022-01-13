@@ -9,7 +9,7 @@ import AreaPlugin from 'rete-area-plugin';
 import ContextMenuPlugin from '../plugins/rete-blocks-contextmenu-plugin';
 import ConnectionDropPlugin from '../plugins/rete-connection-drop-plugin';
 import ConnectionOpacityPlugin from '../plugins/rete-connection-opacity-plugin';
-import VerticalSortPlugin from '../plugins/rete-vertical-sort-plugin';
+import PositionSortPlugin from '../plugins/rete-position-sort-plugin';
 import DragButtonPlugin from '../plugins/rete-drag-button-plugin';
 import {CREATE_NODE_STORE} from '../observables/createNodeStore';
 import HistoryPlugin from '../plugins/rete-blocks-history-plugin';
@@ -55,7 +55,7 @@ export default function createEditor(container, {history} = {}) {
     editor.use(ContextMenuPlugin);
     editor.use(ConnectionDropPlugin);
     editor.use(ConnectionOpacityPlugin);
-    editor.use(VerticalSortPlugin);
+    editor.use(PositionSortPlugin);
     editor.use(DragButtonPlugin, {editorButton: 2});
 
     // Notify selection changed
