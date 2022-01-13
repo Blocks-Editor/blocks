@@ -352,7 +352,7 @@ export const mutableArrayType = createType('MutableArray', {
     },
 });
 export const mapType = createType('Map', {
-    info: 'A lookup or dictionary from one set of values to another',
+    info: 'A dictionary-style object for mapping keys to values',
     parent: collectionType,
     generics: [valueType, valueType],
     genericNames: ['key', 'value'],

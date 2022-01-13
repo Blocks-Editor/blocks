@@ -13,7 +13,9 @@ import {
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
 import {EDITOR_SELECTION_STORE} from '../../observables/editorSelectionStore';
-import tutorialFormatter from '../../utils/tutorialFormatter';
+import capitalize from '../../utils/capitalize';
+import {TUTORIAL_CLICK_DRAG, TUTORIAL_LEFT_CLICK, TUTORIAL_RIGHT_CLICK} from '../utils/tutorialText';
+import {isMobile} from 'react-device-detect';
 
 // Custom ID for the tutorial blocks
 const functionNodeId = 'helloFunction';
@@ -51,8 +53,12 @@ export const helloWorldTutorial = {
             ${highlightContextMenuComponent('Function')}
         `,
         render(progress, {contextMenu}) {
+            if(isMobile) {
+                // TEMPORARY
+                return 'This tutorial is currently designed for desktop browsers. Mobile support coming soon!';
+            }
             if(!contextMenu) {
-                return tutorialFormatter('{right-click} somewhere in the editor space.');
+                return `${capitalize(TUTORIAL_RIGHT_CLICK)} somewhere in the editor space.`;
             }
             if(contextMenu.node) {
                 return 'Make sure to {right-click} on empty space.';
@@ -87,7 +93,7 @@ export const helloWorldTutorial = {
     }, {
         ...createNodeStep('Return', returnNodeId),
         title: 'Add a Return statement',
-        info: '{click-and-drag} the outlined button.',
+        info: `${capitalize(TUTORIAL_CLICK_DRAG)} the outlined button.`,
         style: css`
             ${highlightNodeShortcut(functionNodeId, 'Return')}
             ${highlightNode(returnNodeId) /* Highlight return node if already exists */}
@@ -122,7 +128,7 @@ export const helloWorldTutorial = {
         `,
         render(progress, {contextMenu}) {
             if(!contextMenu) {
-                return <>Click and drag from the <code>Value</code> socket.</>;
+                return <>{capitalize(TUTORIAL_CLICK_DRAG)} from the <code>Value</code> socket.</>;
             }
             if(!contextMenu.context) {
                 return <>Make sure to drag from the <code>Value</code> socket on the <code>Return</code> block.</>;
@@ -148,7 +154,6 @@ export const helloWorldTutorial = {
         },
     }, {
         title: 'Define the Text content',
-        // info: 'Write something in the "Value" text box.',
         style: css`
             ${highlightNode(textNodeId, 'value')}
         `,
@@ -167,7 +172,7 @@ export const helloWorldTutorial = {
         },
     }, {
         title: 'View the smart contract',
-        info: 'Click the "Compile" button at the bottom right of the page.',
+        info: `${capitalize(TUTORIAL_LEFT_CLICK)} the "Compile" button at the bottom right of the page.`,
         style: css`
             .compile-button {
                 border: 1px solid white;

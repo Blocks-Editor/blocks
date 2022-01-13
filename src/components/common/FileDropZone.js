@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
 import classNames from 'classnames';
+import {onLeftPress} from '../../utils/eventHelpers';
 
 export default function FileDropZone({options, onFile, onFileContent, className, children, ...others}) {
 
@@ -18,14 +19,19 @@ export default function FileDropZone({options, onFile, onFileContent, className,
         }
     }, [onFile, onFileContent]);
 
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({
+    const {getRootProps, getInputProps, isDragActive, open} = useDropzone({
         maxFiles: 1,
         onDrop,
+        noClick: true,
         ...options,
     });
 
     return (
-        <div className={classNames(className, isDragActive && 'dragging')} {...{...others, ...getRootProps()}}>
+        <div
+            className={classNames(className, !options.noClick && 'clickable', isDragActive && 'dragging')}
+            {...(options?.noClick ? {} : onLeftPress(() => open()))}
+            {...others}
+            {...getRootProps()}>
             <input {...getInputProps()}/>
             {children}
         </div>

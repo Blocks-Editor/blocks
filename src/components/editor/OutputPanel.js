@@ -14,6 +14,7 @@ import ExternalLink from '../common/ExternalLink';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import {createMotokoPlaygroundShareLink} from '../../integrations/motoko-playground/createMotokoPlaygroundShareLink';
 import {isMobile} from 'react-device-detect';
+import {onLeftClick} from '../../utils/eventHelpers';
 
 const OutputContainer = styled.div`
     display: flex;
@@ -96,14 +97,14 @@ export default function OutputPanel({editor}) {
             closed={closed}
             fullscreen={isMobile || fullscreen === outputPanelId}>
             <div className={classNames('d-flex align-items-center mb-2', !isMobile && 'justify-content-between')}>
-                <div className="clickable px-2 pb-2" onClick={() => setPanel(null)}>
+                <div className="clickable px-2 pb-2" {...onLeftClick(() => setPanel(null))}>
                     <FiX size={18}/>
                 </div>
                 <h3 className="mx-3 mb-0 noselect">Compiled Output</h3>
                 {!isMobile && (
                     <div
                         className="clickable px-2 pb-2"
-                        onClick={() => setFullscreen(fullscreen === outputPanelId ? false : outputPanelId)}>
+                        {...onLeftClick(() => setFullscreen(fullscreen === outputPanelId ? false : outputPanelId))}>
                         {fullscreen === outputPanelId
                             ? <FiMinimize2 size={18}/> // TODO: horizontally flip icons and swap positions with close button?
                             : <FiMaximize2 size={18}/>
@@ -143,8 +144,8 @@ export default function OutputPanel({editor}) {
                 {/*<ExternalLink className="flex-grow-1" href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=_">*/}
                 <div
                     className="btn btn-outline-success d-flex justify-content-center"
-                    onMouseDown={handleOpenPlayground}
-                    data-tip="Run and deploy your smart contract on Motoko Playground.">
+                    data-tip="Run and deploy your smart contract on Motoko Playground."
+                    {...onLeftClick(handleOpenPlayground)}>
                     {playgroundPromise ? (
                         <FaSpinner className="mt-1 me-2"/>
                     ) : (

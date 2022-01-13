@@ -3,6 +3,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import {bindNodeInput} from '../../../../utils/bindNodeInput';
 import useControlValue from '../../../../hooks/useControlValue';
+import {onAnyRelease} from '../../../../utils/eventHelpers';
 
 const Container = styled.div`
     cursor: pointer;
@@ -29,7 +30,7 @@ export default function CommentNodeView({block, nodeHandle}) {
         <Container
             className="pt-2 ps-2 pe-4 rounded-3"
             selected={selected}
-            onMouseUp={() => textArea && setWidth(textArea.offsetWidth)}>
+            {...onAnyRelease(() => textArea && setWidth(textArea.offsetWidth))}>
             <StyledTextArea
                 style={{width: width || 300}}
                 rows={1}

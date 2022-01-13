@@ -31,12 +31,13 @@ import FloatingMenu from '../common/menus/FloatingMenu';
 import SettingsModal from './SettingsModal';
 import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
-import TutorialCard from './TutorialCard';
 import TutorialsModal from './TutorialsModal';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useEditorMenuState from '../../hooks/persistent/useEditorMenuState';
 import useTimeout from '../../hooks/utils/useTimeout';
 import SocialModal from './SocialModal';
+import {onLeftClick, onLeftPress} from '../../utils/eventHelpers';
+import {isMobile} from 'react-device-detect';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -153,6 +154,9 @@ export default function EditorMenu({editor}) {
         events.emit(EDITOR_CHANGE_EVENT, editor);
     };
 
+    // Fix load menu always opening the "import a .blocks file" dialog on mobile
+    const onClickMenuButton = isMobile ? onLeftClick : onLeftPress;
+
     const betaSymbol = 'β';
 
     return (
@@ -168,11 +172,11 @@ export default function EditorMenu({editor}) {
                         />
                     </a>
                 </MenuItem>
-                <div className="w-100 px-3">
+                <div className="w-100 px-3 py-2 py-sm-0">
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
-                        className="d-block d-sm-inline-block bg-light text-secondary mb-2 mb-sm-0"
+                        className="d-none d-sm-inline-block bg-light text-secondary mb-2 mb-sm-0"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, editor)}
@@ -180,7 +184,7 @@ export default function EditorMenu({editor}) {
                     {!autosave && (
                         <MenuButton
                             tooltip="Save Changes"
-                            onMouseDown={() => events.emit(EDITOR_SAVE_EVENT, editor)}>
+                            {...onClickMenuButton(() => events.emit(EDITOR_SAVE_EVENT, editor))}>
                             <StyledSaveIcon
                                 className={classNames(saveAnimating && 'animating')}
                                 onAnimationEnd={() => setSaveAnimating(false)}
@@ -189,53 +193,62 @@ export default function EditorMenu({editor}) {
                     )}
                     <MenuButton
                         tooltip="Export to File"
-                        onMouseDown={() => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON())}>
+                        {...onClickMenuButton(() => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON()))}>
                         <DownloadIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="New Project"
-                        onMouseDown={() => events.emit(PROJECT_CLEAR_EVENT)}>
+                        {...onClickMenuButton(() => events.emit(PROJECT_CLEAR_EVENT))}>
                         <FilePlusIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Load Project"
-                        onMouseDown={() => setOpenMenu('load')}>
+                        {...onClickMenuButton(() => setOpenMenu('load'))}>
                         {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     </MenuButton>
                     <MenuButton
                         tooltip="Tutorials"
-                        onMouseDown={() => setOpenMenu('tutorials')}>
+                        {...onClickMenuButton(() => setOpenMenu('tutorials'))}>
                         <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Options"
-                        onMouseDown={() => setOpenMenu('settings')}>
+                        {...onClickMenuButton(() => setOpenMenu('settings'))}>
                         <SettingsIcon/>
                     </MenuButton>
                     <MenuButton
                         tooltip="Social"
-                        onMouseDown={() => setOpenMenu('social')}>
+                        {...onClickMenuButton(() => setOpenMenu('social'))}>
                         <StyledSocialIcon/>
                     </MenuButton>
-                    <MenuItem
-                        className="float-md-end text-center px-4 opacity-50"
-                        tooltip="Blocks is currently in Open Beta testing."
-                        data-place="left">
-                        {betaSymbol}
-                    </MenuItem>
+                    <a
+                        className="float-sm-end text-center text-muted"
+                        href="https://github.com/Blocks-Editor/blocks"
+                        target="_blank"
+                        rel="noreferrer">
+                        {/*<MenuButton*/}
+                        {/*    className="px-2"*/}
+                        {/*    tooltip="Blocks is currently in Open Beta testing."*/}
+                        {/*    data-place="left">*/}
+                        {/*    <FaGithub/>*/}
+                        {/*</MenuButton>*/}
+                        <MenuItem
+                            className="px-4 opacity-50"
+                            tooltip="Blocks is currently in Open Beta testing."
+                            data-place="left">
+                            {betaSymbol}
+                        </MenuItem>
+                    </a>
                 </div>
             </TopMenu>
-            <FloatingMenu top left>
-                <TutorialCard/>
-            </FloatingMenu>
             <FloatingMenu bottom left>
                 <MenuButton
                     className="round d-flex align-items-center justify-content-center"
                     tooltip="Reset Viewport"
-                    onMouseDown={() => {
+                    {...onClickMenuButton(() => {
                         AreaPlugin.zoomAt(editor);
                         setZoomAnimating(true);
-                    }}>
+                    })}>
                     <StyledZoomIcon
                         className={classNames(zoomAnimating && 'animating')}
                         onAnimationEnd={() => setZoomAnimating(false)}
@@ -246,7 +259,7 @@ export default function EditorMenu({editor}) {
                 <MenuButton
                     className="compile-button text-uppercase h4 text-muted"
                     tooltip="Compile to Motoko"
-                    onMouseDown={() => setOutputPanel(!outputPanel)}>
+                    {...onClickMenuButton(() => setOutputPanel(!outputPanel))}>
                     <small>Compile</small>
                 </MenuButton>
             </FloatingMenu>
@@ -254,7 +267,7 @@ export default function EditorMenu({editor}) {
                 show={openMenu}
                 onShow={() => ReactTooltip.hide()}
                 onHide={() => setOpenMenu(null)}>
-                <Modal.Body>
+                <Modal.Body className="bg-light rounded-1">
                     {openMenu === 'load' && (
                         <LoadProjectModal/>
                     )}

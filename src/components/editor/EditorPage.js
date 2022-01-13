@@ -23,9 +23,9 @@ const DEFAULT_STATE = require('../../examples/files/DefaultProject.json');
 const embedded = isEmbeddedMode();
 const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStorage()`
 
-if(embedded) {
-    console.log('Blocks: using embedded mode.');
-}
+// if(embedded) {
+//     console.log('Blocks: using embedded mode.');
+// }
 
 const history = new UndoRedoHistory(50);
 
@@ -112,11 +112,10 @@ export default function EditorPage() {
 
     const onEditorSave = useCallback((state, editor) => {
         // console.log('Saving:', state);
-        const stateString = JSON.stringify(state);
-        storage[STORAGE_EDITOR_STATE] = stateString;
+        storage[STORAGE_EDITOR_STATE] = JSON.stringify(state);
         sendMessage({
             type: 'save',
-            state: stateString,
+            state: state,
         });
         // UNSAVED_CHANGES_STORE.set(false);
     }, []);
