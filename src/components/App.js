@@ -9,6 +9,7 @@ import TabLayout from './TabLayout';
 import GlobalTheme from './global/GlobalTheme';
 import GlobalObservables from './global/GlobalObservables';
 import {isSafari} from 'react-device-detect';
+import isEmbeddedMode from '../utils/isEmbeddedMode';
 
 export default function App() {
     const events = useContext(EventsContext);
@@ -23,7 +24,9 @@ export default function App() {
     useEffect(() => {
         // Check user agent on load
         const storageFlag = 'blocks.safariWarning';
-        if(isSafari && !sessionStorage[storageFlag]) {
+
+        // Temporarily disable Safari warning for embedded content
+        if(isSafari && !sessionStorage[storageFlag] && !isEmbeddedMode()) {
             toast('If you\'re experiencing performance issues, we recommend using Blocks in Google Chrome or Mozilla Firefox.', {
                 autoClose: false,
                 onClose() {
