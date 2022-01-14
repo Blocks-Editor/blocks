@@ -3,9 +3,9 @@ import Rete from 'rete';
 function sortConnections(io) {
     let key = io instanceof Rete.Input ? 'output' : 'input';
     io.connections.sort((a, b) => {
-        let pa = a[key].node.position;
-        let pb = b[key].node.position;
-        return (pa[0] - pb[0]) || (pa[1] - pb[1]);
+        let aPos = a[key].node.position;
+        let bPos = b[key].node.position;
+        return (aPos[0] - bPos[0]) || (aPos[1] - bPos[1]);
     });
 }
 
