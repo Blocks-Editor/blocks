@@ -13,7 +13,7 @@ const MenuContainer = styled.div`
     height: 100vh;
     bottom: 0;
     right: 0;
-    width: 100%;
+    width: 60%;
     transition: 0.4s;
     z-index: 1000;
     //padding-top: 95px;
@@ -26,13 +26,19 @@ const MenuContainer = styled.div`
     ${props => props.open && css`
         transform: translateX(0);
     `}
+    
+    ${props => props.fullscreen && css`
+        width: 100%;
+    `}
 `;
 
 export default function MobileMenu({children, className, ...others}) {
     const [isOpen, setOpen] = useObservableState(MOBILE_MENU_STORE);
 
+    const shouldBeFullscreen = window.innerWidth < 576;
+
     return (
-        <MenuContainer open={isOpen} className={classNames('p-5 text-light', className)}>
+        <MenuContainer open={isOpen} fullscreen={shouldBeFullscreen} className={classNames('p-5 text-light', className)}>
             <div className='w-100 d-flex flex-row align-items-center justify-content-end'>
                 <FiX size="24px" className="clickable" onClick={() => setOpen(false)} />
             </div>
