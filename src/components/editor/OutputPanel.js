@@ -20,7 +20,8 @@ const OutputContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: ${isMobile ? 0 : 54}px; // Magic temporary evil number
+    top: ${isMobile ? 0 : 61}px; // Magic temporary evil number
+    height: calc(100% - ${isMobile ? 0 : 61}px); // Magic temporary evil number; prevents scrollbar
     bottom: 0;
     right: 0;
     width: 40%;

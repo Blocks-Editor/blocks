@@ -9,6 +9,7 @@ const BlockShortcutContainer = styled.div`
     background: #0001;
     max-height: 20rem;
     overflow-y: auto;
+    border-radius: 0.25rem;
 `;
 
 const ShortcutContainer = styled.div`

@@ -12,7 +12,7 @@ export default function MenuItem({variant, tooltip, className, ...others}) {
 
     return (
         <ItemContainer
-            className={classNames('menu-item noselect h3 mx-3 px-3 pt-1 pb-2 mb-0 d-inline-block text-center', variant && `text-${variant}`, className)}
+            className={classNames('menu-item noselect px-3 py-2 mb-0 d-inline-block text-center', variant && `text-${variant}`, className)}
             data-tip={tooltip}
             data-delay-show={100}
             {...others}>

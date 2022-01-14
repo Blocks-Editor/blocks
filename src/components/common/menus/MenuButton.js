@@ -23,9 +23,9 @@ let StyledMenuItem = styled(MenuItem)`
     }
 `;
 
-export default function MenuButton({children, className, ...others}) {
+export default function MenuButton({noMargin, children, className, ...others}) {
     return (
-        <StyledMenuItem className={classNames('menu-button', className)} {...others}>
+        <StyledMenuItem className={classNames('menu-button', {'mx-3': !noMargin}, className)} {...others}>
             {children}
         </StyledMenuItem>
     );
