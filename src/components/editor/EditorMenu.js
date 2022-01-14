@@ -130,7 +130,6 @@ const StyledSocialIcon = styled(SocialIcon)`
 
 const LogoContainer = styled(MenuItem)`
     padding: 0.6rem 0 0.6rem 1rem !important;
-    
 `;
 
 const BetaMark = styled.a`
@@ -189,7 +188,10 @@ export default function EditorMenu({editor}) {
     const onClickMenuButton = isMobile ? onLeftClick : onLeftPress;
 
     // Close mobile menu when any option is selected
-    const onMobileMenuPress = (call) => onLeftPress(() => {MOBILE_MENU_STORE.set(false); call()})
+    const onClickMobileMenuButton = (call) => onClickMenuButton(() => {
+        MOBILE_MENU_STORE.set(false);
+        call();
+    });
 
     return (
         <>
@@ -209,7 +211,11 @@ export default function EditorMenu({editor}) {
                             draggable="false"
                         />
                     </a>
-                    <BetaMark href="https://github.com/Blocks-Editor/blocks" target="_blank" rel="noreferrer" className="small text-muted text-decoration-none">
+                    <BetaMark
+                        href="https://github.com/Blocks-Editor/blocks"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="small text-muted text-decoration-none">
                         BETA
                     </BetaMark>
                 </LogoContainer>
@@ -229,7 +235,7 @@ export default function EditorMenu({editor}) {
                             noMargin
                             {...onClickMenuButton(() => MOBILE_MENU_STORE.set(true))}
                         >
-                            <MenuIcon />
+                            <MenuIcon/>
                         </MenuButton>
                     </div>
                     <div className="w-100 d-none d-lg-flex flex-row justify-content-start align-items-center flex-grow-1">
@@ -278,36 +284,36 @@ export default function EditorMenu({editor}) {
             </TopMenu>
             <MobileMenu>
                 {!autosave && (
-                    <MobileMenuButton {...onClickMenuButton(saveAction)}>
+                    <MobileMenuButton {...onClickMobileMenuButton(saveAction)}>
                         <StyledSaveIcon
                             className={classNames(saveAnimating && 'animating')}
                             onAnimationEnd={() => setSaveAnimating(false)}
                         />
-                        <h4>Save Changes</h4>
+                        <span className="px-3 pt-1">Save Changes</span>
                     </MobileMenuButton>
                 )}
-                <MobileMenuButton {...onMobileMenuPress(exportAction)}>
+                <MobileMenuButton {...onClickMobileMenuButton(exportAction)}>
                     <DownloadIcon/>
                     <span className="px-3 pt-1">Export to File</span>
                 </MobileMenuButton>
-                <MobileMenuButton {...onMobileMenuPress(newAction)}>
+                <MobileMenuButton {...onClickMobileMenuButton(newAction)}>
                     <FilePlusIcon/>
                     <span className="px-3 pt-1">New Project</span>
                 </MobileMenuButton>
-                <MobileMenuButton {...onMobileMenuPress(loadAction)}>
+                <MobileMenuButton {...onClickMobileMenuButton(loadAction)}>
                     {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                     <span className="px-3 pt-1">Load Project</span>
                 </MobileMenuButton>
-                <hr />
-                <MobileMenuButton {...onMobileMenuPress(tutorialAction)}>
+                <hr/>
+                <MobileMenuButton {...onClickMobileMenuButton(tutorialAction)}>
                     <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
                     <span className="px-3 pt-1">Tutorials</span>
                 </MobileMenuButton>
-                <MobileMenuButton {...onMobileMenuPress(settingsAction)}>
+                <MobileMenuButton {...onClickMobileMenuButton(settingsAction)}>
                     <SettingsIcon/>
                     <span className="px-3 pt-1">Options</span>
                 </MobileMenuButton>
-                <MobileMenuButton {...onMobileMenuPress(socialAction)}>
+                <MobileMenuButton {...onClickMobileMenuButton(socialAction)}>
                     <StyledSocialIcon/>
                     <span className="px-3 pt-1">Social</span>
                 </MobileMenuButton>
