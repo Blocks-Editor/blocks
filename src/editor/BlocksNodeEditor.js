@@ -110,9 +110,11 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             return false;
         }
 
+        // TODO: call upgrade logic for previous editor versions
+
         // noinspection JSUnresolvedVariable
         json = {
-            id: json.version || this.version,
+            id: /*json.version || */this.version,
             nodes: {},
             ...json,
         };
