@@ -15,7 +15,6 @@ import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
 import {EDITOR_SELECTION_STORE} from '../../observables/editorSelectionStore';
 import capitalize from '../../utils/capitalize';
 import {TUTORIAL_CLICK_DRAG, TUTORIAL_LEFT_CLICK, TUTORIAL_RIGHT_CLICK} from '../utils/tutorialText';
-import {isMobile} from 'react-device-detect';
 
 // Custom ID for the tutorial blocks
 const functionNodeId = 'helloFunction';
@@ -53,10 +52,6 @@ export const helloWorldTutorial = {
             ${highlightContextMenuComponent('Function')}
         `,
         render(progress, {contextMenu}) {
-            if(isMobile) {
-                // TEMPORARY
-                return 'This tutorial is currently designed for desktop browsers. Mobile support coming soon!';
-            }
             if(!contextMenu) {
                 return `${capitalize(TUTORIAL_RIGHT_CLICK)} somewhere in the editor space.`;
             }
