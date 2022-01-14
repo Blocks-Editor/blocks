@@ -140,6 +140,12 @@ export default function SettingsModal() {
             <h4 className="mt-4 mb-3 fw-normal">Keyboard Shortcuts</h4>
             {/*<hr/>*/}
             <KeyBindingDetail/>
+            <div className="mt-3 w-100">
+                <a href="https://github.com/Blocks-Editor/blocks" target="_blank" rel="noreferrer" className="p-2 rounded small text-muted bg-info bg-opacity-10 w-100">
+                    Blocks is currently in open beta.
+                </a>
+            </div>
+
         </MenuModal>
     );
 }

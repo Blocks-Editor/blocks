@@ -24,6 +24,7 @@ import {
     SaveIcon,
     SettingsIcon,
     SocialIcon,
+    MenuIcon,
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
@@ -38,6 +39,9 @@ import useTimeout from '../../hooks/utils/useTimeout';
 import SocialModal from './SocialModal';
 import {onLeftClick, onLeftPress} from '../../utils/eventHelpers';
 import {isMobile} from 'react-device-detect';
+import {MOBILE_MENU_STORE} from '../../observables/mobileMenuStore';
+import MobileMenu from '../common/menus/MobileMenu';
+import MobileMenuButton from '../common/menus/MobileMenuButton';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -54,6 +58,8 @@ const ProjectNameInput = styled.input`
     padding: .25em .25em .1em;
     position: relative;
     background-clip: padding-box;
+    width: 100%;
+    max-width: 200px;
 
     &::before {
         content: '';
@@ -122,6 +128,16 @@ const StyledSocialIcon = styled(SocialIcon)`
     }
 `;
 
+const LogoContainer = styled(MenuItem)`
+    padding: 0.6rem 0 0.6rem 1rem !important;
+    
+`;
+
+const BetaMark = styled.a`
+    font-size: 0.7rem;
+    padding: 0.1rem 0 0 0.5rem;
+`;
+
 export default function EditorMenu({editor}) {
     const [name, setName] = useState('');
     const [saveAnimating, setSaveAnimating] = useState(false);
@@ -154,93 +170,148 @@ export default function EditorMenu({editor}) {
         events.emit(EDITOR_CHANGE_EVENT, editor);
     };
 
+    // Save button function
+    const saveAction = () => events.emit(EDITOR_SAVE_EVENT, editor);
+    // Export button function
+    const exportAction = () => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON());
+    // New project button function
+    const newAction = () => events.emit(PROJECT_CLEAR_EVENT);
+    // Load project button function
+    const loadAction = () => setOpenMenu('load');
+    // Tutorial button function
+    const tutorialAction = () => setOpenMenu('tutorials');
+    // Settings button function
+    const settingsAction = () => setOpenMenu('settings');
+    // Social button function
+    const socialAction = () => setOpenMenu('social');
+
     // Fix load menu always opening the "import a .blocks file" dialog on mobile
     const onClickMenuButton = isMobile ? onLeftClick : onLeftPress;
 
-    const betaSymbol = 'β';
+    // Close mobile menu when any option is selected
+    const onMobileMenuPress = (call) => onLeftPress(() => {MOBILE_MENU_STORE.set(false); call()})
 
     return (
         <>
             <TopMenu>
-                <MenuItem className="d-none d-sm-block">
+                <LogoContainer className="d-inline-flex flex-row">
                     <a href="https://blocks-editor.github.io/" target="_blank" rel="noreferrer">
                         <BlocksLogo
-                            className="pt-1"
+                            className="d-none d-sm-block"
                             src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`}
-                            alt="Blocks Logo"
+                            alt="Blocks logo"
+                            draggable="false"
+                        />
+                        <BlocksLogo
+                            className="d-block d-sm-none"
+                            src={`${process.env.PUBLIC_URL}/img/icon-gradient.png`}
+                            alt="Blocks icon"
                             draggable="false"
                         />
                     </a>
-                </MenuItem>
-                <div className="w-100 px-3 py-2 py-sm-0">
+                    <BetaMark href="https://github.com/Blocks-Editor/blocks" target="_blank" rel="noreferrer" className="small text-muted text-decoration-none">
+                        BETA
+                    </BetaMark>
+                </LogoContainer>
+                <div className="w-100 px-3 py-2 py-sm-0 d-flex flex-row">
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
-                        className="d-none d-sm-inline-block bg-light text-secondary mb-2 mb-sm-0"
+                        className="d-inline-block bg-light text-secondary mb-2 mb-sm-0"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, editor)}
                     />
-                    {!autosave && (
+                    <div className="d-flex d-lg-none flex-row justify-content-end align-items-center flex-grow-1">
                         <MenuButton
-                            tooltip="Save Changes"
-                            {...onClickMenuButton(() => events.emit(EDITOR_SAVE_EVENT, editor))}>
-                            <StyledSaveIcon
-                                className={classNames(saveAnimating && 'animating')}
-                                onAnimationEnd={() => setSaveAnimating(false)}
-                            />
+                            className="px-0"
+                            tooltip="Open menu"
+                            noMargin
+                            {...onClickMenuButton(() => MOBILE_MENU_STORE.set(true))}
+                        >
+                            <MenuIcon />
                         </MenuButton>
-                    )}
-                    <MenuButton
-                        tooltip="Export to File"
-                        {...onClickMenuButton(() => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON()))}>
-                        <DownloadIcon/>
-                    </MenuButton>
-                    <MenuButton
-                        tooltip="New Project"
-                        {...onClickMenuButton(() => events.emit(PROJECT_CLEAR_EVENT))}>
-                        <FilePlusIcon/>
-                    </MenuButton>
-                    <MenuButton
-                        tooltip="Load Project"
-                        {...onClickMenuButton(() => setOpenMenu('load'))}>
-                        {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
-                    </MenuButton>
-                    <MenuButton
-                        tooltip="Tutorials"
-                        {...onClickMenuButton(() => setOpenMenu('tutorials'))}>
-                        <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
-                    </MenuButton>
-                    <MenuButton
-                        tooltip="Options"
-                        {...onClickMenuButton(() => setOpenMenu('settings'))}>
-                        <SettingsIcon/>
-                    </MenuButton>
-                    <MenuButton
-                        tooltip="Social"
-                        {...onClickMenuButton(() => setOpenMenu('social'))}>
-                        <StyledSocialIcon/>
-                    </MenuButton>
-                    <a
-                        className="float-sm-end text-center text-muted"
-                        href="https://github.com/Blocks-Editor/blocks"
-                        target="_blank"
-                        rel="noreferrer">
-                        {/*<MenuButton*/}
-                        {/*    className="px-2"*/}
-                        {/*    tooltip="Blocks is currently in Open Beta testing."*/}
-                        {/*    data-place="left">*/}
-                        {/*    <FaGithub/>*/}
-                        {/*</MenuButton>*/}
-                        <MenuItem
-                            className="px-4 opacity-50"
-                            tooltip="Blocks is currently in Open Beta testing."
-                            data-place="left">
-                            {betaSymbol}
-                        </MenuItem>
-                    </a>
+                    </div>
+                    <div className="w-100 d-none d-lg-flex flex-row justify-content-start align-items-center flex-grow-1">
+                        {!autosave && (
+                            <MenuButton
+                                tooltip="Save Changes"
+                                {...onClickMenuButton(saveAction)}>
+                                <StyledSaveIcon
+                                    className={classNames(saveAnimating && 'animating')}
+                                    onAnimationEnd={() => setSaveAnimating(false)}
+                                />
+                            </MenuButton>
+                        )}
+                        <MenuButton
+                            tooltip="Export to File"
+                            {...onClickMenuButton(exportAction)}>
+                            <DownloadIcon/>
+                        </MenuButton>
+                        <MenuButton
+                            tooltip="New Project"
+                            {...onClickMenuButton(newAction)}>
+                            <FilePlusIcon/>
+                        </MenuButton>
+                        <MenuButton
+                            tooltip="Load Project"
+                            {...onClickMenuButton(loadAction)}>
+                            {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
+                        </MenuButton>
+                        <MenuButton
+                            tooltip="Tutorials"
+                            {...onClickMenuButton(tutorialAction)}>
+                            <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
+                        </MenuButton>
+                        <MenuButton
+                            tooltip="Options"
+                            {...onClickMenuButton(settingsAction)}>
+                            <SettingsIcon/>
+                        </MenuButton>
+                        <MenuButton
+                            tooltip="Social"
+                            {...onClickMenuButton(socialAction)}>
+                            <StyledSocialIcon/>
+                        </MenuButton>
+                    </div>
                 </div>
             </TopMenu>
+            <MobileMenu>
+                {!autosave && (
+                    <MobileMenuButton {...onClickMenuButton(saveAction)}>
+                        <StyledSaveIcon
+                            className={classNames(saveAnimating && 'animating')}
+                            onAnimationEnd={() => setSaveAnimating(false)}
+                        />
+                        <h4>Save Changes</h4>
+                    </MobileMenuButton>
+                )}
+                <MobileMenuButton {...onMobileMenuPress(exportAction)}>
+                    <DownloadIcon/>
+                    <span className="px-3 pt-1">Export to File</span>
+                </MobileMenuButton>
+                <MobileMenuButton {...onMobileMenuPress(newAction)}>
+                    <FilePlusIcon/>
+                    <span className="px-3 pt-1">New Project</span>
+                </MobileMenuButton>
+                <MobileMenuButton {...onMobileMenuPress(loadAction)}>
+                    {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
+                    <span className="px-3 pt-1">Load Project</span>
+                </MobileMenuButton>
+                <hr />
+                <MobileMenuButton {...onMobileMenuPress(tutorialAction)}>
+                    <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
+                    <span className="px-3 pt-1">Tutorials</span>
+                </MobileMenuButton>
+                <MobileMenuButton {...onMobileMenuPress(settingsAction)}>
+                    <SettingsIcon/>
+                    <span className="px-3 pt-1">Options</span>
+                </MobileMenuButton>
+                <MobileMenuButton {...onMobileMenuPress(socialAction)}>
+                    <StyledSocialIcon/>
+                    <span className="px-3 pt-1">Social</span>
+                </MobileMenuButton>
+            </MobileMenu>
             <FloatingMenu bottom left>
                 <MenuButton
                     className="round d-flex align-items-center justify-content-center"

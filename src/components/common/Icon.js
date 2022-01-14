@@ -9,6 +9,7 @@ import {ReactComponent as Crosshair} from '../../assets/icons/crosshair.svg';
 import {ReactComponent as Learning} from '../../assets/icons/learning.svg';
 import {ReactComponent as Settings} from '../../assets/icons/settings.svg';
 import {ReactComponent as Share} from '../../assets/icons/share.svg';
+import {ReactComponent as Menu} from '../../assets/icons/menu.svg';
 
 
 const defaultIconSize = 24;
@@ -35,3 +36,4 @@ export const CrosshairIcon = createIcon(Crosshair);
 export const LearningIcon = createIcon(Learning);
 export const SettingsIcon = createIcon(Settings);
 export const SocialIcon = createIcon(Share);
+export const MenuIcon = createIcon(Menu);
