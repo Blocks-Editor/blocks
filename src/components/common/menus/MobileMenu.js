@@ -39,7 +39,7 @@ export default function MobileMenu({children, className, ...others}) {
 
     return (
         <MenuContainer open={isOpen} fullscreen={shouldBeFullscreen} className={classNames('p-5 text-light', className)}>
-            <div className='w-100 d-flex flex-row align-items-center justify-content-end'>
+            <div className='w-100 py-3 d-flex flex-row align-items-center justify-content-end'>
                 <FiX size="24px" className="clickable" onClick={() => setOpen(false)} />
             </div>
             {children}
