@@ -170,6 +170,7 @@ function install(editor, config = {}) {
     });
     editor.view.container.addEventListener('touchend', event => {
         event.preventDefault();
+        event.stopPropagation();
         // console.log('END')////
         clearTimeout(longPressTimeout);
         clearTimeout(clickTimeout);
