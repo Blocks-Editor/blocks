@@ -6,6 +6,7 @@ import SelectionMenu from './components/menus/SelectionMenu';
 import PlacementMenu from './components/menus/PlacementMenu';
 import Rete from 'rete';
 import {CONTEXT_MENU_STORE} from '../../observables/contextMenuStore';
+import vibrate from '../../utils/vibrate';
 
 // Adapted from https://github.com/michael-braun/rete-react-contextmenu-plugin
 
@@ -159,7 +160,7 @@ function install(editor, config = {}) {
             // console.log('TIMEOUT')////
             const moveThreshold = 25;
             if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
-                window.navigator.vibrate?.(50);
+                vibrate(50);
                 editor.trigger('contextmenu', {e: event});
             }
         }, 500);

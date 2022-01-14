@@ -42,6 +42,7 @@ import {isMobile} from 'react-device-detect';
 import {MOBILE_MENU_STORE} from '../../observables/mobileMenuStore';
 import MobileMenu from '../common/menus/MobileMenu';
 import MobileMenuButton from '../common/menus/MobileMenuButton';
+import vibrate from '../../utils/vibrate';
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -325,7 +326,7 @@ export default function EditorMenu({editor}) {
                     {...onClickMenuButton(() => {
                         AreaPlugin.zoomAt(editor);
                         setZoomAnimating(true);
-                        window.navigator.vibrate?.(50);
+                        vibrate(50);
                     })}>
                     <StyledZoomIcon
                         className={classNames(zoomAnimating && 'animating')}
