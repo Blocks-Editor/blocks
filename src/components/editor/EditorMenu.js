@@ -231,7 +231,7 @@ export default function EditorMenu({editor}) {
                     <div className="d-flex d-lg-none flex-row justify-content-end align-items-center flex-grow-1">
                         <MenuButton
                             className="px-0"
-                            tooltip="Open menu"
+                            tooltip="Menu"
                             noMargin
                             {...onClickMenuButton(() => MOBILE_MENU_STORE.set(true))}
                         >
