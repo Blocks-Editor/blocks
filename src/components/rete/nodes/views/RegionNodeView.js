@@ -10,7 +10,8 @@ const Container = styled.div`
 `;
 
 const ResizeArea = styled.div`
-    pointer-events: none;
+    user-select: none;
+    cursor: default;
     background: #fff1;
     resize: both;
     overflow: hidden;

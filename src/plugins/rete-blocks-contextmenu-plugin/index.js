@@ -26,7 +26,7 @@ function install(editor, config = {}) {
 
     editor.on(['hidecontextmenu', 'contextmenu', 'click'], hideContextMenu);
 
-    editor.on('contextmenu', ({e, node, context}) => {
+    editor.on('contextmenu', ({e, node, context, touch}) => {
         e.preventDefault?.();
         // if(e.button === 2) {
         //     return;///
@@ -65,6 +65,7 @@ function install(editor, config = {}) {
             <ContextMenu
                 x={x + offsetX}
                 y={node ? y - 50 : y + offsetY} // TODO: magic number
+                touch={touch}
                 handleCloseMenu={() => editor.trigger('hidecontextmenu')}>
                 <MenuContext.Provider value={menuContext}>
                     {node ? (
@@ -91,11 +92,6 @@ function install(editor, config = {}) {
     let removingConnection = false;
 
     editor.view.container.addEventListener('pointermove', e => mouseEvent = e);
-
-    // // Open context menu on left click
-    // editor.on('click', e => {
-    //     editor.trigger('contextmenu', {e});
-    // });
 
     editor.on('mousemove', m => {
         mouse = m;
@@ -210,14 +206,18 @@ function install(editor, config = {}) {
 
     // TODO: hide context menu and start dragging on `touchstart`
 
-    // Touch context menu logic
-    let touchStarted = false;
-    let touchNode = null;
-    editor.view.container.addEventListener('touchstart', e => touchStarted = true);
+    let touchReady = false; // `true` during a touch event
+    let touchNode = null; // selected context menu node
+    editor.view.container.addEventListener('touchstart', e => {
+        hideContextMenu();
+        touchReady = true;
+    });
+    editor.view.container.addEventListener('touchmove', e => touchReady = false);
     editor.view.container.addEventListener('touchend', e => {
+        // setTimeout to allow 'click' listener to access `touchReady`
         setTimeout(() => {
-            if(touchStarted) {
-                touchStarted = false;
+            if(touchReady) {
+                touchReady = false;
                 if(touchNode) {
                     editor.trigger('contextmenu', {e, node: touchNode});
                     touchNode = null;
@@ -226,17 +226,22 @@ function install(editor, config = {}) {
         });
     });
 
-    // Use selected node for touch context menu
-    editor.on('selectnode', ({node}) => {
-        touchNode = node;
-    });
-
     // Open touch placement menu when clicking empty space
     editor.on('click', ({e}) => {
-        if(touchStarted) {
+        if(touchReady) {
             editor.trigger('contextmenu', {e});
         }
     });
+
+    // Use selected node for touch context menu
+    editor.on('selectnode', ({node}) => touchNode = node);
+
+    // // Prevent node translation if newly selected
+    // editor.on('nodetranslate', ({node}) => {
+    //     if(nonTranslateNode === node) {
+    //         return false;
+    //     }
+    // });
 }
 
 const ContextMenuPlugin = {

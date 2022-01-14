@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import {isMobile} from 'react-device-detect';
 import {onLeftClick} from '../../../utils/eventHelpers';
 
-export default function ContextMenu({x, y, children, style: styleProp, handleCloseMenu, ...others}) {
+export default function ContextMenu({x, y, touch, style: styleProp, handleCloseMenu, children, ...others}) {
 
     const style = useMemo(() => ({
         zIndex: 500,
@@ -10,6 +10,7 @@ export default function ContextMenu({x, y, children, style: styleProp, handleClo
         left: isMobile ? 150 : x,
         top: isMobile ? 150 : y,
         boxShadow: isMobile && '0 2px 10px #000E',
+        pointerEvents: 'all',
         ...styleProp,
     }), [x, y, styleProp]);
 
@@ -40,7 +41,7 @@ export default function ContextMenu({x, y, children, style: styleProp, handleClo
     return (
         <div
             className="context-menu-screen"
-            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, pointerEvents: 'all'}}
+            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, pointerEvents: touch ? 'none' : 'all'}}
             ref={bindScreen}
             onKeyDown={e => e.keyCode === 27 /* escape */ && handleCloseMenu()}
             {...onLeftClick(handleCloseMenu)}
