@@ -12,9 +12,15 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
     constructor(...args) {
         super(...args);
 
-        this.projectName = '';
-        this.projectDescription = '';
+        //// TODO: phase out
         this.version = this.id; // Preferred over Rete.js `id` property
+        ////
+
+        this.details = {
+            name: '',
+            description: '',
+            readme: '',
+        };
         this.compilers = {
             control: new ControlCompiler(this),
             node: new NodeCompiler(this),
@@ -42,6 +48,25 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         });
     }
 
+    get projectName() {
+        console.warn('Deprecated');
+        return this.details.name;
+    }
+
+    set projectName(name) {
+        console.warn('Deprecated');
+        this.details.name = name;
+    }
+
+    // Rete.js `id` property alias
+    get version() {
+        return this.id;
+    }
+
+    set version(version) {
+        this.id = version;
+    }
+
     off(event, listener) {
         const events = this.events[event];
         if(!events) {
@@ -67,9 +92,10 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         }
 
         let json = {
-            name: this.projectName,
-            description: this.projectDescription,
-            version: this.id,
+            version: this.version,
+            name: this.details.name,
+            description: this.details.description,
+            readme: this.details.readme,
             language,
             output: output || null,
             ...super.toJSON(),
@@ -95,9 +121,10 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             return false;
         }
 
-        // TODO: refactor serialization
-        this.projectName = json.name || '';
-        this.projectDescription = json.description || '';
+        // TODO: refactor details
+        this.details.name = json.name || '';
+        this.details.description = json.description || '';
+        this.details.readme = json.readme || '';
 
         let hadError = false;
         try {

@@ -142,15 +142,15 @@ export default function EditorMenu({editor}) {
         setOpenMenu(false);
     });
 
-    /// Temp, until projectName refactor
+    /// Temp, until project.details refactor
     useTimeout(() => {
-        setName(editor.projectName);
+        setName(editor.details.name);
     });
 
     // TODO refactor
     const updateName = (name) => {
         setName(name);
-        editor.projectName = name;
+        editor.details.name = name;
         events.emit(EDITOR_CHANGE_EVENT, editor);
     };
 
