@@ -206,18 +206,23 @@ function install(editor, config = {}) {
 
     // TODO: hide context menu and start dragging on `touchstart`
 
-    let touchReady = false; // `true` during a touch event
-    let touchNode = null; // selected context menu node
+    let touchStart; // `true` during a touch event
+    let touchNode; // selected context menu node
+    let touchTimeout;
     editor.view.container.addEventListener('touchstart', e => {
         hideContextMenu();
-        touchReady = true;
+        touchStart = true;
+        clearTimeout(touchTimeout);
+        touchTimeout = setTimeout(() => {
+            touchStart = false;
+        }, 200);
     });
-    editor.view.container.addEventListener('touchmove', e => touchReady = false);
+    // editor.view.container.addEventListener('touchmove', e => touchReady = false);
     editor.view.container.addEventListener('touchend', e => {
         // setTimeout to allow 'click' listener to access `touchReady`
         setTimeout(() => {
-            if(touchReady) {
-                touchReady = false;
+            if(touchStart) {
+                touchStart = false;
                 if(touchNode) {
                     editor.trigger('contextmenu', {e, node: touchNode});
                     touchNode = null;
@@ -228,7 +233,7 @@ function install(editor, config = {}) {
 
     // Open touch placement menu when clicking empty space
     editor.on('click', ({e}) => {
-        if(touchReady) {
+        if(touchStart) {
             editor.trigger('contextmenu', {e});
         }
     });
