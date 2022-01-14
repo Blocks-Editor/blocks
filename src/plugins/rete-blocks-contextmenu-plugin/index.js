@@ -138,37 +138,41 @@ function install(editor, config = {}) {
         });
     });
 
-    // const getPosition = event => {
-    //     const touch = event.touches[0];
-    //     return {
-    //         x: touch.pageX,
-    //         y: touch.pageY,
-    //     };
-    // };
-    //
-    // // Mobile long press
-    // let start;
-    // let move;
-    // let longPressTimeout;
-    // let clickTimeout;
-    // editor.view.container.addEventListener('touchstart', event => {
-    //     start = getPosition(event);
-    //     move = undefined;
-    //     longPressTimeout = setTimeout(() => {
-    //         const moveThreshold = 25;
-    //         if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
-    //             editor.trigger('contextmenu', {e: event});
-    //         }
-    //     }, 500);
-    // });
-    // editor.view.container.addEventListener('touchmove', event => {
-    //     move = getPosition(event);
-    // });
-    // editor.view.container.addEventListener('touchend', event => {
-    //     clearTimeout(longPressTimeout);
-    //     clearTimeout(clickTimeout);
-    //     clickTimeout = setTimeout(() => clickTimeout = null, 300);
-    // });
+    const getPosition = event => {
+        const touch = event.touches[0];
+        return {
+            x: touch.pageX,
+            y: touch.pageY,
+        };
+    };
+
+    // Mobile long press
+    let start;
+    let move;
+    let longPressTimeout;
+    let clickTimeout;
+    editor.view.container.addEventListener('touchstart', event => {
+        // console.log('START')////
+        start = getPosition(event);
+        move = undefined;
+        longPressTimeout = setTimeout(() => {
+            // console.log('TIMEOUT')////
+            const moveThreshold = 25;
+            if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
+                editor.trigger('contextmenu', {e: event});
+            }
+        }, 500);
+    });
+    editor.view.container.addEventListener('touchmove', event => {
+        // console.log('MOVE')////
+        move = getPosition(event);
+    });
+    editor.view.container.addEventListener('touchend', event => {
+        // console.log('END')////
+        clearTimeout(longPressTimeout);
+        clearTimeout(clickTimeout);
+        clickTimeout = setTimeout(() => clickTimeout = null, 300);
+    });
 }
 
 const ContextMenuPlugin = {
