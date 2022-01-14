@@ -325,6 +325,7 @@ export default function EditorMenu({editor}) {
                     {...onClickMenuButton(() => {
                         AreaPlugin.zoomAt(editor);
                         setZoomAnimating(true);
+                        window.navigator.vibrate?.(50);
                     })}>
                     <StyledZoomIcon
                         className={classNames(zoomAnimating && 'animating')}

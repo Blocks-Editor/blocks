@@ -151,16 +151,14 @@ function install(editor, config = {}) {
     let move;
     let longPressTimeout;
     let clickTimeout;
+    let longPress = false;
     editor.view.container.addEventListener('touchstart', event => {
         // console.log('START')////
         start = getPosition(event);
         move = undefined;
         longPressTimeout = setTimeout(() => {
             // console.log('TIMEOUT')////
-            const moveThreshold = 25;
-            if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
-                editor.trigger('contextmenu', {e: event});
-            }
+            longPress = true;
         }, 500);
     });
     editor.view.container.addEventListener('touchmove', event => {
@@ -169,6 +167,14 @@ function install(editor, config = {}) {
     });
     editor.view.container.addEventListener('touchend', event => {
         // console.log('END')////
+        if(longPress) {
+            const moveThreshold = 25;
+            if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
+                window.navigator.vibrate?.(50);
+                editor.trigger('contextmenu', {e: event});
+            }
+        }
+        longPress = false;
         clearTimeout(longPressTimeout);
         clearTimeout(clickTimeout);
         clickTimeout = setTimeout(() => clickTimeout = null, 300);
