@@ -169,6 +169,7 @@ function install(editor, config = {}) {
         move = getPosition(event);
     });
     editor.view.container.addEventListener('touchend', event => {
+        event.preventDefault();
         // console.log('END')////
         clearTimeout(longPressTimeout);
         clearTimeout(clickTimeout);
