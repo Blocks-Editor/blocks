@@ -130,7 +130,7 @@ export default function OutputPanel({editor}) {
                         className="btn btn-outline-secondary d-flex justify-content-center"
                         data-tip="Learn more about the Motoko programming language.">
                         <FaLink className="mt-1 me-2"/>
-                        Documentation
+                        {isMobile ? 'Docs' : 'Documentation'}
                     </div>
                 </ExternalLink>
                 <CopyToClipboard text={output} onCopy={() => setCopied(true)}>

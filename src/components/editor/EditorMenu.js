@@ -216,8 +216,8 @@ export default function EditorMenu({editor}) {
                         href="https://github.com/Blocks-Editor/blocks"
                         target="_blank"
                         rel="noreferrer"
-                        className="small text-muted text-decoration-none">
-                        BETA
+                        className="small text-muted text-decoration-none text-uppercase">
+                        Beta
                     </BetaMark>
                 </LogoContainer>
                 <div className="w-100 px-3 py-2 py-sm-0 d-flex flex-row">

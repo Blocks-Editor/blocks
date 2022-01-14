@@ -6,7 +6,6 @@ import SelectionMenu from './components/menus/SelectionMenu';
 import PlacementMenu from './components/menus/PlacementMenu';
 import Rete from 'rete';
 import {CONTEXT_MENU_STORE} from '../../observables/contextMenuStore';
-import vibrate from '../../utils/vibrate';
 
 // Adapted from https://github.com/michael-braun/rete-react-contextmenu-plugin
 
@@ -139,43 +138,102 @@ function install(editor, config = {}) {
         });
     });
 
-    const getPosition = event => {
-        const touch = event.touches[0];
-        return {
-            x: touch.pageX,
-            y: touch.pageY,
-        };
-    };
+    // // Mobile long press
+    // const getPosition = event => {
+    //     const touch = event.touches[0];
+    //     return {
+    //         x: touch.pageX,
+    //         y: touch.pageY,
+    //     };
+    // };
+    // let start;
+    // let move;
+    // let longPressTimeout;
+    // let clickTimeout;
+    // editor.view.container.addEventListener('touchstart', event => {
+    //     // console.log('START')////
+    //     start = getPosition(event);
+    //     move = undefined;
+    //     longPressTimeout = setTimeout(() => {
+    //         // console.log('TIMEOUT')////
+    //         const moveThreshold = 25;
+    //         if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
+    //             vibrate(50);
+    //             editor.trigger('contextmenu', {e: event});
+    //         }
+    //     }, 500);
+    // });
+    // editor.view.container.addEventListener('touchmove', event => {
+    //     // console.log('MOVE')////
+    //     move = getPosition(event);
+    // });
+    // editor.view.container.addEventListener('touchend', event => {
+    //     event.preventDefault();
+    //     event.stopPropagation();
+    //     // console.log('END')////
+    //     clearTimeout(longPressTimeout);
+    //     clearTimeout(clickTimeout);
+    //     clickTimeout = setTimeout(() => clickTimeout = null, 300);
+    // });
 
     // Mobile long press
-    let start;
-    let move;
-    let longPressTimeout;
-    let clickTimeout;
-    editor.view.container.addEventListener('touchstart', event => {
-        // console.log('START')////
-        start = getPosition(event);
-        move = undefined;
-        longPressTimeout = setTimeout(() => {
-            // console.log('TIMEOUT')////
-            const moveThreshold = 25;
-            if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
-                vibrate(50);
-                editor.trigger('contextmenu', {e: event});
+    // let start;
+    // let move;
+    // let longPressTimeout;
+    // let clickTimeout;
+    // editor.view.container.addEventListener('touchstart', event => {
+    //     // console.log('START')////
+    //     start = getPosition(event);
+    //     move = undefined;
+    //     longPressTimeout = setTimeout(() => {
+    //         // console.log('TIMEOUT')////
+    //         const moveThreshold = 20;
+    //         if(!move || !(Math.abs(start.x - move.x) > moveThreshold || Math.abs(start.y - move.y) > moveThreshold)) {
+    //             vibrate(50);
+    //             editor.trigger('contextmenu', {e: event});
+    //         }
+    //     }, 500);
+    // });
+    // editor.view.container.addEventListener('touchmove', event => {
+    //     // console.log('MOVE')////
+    //     move = getPosition(event);
+    // });
+    // editor.view.container.addEventListener('touchend', event => {
+    //     event.preventDefault();
+    //     event.stopPropagation();
+    //     // console.log('END')////
+    //     clearTimeout(longPressTimeout);
+    //     clearTimeout(clickTimeout);
+    //     clickTimeout = setTimeout(() => clickTimeout = null, 300);
+    // });
+
+
+    // Touch context menu logic
+    let touchStarted = false;
+    let touchNode = null;
+    editor.view.container.addEventListener('touchstart', e => touchStarted = true);
+    editor.view.container.addEventListener('touchend', e => {
+        setTimeout(() => {
+            if(touchStarted) {
+                touchStarted = false;
+                if(touchNode) {
+                    editor.trigger('contextmenu', {e, node: touchNode});
+                    touchNode = null;
+                }
             }
-        }, 500);
+        });
     });
-    editor.view.container.addEventListener('touchmove', event => {
-        // console.log('MOVE')////
-        move = getPosition(event);
+
+    // Use selected node for touch context menu
+    editor.on('selectnode', ({node}) => {
+        touchNode = node;
     });
-    editor.view.container.addEventListener('touchend', event => {
-        event.preventDefault();
-        event.stopPropagation();
-        // console.log('END')////
-        clearTimeout(longPressTimeout);
-        clearTimeout(clickTimeout);
-        clickTimeout = setTimeout(() => clickTimeout = null, 300);
+
+    // Open touch placement menu when clicking empty space
+    editor.on('click', ({e}) => {
+        if(touchStarted) {
+            editor.trigger('contextmenu', {e});
+        }
     });
 }
 
