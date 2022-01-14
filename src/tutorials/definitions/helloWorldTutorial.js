@@ -14,7 +14,7 @@ import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
 import {EDITOR_SELECTION_STORE} from '../../observables/editorSelectionStore';
 import capitalize from '../../utils/capitalize';
-import {TUTORIAL_CLICK_DRAG, TUTORIAL_LEFT_CLICK, TUTORIAL_RIGHT_CLICK} from '../utils/tutorialText';
+import {TUTORIAL_CLICK_DRAG, TUTORIAL_LEFT_CLICK, TUTORIAL_CONTEXT_MENU_CLICK} from '../utils/tutorialText';
 
 // Custom ID for the tutorial blocks
 const functionNodeId = 'helloFunction';
@@ -53,7 +53,7 @@ export const helloWorldTutorial = {
         `,
         render(progress, {contextMenu}) {
             if(!contextMenu) {
-                return `${capitalize(TUTORIAL_RIGHT_CLICK)} somewhere in the editor space.`;
+                return `${capitalize(TUTORIAL_CONTEXT_MENU_CLICK)} somewhere in the editor space.`;
             }
             if(contextMenu.node) {
                 return 'Make sure to {right-click} on empty space.';
