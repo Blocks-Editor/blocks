@@ -208,6 +208,8 @@ function install(editor, config = {}) {
     // });
 
 
+    // TODO: hide context menu and start dragging on `touchstart`
+
     // Touch context menu logic
     let touchStarted = false;
     let touchNode = null;
