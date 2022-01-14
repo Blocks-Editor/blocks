@@ -20,7 +20,7 @@ const mainParameterBlockName = 'MainParameter';
 
 export default function compileGlobalMotoko(editor) {
 
-    const actorName = pascalCase(editor.projectName) || defaultActorName;
+    const actorName = pascalCase(editor.details.name) || defaultActorName;
 
     const memberNodes = editor.nodes
         .filter(node => {

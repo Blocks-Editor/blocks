@@ -2,7 +2,11 @@ import Rete from 'rete';
 
 function sortConnections(io) {
     let key = io instanceof Rete.Input ? 'output' : 'input';
-    io.connections.sort((a, b) => a[key].node.position[1] - b[key].node.position[1]);
+    io.connections.sort((a, b) => {
+        let pa = a[key].node.position;
+        let pb = b[key].node.position;
+        return (pa[0] - pb[0]) || (pa[1] - pb[1]);
+    });
 }
 
 function install(editor, config = {}) {
@@ -21,8 +25,8 @@ function install(editor, config = {}) {
     });
 }
 
-const VerticalSortPlugin = {
-    name: 'vertical-sort',
+const PositionSortPlugin = {
+    name: 'position-sort',
     install,
 };
-export default VerticalSortPlugin;
+export default PositionSortPlugin;
