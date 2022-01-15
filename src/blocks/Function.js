@@ -73,7 +73,7 @@ const block = memberBlock({
         type: principalType,
         advanced: true,
         toMotoko({name}, node, compiler) {
-            return `${name}__install.caller`;
+            return `${name}__msg.caller`;
         },
     }, {
         key: 'function',
@@ -108,7 +108,7 @@ const block = memberBlock({
         let returnString = compiler.getTypeString(returnType);
         return [
             modifiers,
-            shared ? `shared${formatParentheses(`${name}__install`)}` : '',
+            shared ? `shared${formatParentheses(`${name}__msg`)}` : '',
             query ? 'query' : '',
             `func ${name || ''}${formatParentheses(params.join(', '))}${returnString !== '()' ? ` : ${returnString}` : ''}`,
             formatStatementBlock(body || ''),
