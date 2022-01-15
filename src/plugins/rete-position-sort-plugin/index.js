@@ -5,7 +5,7 @@ function sortConnections(io) {
     io.connections.sort((a, b) => {
         let aPos = a[key].node.position;
         let bPos = b[key].node.position;
-        return (aPos[0] - bPos[0]) || (aPos[1] - bPos[1]);
+        return (aPos[1] - bPos[1]) || (aPos[0] - bPos[0]);
     });
 }
 
