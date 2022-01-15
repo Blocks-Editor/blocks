@@ -159,7 +159,7 @@ export const identifierType = createType('Identifier', {
     controlType: 'text',
     // defaultValue: '',
     validation: {
-        pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
+        pattern: /^[a-zA-Z_][a-zA-Z0-9_]*$/,
         custom: value => !MOTOKO_KEYWORDS.includes(value),
     },
     defaultInput(prop, node) {
