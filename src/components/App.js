@@ -11,6 +11,7 @@ import GlobalObservables from './global/GlobalObservables';
 import {isSafari} from 'react-device-detect';
 import isEmbeddedMode from '../utils/isEmbeddedMode';
 
+
 export default function App() {
     const events = useContext(EventsContext);
 

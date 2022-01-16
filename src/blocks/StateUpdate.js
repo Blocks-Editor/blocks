@@ -1,6 +1,6 @@
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {stateCategory} from '../block-categories/categories';
-import {nodeType} from '../block-types/types';
+import {nodeType, valueType} from '../block-types/types';
 import {stateWriteIcon} from './State';
 import {FOR_STORING_DATA} from '../editor/useCases';
 
@@ -12,7 +12,7 @@ const block = statementBlock({
     icon: stateWriteIcon,
     inputs: [{
         key: 'value',
-        type: 'Value',
+        type: valueType,
         // optional: true,
     }],
     // outputs: [{

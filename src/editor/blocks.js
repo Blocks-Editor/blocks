@@ -99,10 +99,16 @@ blockContext.keys().forEach(path => {
         // Type deserialization
         for(let prop of Object.values(block.props)) {
             if(!prop.type && (prop.input || prop.output) && prop.control) {
-                throw new Error(`Type not found for ${block.name} : ${prop.key}`);
+                throw new Error(`Type not found for ${block.name}.${prop.key}`);
             }
             if(prop.type) {
-                prop.type = getType(prop.type);
+                try {
+                    prop.type = getType(prop.type);
+                }
+                catch(err) {
+                    console.error(`Error while getting type for ${block.name}.${prop.key}`);
+                    throw err;
+                }
             }
         }
 

@@ -141,6 +141,7 @@ $grid-area: $grid-size * 10000;
     }
 
     &.selected {
+      z-index: 5 !important;
       background: #777E !important;
       border-color: #AAA !important;
     }

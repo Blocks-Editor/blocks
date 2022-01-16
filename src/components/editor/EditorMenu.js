@@ -170,19 +170,12 @@ export default function EditorMenu({editor}) {
         events.emit(EDITOR_CHANGE_EVENT, editor);
     };
 
-    // Save button function
     const saveAction = () => events.emit(EDITOR_SAVE_EVENT, editor);
-    // Export button function
     const exportAction = () => events.emit(PROJECT_EXPORT_EVENT, editor.toJSON());
-    // New project button function
     const newAction = () => events.emit(PROJECT_CLEAR_EVENT);
-    // Load project button function
     const loadAction = () => setOpenMenu('load');
-    // Tutorial button function
     const tutorialAction = () => setOpenMenu('tutorials');
-    // Settings button function
     const settingsAction = () => setOpenMenu('settings');
-    // Social button function
     const socialAction = () => setOpenMenu('social');
 
     // Fix load menu always opening the "import a .blocks file" dialog on mobile

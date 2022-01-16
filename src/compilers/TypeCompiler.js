@@ -17,6 +17,11 @@ export default class TypeCompiler extends Compiler {
         if(type === undefined) {
             return;
         }
+        if(typeof type === 'string' || typeof type === 'number' || typeof type === 'boolean') {
+            // TODO: ensure type inputs passed as objects rather than strings
+            // console.log('String type:', type, node, key);
+            return type;
+        }
         type = getType(type);
         if(type.isAbstract()) {
             console.warn(`[${node.name}.${key}]`, 'Abstract inferred type:', type.toTypeString());

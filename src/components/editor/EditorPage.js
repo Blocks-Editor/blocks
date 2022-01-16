@@ -15,6 +15,9 @@ import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {UndoRedoHistory} from '../../plugins/rete-blocks-history-plugin';
 import getEmbedConfig from '../../utils/getEmbedConfig';
 import {logTelemetry} from '../../telemetry';
+import parseMotoko from '../../parsers/parseMotoko';
+import generateBlocksFromParseResult from '../../parsers/generateBlocksFromParseResult';
+
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
@@ -22,10 +25,6 @@ const DEFAULT_STATE = require('../../examples/files/DefaultProject.json');
 
 const embedded = isEmbeddedMode();
 const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStorage()`
-
-// if(embedded) {
-//     console.log('Blocks: using embedded mode.');
-// }
 
 const history = new UndoRedoHistory(50);
 
@@ -37,6 +36,15 @@ export default function EditorPage() {
     const menuParam = getEmbedConfig('menu');
 
     const events = useContext(EventsContext);
+
+    // Temporary global Motoko parser
+    window.LOAD_MOTOKO = (input) => {
+        const result = parseMotoko(input);
+        console.log(result);
+        const state = generateBlocksFromParseResult(result);
+        events.emit(PROJECT_LOAD_EVENT, state);
+        return state;
+    };
 
     useListener(events, PROJECT_CLEAR_EVENT, () => {
         logTelemetry('project_clear');

@@ -177,8 +177,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
                                 const targetInput = otherNode.inputs.get(jsonConnection.input);
 
                                 if(!targetOutput || !targetInput) {
+                                    console.log(node.outputs, otherNode.inputs);/////
                                     hadError = true;
-                                    return this.trigger('error', `IO not found for node ${node.id}`);
+                                    return this.trigger('error', `IO not found for node '${node.id}' (${key} → ${jsonConnection.input})`);
                                 }
 
                                 this.connect(targetOutput, targetInput, data);

@@ -4,20 +4,20 @@ import {formatStatements} from '../editor/format/formatHelpers';
 
 const defaultType = effectType.of(unitType);
 
-export function statementBlock(block, compileFn) {
+export function statementBlock(block, compileFn, typeFn) {
     const beforeProp = {
         key: 'before',
         type: effectType,
-        inferType(/*{after}*/args, node, compiler) {
+        inferType(props, node, compiler) {
             // return after || defaultType;
 
             let block = compiler.getBlock(node);
-            return getSharedType(...block.inputs
+            return getSharedType(...(typeFn ? [effectType.of(typeFn(props, node, compiler))] : []), ...block.inputs
                 .filter(prop => effectType.isSubtype(prop.type))
                 .map(prop => compiler.getInput(node, prop.key))) || defaultType;
         },
-        toMotoko(props, ...args) {
-            let result = compileFn(props, ...args);
+        toMotoko(props, node, compiler) {
+            let result = compileFn(props, node, compiler);
             if(result === undefined) {
                 return;
             }

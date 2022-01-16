@@ -1,5 +1,5 @@
 import Compiler from './Compiler';
-import {identifierType, typeType} from '../block-types/types';
+import {getType, identifierType, typeType} from '../block-types/types';
 import nodeIdentifierRef from './utils/nodeIdentifierRef';
 import {formatString} from '../editor/format/formatHelpers';
 
@@ -55,6 +55,12 @@ export default class MotokoCompiler extends Compiler {
             // return result.map(r => this.postCompile(r, node, key)).filter(s => s).join(' ');
             return this.postCompile(formatString(result, node, key));
         }
+
+        // Type object
+        if(result.name && result.generics) {
+            return getType(result);
+        }
+
         console.warn('Unexpected Motoko expression:', result);
         return String(result);
     }

@@ -360,7 +360,7 @@ export const mapType = createType('Map', {
         return `HashMap.HashMap<${key}, ${value}>`; // TODO: import reference
     },
 });
-export const asyncType = createType('Future', {
+export const asyncType = createType('Async', {
     info: 'An asynchronous value or process',
     parent: valueType,
     generics: [valueType],
@@ -473,7 +473,12 @@ function createType(name, data) {
 // Get or create a generic version of the given type
 function getGenericType(parent, generics) {
     if(typeof parent === 'string') {
-        parent = getType(parent);
+        // parent = getType(parent);
+        const parentName = parent;
+        parent = TYPE_MAP.get(parentName);
+        if(!parent) {
+            throw new Error(`Unknown type with name: ${parentName}`);
+        }
     }
 
     // TODO: refactor special cases
@@ -516,23 +521,24 @@ function buildType(name, parent, generics, data = {}, meta = {}) {
 }
 
 // Get or create a type
-export function getType(name, generics) {
+export function getType(type, generics) {
     if(arguments.length > 1) {
-        return getGenericType(name, generics);
+        return getGenericType(type, generics);
     }
-    if(name instanceof Type) {
-        return name;
+    if(type instanceof Type) {
+        return type;
     }
-    if(typeof name === 'object') {
-        return getGenericType(name.name, (name.generics || []).map(t => getType(t)));
+    if(typeof type === 'object') {
+        return getGenericType(type.name, (type.generics || []).map(t => getType(t)));
     }
-    if(!name) {
-        throw new Error(`Invalid type: ${name}`);
+    if(!type) {
+        throw new Error(`Invalid type: ${type}`);
     }
-    if(!TYPE_MAP.has(name)) {
-        throw new Error(`Unknown type: ${name}`);
+    console.warn('Creating type from value:', type);
+    if(!TYPE_MAP.has(type)) {
+        throw new Error(`Unknown type: ${typeof type === 'object' ? `object with keys: ${Object.keys(type)}` : type}`);
     }
-    return TYPE_MAP.get(name);
+    return TYPE_MAP.get(type);
 }
 
 export function getSharedType(...types) {

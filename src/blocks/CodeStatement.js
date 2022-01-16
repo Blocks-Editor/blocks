@@ -1,8 +1,8 @@
 import {expressionArgsInput, expressionControl, parseCodeBlockInputs} from '../block-patterns/code-patterns';
 import {expressionCategory} from '../block-categories/categories';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
-import {formatCurlyBraces} from '../editor/format/formatHelpers';
 import {statementBlock} from '../block-patterns/statement-patterns';
+import {typeType, valueType} from '../block-types/types';
 
 const block = statementBlock({
     title: '{ Statement }',
@@ -15,11 +15,17 @@ const block = statementBlock({
     width: 14,
     inputs: [
         expressionArgsInput(),
+        {
+            key: 'type',
+            type: typeType.of(valueType),
+        },
     ],
     controls: [
         expressionControl(),
     ],
 }, ({inputs, expression}) => {
-    return `ignore do ${formatCurlyBraces(parseCodeBlockInputs(inputs, expression))};`;
+    return parseCodeBlockInputs(inputs, expression) || '';
+}, ({type}) => {
+    return type;
 });
 export default block;
