@@ -237,7 +237,7 @@ function install(editor, config = {}) {
                 const {x, y} = getPosition(e);
                 if(Math.abs(x - touchStart.x) + Math.abs(y - touchStart.y) < 20) {
                     touchStart = null;
-                    editor.trigger('contextmenu', {e, node: touchNode});
+                    editor.trigger('contextmenu', {e, node: touchNode, touch: true});
                     touchNode = null;
                 }
             }

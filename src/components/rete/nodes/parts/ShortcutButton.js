@@ -16,6 +16,7 @@ export default function ShortcutButton({editor, node, shortcut}) {
     const events = useContext(EventsContext);
 
     const handlePress = async event => {
+        // Only handle mouse down (no 'touchstart') due to React SyntheticEvent related bug
         if(event.button !== 0) {
             return;
         }

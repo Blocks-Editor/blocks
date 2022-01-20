@@ -19,6 +19,7 @@ export default function ContextMenu({x, y, touch, style: styleProp, handleCloseM
             return;
         }
         const listener = event => event.stopPropagation();
+        el.addEventListener('touchstart', listener);
         el.addEventListener('pointermove', listener);
         el.addEventListener('mousemove', listener);
         el.addEventListener('wheel', listener);
