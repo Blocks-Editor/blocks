@@ -26,6 +26,16 @@ $grid-color-far: #CCC1A;
       }
     }
 
+    .top-menu {
+      input {
+        background: none !important;
+        border: 1px solid transparent !important;
+        &:hover {
+          border: 1px solid #CCC8 !important;
+        }
+      }
+    }
+
     .output-panel {
       background-color: #FFF;
       color: rgb(33, 37, 41);
