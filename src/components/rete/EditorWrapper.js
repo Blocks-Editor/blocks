@@ -37,7 +37,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
         }
     });
 
-    const bindElement = (container) => {
+    const bindElement = (element) => {
         if(editor) {
             editor.silent = true;
             editor.clear();
@@ -45,9 +45,17 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
             editor.destroy();
             editor = null;
         }
-        if(!container) {
+        if(!element) {
             return;
         }
+
+        // Remove previous containers
+        while(element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+        const container = document.createElement('div');
+        container.style.height = '100%';
+        element.appendChild(container);
 
         editor = createEditor(container, {
             history,
