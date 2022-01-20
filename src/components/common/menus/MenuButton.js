@@ -27,20 +27,22 @@ let StyledMenuItem = styled(MenuItem)`
             fill: url("#svg-block-gradient");
         }
     }
+    
+    .very-small {
+        transform: translateY(3px); // Fine-tune label positions
+    }
 `;
 
 export default function MenuButton({noMargin, children, title, className, ...others}) {
-    const [buttonTitles, ] = useButtonTitleState();
+    const [buttonTitles] = useButtonTitleState();
     return (
         <StyledMenuItem className={classNames('menu-button', {'mx-3': !noMargin}, className)} {...others}>
             {children}
-            {buttonTitles && title ?
+            {!!(buttonTitles && title) && (
                 <span className="text-muted very-small">
                     {title}
                 </span>
-                :
-                <></>
-            }
+            )}
         </StyledMenuItem>
     );
 }
