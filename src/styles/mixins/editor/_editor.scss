@@ -134,6 +134,17 @@ $grid-area: $grid-size * 10000;
     }
   }
 
+  .top-menu {
+    input {
+      background: none !important;
+      border: 1px solid transparent !important;
+      color: #022030AA;
+      &:hover {
+        border: 1px solid #02203055 !important;
+      }
+    }
+  }
+
   .node {
     background: #111A;
     border-color: #111;

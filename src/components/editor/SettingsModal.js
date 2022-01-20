@@ -10,6 +10,7 @@ import MenuModal from '../common/MenuModal';
 import KeyBindingDetail from './KeyBindingDetail';
 import useTelemetryState from '../../hooks/persistent/useTelemetryState';
 import useButtonTitleState from '../../hooks/persistent/useButtonTitleState';
+import classNames from 'classnames';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -96,15 +97,16 @@ export default function SettingsModal() {
             },
         })),
     }, {
-       name: 'Show button titles',
-       description: 'Show the titles of each button in the top menu (desktop only).',
-       type: 'toggle',
-       props: {
+        name: 'Show button titles',
+        description: 'Show the titles of each button in the top menu.',
+        type: 'toggle',
+        hideMobile: true,
+        props: {
            value: buttonTitles,
            onChange() {
                setButtonTitles(!buttonTitles)
            }
-       }
+        }
     }, {
         name: 'Auto-save changes',
         description: 'Automatically sync changes while using the editor.',
@@ -145,7 +147,7 @@ export default function SettingsModal() {
         <MenuModal title="Settings">
             {settings.map((setting, i) => (
                 <div key={i}>
-                    <Setting {...setting}/>
+                    <Setting className={classNames('d-md-block', {'d-none': setting.hideMobile})} {...setting}/>
                     <hr/>
                 </div>
             ))}
