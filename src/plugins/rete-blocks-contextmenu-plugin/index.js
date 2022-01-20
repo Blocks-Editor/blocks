@@ -204,26 +204,39 @@ function install(editor, config = {}) {
     // });
 
 
+    const getPosition = event => {
+        const touch = event.changedTouches?.[0];
+        return touch ? {
+            x: touch.pageX,
+            y: touch.pageY,
+        } : {};
+    };
+
     // TODO: hide context menu and start dragging on `touchstart`
 
     let touchStart; // `true` during a touch event
     let touchNode; // selected context menu node
     let touchTimeout;
     editor.view.container.addEventListener('touchstart', e => {
-        hideContextMenu();
-        touchStart = true;
-        clearTimeout(touchTimeout);
-        touchTimeout = setTimeout(() => {
-            touchStart = false;
-        }, 200);
+        if(CONTEXT_MENU_STORE.get()) {
+            hideContextMenu();
+        }
+        else {
+            touchStart = getPosition(e);
+            clearTimeout(touchTimeout);
+            touchTimeout = setTimeout(() => {
+                touchStart = null;
+            }, 300);
+        }
     });
     // editor.view.container.addEventListener('touchmove', e => touchReady = false);
     editor.view.container.addEventListener('touchend', e => {
         // setTimeout to allow 'click' listener to access `touchReady`
         setTimeout(() => {
             if(touchStart) {
-                touchStart = false;
-                if(touchNode) {
+                const {x, y} = getPosition(e);
+                if(Math.abs(x - touchStart.x) + Math.abs(y - touchStart.y) < 20) {
+                    touchStart = null;
                     editor.trigger('contextmenu', {e, node: touchNode});
                     touchNode = null;
                 }
@@ -231,12 +244,12 @@ function install(editor, config = {}) {
         });
     });
 
-    // Open touch placement menu when clicking empty space
-    editor.on('click', ({e}) => {
-        if(touchStart) {
-            editor.trigger('contextmenu', {e});
-        }
-    });
+    // // Open touch placement menu when clicking empty space
+    // editor.on('click', ({e}) => {
+    //     if(touchStart) {
+    //         editor.trigger('contextmenu', {e});
+    //     }
+    // });
 
     // Use selected node for touch context menu
     editor.on('selectnode', ({node}) => touchNode = node);
