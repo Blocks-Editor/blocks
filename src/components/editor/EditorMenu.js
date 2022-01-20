@@ -55,7 +55,7 @@ const ProjectNameInput = styled.input`
     border-radius: .5em;
     font-weight: bold;
     vertical-align: top;
-    padding: .25em .5em .25em;
+    padding: .25em .5em .1em;
     position: relative;
     background-clip: padding-box;
     width: 100%;
