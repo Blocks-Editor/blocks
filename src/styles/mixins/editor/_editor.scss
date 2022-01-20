@@ -95,6 +95,9 @@ $grid-area: $grid-size * 10000;
 
   .node-editor .socket {
     position: relative;
+    width: 32px;
+    height: 32px;
+    transform: translateY(-4px);
 
     &::before {
       content: '';
