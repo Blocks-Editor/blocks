@@ -19,6 +19,7 @@ export default function ContextMenu({x, y, touch, style: styleProp, handleCloseM
             return;
         }
         const listener = event => event.stopPropagation();
+        el.addEventListener('mousedown', listener);
         el.addEventListener('touchstart', listener);
         el.addEventListener('pointermove', listener);
         el.addEventListener('mousemove', listener);
@@ -42,7 +43,14 @@ export default function ContextMenu({x, y, touch, style: styleProp, handleCloseM
     return (
         <div
             className="context-menu-screen"
-            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, pointerEvents: touch ? 'none' : 'all'}}
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                pointerEvents: 'none',/*touch ? 'none' : 'all'*/
+            }}
             ref={bindScreen}
             onKeyDown={e => e.keyCode === 27 /* escape */ && handleCloseMenu()}
             {...onLeftClick(handleCloseMenu)}

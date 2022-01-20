@@ -37,7 +37,7 @@ function install(editor, config = {}) {
             context = {};////
         }
 
-        if(!editor.trigger('showcontextmenu', {e, node, context})) {
+        if(!editor.trigger('showcontextmenu', {e, node, context, touch})) {
             return;
         }
 
@@ -203,6 +203,12 @@ function install(editor, config = {}) {
     //     clickTimeout = setTimeout(() => clickTimeout = null, 300);
     // });
 
+    // Hide context menu on mouse down
+    editor.view.container.addEventListener('mousedown', e => {
+        if(CONTEXT_MENU_STORE.get()) {
+            hideContextMenu();
+        }
+    });
 
     const getPosition = event => {
         const touch = event.changedTouches?.[0];
@@ -234,6 +240,7 @@ function install(editor, config = {}) {
         // setTimeout to allow 'click' listener to access `touchReady`
         setTimeout(() => {
             if(touchStart) {
+                console.log(1223);///
                 const {x, y} = getPosition(e);
                 if(Math.abs(x - touchStart.x) + Math.abs(y - touchStart.y) < 20) {
                     touchStart = null;
