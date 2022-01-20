@@ -9,6 +9,7 @@ import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import MenuModal from '../common/MenuModal';
 import KeyBindingDetail from './KeyBindingDetail';
 import useTelemetryState from '../../hooks/persistent/useTelemetryState';
+import useButtonTitleState from '../../hooks/persistent/useButtonTitleState';
 
 const settingInputs = {
     select({value, options, onChange}) {
@@ -66,6 +67,7 @@ export default function SettingsModal() {
     const [autosave, setAutosave] = useAutosaveState();
     const [learningMode, setLearningMode] = useLearningModeState();
     const [telemetry, setTelemetry] = useTelemetryState();
+    const [buttonTitles, setButtonTitles] = useButtonTitleState();
     // const [telemetryChanged, setTelemetryChanged] = useState(false);
 
     const themes = useThemes();
@@ -93,6 +95,16 @@ export default function SettingsModal() {
                 },
             },
         })),
+    }, {
+       name: 'Show button titles',
+       description: 'Show the titles of each button in the top menu (desktop only).',
+       type: 'toggle',
+       props: {
+           value: buttonTitles,
+           onChange() {
+               setButtonTitles(!buttonTitles)
+           }
+       }
     }, {
         name: 'Auto-save changes',
         description: 'Automatically sync changes while using the editor.',

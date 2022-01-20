@@ -51,16 +51,16 @@ const BlocksLogo = styled.img`
 `;
 
 const ProjectNameInput = styled.input`
-    border: 2px solid transparent !important;
-    border-bottom: solid 2px #0003 !important;
+    border: 1px solid transparent !important;
+    border-radius: .5em;
     font-weight: bold;
     vertical-align: top;
-    margin-top: .4em;
-    padding: .25em .25em .1em;
+    padding: .25em .25em .05em;
     position: relative;
     background-clip: padding-box;
     width: 100%;
     max-width: 200px;
+    transition: border-color 0.1s;
 
     &::before {
         content: '';
@@ -217,7 +217,7 @@ export default function EditorMenu({editor}) {
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
-                        className="d-inline-block bg-light text-secondary mb-2 mb-sm-0"
+                        className="d-inline-block bg-light text-secondary mt-2 mt-sm-1 mb-2 mb-sm-1"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, editor)}
@@ -236,6 +236,7 @@ export default function EditorMenu({editor}) {
                         {!autosave && (
                             <MenuButton
                                 tooltip="Save Changes"
+                                title="Save"
                                 {...onClickMenuButton(saveAction)}>
                                 <StyledSaveIcon
                                     className={classNames(saveAnimating && 'animating')}
@@ -245,31 +246,37 @@ export default function EditorMenu({editor}) {
                         )}
                         <MenuButton
                             tooltip="Export to File"
+                            title="Export"
                             {...onClickMenuButton(exportAction)}>
                             <DownloadIcon/>
                         </MenuButton>
                         <MenuButton
                             tooltip="New Project"
+                            title="New"
                             {...onClickMenuButton(newAction)}>
                             <FilePlusIcon/>
                         </MenuButton>
                         <MenuButton
                             tooltip="Load Project"
+                            title="Load"
                             {...onClickMenuButton(loadAction)}>
                             {openMenu === 'load' ? <FolderOpenIcon/> : <FolderWideIcon/>}
                         </MenuButton>
                         <MenuButton
                             tooltip="Tutorials"
+                            title="Tutorials"
                             {...onClickMenuButton(tutorialAction)}>
                             <StyledLearningIcon className={classNames(!!progress && 'enabled')}/>
                         </MenuButton>
                         <MenuButton
                             tooltip="Options"
+                            title="Options"
                             {...onClickMenuButton(settingsAction)}>
                             <SettingsIcon/>
                         </MenuButton>
                         <MenuButton
                             tooltip="Social"
+                            title="Social"
                             {...onClickMenuButton(socialAction)}>
                             <StyledSocialIcon/>
                         </MenuButton>

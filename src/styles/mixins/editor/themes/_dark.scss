@@ -28,7 +28,10 @@ Dark theme for Blocks.
 
       input {
         background: none !important;
-        border-bottom: solid 2px #CCCA !important;
+        border: 1px solid transparent !important;
+        &:hover {
+          border: 1px solid #CCC8 !important;
+        }
       }
     }
 

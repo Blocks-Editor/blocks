@@ -42,6 +42,11 @@ html, body {
   user-select: none;
 }
 
+.very-small {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
 ::selection {
   background: #AAA;
 }

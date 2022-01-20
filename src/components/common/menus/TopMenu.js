@@ -7,6 +7,7 @@ import {ReactComponent as Gradient} from '../../../assets/icons/gradient.svg';
 const MenuContainer = styled.div`
     background: #FFF;
     margin-bottom: 3px;
+    padding: 2px;
     position: relative;
     background-clip: padding-box;
     z-index: 10;
