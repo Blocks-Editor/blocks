@@ -50,3 +50,7 @@ html, body {
 ::selection {
   background: #AAA;
 }
+
+::placeholder {
+  color: $text-muted
+}

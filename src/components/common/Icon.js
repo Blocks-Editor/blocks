@@ -13,7 +13,7 @@ import {ReactComponent as Menu} from '../../assets/icons/menu.svg';
 
 
 const defaultIconSize = 24;
-const defaultFill = 'rgb(108, 117, 125)';
+const defaultFill = '#557080';
 
 const createIcon = (SvgComponent, widthRatio = 1) => ({fill, size, ...others}) => {
     return (

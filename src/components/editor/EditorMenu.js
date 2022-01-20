@@ -55,7 +55,7 @@ const ProjectNameInput = styled.input`
     border-radius: .5em;
     font-weight: bold;
     vertical-align: top;
-    padding: .25em .25em .05em;
+    padding: .25em .5em .25em;
     position: relative;
     background-clip: padding-box;
     width: 100%;
@@ -217,7 +217,7 @@ export default function EditorMenu({editor}) {
                     <ProjectNameInput
                         type="text"
                         placeholder="Unnamed Project"
-                        className="d-inline-block bg-light text-secondary mt-2 mt-sm-1 mb-2 mb-sm-1"
+                        className="d-inline-block bg-light mt-2 mt-sm-1 mb-2 mb-sm-1"
                         value={name || ''}
                         onChange={e => updateName(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && events.emit(EDITOR_SAVE_EVENT, editor)}
