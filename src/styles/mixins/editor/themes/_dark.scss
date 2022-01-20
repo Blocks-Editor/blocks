@@ -31,7 +31,7 @@ Dark theme for Blocks.
         border: 1px solid transparent !important;
         color: white;
         &:hover {
-          border: 1px solid #CCC8 !important;
+          border: 1px solid $text-muted !important;
         }
       }
     }
