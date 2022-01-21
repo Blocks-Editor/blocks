@@ -31,7 +31,7 @@ export default function compileGlobalMotoko(editor) {
             const type = /* reversed */ io.socket.findType?.();
             return type && memberType.isSubtype(type);
         })
-        .sort((a, b) => a.position[1] - b.position[1]);
+        .sort((a, b) => -(a.name.localeCompare(b.name)) || (a.position[0] - b.position[0]) || (a.position[1] - b.position[1]));
 
     const installerNodes = editor.nodes.filter(node => node.name === installerBlockName);
     const paramNodes = editor.nodes.filter(node => node.name === mainParameterBlockName);
