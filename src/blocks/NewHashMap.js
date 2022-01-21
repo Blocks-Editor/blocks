@@ -1,4 +1,15 @@
-import {mapType, principalType, textType, typeType, unionType, valueType} from '../block-types/types';
+import {
+    blobType,
+    floatType,
+    intType,
+    mapType,
+    natType,
+    principalType,
+    textType,
+    typeType,
+    unionType,
+    valueType,
+} from '../block-types/types';
 import {importRef} from '../compilers/MotokoCompiler';
 import {collectionCategory} from '../block-categories/categories';
 import {FOR_STORING_DATA} from '../editor/useCases';
@@ -6,7 +17,6 @@ import {FOR_STORING_DATA} from '../editor/useCases';
 export const hashMapImportRef = importRef('mo:base/HashMap');
 const getKeyImportRef = (type) => importRef(`mo:base/${type.name}`);
 
-// DEPRECATED: replaced by `NewHashMap`
 const block = {
     title: 'Create Map',
     info: 'Construct an empty HashMap',
@@ -20,7 +30,7 @@ const block = {
     },
     inputs: [{
         key: 'keyType',
-        type: unionType.of(textType, principalType),
+        type: unionType.of(textType, principalType, intType, natType, floatType, blobType),
     }, {
         key: 'valueType',
         type: typeType.of(valueType),

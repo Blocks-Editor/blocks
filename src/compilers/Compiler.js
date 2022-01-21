@@ -194,7 +194,7 @@ export default class Compiler {
     getTypeString(type) {
         type = getType(type);
         const generics = type.generics.map(t => this.getTypeString(t));
-        return type?.data[this.compileKey]?.(generics, this) || (generics.length ? `${type.name}<${generics.join(', ')}>` : type.name);
+        return type?.data[this.compileKey]?.call(type, generics, this) || (generics.length ? `${type.name}<${generics.join(', ')}>` : type.name);
     }
 
     inferType(node, key) {

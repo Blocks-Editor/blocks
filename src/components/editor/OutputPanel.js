@@ -20,8 +20,8 @@ const OutputContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: ${isMobile ? 0 : 61}px; // Magic temporary evil number
-    height: calc(100% - ${isMobile ? 0 : 61}px); // Magic temporary evil number; prevents scrollbar
+    top: ${isMobile ? 0 : 66}px; // Magic temporary evil number
+    height: calc(100% - ${isMobile ? 0 : 66}px); // Magic temporary evil number; prevents scrollbar
     bottom: 0;
     right: 0;
     width: 40%;
@@ -116,7 +116,7 @@ export default function OutputPanel({editor}) {
             <div className="flex-grow-1">
                 <CodeEditor value={output} readOnly/>
             </div>
-            <div className="bottom-bar d-flex flex-row align-items-center justify-content-between py-2">
+            <div className="bottom-bar d-flex flex-row align-items-center justify-content-around py-2">
                 {/*<CopyToClipboard text={output} onCopy={() => setCopied(true)}>*/}
                 {/*    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">*/}
                 {/*        <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>*/}
@@ -124,7 +124,7 @@ export default function OutputPanel({editor}) {
                 {/*    </ClipboardButton>*/}
                 {/*</CopyToClipboard>*/}
                 <ExternalLink
-                    className="flex-grow-1"
+                    // className="flex-grow-1"
                     href="https://smartcontracts.org/docs/language-guide/basic-concepts.html">
                     <div
                         className="btn btn-outline-secondary d-flex justify-content-center"

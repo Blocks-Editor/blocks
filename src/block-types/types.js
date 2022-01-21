@@ -402,56 +402,56 @@ export const noneType = createType('None', {
 });
 
 // // Fixed-size int values
-// export const int64Type = createType('Int64', {
-//     parent: intType,
-//     validation: getIntValidation(64),
-// });
-// export const int32Type = createType('Int32', {
-//     parent: int64Type,
-//     validation: getIntValidation(32),
-// });
-// export const int16Type = createType('Int16', {
-//     parent: int32Type,
-//     validation: getIntValidation(16),
-// });
-// export const int8Type = createType('Int8', {
-//     parent: int16Type,
-//     validation: getIntValidation(8),
-// });
-//
-// // Fixed-size nat values
-// export const nat64Type = createType('Nat64', {
-//     parent: natType,
-//     validation: getNatValidation(64),
-// });
-// export const nat32Type = createType('Nat32', {
-//     parent: nat64Type,
-//     validation: getNatValidation(32),
-// });
-// export const nat16Type = createType('Nat16', {
-//     parent: nat32Type,
-//     validation: getNatValidation(16),
-// });
-// export const nat8Type = createType('Nat8', {
-//     parent: nat16Type,
-//     validation: getNatValidation(8),
-// });
+export const int8Type = createType('Int8', {
+    parent: intType,
+    validation: getIntValidation(8),
+});
 
-// function getNatValidation(n) {
-//     return {
-//         ...natType.data.validation,
-//         max: 2 ** n - 1,
-//     };
-// }
-//
-// function getIntValidation(n) {
-//     let x = 2 ** (n - 1);
-//     return {
-//         ...intType.data.validation,
-//         min: -x,
-//         max: x - 1,
-//     };
-// }
+export const int16Type = createType('Int16', {
+    parent: intType,
+    validation: getIntValidation(16),
+});
+export const int32Type = createType('Int32', {
+    parent: intType,
+    validation: getIntValidation(32),
+});
+export const int64Type = createType('Int64', {
+    parent: intType,
+    validation: getIntValidation(64),
+});
+// Fixed-size nat values
+export const nat8Type = createType('Nat8', {
+    parent: natType,
+    validation: getNatValidation(8),
+});
+export const nat16Type = createType('Nat16', {
+    parent: natType,
+    validation: getNatValidation(16),
+});
+export const nat32Type = createType('Nat32', {
+    parent: natType,
+    validation: getNatValidation(32),
+});
+export const nat64Type = createType('Nat64', {
+    parent: natType,
+    validation: getNatValidation(64),
+});
+
+function getNatValidation(n) {
+    return {
+        ...natType.data.validation,
+        max: 2 ** n - 1,
+    };
+}
+
+function getIntValidation(n) {
+    let x = 2 ** (n - 1);
+    return {
+        ...intType.data.validation,
+        min: -x,
+        max: x - 1,
+    };
+}
 
 // Create a global type
 function createType(name, data) {
