@@ -1,9 +1,7 @@
 import {
     blobType,
-    floatType,
-    intType,
     mapType,
-    natType,
+    nat32Type,
     principalType,
     textType,
     typeType,
@@ -30,7 +28,7 @@ const block = {
     },
     inputs: [{
         key: 'keyType',
-        type: unionType.of(textType, principalType, intType, natType, floatType, blobType),
+        type: unionType.of(textType, principalType, blobType, nat32Type),
     }, {
         key: 'valueType',
         type: typeType.of(valueType),
@@ -46,7 +44,10 @@ const block = {
             let keyImportRef = getKeyImportRef(keyType);
             let keyTypeString = compiler.getTypeString(keyType);
             let valueTypeString = compiler.getTypeString(valueType);
-            return `${hashMapImportRef}.HashMap<${keyTypeString}, ${valueTypeString}>(0, ${keyImportRef}.equal, ${keyImportRef}.hash)`;
+            let hashFunction = keyType === nat32Type
+                ? 'func (x) {x}'
+                : `${keyImportRef}.hash`;
+            return `${hashMapImportRef}.HashMap<${keyTypeString}, ${valueTypeString}>(0, ${keyImportRef}.equal, ${hashFunction})`;
         },
     }],
 };
