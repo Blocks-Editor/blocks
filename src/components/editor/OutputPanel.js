@@ -83,9 +83,11 @@ export default function OutputPanel({editor}) {
         try {
             const playgroundWindow = window.open(`${playgroundOrigin}?integration=blocks&tag=_`, 'motokoPlayground');
 
-            const callback = () => {
+            // Interval index used as acknowledge key
+            const ack = setInterval(() => {
                 playgroundWindow.postMessage(`blocks:${JSON.stringify({
                     type: 'workplace',
+                    acknowledge: ack,
                     deploy: true,
                     actions: [{
                         type: 'loadProject',
@@ -96,9 +98,15 @@ export default function OutputPanel({editor}) {
                         },
                     }],
                 })}`, playgroundOrigin);
-            };
+            }, 500);
 
-            setTimeout(callback, 1000);
+            const acknowledgeListener = ({source, origin, data}) => {
+                if(source === playgroundWindow && origin === playgroundOrigin && typeof data === 'string' && data === `blocks:acknowledge:${ack}`) {
+                    clearInterval(ack);
+                    window.removeEventListener('message', acknowledgeListener);
+                }
+            };
+            window.addEventListener('message', acknowledgeListener, false);
         }
         catch(err) {
             events.emit(ERROR_EVENT, err);
