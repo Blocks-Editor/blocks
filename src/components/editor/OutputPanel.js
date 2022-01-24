@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import classNames from 'classnames';
 import styled, {css} from 'styled-components';
 import {FiClipboard, FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
-import {FaLink, FaPlay, FaSpinner} from 'react-icons/fa';
+import {FaLink, FaPlay} from 'react-icons/fa';
 import CodeEditor from '../monaco/CodeEditor';
 import compileGlobalMotoko from '../../compilers/utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
@@ -12,7 +12,6 @@ import useListener from '../../hooks/utils/useListener';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 import ExternalLink from '../common/ExternalLink';
 import useReactTooltip from '../../hooks/useReactTooltip';
-import {createMotokoPlaygroundShareLink} from '../../integrations/motoko-playground/createMotokoPlaygroundShareLink';
 import {isMobile} from 'react-device-detect';
 import {onLeftClick} from '../../utils/eventHelpers';
 
@@ -47,6 +46,8 @@ const ClipboardButton = styled.div`
     }
 `;
 
+const playgroundOrigin = process.env.REACT_APP_MOTOKO_PLAYGROUND_ORIGIN;
+
 const outputPanelId = 'output';
 
 export default function OutputPanel({editor}) {
@@ -55,7 +56,7 @@ export default function OutputPanel({editor}) {
     const [fullscreen, setFullscreen] = useFullscreenPanelState();
     const [output, setOutput] = useState('');
     const [copied, setCopied] = useState(false);
-    const [playgroundPromise, setPlaygroundPromise] = useState(null);
+    // const [playgroundPromise, setPlaygroundPromise] = useState(null);
 
     const events = useContext(EventsContext);
 
@@ -65,18 +66,42 @@ export default function OutputPanel({editor}) {
     const getOutput = () => compileGlobalMotoko(editor);
 
     // Show an error message
-    const handleError = err => events.emit(ERROR_EVENT, err);
+    // const handleError = err => events.emit(ERROR_EVENT, err);
 
     const handleOpenPlayground = () => {
-        let promise = playgroundPromise;
-        if(!promise) {
-            promise = createMotokoPlaygroundShareLink(output, handleError)
-                .then(url => {
-                    window.open(url, '_blank');
-                })
-                .catch(handleError)
-                .then(() => setPlaygroundPromise(null));
-            setPlaygroundPromise(promise);
+        // let promise = playgroundPromise;
+        // if(!promise) {
+        //     promise = createMotokoPlaygroundShareLink(output, handleError)
+        //         .then(url => {
+        //             window.open(url, '_blank');
+        //         })
+        //         .catch(handleError)
+        //         .then(() => setPlaygroundPromise(null));
+        //     setPlaygroundPromise(promise);
+        // }
+
+        try {
+            const playgroundWindow = window.open(`${playgroundOrigin}?integration=blocks&tag=_`, 'motokoPlayground');
+
+            const callback = () => {
+                playgroundWindow.postMessage(`blocks:${JSON.stringify({
+                    type: 'workplace',
+                    deploy: true,
+                    actions: [{
+                        type: 'loadProject',
+                        payload: {
+                            files: {
+                                'Main.mo': compileGlobalMotoko(editor),
+                            },
+                        },
+                    }],
+                })}`, playgroundOrigin);
+            };
+
+            setTimeout(callback, 1000);
+        }
+        catch(err) {
+            events.emit(ERROR_EVENT, err);
         }
     };
 
@@ -147,12 +172,12 @@ export default function OutputPanel({editor}) {
                     className="btn btn-outline-success d-flex justify-content-center"
                     data-tip="Run and deploy your smart contract on Motoko Playground."
                     {...onLeftClick(handleOpenPlayground)}>
-                    {playgroundPromise ? (
-                        <FaSpinner className="mt-1 me-2"/>
-                    ) : (
-                        <FaPlay className="mt-1 me-2"/>
-                    )}
-                    Playground
+                    {/*{playgroundPromise ? (*/}
+                    {/*    <FaSpinner className="mt-1 me-2"/>*/}
+                    {/*) : (*/}
+                    <FaPlay className="mt-1 me-2"/>
+                    {/*)}*/}
+                    Build & Run
                 </div>
                 {/*</ExternalLink>*/}
             </div>
