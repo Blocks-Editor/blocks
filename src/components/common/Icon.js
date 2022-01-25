@@ -10,7 +10,7 @@ import {ReactComponent as Learning} from '../../assets/icons/learning.svg';
 import {ReactComponent as Settings} from '../../assets/icons/settings.svg';
 import {ReactComponent as Share} from '../../assets/icons/share.svg';
 import {ReactComponent as Menu} from '../../assets/icons/menu.svg';
-import {FaGithub} from 'react-icons/all';
+import {FaGithub} from 'react-icons/fa';
 
 
 const defaultIconSize = 24;
