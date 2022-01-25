@@ -6,6 +6,8 @@
 
 ### [Homepage](https://blocks-editor.github.io) / [Web Application](https://blocks-editor.github.io/blocks) / [Discord Community](https://discord.gg/jDDWtKwWQf)
 
+![A simple fungible token example](./public/img/example/currency-v3.png)
+
 ---
 
 ## Embedded Mode
