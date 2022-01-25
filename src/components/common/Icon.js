@@ -10,17 +10,19 @@ import {ReactComponent as Learning} from '../../assets/icons/learning.svg';
 import {ReactComponent as Settings} from '../../assets/icons/settings.svg';
 import {ReactComponent as Share} from '../../assets/icons/share.svg';
 import {ReactComponent as Menu} from '../../assets/icons/menu.svg';
+import {FaGithub} from 'react-icons/all';
 
 
 const defaultIconSize = 24;
 const defaultFill = '#557080';
 
-const createIcon = (SvgComponent, widthRatio = 1) => ({fill, size, ...others}) => {
+const createIcon = (SvgComponent, widthRatio = 1, ...defaults) => ({fill, size, ...others}) => {
     return (
         <SvgComponent
             fill={fill || defaultFill}
             width={(size || defaultIconSize) * widthRatio}
             height={size || defaultIconSize}
+            {...defaults}
             {...others}
         />
     );
@@ -37,3 +39,4 @@ export const LearningIcon = createIcon(Learning);
 export const SettingsIcon = createIcon(Settings);
 export const SocialIcon = createIcon(Share);
 export const MenuIcon = createIcon(Menu);
+export const GithubIcon = createIcon(FaGithub, 1);

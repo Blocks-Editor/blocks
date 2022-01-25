@@ -21,10 +21,10 @@ import {
     FolderOpenIcon,
     FolderWideIcon,
     LearningIcon,
+    MenuIcon,
     SaveIcon,
     SettingsIcon,
     SocialIcon,
-    MenuIcon,
 } from '../common/Icon';
 import ReactTooltip from 'react-tooltip';
 import AreaPlugin from 'rete-area-plugin';
@@ -177,6 +177,7 @@ export default function EditorMenu({editor}) {
     const tutorialAction = () => setOpenMenu('tutorials');
     const settingsAction = () => setOpenMenu('settings');
     const socialAction = () => setOpenMenu('social');
+    // const githubAction = () => window.open('https://github.com/Blocks-Editor/blocks');
 
     // Fix load menu always opening the "import a .blocks file" dialog on mobile
     const onClickMenuButton = isMobile ? onLeftClick : onLeftPress;
@@ -193,13 +194,13 @@ export default function EditorMenu({editor}) {
                 <LogoContainer className="d-inline-flex flex-row">
                     <a href="https://blocks-editor.github.io/" target="_blank" rel="noreferrer">
                         <BlocksLogo
-                            className="d-none d-sm-block"
+                            className="d-none d-sm-block d-lg-none d-xl-block"
                             src={`${process.env.PUBLIC_URL}/img/logo-gradient.png`}
                             alt="Blocks logo"
                             draggable="false"
                         />
                         <BlocksLogo
-                            className="d-block d-sm-none"
+                            className="d-block d-sm-none d-lg-block d-xl-none"
                             src={`${process.env.PUBLIC_URL}/img/icon-gradient.png`}
                             alt="Blocks icon"
                             draggable="false"
@@ -280,6 +281,14 @@ export default function EditorMenu({editor}) {
                             {...onClickMenuButton(socialAction)}>
                             <StyledSocialIcon/>
                         </MenuButton>
+                        {/*<div className="float-end">*/}
+                        {/*    <MenuButton*/}
+                        {/*        tooltip="GitHub"*/}
+                        {/*        title="GitHub"*/}
+                        {/*        {...onClickMenuButton(githubAction)}>*/}
+                        {/*        <GithubIcon/>*/}
+                        {/*    </MenuButton>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </TopMenu>
@@ -318,6 +327,10 @@ export default function EditorMenu({editor}) {
                     <StyledSocialIcon/>
                     <span className="px-3 pt-1">Social</span>
                 </MobileMenuButton>
+                {/*<MobileMenuButton {...onClickMobileMenuButton(githubAction)}>*/}
+                {/*    <GithubIcon/>*/}
+                {/*    <span className="px-3 pt-1">GitHub</span>*/}
+                {/*</MobileMenuButton>*/}
             </MobileMenu>
             <FloatingMenu bottom left>
                 <MenuButton

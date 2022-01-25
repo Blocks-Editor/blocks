@@ -97,17 +97,6 @@ export default function SettingsModal() {
             },
         })),
     }, {
-        name: 'Show button titles',
-        description: 'Show the titles of each button in the top menu.',
-        type: 'toggle',
-        hideMobile: true,
-        props: {
-           value: buttonTitles,
-           onChange() {
-               setButtonTitles(!buttonTitles)
-           }
-        }
-    }, {
         name: 'Auto-save changes',
         description: 'Automatically sync changes while using the editor.',
         type: 'toggle',
@@ -127,6 +116,17 @@ export default function SettingsModal() {
                 setLearningMode(!learningMode);
             },
         },
+    }, {
+        name: 'Display button names',
+        description: 'Show the title of each button in the top menu.',
+        type: 'toggle',
+        hideMobile: true,
+        props: {
+            value: buttonTitles,
+            onChange() {
+                setButtonTitles(!buttonTitles)
+            }
+        }
     }, {
         name: 'Send anonymized usage statistics',
         description: 'Help us improve the Blocks Editor.',
@@ -154,8 +154,8 @@ export default function SettingsModal() {
             <h4 className="mt-4 mb-3 fw-normal">Keyboard Shortcuts</h4>
             {/*<hr/>*/}
             <KeyBindingDetail/>
-            <div className="mt-3 w-100">
-                <a href="https://github.com/Blocks-Editor/blocks" target="_blank" rel="noreferrer" className="p-2 rounded small text-muted bg-info bg-opacity-10 w-100">
+            <div className="h5 fw-normal mt-4 mb-0 w-100">
+                <a href="https://github.com/Blocks-Editor/blocks" target="_blank" rel="noreferrer" className="p-2 rounded text-muted small w-100">
                     Blocks is currently in open beta.
                 </a>
             </div>
