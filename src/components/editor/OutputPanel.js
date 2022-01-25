@@ -47,6 +47,7 @@ const ClipboardButton = styled.div`
 `;
 
 const playgroundOrigin = process.env.REACT_APP_MOTOKO_PLAYGROUND_ORIGIN;
+const playgroundMessagePrefix = 'editor_blocks:';
 
 const outputPanelId = 'output';
 
@@ -81,11 +82,11 @@ export default function OutputPanel({editor}) {
         // }
 
         try {
-            const playgroundWindow = window.open(`${playgroundOrigin}?integration=blocks&tag=_`, 'motokoPlayground');
+            const playgroundWindow = window.open(`${playgroundOrigin}?editor=blocks&tag=_`, 'motokoPlayground');
 
             // Interval index used as acknowledge key
             const ack = setInterval(() => {
-                playgroundWindow.postMessage(`blocks:${JSON.stringify({
+                playgroundWindow.postMessage(`${playgroundMessagePrefix}${JSON.stringify({
                     type: 'workplace',
                     acknowledge: ack,
                     deploy: true,
@@ -101,7 +102,7 @@ export default function OutputPanel({editor}) {
             }, 500);
 
             const acknowledgeListener = ({source, origin, data}) => {
-                if(source === playgroundWindow && origin === playgroundOrigin && typeof data === 'string' && data === `blocks:acknowledge:${ack}`) {
+                if(source === playgroundWindow && origin === playgroundOrigin && typeof data === 'string' && data === `${playgroundMessagePrefix}acknowledge:${ack}`) {
                     clearInterval(ack);
                     window.removeEventListener('message', acknowledgeListener);
                 }
