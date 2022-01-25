@@ -70,7 +70,9 @@ export default function EditorPage() {
     useListener(window, 'message', ({source, data}) => {
         if(embedded && source === window.parent) {
             if(typeof data === 'string' && data.startsWith('{')) {
-                console.log('Received message:', data);
+                if(process.env.NODE_ENV === 'development') {
+                    console.log('Received message:', data);
+                }
                 data = JSON.parse(data);
                 if(data?.type === 'load') {
                     nextEditorState = data.state ? JSON.parse(JSON.stringify(data.state)) : DEFAULT_STATE;
@@ -82,8 +84,10 @@ export default function EditorPage() {
 
     const sendMessage = (message) => {
         if(embedded) {
-            console.log('Sending message:', message);
-            const targetOrigin = '*'; // TODO: restrict target origin
+            if(process.env.NODE_ENV === 'development') {
+                console.log('Sending message:', message);
+            }
+            const targetOrigin = '*'; // TODO: restrict target origin?
             window.parent.postMessage(message, targetOrigin);
         }
     };
