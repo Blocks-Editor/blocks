@@ -42,7 +42,7 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
             <select
                 className={classNames(invalid && 'invalid')}
                 value={value?.name}
-                onChange={event => onChange(getType(event.target.value))}
+                onChange={event => onChange(getType({name: event.target.value}))}
                 {...others}>
                 {invalid && <option label="(Type)" value={value?.name}/>}
                 {types.map(type => (

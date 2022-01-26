@@ -45,9 +45,9 @@ const block = memberBlock({
     ],
 }, {
     toMotoko({visibility, name, typeInput}, node, compiler) {
-        let modifiers = [visibility !== 'system' && visibility].filter(m => m).join(' ');
+        const modifiers = [visibility !== 'system' && visibility].filter(m => m).join(' ');
 
-        return `${modifiers && modifiers + ' '}type ${name} = ${compiler.getTypeString(typeInput)};`;
+        return `${modifiers && modifiers + ' '}type ${name} = ${typeInput};`;
     },
 });
 export default block;

@@ -5,12 +5,8 @@ export default class NodeCompiler extends Compiler {
         super(editor, 'toEditorNode');
     }
 
-    defaultCompile(prop, node) {
-        return node;
-    }
-
     postCompile(result, node, key) {
-        if(!result) {
+        if(!result && result !== 0 /* Just in case */) {
             return;
         }
         let id;

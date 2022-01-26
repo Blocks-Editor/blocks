@@ -23,9 +23,8 @@ const block = {
     outputs: [{
         key: 'param',
         type: paramType,
-        toMotoko({name, type}, node, compiler) {
-            let typeString = compiler.getTypeString(type) || 'Any';
-            return `${name} : ${typeString}`;
+        toMotoko({name, type}) {
+            return `${name} : ${type}`;
         },
     }, {
         key: 'value',

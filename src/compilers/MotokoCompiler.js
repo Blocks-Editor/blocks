@@ -22,7 +22,9 @@ export function resolveImportRefs(code) {
         imports[id] = path;
         return id;
     });
-    let prefixes = Object.entries(imports).map(([id, path]) => `import ${id} "${path}";`);
+    let prefixes = Object.entries(imports)
+        .sort(([a], [b]) => a.localeCompare(b)) // Sort by identifier
+        .map(([id, path]) => `import ${id} "${path}";`);
     return [prefixes, code];
 }
 
@@ -59,7 +61,7 @@ export default class MotokoCompiler extends Compiler {
 
         // Type object
         if(result.name && result.generics) {
-            return getType(result);
+            return this.getTypeString(getType(result));
         }
 
         console.warn('Unexpected Motoko expression:', result);

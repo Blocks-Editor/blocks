@@ -1,17 +1,20 @@
 import {nodeType, typeType, valueType} from '../block-types/types';
 import {typeCategory} from '../block-categories/categories';
 import {FaAngleRight} from 'react-icons/fa';
+import {findNodeSearchOptions} from '../block-patterns/search-patterns';
 
 const block = {
-    title: 'Named Type Reference',
+    title: 'Type Reference',
     info: 'Reference a global named type',
     category: typeCategory,
     icon: FaAngleRight,
     topRight: 'type',
-    hidden: true,////
+    // hidden: true,////
+    customSearch(text, {editor}) {
+        return findNodeSearchOptions(text, editor, 'TypeMember', 'typeNode');
+    },
     computeTitle(node, editor) {
         let typeNode = editor.compilers.node.getInput(node, 'typeNode');
-        console.log(typeNode);
         if(!typeNode) {
             return;
         }

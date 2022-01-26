@@ -19,7 +19,7 @@ const block = statementBlock({
             return;
         }
         let name = editor.compilers.motoko.getInput(functionNode, 'name');
-        let paramNames = editor.compilers.node.getInput(functionNode, 'params')
+        let paramNames = editor.compilers.connection.getInput(functionNode, 'params')
             .map(n => editor.compilers.motoko.getInput(n, 'name'));
         return name && `${name}${formatParentheses(paramNames.join(', '))}`;
     },

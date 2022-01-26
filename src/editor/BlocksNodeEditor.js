@@ -5,6 +5,7 @@ import TypeCompiler from '../compilers/TypeCompiler';
 import ControlCompiler from '../compilers/ControlCompiler';
 import compileGlobalMotoko from '../compilers/utils/compileGlobalMotoko';
 import {logTelemetry} from '../telemetry';
+import ConnectionCompiler from '../compilers/ConnectionCompiler';
 
 // Custom Rete.js node editor implementation
 
@@ -24,6 +25,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         this.compilers = {
             control: new ControlCompiler(this),
             node: new NodeCompiler(this),
+            connection: new ConnectionCompiler(this),
             type: new TypeCompiler(this),
             motoko: new MotokoCompiler(this),
         };

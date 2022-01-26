@@ -52,13 +52,14 @@ export default class Compiler {
         if(!node) {
             return;
         }
-        const cacheKey = this._cacheKey(node, key);
-        if(this._caching && this._inputCache.has(cacheKey)) {
-            return this._inputCache.get(cacheKey);
-        }
-        this._inputCache.set(cacheKey, undefined);
+        // const cacheKey = this._cacheKey(node, key);
+        // if(this._caching && this._inputCache.has(cacheKey)) {
+        //     return this._inputCache.get(cacheKey);
+        // }
+        // this._inputCache.set(cacheKey, undefined);
+        // noinspection UnnecessaryLocalVariableJS
         let result = this._getInput(node, key);
-        this._inputCache.set(cacheKey, result);
+        // this._inputCache.set(cacheKey, result);
         return result;
     }
 
