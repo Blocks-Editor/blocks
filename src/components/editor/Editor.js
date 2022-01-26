@@ -11,6 +11,7 @@ import LoadBlocksFileContext from '../../contexts/LoadFileContext';
 import {logTelemetry} from '../../telemetry';
 import FloatingMenu from '../common/menus/FloatingMenu';
 import TutorialCard from './TutorialCard';
+import isMenuHidden from '../../utils/isMenuHidden';
 
 export const DROP_ZONE_EXTENSIONS = ['.blocks', '.blocks.json'];
 
@@ -19,7 +20,7 @@ const EditorContainer = styled.div`
     height: 100vh;
 `;
 
-function EditorControls({observable, hideMenu}) {
+function EditorControls({observable}) {
     const [editor] = useObservableState(observable);
 
     if(!editor) {
@@ -27,7 +28,7 @@ function EditorControls({observable, hideMenu}) {
     }
     return (
         <>
-            {!hideMenu && (
+            {!isMenuHidden() && (
                 <EditorMenu editor={editor}/>
             )}
             <FloatingMenu top left>
@@ -38,7 +39,7 @@ function EditorControls({observable, hideMenu}) {
     );
 }
 
-export default function Editor({observable, hideMenu, onSetup, onChange, onSave, history, className, ...others}) {
+export default function Editor({observable, onSetup, onChange, onSave, history, className, ...others}) {
 
     const events = useContext(EventsContext);
 
@@ -62,7 +63,7 @@ export default function Editor({observable, hideMenu, onSetup, onChange, onSave,
                 <EditorContainer
                     className={classNames('node-editor d-flex flex-grow-1 flex-column', className)}
                     {...others}>
-                    <EditorControls observable={observable} hideMenu={hideMenu}/>
+                    <EditorControls observable={observable}/>
                     <EditorWrapper
                         observable={observable}
                         onSetup={onSetup}

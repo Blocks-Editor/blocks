@@ -2,6 +2,7 @@ import React from 'react';
 import styled, {css} from 'styled-components';
 import classNames from 'classnames';
 import {isMobile} from 'react-device-detect';
+import isMenuHidden from '../../../utils/isMenuHidden';
 
 let ContainerDiv = styled.div`
     position: absolute;
@@ -12,7 +13,7 @@ let ContainerDiv = styled.div`
 
     ${props => props.top && css`
         top: 0;
-        margin-top: ${isMobile ? 125 : 75}px;
+        margin-top: ${isMenuHidden() ? 0 : isMobile ? 125 : 75}px;
     `};
 
     ${props => props.left && css`

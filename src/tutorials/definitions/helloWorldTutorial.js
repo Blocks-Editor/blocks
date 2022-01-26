@@ -15,6 +15,7 @@ import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
 import {EDITOR_SELECTION_STORE} from '../../observables/editorSelectionStore';
 import capitalize from '../../utils/capitalize';
 import {TUTORIAL_CLICK_DRAG, TUTORIAL_LEFT_CLICK, TUTORIAL_CONTEXT_MENU_CLICK} from '../utils/tutorialText';
+import isOutputPanelAvailable from '../../utils/isOutputPanelAvailable';
 
 // Custom ID for the tutorial blocks
 const functionNodeId = 'helloFunction';
@@ -186,7 +187,8 @@ export const helloWorldTutorial = {
             );
         },
         isComplete(progress, {outputPanel}) {
-            return outputPanel;
+            // Skip if output panel is unavailable
+            return !isOutputPanelAvailable() || outputPanel;
         },
     }],
 };

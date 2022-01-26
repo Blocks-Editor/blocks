@@ -13,7 +13,6 @@ import isEmbeddedMode from '../../utils/isEmbeddedMode';
 import {EDITOR_STORE} from '../../observables/editorStore';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {UndoRedoHistory} from '../../plugins/rete-blocks-history-plugin';
-import getEmbedConfig from '../../utils/getEmbedConfig';
 import {logTelemetry} from '../../telemetry';
 import parseMotoko from '../../parsers/parseMotoko';
 import generateBlocksFromParseResult from '../../parsers/generateBlocksFromParseResult';
@@ -32,8 +31,6 @@ let nextEditorState;
 
 export default function EditorPage() {
     const redraw = useRedraw();
-
-    const menuParam = getEmbedConfig('menu');
 
     const events = useContext(EventsContext);
 
@@ -135,7 +132,6 @@ export default function EditorPage() {
     return (
         <Editor
             observable={EDITOR_STORE}
-            hideMenu={menuParam === 'hidden'}
             onSetup={onEditorSetup}
             onChange={onEditorChange}
             onSave={onEditorSave}
