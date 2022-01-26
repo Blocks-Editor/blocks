@@ -9,7 +9,7 @@
     "test:watch": "craco test",
     "precommit": "lint-staged",
     "prebuild": "npm run test",
-    "build": "npm run prebuild && craco build",
+    "build": "craco build",
     "deploy": "cross-env PUBLIC_URL=https://blocks-editor.github.io/blocks npm run build && gh-pages -d build"
   },
   "dependencies": {
