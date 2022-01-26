@@ -91,6 +91,14 @@ export function SocketHandle(props) {
 
     useReactTooltip();
 
+    let tooltip = learningMode && socket.findLabel?.();
+    if(learningMode) {
+        const socketNoun =
+            socket.data.reversed ? 'a "control flow"' :
+                `an "${type}"`;
+        tooltip = `This is ${socketNoun} socket${socketType ? ` of type: "${socketType.toTypeString()}"` : '.'}<br>${tooltip}`;
+    }
+
     return (
         <div
             ref={bindRef}
@@ -107,7 +115,7 @@ export function SocketHandle(props) {
                 'category-' + socketType.data.category,
             )}
             // title={socket.name}
-            data-tip={`${(learningMode && socket.findLabel?.()) || socket.name}`}>
+            data-tip={tooltip}>
             <div className="requested-wrapper w-100 h-100">
                 <div className="socket-color w-100 h-100"/>
             </div>

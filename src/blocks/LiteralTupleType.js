@@ -3,6 +3,7 @@ import {tupleType, typeType, valueType} from '../block-types/types';
 
 const block = {
     title: 'Tuple of Types',
+    info: 'Create a tuple value from the provided input types',
     category: typeCategory,
     topRight: 'value',
     computeTitle(node, editor) {

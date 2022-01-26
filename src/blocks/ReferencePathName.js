@@ -2,7 +2,8 @@ import {identifierType, referenceType, textType} from '../block-types/types';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 
 const block = {
-    title: 'Path',
+    title: 'Path (a.b)',
+    info: 'Refer to a child of the specified reference',
     // category: defaultCategory,
     useCases: [FOR_CUSTOM_LOGIC],
     topRight: 'reference',

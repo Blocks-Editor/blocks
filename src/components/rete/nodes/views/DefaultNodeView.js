@@ -7,8 +7,13 @@ import {SocketHandle} from '../../sockets/SocketHandle';
 import {ButtonGroup} from 'react-bootstrap';
 import ShortcutButton from '../parts/ShortcutButton';
 import PropField from '../parts/PropField';
+import useLearningModeState from '../../../../hooks/persistent/useLearningModeState';
+import useReactTooltip from '../../../../hooks/useReactTooltip';
+import getInfoText from '../../../../utils/getInfoText';
 
 export default function DefaultNodeView({block, nodeHandle}) {
+    const [learningMode] = useLearningModeState();
+
     const {editor, node, bindSocket, bindControl} = nodeHandle.props;
     const {selected} = nodeHandle.state;
 
@@ -18,7 +23,7 @@ export default function DefaultNodeView({block, nodeHandle}) {
 
     let title = getNodeLabel(node, editor, true);
     if(block.computeTitle) {
-        title = <DynamicTitle editor={editor} node={node} block={block} fallback={title}/>;
+        title = <DynamicTitle editor={editor} node={node} block={block} fallback={title} showInfo={learningMode}/>;
     }
 
     const getBindControl = prop => (ref, ...args) => {
@@ -39,6 +44,8 @@ export default function DefaultNodeView({block, nodeHandle}) {
 
     const width = 32 * (node.data['editor:width'] || block.width || 6) - 3;
 
+    useReactTooltip();
+
     return (
         <div style={{width}} className={classNames('node', `node-id-${node.id}`, selected, block.className)}>
             <div className="header d-flex">
@@ -54,8 +61,9 @@ export default function DefaultNodeView({block, nodeHandle}) {
                     </div>
                 )}
                 <div
-                    className="title d-inline-block flex-grow-1 text-nowrap overflow-hidden"
-                    style={{color: block.category.data.color}}>
+                    className="title d-inline-block flex-grow-1 d-flex text-nowrap overflow-hidden"
+                    style={{color: block.category.data.color}}
+                    data-tip={!block.computeTitle && learningMode && block.info ? getInfoText(block.info) : undefined}>
                     {block.icon && (
                         // TODO: globally improve react-icons render logic
                         <span className="d-inline-block pe-1" style={{transform: 'translateY(-.2em)'}}>

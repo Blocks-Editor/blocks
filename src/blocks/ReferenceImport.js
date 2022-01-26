@@ -5,6 +5,7 @@ import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 
 const block = {
     title: 'Import Reference',
+    info: 'Create a reference to an externally defined module',
     // category: defaultCategory,
     useCases: [FOR_CUSTOM_LOGIC],
     icon: FaItalic,

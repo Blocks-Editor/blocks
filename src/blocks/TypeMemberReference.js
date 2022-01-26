@@ -3,7 +3,8 @@ import {typeCategory} from '../block-categories/categories';
 import {FaAngleRight} from 'react-icons/fa';
 
 const block = {
-    title: 'Type Reference',
+    title: 'Named Type Reference',
+    info: 'Reference a global named type',
     category: typeCategory,
     icon: FaAngleRight,
     topRight: 'type',

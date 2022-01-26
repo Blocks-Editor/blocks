@@ -7,6 +7,7 @@ export const arrayImportRef = importRef('mo:base/Array');
 
 const block = {
     title: 'Create Array',
+    info: 'Create a new array with the specified items',
     useCases: [FOR_STORING_DATA],
     category: collectionCategory,
     icon: collectionCategory.data.icon,

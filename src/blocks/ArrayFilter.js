@@ -7,6 +7,7 @@ import {formatCurlyBraces} from '../editor/format/formatHelpers';
 
 const block = {
     title: 'Filter Items (Array)',
+    info: 'Create a sub-array containing items matching the "Filter" logic',
     category: collectionCategory,
     icon: FaLayerGroup,
     topRight: 'result',

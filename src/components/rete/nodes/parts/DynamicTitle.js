@@ -2,8 +2,9 @@ import {useContext, useState} from 'react';
 import EventsContext, {EDITOR_CHANGE_EVENT} from '../../../../contexts/EventsContext';
 import useListener from '../../../../hooks/utils/useListener';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
+import getInfoText from '../../../../utils/getInfoText';
 
-export default function DynamicTitle({editor, node, block, fallback}) {
+export default function DynamicTitle({editor, node, block, fallback, showInfo}) {
 
     const computeTitle = () => {
         /// untested
@@ -29,9 +30,16 @@ export default function DynamicTitle({editor, node, block, fallback}) {
 
     const result = title || fallback || null;
 
+    let tooltip = result;
+    if(showInfo && block.info) {
+        // Add block info on new line
+        const info = getInfoText(block.info);
+        tooltip = result ? `${result}<br>${info}` : info;
+    }
+
     useReactTooltip();
 
     return (
-        <span data-tip={result}>{result}</span>
+        <div data-tip={tooltip}>{result}</div>
     );
 }

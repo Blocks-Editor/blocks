@@ -108,6 +108,7 @@ export const anyReversedType = createType('AnyReversed', {
 });
 
 export const typeType = createType('Type', {
+    info: 'A specific category of possible values',
     parent: anyType,
     category: 'types',
     controlType: 'type',

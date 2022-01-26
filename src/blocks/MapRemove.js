@@ -5,6 +5,7 @@ import {FaCompress} from 'react-icons/fa';
 
 const block = statementBlock({
     title: 'Remove (Map)',
+    info: 'Delete the value associated with a specific key',
     category: collectionCategory,
     icon: FaCompress,
     inputs: [{

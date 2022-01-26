@@ -5,6 +5,7 @@ import {stateWriteIcon} from './State';
 
 const block = statementBlock({
     title: 'Put (Map)',
+    info: 'Store a value at the given key',
     category: collectionCategory,
     icon: stateWriteIcon,
     // deprecated: true,

@@ -3,6 +3,7 @@ import {literalCategory} from '../block-categories/categories';
 
 const block = {
     category: literalCategory,
+    info: 'The default Optional value',
     topRight: 'value',
     outputs: [{
         key: 'value',

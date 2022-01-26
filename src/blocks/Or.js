@@ -1,5 +1,7 @@
-import {binaryOperatorBlock} from '../block-patterns/operator-patterns';
-import {boolType} from '../block-types/types';
+import {logicalBinaryOperatorBlock} from '../block-patterns/operator-patterns';
 
-const block = binaryOperatorBlock(boolType, 'or', (a, b) => a || b);
+const block = {
+    ...logicalBinaryOperatorBlock('or', (a, b) => a || b),
+    info: 'Return true if either of the input values are true',
+};
 export default block;

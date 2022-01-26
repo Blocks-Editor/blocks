@@ -8,6 +8,7 @@ const block = {
     title: 'Hash (Text)',
     // category: textCategory,
     icon: FaHashtag,
+    info: 'Compute a 32-bit hash for the provided Text value',
     inputs: [{
         key: 'value',
         type: textType,

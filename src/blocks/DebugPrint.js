@@ -7,6 +7,7 @@ const debugImportRef = importRef('mo:base/Debug');
 
 const block = statementBlock({
     title: 'Print (Debug)',
+    info: 'Display a value in the debug console (when deployed)',
     // category: debugCategory,
     icon: FaSearch,
     inputs: [{

@@ -3,6 +3,7 @@ import {typeType, valueType} from '../block-types/types';
 
 const block = {
     title: 'Type',
+    info: typeType.data.info,
     category: typeCategory,
     topRight: 'value',
     outputs: [{

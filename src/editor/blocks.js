@@ -52,6 +52,9 @@ blockContext.keys().forEach(path => {
             console.error(`Duplicate block name: ${name}`);
             return;
         }
+        if(!block.info) {
+            console.warn('Missing info for block:', block.name);
+        }
         block.category = block.category ? getCategory(block.category) : defaultCategory;
         block.props = block.props || {};
         for(let [key, prop] of Object.entries(block.props)) {

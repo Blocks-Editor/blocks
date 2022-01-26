@@ -1,8 +1,7 @@
-import {binaryOperatorBlock} from '../block-patterns/operator-patterns';
-import {floatType} from '../block-types/types';
+import {arithmeticOperatorBlock} from '../block-patterns/operator-patterns';
 
 const block = {
-    ...binaryOperatorBlock(floatType, '*', (a, b) => a * b),
+    ...arithmeticOperatorBlock('*', (a, b) => a * b),
     info: 'Multiply two numbers',
 };
 export default block;

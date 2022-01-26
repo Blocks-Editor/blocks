@@ -4,6 +4,7 @@ import {FaExclamation} from 'react-icons/fa';
 
 const block = statementBlock({
     title: 'Assert',
+    info: 'If the condition is false, terminate the program',
     // category: debugCategory,
     icon: FaExclamation,
     inputs: [{

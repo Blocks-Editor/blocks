@@ -4,6 +4,7 @@ import {stateReadIcon} from './State';
 
 const block = {
     title: 'Get (Map)',
+    info: 'Find the value corresponding to a given key, returning null if nothing is found',
     category: collectionCategory,
     icon: stateReadIcon,
     topRight: 'value',

@@ -5,6 +5,7 @@ import {arrayImportRef} from './NewArray';
 
 const block = {
     title: 'Appended (Array)',
+    info: 'Return an array with an item added to the end',
     category: collectionCategory,
     icon: stateWriteIcon,
     topRight: 'result',

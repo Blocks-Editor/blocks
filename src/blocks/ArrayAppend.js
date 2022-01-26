@@ -6,6 +6,7 @@ import {FaRegCaretSquareRight} from 'react-icons/fa';
 
 const block = statementBlock({
     title: 'Append (Array)',
+    info: 'Add an item to the end of an array',
     category: collectionCategory,
     icon: FaRegCaretSquareRight,
     inputs: [{

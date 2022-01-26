@@ -5,6 +5,7 @@ import {optionImportRef} from './OptionalOrDefault';
 
 const block = {
     title: 'Get or Default (Map)',
+    info: 'Find the value corresponding to a given key, returning the specified default value if nothing is found',
     category: collectionCategory,
     icon: stateReadIcon,
     topRight: 'value',

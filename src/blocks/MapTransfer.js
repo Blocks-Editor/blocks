@@ -5,9 +5,12 @@ import {stateWriteIcon} from './State';
 import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 import {formatCurlyBraces, formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
 import {optionImportRef} from './OptionalOrDefault';
+import {FOR_TRANSACTIONS} from '../editor/useCases';
 
 const block = statementBlock({
     title: 'Transfer (Map)',
+    info: 'Attempt to subtract an amount from one key and add to another',
+    useCases: [FOR_TRANSACTIONS],
     category: collectionCategory,
     icon: stateWriteIcon,
     // deprecated: true,
