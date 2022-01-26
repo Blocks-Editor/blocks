@@ -16,8 +16,9 @@ export default class PropSocket extends Rete.Socket {
 
     findLabel() {
         const type = this.findType();
+        // const label = getPropLabel(this.prop);
 
-        // let text = getInfoText(this.prop.info) || '';
+        // let text = this.prop.info ? `${label} : ${getInfoText(this.prop.info)}` : label;
         let text = '';
         for(const relevant of flattenUniqueTypes(type)) {
             if(!relevant.data.abstract) {

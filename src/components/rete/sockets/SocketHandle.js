@@ -91,11 +91,9 @@ export function SocketHandle(props) {
 
     useReactTooltip();
 
-    let tooltip = learningMode && socket.findLabel?.();
+    let tooltip = learningMode ? socket.findLabel?.() : undefined;
     if(learningMode) {
-        const socketNoun =
-            socket.data.reversed ? 'a "control flow"' :
-                `an "${type}"`;
+        const socketNoun = socket.data.reversed ? 'a "control flow"' : `an "${type}"`;
         tooltip = `This is ${socketNoun} socket${socketType ? ` of type: "${socketType.toTypeString()}"` : '.'}<br>${tooltip}`;
     }
 
