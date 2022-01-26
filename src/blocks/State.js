@@ -3,7 +3,8 @@ import {computeMemberName, memberBlock} from '../block-patterns/member-patterns'
 import {stateCategory} from '../block-categories/categories';
 import {FaAngleDoubleRight, FaAngleRight} from 'react-icons/fa';
 import {FOR_BUILDING_API, FOR_STORING_DATA} from '../editor/useCases';
-import {formatStatements} from '../editor/format/formatHelpers';
+import {formatStatement} from '../editor/format/formatHelpers';
+import {STATE_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 
 export const stateReadIcon = FaAngleRight;
 export const stateWriteIcon = FaAngleDoubleRight;
@@ -15,6 +16,7 @@ const block = memberBlock({
     topRight: 'setup',
     category: stateCategory,
     global: true,
+    memberPriority: STATE_PRIORITY,
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
         let type = editor.compilers.type.getInput(node, 'initialValue') || unitType;
@@ -70,7 +72,7 @@ const block = memberBlock({
 
         let statement = `${modifiers && modifiers + ' '}${readonly ? 'let' : 'var'} ${name}${type ? ` : ${compiler.getTypeString(type)}` : ''} = ${initialValue};`;
         if(setup) {
-            statement = formatStatements(statement, setup);
+            statement = formatStatement(statement, setup);
         }
         return statement;
     },

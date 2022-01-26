@@ -42,7 +42,7 @@ export function formatMembers(members) {
     return `${members.join('\n\n')}`;
 }
 
-export function formatStatements(statement, after) {
+export function formatStatement(statement, after) {
     statement = formatString(statement);
     if(!statement) {
         return after;

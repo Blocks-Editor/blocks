@@ -34,8 +34,8 @@ export function binaryOperatorBlock(type, symbol, evaluate) {
 
     return {
         title: `(a ${symbol} b)`,
-        category: operatorCategory,
         info: `Perform the '${symbol}' operation between two ${type.name} values`,
+        category: operatorCategory,
         topRight: 'result',
         inputs: [{
             key: 'left',

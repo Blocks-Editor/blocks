@@ -1,6 +1,6 @@
 import {effectType, getSharedType, unitType} from '../block-types/types';
 import {effectCategory} from '../block-categories/categories';
-import {formatStatements} from '../editor/format/formatHelpers';
+import {formatStatement} from '../editor/format/formatHelpers';
 
 const defaultType = effectType.of(unitType);
 
@@ -22,7 +22,7 @@ export function statementBlock(block, compileFn, typeFn) {
                 return;
             }
             let {after} = props;
-            return formatStatements(result, after);//`${result}${after ? ' ' + after : ''}`;
+            return formatStatement(result, after);//`${result}${after ? ' ' + after : ''}`;
         },
     };
     // for(let [key, fn] of Object.entries(compileObject)) {

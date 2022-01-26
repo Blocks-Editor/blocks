@@ -57,7 +57,7 @@ export default class Compiler {
             return this._inputCache.get(cacheKey);
         }
         this._inputCache.set(cacheKey, undefined);
-        const result = this._getInput(node, key);
+        let result = this._getInput(node, key);
         this._inputCache.set(cacheKey, result);
         return result;
     }
@@ -68,9 +68,17 @@ export default class Compiler {
             throw new Error(`Prop not found on ${node.name}: ${key}`);
         }
         const prop = block.props[key];
+        let result = this._resolveInput(node, prop);
+        if(result === undefined && !prop.optional) {
+            result = prop.type?.data.defaultInput?.(prop, node);
+        }
+        return result;
+    }
+
+    _resolveInput(node, prop) {
         if(prop.input) {
             if(!prop.type.data.reversed) {
-                const input = this._input(node, key);
+                const input = this._input(node, prop.key);
                 if(prop.multi) {
                     return input.connections.map(c => this._compileConnection(c, c.input, c.output, 'outputs'));
                 }
@@ -80,11 +88,11 @@ export default class Compiler {
                 }
                 if(input.control) {
                     // return input.control.getValue();
-                    return this._compileControl(input.control, key);///!!!
+                    return this._compileControl(input.control, prop);
                 }
             }
             else {
-                const output = this._output(node, key);
+                const output = this._output(node, prop.key);
                 if(prop.multi) {
                     return output.connections.map(c => this._compileConnection(c, c.output, c.input, 'inputs'));
                 }
@@ -96,8 +104,8 @@ export default class Compiler {
         }
 
         if(prop.control) {
-            const control = this._control(node, key);
-            return this._compileControl(control, key);
+            const control = this._control(node, prop.key);
+            return this._compileControl(control, prop);
         }
     }
 
@@ -123,11 +131,8 @@ export default class Compiler {
             if(!args) {
                 return;
             }
-            let result;
-            if(prop[this.compileKey]) {
-                result = prop[this.compileKey](args, node, this);
-            }
-            else {
+            let result = prop[this.compileKey]?.(args, node, this);
+            if(result === undefined) {
                 result = this.defaultCompile(prop, node);
             }
             return this.postCompile(result, node, key);
@@ -160,10 +165,7 @@ export default class Compiler {
                         }
                         let value = this.getInput(node, prop.key);
                         if(value === undefined && !prop.optional) {
-                            value = prop.type?.data.defaultInput?.(prop, node);
-                            if(value === undefined && !prop.optional) {
-                                throw new UndefinedInputError(block, prop.key);
-                            }
+                            throw new UndefinedInputError(block, prop.key);
                         }
                         loaded = true;
                         return value;
@@ -205,8 +207,13 @@ export default class Compiler {
         return this.getOutput(to.node, to.key);
     }
 
-    _compileControl(control, key) {
-        return this.postCompile(control.getValue(), control.getNode(), key);
+    _compileControl(control, prop) {
+        const node = control.getNode();
+        let value = control.getValue();
+        if(value === undefined) {
+            value = this.defaultCompile(prop, node);
+        }
+        return this.postCompile(value, node, prop.key);
     }
 
     _prop(node, key) {

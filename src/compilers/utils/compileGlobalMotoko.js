@@ -1,11 +1,19 @@
-import {memberType} from '../../block-types/types';
 import {resolveImportRefs} from '../MotokoCompiler';
 import prettyPrintMotoko from '../../editor/format/prettyPrintMotoko';
 import {formatParentheses} from '../../editor/format/formatHelpers';
 import {pascalCase} from 'change-case';
 import {compileGlobalParameter} from '../../blocks/MainParameter';
+import {getBlock} from '../../editor/blocks';
+import {memberType} from '../../block-types/types';
+
+// Priority for ordering members
+export const TYPE_PRIORITY = 3;
+export const FUNCTION_PRIORITY = 2;
+export const STATE_PRIORITY = 1;
 
 const defaultActorName = 'Main';
+const installerBlockName = 'MainInstaller';
+const mainParameterBlockName = 'MainParameter';
 
 export function mainSharedRef(editor) {
     return 'main__install';
@@ -14,9 +22,6 @@ export function mainSharedRef(editor) {
 export function mainInstanceRef(editor) {
     return 'main__this';
 }
-
-const installerBlockName = 'MainInstaller';
-const mainParameterBlockName = 'MainParameter';
 
 export default function compileGlobalMotoko(editor) {
 
@@ -31,7 +36,9 @@ export default function compileGlobalMotoko(editor) {
             const type = /* reversed */ io.socket.findType?.();
             return type && memberType.isSubtype(type);
         })
-        .sort((a, b) => -(a.name.localeCompare(b.name)) || (a.position[0] - b.position[0]) || (a.position[1] - b.position[1]));
+        .map(node => [node, getBlock(node.name)])
+        .sort(([a, aBlock], [b, bBlock]) => (bBlock.memberPriority - aBlock.memberPriority) || (a.position[0] - b.position[0]) || (a.position[1] - b.position[1]) || 0)
+        .map(([node]) => node);
 
     const installerNodes = editor.nodes.filter(node => node.name === installerBlockName);
     const paramNodes = editor.nodes.filter(node => node.name === mainParameterBlockName);

@@ -53,7 +53,8 @@ export default class MotokoCompiler extends Compiler {
         }
         if(Array.isArray(result)) {
             // return result.map(r => this.postCompile(r, node, key)).filter(s => s).join(' ');
-            return this.postCompile(formatString(result, node, key));
+            result = formatString(result, node, key);
+            return result; //???
         }
 
         // Type object

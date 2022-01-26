@@ -1,6 +1,7 @@
 import {identifierType, typeType, valueType} from '../block-types/types';
 import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {typeCategory} from '../block-categories/categories';
+import {TYPE_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 
 const block = memberBlock({
     title: 'Named Type',
@@ -8,6 +9,7 @@ const block = memberBlock({
     category: typeCategory,
     topRight: 'type',
     global: true,
+    memberPriority: TYPE_PRIORITY,
     shortcuts: [{
         block: 'TypeMemberReference',
         nodeKey: 'typeNode',
@@ -42,10 +44,10 @@ const block = memberBlock({
         visibilityControlProp(),
     ],
 }, {
-    toMotoko({visibility, name, typeInput}) {
+    toMotoko({visibility, name, typeInput}, node, compiler) {
         let modifiers = [visibility !== 'system' && visibility].filter(m => m).join(' ');
 
-        return `${modifiers && modifiers + ' '}type ${name} = ${typeInput};`;
+        return `${modifiers && modifiers + ' '}type ${name} = ${compiler.getTypeString(typeInput)};`;
     },
 });
 export default block;

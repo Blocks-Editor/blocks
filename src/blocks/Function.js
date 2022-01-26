@@ -13,6 +13,7 @@ import {computeMemberName, memberBlock, visibilityControlProp} from '../block-pa
 import {functionCategory} from '../block-categories/categories';
 import {FOR_BUILDING_API, FOR_REUSABLE_LOGIC} from '../editor/useCases';
 import {formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
+import {FUNCTION_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 
 const defaultReturnType = unitType;
 
@@ -32,6 +33,7 @@ const block = memberBlock({
     category: functionCategory,
     topRight: 'body',
     global: true,
+    memberPriority: FUNCTION_PRIORITY,
     computeTitle(node, editor) {
         let name = computeMemberName(node, editor);
         // return name;/////

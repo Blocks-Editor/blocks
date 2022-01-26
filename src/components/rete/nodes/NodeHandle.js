@@ -7,9 +7,16 @@ export default class NodeHandle extends Node {
     render() {
         const {node} = this.props;
 
-        const block = getBlock(node.name);
-
-        const NodeView = block.component || DefaultNodeView;
-        return <NodeView block={block} nodeHandle={this}/>;
+        try {
+            const block = getBlock(node.name);
+            const NodeView = block.component || DefaultNodeView;
+            return <NodeView block={block} nodeHandle={this}/>;
+        }
+        catch(err) {
+            console.error(err);
+            return (
+                <span className="h4 mb-0 bg-dark">{'<Error>'}</span>
+            );
+        }
     }
 }
