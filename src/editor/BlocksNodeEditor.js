@@ -101,6 +101,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
             ...super.toJSON(),
         };
         delete json.id;
+        for(const node of Object.values(json.nodes)) {
+            delete node.inputs; // Remove duplicate information from Rete.js format
+        }
         // noinspection JSValidateTypes
         return json;
     }
