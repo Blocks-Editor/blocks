@@ -92,6 +92,7 @@ export const helloWorldTutorial = {
         info: `${capitalize(TUTORIAL_CLICK_DRAG)} the outlined button.`,
         style: css`
             ${highlightNodeShortcut(functionNodeId, 'Return')}
+            ${highlightContextMenuComponent('Return') /* Highlight context menu for adventurous users */}
             ${highlightNode(returnNodeId) /* Highlight return node if already exists */}
         `,
         render() {
