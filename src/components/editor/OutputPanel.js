@@ -47,7 +47,7 @@ const ClipboardButton = styled.div`
 `;
 
 const playgroundOrigin = process.env.REACT_APP_MOTOKO_PLAYGROUND_ORIGIN;
-const playgroundMessagePrefix = 'editor_blocks:';
+const playgroundKey = 'blocks';
 
 const outputPanelId = 'output';
 
@@ -82,11 +82,11 @@ export default function OutputPanel({editor}) {
         // }
 
         try {
-            const playgroundWindow = window.open(`${playgroundOrigin}?editor=blocks&tag=_`, 'motokoPlayground');
+            const playgroundWindow = window.open(`${playgroundOrigin}?post=${playgroundKey}&tag=_`, 'motokoPlayground');
 
             // Interval index used as acknowledge key
             const ack = setInterval(() => {
-                playgroundWindow.postMessage(`${playgroundMessagePrefix}${JSON.stringify({
+                playgroundWindow.postMessage(`${playgroundKey}${JSON.stringify({
                     type: 'workplace',
                     acknowledge: ack,
                     deploy: true,
@@ -101,13 +101,21 @@ export default function OutputPanel({editor}) {
                 })}`, playgroundOrigin);
             }, 500);
 
-            const acknowledgeListener = ({source, origin, data}) => {
-                if(source === playgroundWindow && origin === playgroundOrigin && typeof data === 'string' && data === `${playgroundMessagePrefix}acknowledge:${ack}`) {
-                    clearInterval(ack);
-                    window.removeEventListener('message', acknowledgeListener);
+            const responseListener = ({source, origin, data}) => {
+                if(source === playgroundWindow && origin === playgroundOrigin && typeof data === 'string' && data.startsWith(playgroundKey)) {
+                    try {
+                        const message = JSON.parse(data.substring(playgroundKey.length));
+                        if(message.acknowledge === ack) {
+                            clearInterval(ack);
+                            window.removeEventListener('message', responseListener);
+                        }
+                    }
+                    catch(err) {
+                        events.emit(err);
+                    }
                 }
             };
-            window.addEventListener('message', acknowledgeListener, false);
+            window.addEventListener('message', responseListener, false);
         }
         catch(err) {
             events.emit(ERROR_EVENT, err);
