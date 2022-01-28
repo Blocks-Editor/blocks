@@ -2,14 +2,14 @@ import {identifierType, natType} from '../block-types/types';
 import {memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 import {FaListOl} from 'react-icons/fa';
-import {FOR_BUILDING_API, FOR_STORING_DATA} from '../editor/useCases';
+import {FOR_ASSIGNING_ID, FOR_BUILDING_API, FOR_STORING_DATA} from '../editor/useCases';
 import {formatCurlyBraces, formatStatement} from '../editor/format/formatHelpers';
 import {STATE_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 
 const block = memberBlock({
     title: 'Counter',
-    info: 'Dispense numbers in increasing order (ideal for assigning unique IDs)',
-    useCases: [FOR_BUILDING_API, FOR_STORING_DATA],
+    info: 'Dispense numbers in increasing order',
+    useCases: [FOR_ASSIGNING_ID, FOR_BUILDING_API, FOR_STORING_DATA],
     topRight: 'value',
     category: stateCategory,
     icon: FaListOl,

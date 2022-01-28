@@ -1,5 +1,6 @@
 export const FOR_DEBUGGING = 'debugging';
 export const FOR_LEARNING_MOTOKO = 'learning Motoko';
+export const FOR_ASSIGNING_ID = 'assigning unique IDs';
 export const FOR_BUILDING_API = 'building an API';
 export const FOR_STORING_DATA = 'storing data';
 export const FOR_TRANSACTIONS = 'transaction logic';

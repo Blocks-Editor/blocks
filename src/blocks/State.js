@@ -1,5 +1,5 @@
 import {boolType, effectType, identifierType, unitType, valueType} from '../block-types/types';
-import {computeMemberName, memberBlock} from '../block-patterns/member-patterns';
+import {getUserDefinedName, memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 import {FaAngleDoubleRight, FaAngleRight} from 'react-icons/fa';
 import {FOR_BUILDING_API, FOR_STORING_DATA} from '../editor/useCases';
@@ -18,7 +18,7 @@ const block = memberBlock({
     global: true,
     memberPriority: STATE_PRIORITY,
     computeTitle(node, editor) {
-        let name = computeMemberName(node, editor);
+        let name = getUserDefinedName(node, editor);
         let type = editor.compilers.type.getInput(node, 'initialValue') || unitType;
         return name && `${name} : ${editor.compilers.motoko.getTypeString(type)}`;
     },

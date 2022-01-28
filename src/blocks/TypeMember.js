@@ -1,5 +1,5 @@
 import {identifierType, typeType, valueType} from '../block-types/types';
-import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
+import {getUserDefinedName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {typeCategory} from '../block-categories/categories';
 import {TYPE_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 
@@ -15,7 +15,7 @@ const block = memberBlock({
         nodeKey: 'typeNode',
     }],
     computeTitle(node, editor) {
-        let name = computeMemberName(node, editor);
+        let name = getUserDefinedName(node, editor);
         let type = editor.compilers.type.getInput(node, 'typeInput');//?.generics[0];
         return type && `${name || '(?)'} = ${editor.compilers.motoko.getTypeString(type)}`;
     },

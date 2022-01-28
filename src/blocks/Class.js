@@ -1,8 +1,8 @@
 import {containerType, identifierType, memberType, paramType, principalType} from '../block-types/types';
 import {actorCategory} from '../block-categories/categories';
-import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
-import {formatMembers, formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
-import {visibilityControlProp} from '../block-patterns/member-patterns';
+import {formatParentheses} from '../editor/format/formatHelpers';
+import {getUserDefinedName, visibilityControlProp} from '../block-patterns/member-patterns';
+import {FaBox} from 'react-icons/fa';
 
 // TODO: subclasses
 let thisName = 'this';
@@ -10,27 +10,29 @@ let thisName = 'this';
 const block = {
     info: 'An object-oriented class',
     category: actorCategory,
+    icon: FaBox,
     topLeft: 'member',
     topRight: 'members',
     global: true,
     hidden: true,///
     computeTitle(node, editor) {
-        let {name, params} = editor.compilers.motoko.getInputArgs(node);
-        if(!name) {
+        let name = getUserDefinedName(node, editor);
+        let {params} = editor.compilers.motoko.getInputArgs(node);
+        if(!name && !params.length) {
             return;
         }
-        return `class ${name}${formatParentheses(params.join(', '))}`;
+        return `class ${name || ''}${formatParentheses(params.join(', '))}`;
     },
     inputs: [{
         key: 'name',
         type: identifierType,
-        optional: true,
     }, {
         key: 'members',
         type: memberType,
         multi: true,
     }, {
         key: 'params',
+        title: 'Parameters',
         type: paramType,
         multi: true,
     }],
@@ -38,9 +40,8 @@ const block = {
         key: 'member',
         type: containerType,
         toMotoko({visibility, name, params, members}, node, compiler) {
-            let hasCaller = node.outputs.get('caller').connections.length;
-
-            return `${visibility} ${hasCaller ? `shared (${nodeIdentifierRef(node)}) ` : ''}class${name ? ' ' + name : ''}${formatParentheses(params.join(', '))} = ${thisName} ${formatStatementBlock(formatMembers(members))}`;
+            // let hasCaller = node.outputs.get('caller').connections.length;
+            // return `${visibility} ${hasCaller ? `shared (${nodeIdentifierRef(node)}) ` : ''}class${name ? ' ' + name : ''}${formatParentheses(params.join(', '))} = ${thisName} ${formatStatementBlock(formatMembers(members))}`;
         },
         // }, {
         //     key: 'this',

@@ -1,19 +1,13 @@
 import {memberType} from '../block-types/types';
 import {stringSelectProp} from './control-patterns';
+import nodeIdentifierRef from '../compilers/utils/nodeIdentifierRef';
 
 
-export function computeMemberName(node, editor) {
-    return editor.compilers.motoko.getInput(node, 'name');
-
-    // let name = editor.compilers.motoko.getInput(node, 'name');
-    // if(!name) {
-    //     return;
-    // }
-    // if(!parentNode) {
-    //     return name;
-    // }
-    // let actorName = editor.compilers.motoko.getInput(parentNode, 'name');
-    // return actorName?`${actorName}.${name}`:name;
+export function getUserDefinedName(node, editor) {
+    const name = editor.compilers.motoko.getInput(node, 'name');
+    if(name && name !== nodeIdentifierRef(node, 'name') /* Default identifier */) {
+        return name;
+    }
 }
 
 export function visibilityControlProp() {

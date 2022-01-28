@@ -9,7 +9,7 @@ import {
     tupleType,
     unitType,
 } from '../block-types/types';
-import {computeMemberName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
+import {getUserDefinedName, memberBlock, visibilityControlProp} from '../block-patterns/member-patterns';
 import {functionCategory} from '../block-categories/categories';
 import {FOR_BUILDING_API, FOR_REUSABLE_LOGIC} from '../editor/useCases';
 import {formatParentheses, formatStatementBlock} from '../editor/format/formatHelpers';
@@ -35,7 +35,7 @@ const block = memberBlock({
     global: true,
     memberPriority: FUNCTION_PRIORITY,
     computeTitle(node, editor) {
-        let name = computeMemberName(node, editor);
+        let name = getUserDefinedName(node, editor);
         // return name;/////
         let {params, body} = editor.compilers.motoko.getInputArgs(node);
         let returnType = getFunctionReturnType(node, editor);
