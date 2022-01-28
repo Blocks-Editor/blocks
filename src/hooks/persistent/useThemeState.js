@@ -1,19 +1,17 @@
-import useLocalStorage, {makeLocalStorageObservable} from '../utils/useLocalStorage';
+import {makeLocalStorageObservable} from '../utils/useLocalStorage';
 import useThemes from '../useThemes';
 import getEmbedConfig from '../../utils/getEmbedConfig';
 import {useCallback} from 'react';
-import {THEMES} from '../../editor/themes';
+import useObservableState from '../utils/useObservableState';
 
-const defaultTheme = THEMES[0];
-
-export const THEME_STORE = makeLocalStorageObservable('blocks.theme', getEmbedConfig('theme', defaultTheme.id));
+export const THEME_STORE = makeLocalStorageObservable('blocks.theme', getEmbedConfig('theme'));
 
 export default function useThemeState() {
     const themes = useThemes();
-    const [id, setId] = useLocalStorage(THEME_STORE);
+    const [id, setId] = useObservableState(THEME_STORE);
 
     return [
-        themes.find(theme => theme.id === id) || defaultTheme,
+        themes.find(theme => theme.id === id) || themes[0],
         useCallback(id => setId(id), [setId]),
     ];
 }
