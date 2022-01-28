@@ -29,7 +29,7 @@ let ContainerDiv = styled.div`
 
 export default function FloatingMenu({className, children, ...others}) {
     return (
-        <ContainerDiv className={classNames('floating-menu p-4 d-flex flex-row align-items-center justify-content-center', className)} {...others}>
+        <ContainerDiv className={classNames('floating-menu m-4 d-flex flex-row align-items-center justify-content-center', className)} {...others}>
             {children}
         </ContainerDiv>
     );
