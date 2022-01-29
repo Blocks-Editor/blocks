@@ -22,10 +22,14 @@ const StyledFileDropZone = styled(FileDropZone)`
 `;
 
 const CategoryContainer = styled.div`
-    margin-top: .5rem;
-    padding: .5rem 0;
-    border: 4px solid transparent;
+    margin-top: 2.5rem;
+    //padding: .5rem;
+    //border: 6px solid transparent;
     //border-left-color: var(--bs-secondary);
+`;
+
+const ExampleContainer = styled.div`
+    border-left: 4px solid #0001;
 `;
 
 export default function LoadProjectModal({className, ...others}) {
@@ -41,28 +45,30 @@ export default function LoadProjectModal({className, ...others}) {
         <MenuModal title={isMobile && 'Open an example:'} className={classNames(className)} {...others}>
             {!isMobile && (
                 <StyledFileDropZone
-                    className={classNames('clickable text-center text-muted rounded-3')}
+                    className={classNames('clickable text-center text-secondary rounded-3')}
                     options={{accept: DROP_ZONE_EXTENSIONS.join(',')}}
                     onFileContent={loadFile}>
                     <h5>Import a .blocks file . . .</h5>
                 </StyledFileDropZone>
             )}
-            {categories.map(category => (
-                <CategoryContainer key={category.id} className={category.className}>
-                    <h4 className="mb-0 fw-bold text-secondary">{category.name}</h4>
-                    <div className="text-secondary">{category.description}</div>
-                    {/*<MenuModalOption name={category.name} description={category.description}>*/}
-
-                    {/*</MenuModalOption>*/}
-                    {category.examples.map((example, i) => (
-                        <MenuModalOption
-                            key={i}
-                            name={example.name}
-                            description={example.description || '(No description provided)'}
-                            {...onLeftClick(() => events.emit(PROJECT_LOAD_EVENT, example))}>
-                        </MenuModalOption>
-                    ))}
-                </CategoryContainer>
+            {categories.map((category, i) => (
+                <div key={category.id}>
+                    <CategoryContainer>
+                        <h4 className="fw-bold text-secondary text-uppercase opacity-50">{category.name}</h4>
+                        <h6 className="mb-3 text-secondary">{category.description}</h6>
+                    </CategoryContainer>
+                    {/*<hr/>*/}
+                    <ExampleContainer className={category.className}>
+                        {category.examples.map((example, i) => (
+                            <MenuModalOption
+                                key={i}
+                                name={example.name}
+                                description={example.description || '(No description provided)'}
+                                {...onLeftClick(() => events.emit(PROJECT_LOAD_EVENT, example))}>
+                            </MenuModalOption>
+                        ))}
+                    </ExampleContainer>
+                </div>
             ))}
         </MenuModal>
     );
