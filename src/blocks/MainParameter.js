@@ -2,9 +2,10 @@ import {identifierType, typeType, valueType} from '../block-types/types';
 import {paramCategory} from '../block-categories/categories';
 import {FOR_CONFIGURATION} from '../editor/useCases';
 
-export function compileGlobalParameter(node, compiler) {
-    let {name, type} = compiler.getInputArgs(node);
-    let typeString = compiler.getTypeString(type) || 'Any';
+export function compileGlobalParameter(node, editor) {
+    let name = editor.compilers.motoko.getInput(node, 'name');
+    let type = editor.compilers.type.getInput(node, 'type') || valueType;
+    let typeString = editor.compilers.motoko.getTypeString(type);
     return `${name} : ${typeString}`;
 }
 
@@ -17,8 +18,8 @@ const block = {
     global: true,
     computeTitle(node, editor) {
         let name = editor.compilers.motoko.getInput(node, 'name');
-        let type = editor.compilers.type.getInput(node, 'type');
-        return name && `${name} : ${type ? editor.compilers.motoko.getTypeString(type) : 'Any'}`;
+        let type = editor.compilers.type.getInput(node, 'type') || valueType;
+        return name && `${name} : ${editor.compilers.motoko.getTypeString(type)}`;
     },
     shortcuts: [{
         block: 'MainParameterRead',

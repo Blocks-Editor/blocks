@@ -1,12 +1,12 @@
 import {expressionArgsInput, expressionControl, parseCodeBlockInputs} from '../block-patterns/code-patterns';
-import {memberType} from '../block-types/types';
+import {referenceType} from '../block-types/types';
 import {expressionCategory} from '../block-categories/categories';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
-import {memberBlock} from '../block-patterns/member-patterns';
 
-const block = memberBlock({
-    title: '{ Member }',
-    info: 'Compile an arbitrary member',
+const block = {
+    title: '{ Import }',
+    info: 'Compile an arbitrary import statement',
+    topRight: 'result',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,
@@ -14,17 +14,16 @@ const block = memberBlock({
     inputs: [
         expressionArgsInput(),
     ],
+    outputs: [{
+        key: 'result',
+        type: referenceType,
+        hidden: true,////
+        toMotoko({inputs, expression}) {
+            return parseCodeBlockInputs(inputs, expression);
+        },
+    }],
     controls: [
         expressionControl(),
     ],
-}, {
-    type: memberType,
-    toMotoko({inputs, expression}) {
-        let result = parseCodeBlockInputs(inputs, expression)?.trimRight();
-        if(result && !result.endsWith(';')) {
-            result += ';';
-        }
-        return result;
-    },
-});
+};
 export default block;

@@ -46,7 +46,10 @@ export default function OutputControlHandle({control, bindInput, query}) {
                     {/*    ref={bindInput}*/}
                     {/*    value={value || ''}*/}
                     {/*/>*/}
-                    <div ref={bindInput} className="w-100">
+                    <div
+                        ref={bindInput}
+                        className="w-100"
+                        style={{height: 25 * (1 + (value?.match(/\n/g) || []).length)}}>
                         <CodeEditor
                             value={value}
                             readOnly

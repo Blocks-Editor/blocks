@@ -7,9 +7,10 @@ import {getBlock} from '../../editor/blocks';
 import {memberType} from '../../block-types/types';
 
 // Priority for ordering members
-export const TYPE_PRIORITY = 3;
+export const TYPE_PRIORITY = 1;
 export const FUNCTION_PRIORITY = 2;
-export const STATE_PRIORITY = 1;
+export const STATE_PRIORITY = 3;
+export const CODE_PRIORITY = 4;
 
 const defaultActorName = 'Main';
 const installerBlockName = 'MainInstaller';
@@ -27,6 +28,9 @@ export default function compileGlobalMotoko(editor) {
 
     const actorName = pascalCase(editor.details.name) || defaultActorName;
 
+    const importNodes = editor.nodes
+        .filter(node => node.name === 'CodeImport');
+
     const memberNodes = editor.nodes
         .filter(node => {
             const io = node.inputs.get('member');
@@ -37,7 +41,7 @@ export default function compileGlobalMotoko(editor) {
             return type && memberType.isSubtype(type);
         })
         .map(node => [node, getBlock(node.name)])
-        .sort(([a, aBlock], [b, bBlock]) => (bBlock.memberPriority - aBlock.memberPriority) || (a.position[0] - b.position[0]) || (a.position[1] - b.position[1]) || 0)
+        .sort(([a, aBlock], [b, bBlock]) => ((aBlock.memberPriority || 0) - (bBlock.memberPriority || 0)) || (a.position[0] - b.position[0]) || (a.position[1] - b.position[1]) || 0)
         .map(([node]) => node);
 
     const installerNodes = editor.nodes.filter(node => node.name === installerBlockName);
@@ -47,15 +51,20 @@ export default function compileGlobalMotoko(editor) {
 
     const thisPart = '';//`= ${mainInstanceRef(editor)}`
     const classPart = (installerPart || thisPart || paramNodes.length) && `${formatParentheses(paramNodes.map(node => {
-        return compileGlobalParameter(node, editor.compilers.motoko);
+        return compileGlobalParameter(node, editor);
     }).join(', '))}`;
 
-    const actorPart = `${installerPart ? `${installerPart} ` : ''}actor ${classPart ? `class ${actorName}${classPart}` : actorName}${thisPart ? ` ${thisPart}` : ''}`;
+    const importPart = importNodes.map(node => editor.compilers.motoko.getOutput(node, 'result')?.trim() || '').join('\n');
+    const actorPart = `actor ${classPart ? `class ${actorName}${classPart}` : actorName}${thisPart ? ` ${thisPart}` : ''}`;
 
     const [prefixes, actorCode] = resolveImportRefs(`${actorPart} {${memberNodes.map(node => {
         const result = editor.compilers.motoko.getOutput(node, 'member');
         return result ? `\n  ${result}` : '';
-    }).join('\n')}\n}`);
+    }).join('\n')}\n}`, importPart);
+
+    // if(importPart) {
+    //     prefixes.push(importPart);
+    // }
 
     // console.log(prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`))///
     // throw new Error()

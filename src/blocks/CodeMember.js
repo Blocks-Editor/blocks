@@ -3,6 +3,7 @@ import {memberType} from '../block-types/types';
 import {expressionCategory} from '../block-categories/categories';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 import {memberBlock} from '../block-patterns/member-patterns';
+import {CODE_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 
 const block = memberBlock({
     title: '{ Member }',
@@ -11,6 +12,7 @@ const block = memberBlock({
     category: expressionCategory,
     icon: expressionCategory.data.icon,
     width: 14,
+    memberPriority: CODE_PRIORITY,
     inputs: [
         expressionArgsInput(),
     ],

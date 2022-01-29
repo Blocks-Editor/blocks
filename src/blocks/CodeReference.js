@@ -1,7 +1,8 @@
-import {expressionArgsInput, expressionControl, parseCodeBlockInputs} from '../block-patterns/code-patterns';
+import {expressionArgsInput, parseCodeBlockInputs} from '../block-patterns/code-patterns';
 import {referenceType} from '../block-types/types';
 import {expressionCategory} from '../block-categories/categories';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
+import TextControlHandle from '../components/rete/controls/TextControlHandle';
 
 const block = {
     title: '{ Reference }',
@@ -10,7 +11,7 @@ const block = {
     category: expressionCategory,
     icon: expressionCategory.data.icon,
     topRight: 'result',
-    width: 14,
+    // width: 8,
     inputs: [
         expressionArgsInput(),
     ],
@@ -22,7 +23,16 @@ const block = {
         },
     }],
     controls: [
-        expressionControl(),
+        // expressionControl({height: 24, options: {lineNumbers: 'off'}}),
+        {
+            key: 'expression',
+            config: {
+                controlType: TextControlHandle,
+                validation: {
+                    minLength: 1,
+                },
+            },
+        },
     ],
 };
 export default block;

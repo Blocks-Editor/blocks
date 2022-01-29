@@ -536,10 +536,10 @@ export function getType(type, generics) {
         throw new Error(`Invalid type: ${type}`);
     }
     console.warn('Creating type from value:', type);
-    if(!TYPE_MAP.has(type)) {
-        throw new Error(`Unknown type: ${typeof type === 'object' ? `object with keys: ${Object.keys(type)}` : type}`);
+    if(TYPE_MAP.has(type)) {
+        return TYPE_MAP.get(type);
     }
-    return TYPE_MAP.get(type);
+    throw new Error(`Unknown type: ${typeof type === 'object' ? `object with keys: ${Object.keys(type)}` : type}`);
 }
 
 export function getSharedType(...types) {

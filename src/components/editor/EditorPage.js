@@ -20,7 +20,7 @@ import generateBlocksFromParseResult from '../../parsers/generateBlocksFromParse
 
 const STORAGE_EDITOR_STATE = 'blocks.editorState';
 
-const DEFAULT_STATE = require('../../examples/files/DefaultProject.json');
+const DEFAULT_STATE = require('../../examples/misc/DefaultProject.json');
 
 const embedded = isEmbeddedMode();
 const storage = embedded ? {} : localStorage; // TODO: convert to `useLocalStorage()`

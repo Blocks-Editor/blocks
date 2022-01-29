@@ -15,7 +15,7 @@ export default class NodeHandle extends Node {
         catch(err) {
             console.error(err);
             return (
-                <span className="h4 mb-0 bg-dark">{'<Error>'}</span>
+                <span className="h4 mb-0 bg-light text-dark">{'<Error>'}</span>
             );
         }
     }

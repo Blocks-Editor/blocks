@@ -17,9 +17,11 @@ export default function DefaultNodeView({block, nodeHandle}) {
     const {editor, node, bindSocket, bindControl} = nodeHandle.props;
     const {selected} = nodeHandle.state;
 
+    const getTopIO = (side, ioSide) => block[side] && block[side] in block.props && !block.props[block[side]].hidden && node[ioSide].get(block[side]);
+
     // Properties for the top left/right corners
-    const topLeft = block.topLeft && node.inputs.get(block.topLeft);
-    const topRight = block.topRight && node.outputs.get(block.topRight);
+    let topLeft = getTopIO('topLeft', 'inputs');
+    let topRight = getTopIO('topRight', 'outputs');
 
     let title = getNodeLabel(node, editor, true);
     if(block.computeTitle) {
@@ -42,12 +44,17 @@ export default function DefaultNodeView({block, nodeHandle}) {
         return prop.control || ((!topLeft || prop.key !== block.topLeft) && (!topRight || prop.key !== block.topRight));
     };
 
-    const width = 32 * (node.data['editor:width'] || block.width || 6) - 3;
+    const borderColor = node.data['editor:border'];
+
+    const style = {
+        border: !!borderColor && `2px solid ${borderColor}`,
+        width: 32 * (node.data['editor:width'] || block.width || 6) - 3,
+    };
 
     useReactTooltip();
 
     return (
-        <div style={{width}} className={classNames('node', `node-id-${node.id}`, selected, block.className)}>
+        <div style={style} className={classNames('node', `node-id-${node.id}`, selected, block.className)}>
             <div className="header d-flex">
                 {topLeft && (
                     <div>

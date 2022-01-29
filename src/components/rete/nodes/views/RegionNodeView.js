@@ -25,11 +25,10 @@ export default function RegionNodeView({block, nodeHandle}) {
     const [height, setHeight] = useControlValue(node.controls.get('heightPixels'));
 
     const bindContainer = (element) => {
-        if(!element) {
-            return;
+        if(element) {
+            // Render behind other nodes
+            element.parentElement.style.zIndex = String(-1);
         }
-        // Render behind other nodes
-        element.parentElement.style.zIndex = String(-1);
     };
 
     return (

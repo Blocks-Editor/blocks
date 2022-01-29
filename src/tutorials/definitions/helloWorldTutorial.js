@@ -17,7 +17,7 @@ import capitalize from '../../utils/capitalize';
 import {TUTORIAL_CLICK_DRAG, TUTORIAL_LEFT_CLICK, TUTORIAL_CONTEXT_MENU_CLICK} from '../utils/tutorialText';
 import isOutputPanelHidden from '../../utils/isOutputPanelHidden';
 
-// Custom ID for the tutorial blocks
+// Custom tutorial block IDs
 const functionNodeId = 'helloFunction';
 const returnNodeId = 'helloReturn';
 const textNodeId = 'helloText';

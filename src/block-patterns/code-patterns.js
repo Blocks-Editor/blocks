@@ -3,11 +3,12 @@ import {anyType} from '../block-types/types';
 
 let replaceRegex = /{([0-9]+)}/g;
 
-export function expressionControl() {
+export function expressionControl(controlProps = {}) {
     return {
         key: 'expression',
         config: {
             controlType: CodeControlHandle,
+            controlProps,
         },
     };
 }

@@ -104,14 +104,13 @@ const block = memberBlock({
         let hasCaller = node.outputs.get('caller').connections.length;
 
         let shared = !!hasCaller;
-        let modifiers = [visibility !== 'system' && visibility].filter(m => m).join(' ');
+        let modifiers = [visibility !== 'system' && visibility, shared && 'shared', query && 'query'].filter(m => m).join(' ');
 
         let returnType = getFunctionReturnType(node, compiler.editor);
         let returnString = compiler.getTypeString(returnType);
         return [
             modifiers,
-            shared ? `shared${formatParentheses(`${name}__msg`)}` : '',
-            query ? 'query' : '',
+            shared && formatParentheses(`${name}__msg`),
             `func ${name || ''}${formatParentheses(params.join(', '))}${returnString !== '()' ? ` : ${returnString}` : ''}`,
             formatStatementBlock(body || ''),
         ];

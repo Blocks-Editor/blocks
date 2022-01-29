@@ -82,7 +82,7 @@ export default function OutputPanel({editor}) {
         // }
 
         try {
-            const playgroundWindow = window.open(`${playgroundOrigin}?post=${playgroundKey}&tag=_`, 'motokoPlayground');
+            const playgroundWindow = window.open(`${playgroundOrigin}?post=${playgroundKey}`, 'motokoPlayground');
 
             // Interval index used as acknowledge key
             const ack = setInterval(() => {

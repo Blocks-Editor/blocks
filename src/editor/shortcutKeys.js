@@ -3,7 +3,7 @@ import {getBlock} from './blocks';
 /* eslint-disable quote-props */
 const shortcutKeys = {
     'c': 'Comment',
-    'd': 'CommentRegion',
+    'v': 'CommentRegion',
 
     // Arithmetic
     '-': 'Subtract',
@@ -16,6 +16,11 @@ const shortcutKeys = {
     '\\': 'Or',
     '1': 'Not',
 
+    // Members
+    'f': 'Function',
+    's': 'State',
+    'p': 'MainParameter',
+
     // Control flow
     'r': 'Return',
 
@@ -27,7 +32,7 @@ const shortcutKeys = {
     'b': 'LiteralBool',
     'n': 'LiteralNat',
     'i': 'LiteralInt',
-    'f': 'LiteralFloat',
+    'd': 'LiteralFloat',
     // 's': 'LiteralText',
     'a': 'NewArray',
     'm': 'NewHashMap',

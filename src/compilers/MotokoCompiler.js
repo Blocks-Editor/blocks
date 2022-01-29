@@ -7,7 +7,7 @@ export function importRef(name) {
     return `$import$"${name}"`;
 }
 
-export function resolveImportRefs(code) {
+export function resolveImportRefs(code, importPart) {
     if(!code) {
         return [[], ''];
     }
@@ -22,9 +22,14 @@ export function resolveImportRefs(code) {
         imports[id] = path;
         return id;
     });
-    let prefixes = Object.entries(imports)
+    const prefixes = Object.entries(imports)
         .sort(([a], [b]) => a.localeCompare(b)) // Sort by identifier
-        .map(([id, path]) => `import ${id} "${path}";`);
+        .map(([id, path]) => `import ${id} "${path}";`)
+        .filter(expr => !importPart.includes(expr));
+
+    if(importPart) {
+        prefixes.push(importPart);
+    }
     return [prefixes, code];
 }
 
@@ -42,7 +47,7 @@ export default class MotokoCompiler extends Compiler {
         }
 
         if(typeType.isSubtype(prop.type)) {
-            let type = prop.type.generics[0];
+            const type = prop.type.generics[0];
             if(type && !type.isAbstract()) {
                 return this.getTypeString(type);
             }

@@ -23,7 +23,7 @@ export default class TypeCompiler extends Compiler {
             return type;
         }
         type = getType(type);
-        if(type.isAbstract()) {
+        if(type.isAbstract() && process.env.NODE_ENV !== 'production') {
             console.warn(`[${node.name}.${key}]`, 'Abstract inferred type:', type.toTypeString());
             return;
         }

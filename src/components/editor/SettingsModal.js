@@ -48,7 +48,7 @@ function Setting({name, description, note, type, extras, props}) {
                     <span className="flex-grow-1" style={{fontWeight: 500}}>{name}</span>
                     {SettingInput && <SettingInput {...props}/>}
                 </div>
-                <div className="d-flex small text-muted align-content-between w-100">
+                <div className="d-flex small text-secondary align-content-between w-100">
                     <div className="flex-grow-1">{description}</div>
                     {!!note && <div>{note}</div>}
                 </div>
@@ -155,7 +155,7 @@ export default function SettingsModal() {
             {/*<hr/>*/}
             <KeyBindingDetail/>
             <div className="h5 fw-normal mt-4 mb-0 w-100">
-                <a href="https://github.com/Blocks-Editor/blocks" target="_blank" rel="noreferrer" className="p-2 rounded text-muted small w-100">
+                <a href="https://github.com/Blocks-Editor/blocks" target="_blank" rel="noreferrer" className="p-2 rounded text-secondary small w-100">
                     Blocks is currently in open beta.
                 </a>
             </div>
