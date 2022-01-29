@@ -8,7 +8,7 @@ let ContainerDiv = styled.div`
     position: absolute;
 
     ${props => props.bottom && css`
-        bottom: 0;
+        bottom: calc(100vh - 100%);
     `};
 
     ${props => props.top && css`

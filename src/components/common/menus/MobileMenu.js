@@ -11,7 +11,7 @@ const MenuContainer = styled.div`
     flex-direction: column;
     position: absolute;
     top: 0;
-    height: 100vh;
+    height: 100%;
     bottom: 0;
     right: 0;
     width: 60%;
