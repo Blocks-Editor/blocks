@@ -15,15 +15,18 @@ import useReactTooltip from '../../hooks/useReactTooltip';
 import {isMobile} from 'react-device-detect';
 import {onLeftClick} from '../../utils/eventHelpers';
 
+const topOffset = isMobile ? 0 : 66; // Magic temporary number
+
 const OutputContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: ${isMobile ? 0 : 66}px; // Magic temporary evil number
-    height: calc(100% - ${isMobile ? 0 : 66}px); // Magic temporary evil number; prevents scrollbar
+    top: ${topOffset}px;
     bottom: 0;
     right: 0;
     width: 40%;
+    height: calc(100% - ${topOffset}px); // Prevents scrollbar
+    padding-bottom: ${isMobile ? 40 : 0}px;
     transition: 0.4s;
     z-index: 100;
     //padding-top: 95px;
