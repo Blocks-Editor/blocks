@@ -8,7 +8,7 @@ let ContainerDiv = styled.div`
     position: absolute;
 
     ${props => props.bottom && css`
-        bottom: ${isMobile ? 40 : 0}px;
+        bottom: ${isMobile ? 50 : 0}px;
     `};
 
     ${props => props.top && css`

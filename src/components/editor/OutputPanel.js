@@ -26,7 +26,7 @@ const OutputContainer = styled.div`
     right: 0;
     width: 40%;
     height: calc(100% - ${topOffset}px); // Prevents scrollbar
-    padding-bottom: ${isMobile ? 40 : 0}px;
+    padding-bottom: ${isMobile ? 60 : 0}px;
     transition: 0.4s;
     z-index: 100;
     //padding-top: 95px;

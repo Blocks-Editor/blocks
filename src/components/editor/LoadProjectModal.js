@@ -42,7 +42,7 @@ export default function LoadProjectModal({className, ...others}) {
     // const examples = getExampleProjects();
 
     return (
-        <MenuModal title={isMobile && 'Open an example:'} className={classNames(className)} {...others}>
+        <MenuModal title={isMobile && 'Load an example:'} className={classNames(className)} {...others}>
             {!isMobile && (
                 <StyledFileDropZone
                     className={classNames('clickable text-center text-secondary rounded-3')}
