@@ -29,7 +29,7 @@ export default function CommentNodeView({block, nodeHandle}) {
     const bindContainer = (element) => {
         if(element) {
             // Render in front of other nodes
-            element.parentElement.style.zIndex = String(1);
+            element.parentElement.style.zIndex = '1';
         }
     };
 

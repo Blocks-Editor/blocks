@@ -27,7 +27,7 @@ export default function RegionNodeView({block, nodeHandle}) {
     const bindContainer = (element) => {
         if(element) {
             // Render behind other nodes
-            element.parentElement.style.zIndex = String(-1);
+            element.parentElement.style.zIndex = '-1';
         }
     };
 

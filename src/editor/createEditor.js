@@ -87,6 +87,7 @@ export default function createEditor(container, {history} = {}) {
     editor.on('nodeselect', node => !editor.selected.contains(node)); // Allow dragging multiple nodes
     editor.on('nodeselected', () => updateSelection());
     editor.on('renderconnection', ({el, connection}) => {
+        el.style.zIndex = '-10';
         const category = findCategory((connection.input.socket.data.reversed ? connection.input : connection.output).socket);
         el.querySelector('.connection').classList.add(
             `socket-output-category-${category}`,
