@@ -158,8 +158,8 @@ export default function OutputPanel({editor}) {
                     </div>
                 )}
             </div>
-            <div className="flex-grow-1">
-                <CodeEditor value={output} readOnly/>
+            <div className="flex-grow-1" style={{paddingLeft: isMobile && '1rem'}}>
+                <CodeEditor value={output} readOnly options={{lineNumbers: isMobile ? 'off' : undefined}}/>
             </div>
             <div className="bottom-bar d-flex flex-row align-items-center justify-content-around py-2">
                 {/*<CopyToClipboard text={output} onCopy={() => setCopied(true)}>*/}
