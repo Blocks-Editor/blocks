@@ -144,7 +144,7 @@ export default function SettingsModal() {
     }];
 
     return (
-        <MenuModal title="Settings">
+        <MenuModal title="Options">
             {settings.map((setting, i) => (
                 <div key={i}>
                     <Setting className={classNames('d-md-block', {'d-none': setting.hideMobile})} {...setting}/>
