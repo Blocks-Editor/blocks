@@ -13,7 +13,7 @@ let ContainerDiv = styled.div`
 
     ${props => props.top && css`
         top: 0;
-        margin-top: ${isMenuHidden() ? 0 : isMobile ? 125 : 75}px;
+        margin-top: ${isMenuHidden() ? 0 : 100}px !important;
     `};
 
     ${props => props.left && css`
