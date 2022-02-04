@@ -36,9 +36,9 @@ const block = memberBlock({
                 return typeInput.withMeta({name});///
             }
         },
-        // toMotoko({name}) {
-        //     return name;
-        // },
+        toMotoko({name}) {
+            return name;
+        },
     }],
     controls: [
         visibilityControlProp(),

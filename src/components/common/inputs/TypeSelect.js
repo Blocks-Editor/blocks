@@ -1,4 +1,4 @@
-import {anyType, getType, TYPE_MAP} from '../../../block-types/types';
+import {anyType, customType, getType, TYPE_MAP} from '../../../block-types/types';
 import React, {useContext} from 'react';
 import EventsContext, {ERROR_EVENT} from '../../../contexts/EventsContext';
 import classNames from 'classnames';
@@ -16,7 +16,7 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
     constraintType = constraintType || anyType;
 
     const types = [...TYPE_MAP.values()]
-        .filter(type => (abstract || !type.data.abstract || type.data.arbitraryGenericType) && constraintType.isSubtype(type));
+        .filter(type => !type.data.hidden && (abstract || !type.data.abstract || type.data.arbitraryGenericType) && constraintType.isSubtype(type));
 
     const events = useContext(EventsContext);
 
@@ -25,8 +25,7 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
             value = getType(value);
         }
         catch(err) {
-            onChange(value = undefined);///
-            // console.error(err);
+            onChange(value = constraintType);///
             events.emit(ERROR_EVENT, err);
         }
     }
@@ -52,12 +51,13 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
                 value={value?.name}
                 onChange={event => {
                     const type = getType({name: event.target.value});
-                    console.log(type);//
                     onChange(type);
                     // onChange(type.data.arbitraryGenericType ? type.of(type.data.arbitraryGenericType) /*withGenerics(type, [type.data.arbitraryGenericType])*/ : type);
                 }}
                 {...others}>
-                {invalid && <option label="(Type)" value={value?.name}/>}
+                {(invalid || !value || !types.some(t => t.name === value.name && t.isSubtype(value))) && (
+                    <option label="(Type)" value={value?.name}/>
+                )}
                 {types.map(type => (
                     <option key={type.name} label={type.name} value={type.name}/>
                 ))}
@@ -77,6 +77,18 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
                                 onChange(withGenerics(value, generics));
                             }}/>
                     ))}
+                    {value.data.baseType === customType && (
+                        // TODO: refactor
+                        <input
+                            type="text"
+                            className={classNames('w-100')}
+                            autoComplete="blocks-app"
+                            autoCorrect="off"
+                            value={value.meta.motoko || ''}
+                            placeholder="Motoko expression"
+                            onChange={event => onChange(value.withMeta({motoko: event.target.value || undefined}))}
+                        />
+                    )}
                     {/* Arbitrary number of generic values (e.g. tuples, records) */}
                     {!!arbitraryGenericType && (
                         <div className="btn-group btn-group-sm mb-1">

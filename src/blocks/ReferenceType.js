@@ -1,15 +1,15 @@
-import {referenceType, typeType, valueType} from '../block-types/types';
-import {FOR_CUSTOM_LOGIC, FOR_STORING_DATA} from '../editor/useCases';
+import {customType, referenceType, typeType, valueType} from '../block-types/types';
+import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 import {referenceCategory} from '../block-categories/categories';
 
 const block = {
-    title: 'Value',
-    info: 'Convert a code reference to a typed value',
+    title: 'Type',
+    info: 'Convert a code reference to a type',
     category: referenceCategory,
     icon: referenceCategory.data.icon,
-    useCases: [FOR_CUSTOM_LOGIC, FOR_STORING_DATA],
+    useCases: [FOR_CUSTOM_LOGIC],
     topLeft: 'reference',
-    topRight: 'value',
+    topRight: 'type',
     computeTitle(node, editor) {
         const type = editor.compilers.type.getInput(node, 'type');
         if(!type) {
@@ -20,18 +20,19 @@ const block = {
     inputs: [{
         key: 'reference',
         type: referenceType,
-    }, {
-        key: 'type',
-        type: typeType.of(valueType),
     }],
     outputs: [{
-        key: 'value',
-        type: valueType,
+        key: 'type',
+        type: typeType.of(valueType),
         toMotoko({reference}) {
             return reference;
         },
-        inferType({type}) {
-            return type;
+        inferType(_, node, compiler) {
+            const name = compiler.editor.compilers.motoko.getInput(node, 'reference');
+            if(!name) {
+                return;
+            }
+            return customType.withMeta({name});
         },
     }],
 };

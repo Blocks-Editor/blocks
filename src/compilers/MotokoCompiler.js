@@ -50,7 +50,7 @@ export function resolveImportRefs(code, importPart) {
     const prefixes = Object.entries(imports)
         .sort(([a], [b]) => a.localeCompare(b)) // Sort by identifier
         .map(([id, path]) => importStatement(path, id))
-        .filter(expr => !importPart.includes(expr));
+        .filter(expr => !importPart?.includes(expr));
 
     if(importPart) {
         prefixes.push(importPart);

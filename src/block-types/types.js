@@ -43,7 +43,7 @@ class Type {
         return this.name === other.name && this.generics.length === other.generics.length && this.generics.every((t, i) => t.equals(other.generics[i]));
     }
 
-    // TODO: rename to something like `isAssignableFrom`
+    // TODO: rename to something like `isProperSubtype` or `isAssignableFrom`
     isSubtype(other) {
         if(!other) {
             return false;
@@ -141,12 +141,12 @@ export const valueType = createType('Value', {
 });
 export const customType = createType('Custom', {
     info: 'A custom user-defined value',
-    // abstract: true, // TEMP
-    // arbitraryGenericType: valueType, ///??
+    arbitraryGenericType: valueType,
     parent: valueType,
+    hidden: true,
     // toMotoko() {
-    //     console.log(this)///
-    //     return this.meta.motoko || '$Custom$';
+    //     console.log(this);///
+    //     return this.meta.motoko || `$${this.toTypeString()}$`;
     // },
 });
 export const referenceType = createType('Reference', {
@@ -548,7 +548,7 @@ export function getType(type, generics) {
     if(TYPE_MAP.has(type)) {
         return TYPE_MAP.get(type);
     }
-    throw new Error(`Unknown type: ${typeof type === 'object' ? `object with keys: ${Object.keys(type)}` : type}`);
+    throw new Error(`Unknown type: ${type && typeof type === 'object' ? `object with keys: ${Object.keys(type)}` : type}`);
 }
 
 export function getSharedType(...types) {
