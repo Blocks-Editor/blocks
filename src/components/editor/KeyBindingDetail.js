@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import classNames from 'classnames';
 import React from 'react';
-import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
+import {SHORTCUT_KEY_MAP} from '../../editor/shortcutKeys';
 import getBlockLabel from '../../utils/getBlockLabel';
 
 const BlockShortcutContainer = styled.div`
@@ -61,9 +61,9 @@ export default function KeyBindingDetail() {
             <KeyboardShortcut binding={['ctrl', 'left mouse']}>
                 Remove Connection
             </KeyboardShortcut>
-            {[...SHORTCUT_KEYS.keys()].sort().map(key => (
+            {[...SHORTCUT_KEY_MAP.keys()].sort().map(key => (
                 <KeyboardShortcut key={key} binding={key}>
-                    <span className="text-muted">{getBlockLabel(SHORTCUT_KEYS.get(key))}</span>
+                    <span className="text-muted">{getBlockLabel(SHORTCUT_KEY_MAP.get(key))}</span>
                 </KeyboardShortcut>
             ))}
         </BlockShortcutContainer>

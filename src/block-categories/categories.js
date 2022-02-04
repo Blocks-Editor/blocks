@@ -1,4 +1,5 @@
 import {
+    FaArrowRight,
     FaCode,
     FaCommentAlt,
     FaCubes,
@@ -81,6 +82,11 @@ export const expressionCategory = createCategory({
     name: 'Expression',
     color: '#aaa',
     icon: FaEject,
+});
+export const referenceCategory = createCategory({
+    name: 'Reference',
+    color: '#aaa',
+    icon: FaArrowRight,
 });
 export const operatorCategory = createCategory({
     name: 'Operator',

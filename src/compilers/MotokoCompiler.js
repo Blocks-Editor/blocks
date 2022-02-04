@@ -3,8 +3,33 @@ import {getType, identifierType, typeType} from '../block-types/types';
 import nodeIdentifierRef from './utils/nodeIdentifierRef';
 import {formatString} from '../editor/format/formatHelpers';
 
-export function importRef(name) {
-    return `$import$"${name}"`;
+export function importRef(path) {
+    return `$import$"${path}"`;
+}
+
+export function defaultImportNameFromPath(path) {
+    if(path.includes(' ')) {
+        return path.substring(0, path.indexOf(' '));
+    }
+    if(path.includes('/')) {
+        return path.substring(path.lastIndexOf('/') + 1);
+    }
+    if(path.includes(':')) {
+        return path.substring(path.lastIndexOf(':') + 1);
+    }
+    return path;
+}
+
+export function importStatement(path, name) {
+    if(!path) {
+        return;
+    }
+    name = name || defaultImportNameFromPath(path);
+    if(path.includes(' ')) {
+        // Remove specified id
+        path = path.substring(path.indexOf(' ') + 1);
+    }
+    return `import ${name} "${path}";`;
 }
 
 export function resolveImportRefs(code, importPart) {
@@ -15,7 +40,7 @@ export function resolveImportRefs(code, importPart) {
 
     const imports = {};
     code = code.replace(/\$import\$"([^"]*)"/g, (match, path) => {
-        const id = path.includes('/') ? path.substring(path.lastIndexOf('/') + 1) : path;
+        const id = defaultImportNameFromPath(path);
         if(imports.hasOwnProperty(id) && imports[id] !== path) {
             throw new Error(`Conflicting import paths: "${path}" != "${imports[id]}"`);
         }
@@ -24,7 +49,7 @@ export function resolveImportRefs(code, importPart) {
     });
     const prefixes = Object.entries(imports)
         .sort(([a], [b]) => a.localeCompare(b)) // Sort by identifier
-        .map(([id, path]) => `import ${id} "${path}";`)
+        .map(([id, path]) => importStatement(path, id))
         .filter(expr => !importPart.includes(expr));
 
     if(importPart) {

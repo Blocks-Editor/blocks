@@ -84,7 +84,7 @@ const block = memberBlock({
         advanced: true,
         inferType({params}, node, compiler) {
             const returnType = getFunctionReturnType(node, compiler.editor);
-            return functionType.of(tupleType.of(...params), returnType);
+            return functionType.of(tupleType.of(...params.map(paramType => paramType.generics[0])), returnType);
         },
         toMotoko({name}) {
             return name;

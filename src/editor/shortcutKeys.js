@@ -42,4 +42,6 @@ const shortcutKeys = {
     'u': 'OptionalUnwrap',
 };
 
-export const SHORTCUT_KEYS = new Map(Object.entries(shortcutKeys).map(([k, v]) => [k, getBlock(v)]));
+export const SHORTCUT_KEY_MAP = new Map(Object.entries(shortcutKeys).map(([k, v]) => [k, getBlock(v)]));
+
+export const SHORTCUT_BLOCK_FROM_KEY_MAP = new Map([...SHORTCUT_KEY_MAP.entries()].map(([k, v]) => [v, k]));

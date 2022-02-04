@@ -15,6 +15,7 @@ const categories = [{
     examples: [
         require('./concepts/SimpleCurrency.blocks.json'),
         require('./concepts/TextSharingAPI.blocks.json'),
+        require('./concepts/GitHubQuicksort.blocks.json'),
     ],
 }, {
     id: 'dfinity',

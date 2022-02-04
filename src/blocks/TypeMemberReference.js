@@ -4,7 +4,7 @@ import {FaAngleRight} from 'react-icons/fa';
 import {findNodeSearchOptions} from '../block-patterns/search-patterns';
 
 const block = {
-    title: 'Type Reference',
+    title: 'Get Named Type',
     info: 'Reference a global named type',
     category: typeCategory,
     icon: FaAngleRight,

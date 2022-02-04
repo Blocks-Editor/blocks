@@ -54,7 +54,7 @@ class Type {
         if(this.data.isSpecialSubtype?.call(this, other)) {
             return true;
         }
-        if(this.data.arbitraryGenerics && other.parent && this.name === other.parent.name) {
+        if(this.data.arbitraryGenericType && other.parent && this.name === other.parent.name && other.generics.every(t => this.data.arbitraryGenericType.isSubtype(t))) {
             // e.g. `Tuple : Tuple<A, B, C>`
             return true;
         }
@@ -142,8 +142,8 @@ export const valueType = createType('Value', {
 export const customType = createType('Custom', {
     info: 'A custom user-defined value',
     // abstract: true, // TEMP
+    // arbitraryGenericType: valueType, ///??
     parent: valueType,
-    arbitraryGenerics: true,
     // toMotoko() {
     //     console.log(this)///
     //     return this.meta.motoko || '$Custom$';
@@ -153,6 +153,10 @@ export const referenceType = createType('Reference', {
     info: 'A programmatic path to a value, type, function, actor, class, object, or module',
     parent: anyType,
     category: 'references',
+    controlType: 'text',
+    validation: {
+        custom: value => !MOTOKO_KEYWORDS.includes(value),
+    },
 });
 export const identifierType = createType('Identifier', {
     info: 'A name consisting of letters and underscores',
@@ -199,6 +203,7 @@ export const paramType = createType('Parameter', {
     info: 'An input to a function, class, or actor',
     parent: anyReversedType,
     category: 'parameters',
+    generics: [valueType],
 });
 
 // Value types
@@ -270,7 +275,7 @@ export const errorType = createType('Error', {
 export const tupleType = createType('Tuple', {
     info: 'A combination of multiple values in a specific order',
     abstract: true,
-    arbitraryGenerics: true,
+    arbitraryGenericType: valueType,
     parent: valueType,
     category: 'tuples',
     // controlType: ,
@@ -285,13 +290,13 @@ export const tupleType = createType('Tuple', {
 //     parent: tupleType,
 // });
 export const unitType = createType('Unit', tupleType.withMeta({
-    info: 'An empty tuple; the only possible value for the "Unit" type',
+    info: 'An empty tuple \'()\' is the only possible value for the "Unit" type',
 }));
 if(tupleType === unitType) throw new Error(); // TODO: move to tests
 export const objectType = createType('Object', {
     info: 'An object which can include values, functions, types, or other members',
     abstract: true,
-    arbitraryGenerics: true,
+    arbitraryGenericType: valueType,
     parent: valueType,
     category: 'objects',
     // controlType: ,
@@ -374,7 +379,7 @@ export const unionType = createType('Union', {
     info: 'Any of the specified types',
     abstract: true,
     parent: valueType,
-    arbitraryGenerics: true,
+    arbitraryGenericType: valueType,
     controlType: 'type',
     isSpecialSubtype(other) {
         return this.generics.some(t => t.isSubtype(other));
@@ -387,11 +392,10 @@ export const intersectionType = createType('Intersection', {
     info: 'All of the specified types',
     abstract: true,
     parent: valueType,
-    arbitraryGenerics: true,
+    arbitraryGenericType: valueType,
     controlType: 'type',
     isSpecialSubtype(other) {
-        console.log(other);////
-        return this.generics.all(t => t.isSubtype(other));
+        return this.generics.every(t => t.isSubtype(other));
     },
     toMotoko(values) {
         return formatParentheses(values.join(' and '));
@@ -493,7 +497,7 @@ function getGenericType(parent, generics) {
         return generics[0];
     }
 
-    if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenerics) {
+    if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenericType) {
         return getType(parent);
     }
     let type = buildType(parent.name, parent, generics);
@@ -508,7 +512,7 @@ function buildType(name, parent, generics, data = {}, meta = {}) {
     // Special cases for data inheritance
     let {
         abstract,
-        arbitraryGenerics,
+        arbitraryGenericType,
         ...parentData
     } = parent ? parent.data : {};
     let parentMeta = parent ? parent.meta : {};

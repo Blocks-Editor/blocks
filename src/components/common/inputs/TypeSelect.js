@@ -4,15 +4,25 @@ import EventsContext, {ERROR_EVENT} from '../../../contexts/EventsContext';
 import classNames from 'classnames';
 import useReactTooltip from '../../../hooks/useReactTooltip';
 import getDefaultLabel from '../../../utils/getDefaultLabel';
+import {Button, ButtonGroup} from 'react-bootstrap';
+import {onLeftClick} from '../../../utils/eventHelpers';
+import {FaMinus, FaPlus} from 'react-icons/fa';
+
+const withGenerics = (type, generics) => {
+    return getType({
+        ...type.toJSON(),
+        generics,
+    });
+};
 
 export default function TypeSelect({value, constraintType, abstract, invalid, onChange, ...others}) {
 
     constraintType = constraintType || anyType;
 
     const types = [...TYPE_MAP.values()]
-        .filter(type => (abstract || !type.data.abstract) && constraintType.isSubtype(type));
+        .filter(type => (abstract || !type.data.abstract || type.data.arbitraryGenericType) && constraintType.isSubtype(type));
 
-    let events = useContext(EventsContext);
+    const events = useContext(EventsContext);
 
     if(value) {
         try {
@@ -42,31 +52,45 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
             <select
                 className={classNames(invalid && 'invalid')}
                 value={value?.name}
-                onChange={event => onChange(getType({name: event.target.value}))}
+                onChange={event => {
+                    const type = getType({name: event.target.value});
+                    console.log(type)
+                    onChange(type.data.arbitraryGenericType ? withGenerics(type, [type.data.arbitraryGenericType]) : type);
+                }}
                 {...others}>
                 {invalid && <option label="(Type)" value={value?.name}/>}
                 {types.map(type => (
                     <option key={type.name} label={type.name} value={type.name}/>
                 ))}
             </select>
-            <div className="ps-2">
-                {value?.generics?.map((type, i) => (
-                    <TypeSelect
-                        key={i}
-                        value={type}
-                        constraintType={value.data.baseType.generics[i]}
-                        abstract={abstract}
-                        data-tip={getDefaultLabel(value.data.genericNames?.[i])}
-                        onChange={t => {
-                            let generics = [...value.generics];
-                            generics.splice(i, 1, t);
-                            onChange(getType({
-                                ...value.toJSON(),
-                                generics,
-                            }));
-                        }}/>
-                ))}
-            </div>
+            {value && (
+                <div className="ps-2">
+                    {value.generics?.map((type, i) => (
+                        <TypeSelect
+                            key={i}
+                            value={type}
+                            constraintType={value.data.baseType.generics[i]}
+                            abstract={abstract}
+                            data-tip={getDefaultLabel(value.data.genericNames?.[i])}
+                            onChange={t => {
+                                const generics = [...value.generics];
+                                generics.splice(i, 1, t);
+                                onChange(withGenerics(value, generics));
+                            }}/>
+                    ))}
+                    {/* Arbitrary number of generic values (e.g. tuples, records) */}
+                    {!!value.data.arbitraryGenericType && (
+                        <ButtonGroup size="sm">
+                            <Button {...onLeftClick(() => onChange(withGenerics(value, [...value.generics, null])))}>
+                                <FaPlus/>
+                            </Button>
+                            <Button {...onLeftClick(() => onChange(withGenerics(value, value.generics.slice(0, -1))))}>
+                                <FaMinus/>
+                            </Button>
+                        </ButtonGroup>
+                    )}
+                </div>
+            )}
         </>
     );
 }

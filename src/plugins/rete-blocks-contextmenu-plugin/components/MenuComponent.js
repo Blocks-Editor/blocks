@@ -5,6 +5,8 @@ import getBlockLabel from '../../../utils/getBlockLabel';
 import useReactTooltip from '../../../hooks/useReactTooltip';
 import useLearningModeState from '../../../hooks/persistent/useLearningModeState';
 import getInfoText from '../../../utils/getInfoText';
+import classNames from 'classnames';
+import {camelCase} from 'change-case';
 
 
 export default function MenuComponent({component, specialTitle, ...others}) {
@@ -32,7 +34,7 @@ export default function MenuComponent({component, specialTitle, ...others}) {
         <MenuAction
             icon={React.createElement(block?.icon || category?.data.icon || FaRegStickyNote)}
             color={category?.data.color}
-            className={`component-${component.name}`}
+            className={classNames(`component-${component.name}`, specialTitle && `custom-title custom-title-${camelCase(specialTitle)}`)}
             {...others}>
             {specialTitle !== undefined ? <>{specialTitle} <span style={{opacity: .5}}>({title})</span></> : title}
         </MenuAction>

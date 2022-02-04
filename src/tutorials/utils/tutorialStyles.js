@@ -65,9 +65,9 @@ export function highlightNodeShortcut(id, blockName) {
     `;
 }
 
-export function highlightContextMenuComponent(blockName) {
+export function highlightContextMenuComponent(blockName, customTitle = false) {
     return css`
-        .context-menu .component-${blockName} {
+        .context-menu .component-${blockName}${customTitle === true ? '.custom-title' : customTitle ? `.${customTitle}` : ''} {
             box-shadow: 0 0 .5rem #FFFA !important;
             border: 1px solid white;
 

@@ -4,7 +4,7 @@ import EventsContext, {EDITOR_CHANGE_EVENT, EDITOR_SAVE_EVENT, ERROR_EVENT} from
 import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/utils/useListener';
-import {SHORTCUT_KEYS} from '../../editor/shortcutKeys';
+import {SHORTCUT_KEY_MAP} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import createEditor from '../../editor/createEditor';
@@ -88,7 +88,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
                     ReactTooltip.hide();
                 }
                 else {
-                    const block = SHORTCUT_KEYS.get(key);
+                    const block = SHORTCUT_KEY_MAP.get(key);
                     if(block) {
                         editor.createNodeAtCursor(editor.getComponent(block.name))
                             .catch(err => events.emit('error', err));

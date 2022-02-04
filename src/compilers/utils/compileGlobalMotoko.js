@@ -1,4 +1,4 @@
-import {resolveImportRefs} from '../MotokoCompiler';
+import {importStatement, resolveImportRefs} from '../MotokoCompiler';
 import prettyPrintMotoko from '../../editor/format/prettyPrintMotoko';
 import {formatParentheses} from '../../editor/format/formatHelpers';
 import {pascalCase} from 'change-case';
@@ -12,9 +12,13 @@ export const FUNCTION_PRIORITY = 2;
 export const STATE_PRIORITY = 3;
 export const CODE_PRIORITY = 4;
 
+// const packageBlockName = 'GithubPackage'; // external GitHub packages
+const codeImportBlockName = 'CodeImport'; // import expressions
+const referenceImportBlockName = 'ReferenceImport'; // import references
+const installerBlockName = 'MainInstaller'; // installer details
+const mainParameterBlockName = 'MainParameter'; // actor class parameters (config blocks)
+
 const defaultActorName = 'Main';
-const installerBlockName = 'MainInstaller';
-const mainParameterBlockName = 'MainParameter';
 
 export function mainSharedRef(editor) {
     return 'main__install';
@@ -27,9 +31,6 @@ export function mainInstanceRef(editor) {
 export default function compileGlobalMotoko(editor) {
 
     const actorName = pascalCase(editor.details.name) || defaultActorName;
-
-    const importNodes = editor.nodes
-        .filter(node => node.name === 'CodeImport');
 
     const memberNodes = editor.nodes
         .filter(node => {
@@ -44,6 +45,9 @@ export default function compileGlobalMotoko(editor) {
         .sort(([a, aBlock], [b, bBlock]) => ((aBlock.memberPriority || 0) - (bBlock.memberPriority || 0)) || (a.position[0] - b.position[0]) || (a.position[1] - b.position[1]) || 0)
         .map(([node]) => node);
 
+    // const packageNodes = editor.nodes.filter(node => node.name === packageBlockName);
+    const codeImportNodes = editor.nodes.filter(node => node.name === codeImportBlockName);
+    const referenceImportNodes = editor.nodes.filter(node => node.name === referenceImportBlockName);
     const installerNodes = editor.nodes.filter(node => node.name === installerBlockName);
     const paramNodes = editor.nodes.filter(node => node.name === mainParameterBlockName);
 
@@ -54,20 +58,17 @@ export default function compileGlobalMotoko(editor) {
         return compileGlobalParameter(node, editor);
     }).join(', '))}`;
 
-    const importPart = importNodes.map(node => editor.compilers.motoko.getOutput(node, 'result')?.trim() || '').join('\n');
+    const importPart = [
+        ...codeImportNodes.map(node => editor.compilers.motoko.getOutput(node, 'result')?.trim() || ''),
+        ...referenceImportNodes.map(node => importStatement(node.data.path)),
+        // ...packageNodes.map(node => importStatement(getPackageImportPath(editor.compilers.motoko.getOutput(node, 'name')))),
+    ].filter(s => s).join('\n');
     const actorPart = `actor ${classPart ? `class ${actorName}${classPart}` : actorName}${thisPart ? ` ${thisPart}` : ''}`;
 
     const [prefixes, actorCode] = resolveImportRefs(`${actorPart} {${memberNodes.map(node => {
         const result = editor.compilers.motoko.getOutput(node, 'member');
         return result ? `\n  ${result}` : '';
     }).join('\n')}\n}`, importPart);
-
-    // if(importPart) {
-    //     prefixes.push(importPart);
-    // }
-
-    // console.log(prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`))///
-    // throw new Error()
 
     return prettyPrintMotoko(`${prefixes.length ? prefixes.join('\n') + '\n\n' : ''}${actorCode}`);
 }

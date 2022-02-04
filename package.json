@@ -1,6 +1,6 @@
 {
   "name": "blocks-webapp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -24,6 +24,7 @@
     "file-saver": "^2.0.5",
     "firebase": "^9.6.1",
     "monaco-themes": "^0.4.0",
+    "parse-github-url": "^1.0.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.2",

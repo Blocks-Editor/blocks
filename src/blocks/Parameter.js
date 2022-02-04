@@ -28,6 +28,9 @@ const block = {
         toMotoko({name, type}) {
             return `${name} : ${type}`;
         },
+        inferType({type}) {
+            return paramType.of(type);
+        },
     }, {
         key: 'value',
         type: valueType,

@@ -3,19 +3,17 @@ import {createNodeStep} from '../steps/createNodeStep';
 import {css} from 'styled-components';
 import {getTutorialNode} from '../utils/getTutorialNode';
 import {
-    animationStyle,
     highlightContextMenuComponent,
     highlightNode,
     highlightNodeShortcut,
     highlightNodeSocket,
-    highlightStyle,
 } from '../utils/tutorialStyles';
 import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
 import {EDITOR_SELECTION_STORE} from '../../observables/editorSelectionStore';
 import capitalize from '../../utils/capitalize';
-import {TUTORIAL_CLICK_DRAG, TUTORIAL_LEFT_CLICK, TUTORIAL_CONTEXT_MENU_CLICK} from '../utils/tutorialText';
-import isOutputPanelHidden from '../../utils/isOutputPanelHidden';
+import {TUTORIAL_CLICK_DRAG, TUTORIAL_CONTEXT_MENU_CLICK} from '../utils/tutorialText';
+import {viewOutputStep} from '../steps/viewOutputStep';
 
 // Custom tutorial block IDs
 const functionNodeId = 'helloFunction';
@@ -57,7 +55,7 @@ export const helloWorldTutorial = {
                 return `${capitalize(TUTORIAL_CONTEXT_MENU_CLICK)} somewhere in the editor space.`;
             }
             if(contextMenu.node) {
-                return 'Make sure to {right-click} on empty space.';
+                return <>Make sure to {TUTORIAL_CONTEXT_MENU_CLICK} on empty space.</>;
             }
             return <>Select the <code>Function</code> block.</>;
         },
@@ -168,15 +166,7 @@ export const helloWorldTutorial = {
             return node.data.value;
         },
     }, {
-        title: 'View the smart contract',
-        info: `${capitalize(TUTORIAL_LEFT_CLICK)} the "Compile" button at the bottom right of the page.`,
-        style: css`
-            .compile-button {
-                border: 1px solid white;
-                ${highlightStyle}
-                ${animationStyle}
-            }
-        `,
+        ...viewOutputStep(),
         render(progress) {
             const functionNode = getFunctionNode(progress.editor);
             const textNode = getTextNode(progress.editor);
@@ -186,10 +176,6 @@ export const helloWorldTutorial = {
                     with a return value of <code>"{textNode.data.value}"</code>.
                 </small>
             );
-        },
-        isComplete(progress, {outputPanel}) {
-            // Skip if output panel is unavailable
-            return isOutputPanelHidden() || outputPanel;
         },
     }],
 };

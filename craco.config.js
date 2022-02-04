@@ -1,4 +1,4 @@
-const {addBeforeLoader, loaderByName} = require('@craco/craco');
+// const {addBeforeLoader, loaderByName} = require('@craco/craco');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 // const loadWasmPlugin = {
@@ -38,14 +38,14 @@ module.exports = {
             ],
         },
     },
-    jest: {
-        configure: {
-            verbose: true,
-            moduleDirectories: ['node_modules'],
-            transform: {
-                '\\.js$': '<rootDir>/utils/jest/requireContextTransformer', // TODO: fix
-            },
-            // transformIgnorePatterns: ['/node_modules/?!()'], // Fix compile errors
-        },
-    },
+    // jest: {
+    //     configure: {
+    //         verbose: true,
+    //         moduleDirectories: ['node_modules'],
+    //         transform: {
+    //             '\\.js$': '<rootDir>/utils/jest/requireContextTransformer', // TODO: fix
+    //         },
+    //         // transformIgnorePatterns: ['/node_modules/?!()'], // Fix compile errors
+    //     },
+    // },
 };

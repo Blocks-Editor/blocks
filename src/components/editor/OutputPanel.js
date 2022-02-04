@@ -14,6 +14,7 @@ import ExternalLink from '../common/ExternalLink';
 import useReactTooltip from '../../hooks/useReactTooltip';
 import {isMobile} from 'react-device-detect';
 import {onLeftClick} from '../../utils/eventHelpers';
+import parseGithubPackage from '../../utils/parseGithubPackage';
 
 const topOffset = isMobile ? 0 : 66; // Magic temporary number
 
@@ -50,7 +51,6 @@ const ClipboardButton = styled.div`
 `;
 
 const playgroundOrigin = process.env.REACT_APP_MOTOKO_PLAYGROUND_ORIGIN;
-const playgroundKey = 'blocks';
 
 const outputPanelId = 'output';
 
@@ -85,22 +85,52 @@ export default function OutputPanel({editor}) {
         // }
 
         try {
+            const playgroundKey = Math.random().toString(16).substr(2, 7);
             const playgroundWindow = window.open(`${playgroundOrigin}?post=${playgroundKey}`, 'motokoPlayground');
+            // const playgroundKey = 'blocks';
 
             // Interval index used as acknowledge key
+            let attempts = 0;
             const ack = setInterval(() => {
+                attempts++;
+                if(attempts > 100) {
+                    endAcknowledgement();
+                }
+
+                const packages = editor.nodes.filter(node => node.name === 'GithubPackage')
+                    .map(node => {
+                        const packageInfo = parseGithubPackage(node.data.repository, node.data.name);
+                        // console.log(packageInfo);////
+                        // return packageInfo && {
+                        //     type: 'package',
+                        //     package: {
+                        //         ...packageInfo,
+                        //         repo: `https://github.com/${packageInfo.repo}.git`,
+                        //     },
+                        // };
+                        return packageInfo && {
+                            ...packageInfo,
+                            repo: `https://github.com/${packageInfo.repo}.git`,
+                        };
+                    })
+                    .filter(x => x);
+
                 playgroundWindow.postMessage(`${playgroundKey}${JSON.stringify({
                     type: 'workplace',
                     acknowledge: ack,
+                    packages,
                     deploy: true,
-                    actions: [{
-                        type: 'loadProject',
-                        payload: {
-                            files: {
-                                'Main.mo': compileGlobalMotoko(editor),
+                    actions: [
+                        // Load project source code
+                        {
+                            type: 'loadProject',
+                            payload: {
+                                files: {
+                                    'Main.mo': compileGlobalMotoko(editor),
+                                },
                             },
                         },
-                    }],
+                    ],
                 })}`, playgroundOrigin);
             }, 500);
 
@@ -109,8 +139,7 @@ export default function OutputPanel({editor}) {
                     try {
                         const message = JSON.parse(data.substring(playgroundKey.length));
                         if(message.acknowledge === ack) {
-                            clearInterval(ack);
-                            window.removeEventListener('message', responseListener);
+                            endAcknowledgement(message);
                         }
                     }
                     catch(err) {
@@ -119,6 +148,14 @@ export default function OutputPanel({editor}) {
                 }
             };
             window.addEventListener('message', responseListener, false);
+
+            const endAcknowledgement = (message) => {
+                if(!message) {
+                    console.warn('No acknowledgement for', playgroundKey);
+                }
+                clearInterval(ack);
+                window.removeEventListener('message', responseListener);
+            };
         }
         catch(err) {
             events.emit(ERROR_EVENT, err);
