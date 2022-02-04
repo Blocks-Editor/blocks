@@ -310,7 +310,7 @@ export const objectType = createType('Object', {
 export const functionType = createType('Function', {
     info: 'A callable sequence of events which optionally returns a value',
     parent: valueType,
-    generics: [valueType, valueType],
+    generics: [tupleType, valueType],
     genericNames: ['input', 'output'],
     category: 'functions',
     toTypeString() {
@@ -469,41 +469,9 @@ function createType(name, data) {
         let {parent} = data;
         let {generics = [], meta = {}, ...other} = data;
         type = buildType(name, parent, generics, other, meta);
-        type.data.baseType = type;///
+        type.data.baseType = type;
     }
     TYPE_MAP.set(name, type);
-    return type;
-}
-
-// Get or create a generic version of the given type
-function getGenericType(parent, generics) {
-    if(typeof parent === 'string') {
-        // parent = getType(parent);
-        const parentName = parent;
-        parent = TYPE_MAP.get(parentName);
-        if(!parent) {
-            throw new Error(`Unknown type with name: ${parentName}`);
-        }
-    }
-
-    // TODO: refactor special cases
-    if(parent === tupleType && !generics.length) {
-        return unitType;
-    }
-    // if(parent === tupleType && generics.length === 1) {
-    //     return generics[0];
-    // }
-    if(parent === asyncType && generics.length && asyncType.isSubtype(generics[0])) {
-        return generics[0];
-    }
-
-    if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenericType) {
-        return getType(parent);
-    }
-    let type = buildType(parent.name, parent, generics);
-    if(!parent.isSubtype(type)) {
-        throw new Error(`Generics not assignable to ${parent.toTypeString()} from ${type.toTypeString()}`);
-    }
     return type;
 }
 
@@ -525,8 +493,43 @@ function buildType(name, parent, generics, data = {}, meta = {}) {
     );
 }
 
+// Get or create a generic version of the given type
+function getGenericType(parent, generics) {
+    if(typeof parent === 'string') {
+        // parent = getType(parent);
+        const parentName = parent;
+        parent = TYPE_MAP.get(parentName);
+        if(!parent) {
+            throw new Error(`Unknown type with name: ${parentName}`);
+        }
+    }
+
+    // TODO: refactor special cases
+    if(parent.name === tupleType.name && parent !== tupleType && !generics.length) {
+        return unitType;
+    }
+    // if(parent === tupleType && !generics.length) {
+    //     return unitType;
+    // }
+    if(parent === asyncType && generics.length && asyncType.isSubtype(generics[0])) {
+        return generics[0];
+    }
+
+    if((!generics || !generics.length || generics === parent.generics) && !parent.data.arbitraryGenericType) {
+        return getType(parent);
+    }
+    let type = buildType(parent.name, parent, generics);
+    if(!parent.isSubtype(type)) {
+        throw new Error(`Generics not assignable to ${parent.toTypeString()} from ${type.toTypeString()}`);
+    }
+    return type;
+}
+
 // Get or create a type
 export function getType(type, generics) {
+    if(!type) {
+        throw new Error(`Invalid type: ${type}`);
+    }
     if(arguments.length > 1) {
         return getGenericType(type, generics);
     }
@@ -534,10 +537,12 @@ export function getType(type, generics) {
         return type;
     }
     if(typeof type === 'object') {
-        return getGenericType(type.name, (type.generics || []).map(t => getType(t)));
-    }
-    if(!type) {
-        throw new Error(`Invalid type: ${type}`);
+        if(type.generics) {
+            return getGenericType(type.name, type.generics.map(t => getType(t)));
+        }
+        else if(TYPE_MAP.has(type.name)) {
+            return TYPE_MAP.get(type.name);
+        }
     }
     console.warn('Creating type from value:', type);
     if(TYPE_MAP.has(type)) {

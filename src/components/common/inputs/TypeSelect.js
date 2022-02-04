@@ -4,15 +4,11 @@ import EventsContext, {ERROR_EVENT} from '../../../contexts/EventsContext';
 import classNames from 'classnames';
 import useReactTooltip from '../../../hooks/useReactTooltip';
 import getDefaultLabel from '../../../utils/getDefaultLabel';
-import {Button, ButtonGroup} from 'react-bootstrap';
 import {onLeftClick} from '../../../utils/eventHelpers';
 import {FaMinus, FaPlus} from 'react-icons/fa';
 
 const withGenerics = (type, generics) => {
-    return getType({
-        ...type.toJSON(),
-        generics,
-    });
+    return type.data.baseType.of(...generics);
 };
 
 export default function TypeSelect({value, constraintType, abstract, invalid, onChange, ...others}) {
@@ -45,6 +41,8 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
     //     // value = constraintType;
     // }
 
+    const arbitraryGenericType = value?.data.baseType.data.arbitraryGenericType;
+
     useReactTooltip();
 
     return (
@@ -54,8 +52,9 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
                 value={value?.name}
                 onChange={event => {
                     const type = getType({name: event.target.value});
-                    console.log(type)
-                    onChange(type.data.arbitraryGenericType ? withGenerics(type, [type.data.arbitraryGenericType]) : type);
+                    console.log(type);//
+                    onChange(type);
+                    // onChange(type.data.arbitraryGenericType ? type.of(type.data.arbitraryGenericType) /*withGenerics(type, [type.data.arbitraryGenericType])*/ : type);
                 }}
                 {...others}>
                 {invalid && <option label="(Type)" value={value?.name}/>}
@@ -69,7 +68,7 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
                         <TypeSelect
                             key={i}
                             value={type}
-                            constraintType={value.data.baseType.generics[i]}
+                            constraintType={value.data.baseType.generics[i] || arbitraryGenericType}
                             abstract={abstract}
                             data-tip={getDefaultLabel(value.data.genericNames?.[i])}
                             onChange={t => {
@@ -79,15 +78,21 @@ export default function TypeSelect({value, constraintType, abstract, invalid, on
                             }}/>
                     ))}
                     {/* Arbitrary number of generic values (e.g. tuples, records) */}
-                    {!!value.data.arbitraryGenericType && (
-                        <ButtonGroup size="sm">
-                            <Button {...onLeftClick(() => onChange(withGenerics(value, [...value.generics, null])))}>
+                    {!!arbitraryGenericType && (
+                        <div className="btn-group btn-group-sm mb-1">
+                            <div
+                                className="btn btn-outline-secondary pt-0 pb-1"
+                                {...onLeftClick(() => onChange(withGenerics(value, [...value.generics, arbitraryGenericType])))}>
                                 <FaPlus/>
-                            </Button>
-                            <Button {...onLeftClick(() => onChange(withGenerics(value, value.generics.slice(0, -1))))}>
-                                <FaMinus/>
-                            </Button>
-                        </ButtonGroup>
+                            </div>
+                            {!!value.generics.length && (
+                                <div
+                                    className="btn btn-outline-secondary pt-0 pb-1"
+                                    {...onLeftClick(() => onChange(withGenerics(value, value.generics.slice(0, -1))))}>
+                                    <FaMinus/>
+                                </div>
+                            )}
+                        </div>
                     )}
                 </div>
             )}
