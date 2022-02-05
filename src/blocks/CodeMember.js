@@ -11,6 +11,7 @@ const block = memberBlock({
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,
+    global: true,
     width: 14,
     memberPriority: CODE_PRIORITY,
     inputs: [
