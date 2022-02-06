@@ -10,7 +10,7 @@ const block = {
     useCases: [FOR_ORGANIZATION],
     category: commentCategory,
     icon: FaSquareFull,
-    global: true,
+    // global: true,
     component: CommentRegionNodeView,
     controls: [{
         key: 'text',
