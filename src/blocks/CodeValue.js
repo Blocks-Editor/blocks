@@ -6,7 +6,7 @@ import {formatCurlyBraces} from '../editor/format/formatHelpers';
 
 const block = {
     title: '{ Expression }',
-    info: 'Compile an arbitrary expression',
+    info: 'An arbitrary value expression',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,

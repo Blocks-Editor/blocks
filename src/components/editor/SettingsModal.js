@@ -152,7 +152,6 @@ export default function SettingsModal() {
                 </div>
             ))}
             <h4 className="mt-4 mb-3 fw-normal">Keyboard Shortcuts</h4>
-            {/*<hr/>*/}
             <KeyBindingDetail/>
             <div className="h5 fw-normal mt-4 mb-0 w-100">
                 <a href="https://github.com/Blocks-Editor/blocks" target="_blank" rel="noreferrer" className="p-2 rounded text-secondary small w-100">

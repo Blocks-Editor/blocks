@@ -43,6 +43,8 @@ import {MOBILE_MENU_STORE} from '../../observables/mobileMenuStore';
 import MobileMenu from '../common/menus/MobileMenu';
 import MobileMenuButton from '../common/menus/MobileMenuButton';
 import vibrate from '../../utils/vibrate';
+import ReferenceModal from './ReferenceModal';
+
 
 const BlocksLogo = styled.img`
     -webkit-user-drag: none;
@@ -133,7 +135,7 @@ const LogoContainer = styled(MenuItem)`
     padding: 0.6rem 0 0.6rem 1rem !important;
 `;
 
-const BetaMark = styled.a`
+const BetaLink = styled.a`
     font-size: 0.7rem;
     padding: 0.1rem 0 0 0.5rem;
 `;
@@ -206,13 +208,13 @@ export default function EditorMenu({editor}) {
                             draggable="false"
                         />
                     </a>
-                    <BetaMark
+                    <BetaLink
                         href="https://github.com/Blocks-Editor/blocks"
                         target="_blank"
                         rel="noreferrer"
                         className="small text-muted text-decoration-none text-uppercase">
                         Beta
-                    </BetaMark>
+                    </BetaLink>
                 </LogoContainer>
                 <div className="w-100 px-3 py-2 py-sm-0 d-flex flex-row">
                     <ProjectNameInput
@@ -371,6 +373,9 @@ export default function EditorMenu({editor}) {
                     )}
                     {openMenu === 'social' && (
                         <SocialModal/>
+                    )}
+                    {openMenu === 'reference' && (
+                        <ReferenceModal/>
                     )}
                 </Modal.Body>
             </Modal>

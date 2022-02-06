@@ -6,7 +6,7 @@ import {typeType, valueType} from '../block-types/types';
 
 const block = statementBlock({
     title: '{ Statement }',
-    info: 'Compile an arbitrary statement',
+    info: 'An arbitrary statement expression',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,

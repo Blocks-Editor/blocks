@@ -6,6 +6,16 @@ import useTutorialProgressState from '../../hooks/persistent/useTutorialProgress
 import {FiX} from 'react-icons/fi';
 import classNames from 'classnames';
 import {onLeftClick} from '../../utils/eventHelpers';
+import styled from 'styled-components';
+import {EDITOR_MENU_STORE} from '../../observables/editorMenuStore';
+
+const StyledMenuModalOption = styled(MenuModalOption)`
+    transition: border-left-width .2s ease-out;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 4px ${p => p.selected ? 8 : 4}px;
+    border-left-color: var(--bs-info);
+`;
 
 const tutorials = TUTORIALS;
 
@@ -15,25 +25,29 @@ export default function TutorialsModal() {
     const currentTutorial = progress?.tutorial;
 
     return (
-        <MenuModal title="Tutorials">
+        <MenuModal title="Learning Resources">
+            <MenuModalOption
+                name={<span className="text-primary">Quick Reference</span>}
+                description={
+                    <>
+                        View the basic controls and keywords.
+                        {/*<span className="text-secondary">(shortcut: <code className="text-info">q</code>)</span>*/}
+                    </>
+                }
+                {...onLeftClick(() => EDITOR_MENU_STORE.set('reference'))}>
+            </MenuModalOption>
             {tutorials.map((tutorial, i) => {
                 const selected = currentTutorial === tutorial;
                 return (
-                    <MenuModalOption
+                    <StyledMenuModalOption
                         key={i}
                         name={tutorial.name}
                         description={tutorial.description || '(No description provided)'}
                         className={classNames(selected && 'text-info')}
-                        style={{
-                            transition: 'border-left-width .2s ease-out',
-                            borderStyle: 'solid',
-                            borderColor: 'transparent',
-                            borderWidth: `4px ${selected ? 8 : 4}px`,
-                            borderLeftColor: 'var(--bs-info)',
-                        }} // TODO: refactor to styled-components
+                        selected={selected}
                         {...onLeftClick(() => setProgress(selected ? null : {tutorial}))}>
                         {selected && <span className="h5 mb-0 text-muted"><FiX/></span>}
-                    </MenuModalOption>
+                    </StyledMenuModalOption>
                 );
             })}
         </MenuModal>

@@ -1,11 +1,11 @@
 const categories = [{
     id: 'templates',
     name: 'Templates',
-    description: 'Real-world starter projects for tokens and NFTs.',
+    description: 'Real-world starter projects for NFTs and tokens.',
     className: 'text-primary',
     examples: [
-        require('./templates/Dip20Token.blocks.json'),
         require('./templates/Dip721NFT.blocks.json'),
+        require('./templates/Dip20Token.blocks.json'),
     ],
 }, {
     id: 'concepts',

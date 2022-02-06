@@ -46,6 +46,9 @@ function KeyboardShortcut({binding, className, children, ...others}) {
 export default function KeyBindingDetail() {
     return (
         <BlockShortcutContainer>
+            <KeyboardShortcut binding={['q']}>
+                Quick Reference
+            </KeyboardShortcut>
             <KeyboardShortcut binding={['left mouse']}>
                 Select & Drag
             </KeyboardShortcut>
@@ -63,7 +66,7 @@ export default function KeyBindingDetail() {
             </KeyboardShortcut>
             {[...SHORTCUT_KEY_MAP.keys()].sort().map(key => (
                 <KeyboardShortcut key={key} binding={key}>
-                    <span className="text-muted">{getBlockLabel(SHORTCUT_KEY_MAP.get(key))}</span>
+                    <span className="text-secondary">{getBlockLabel(SHORTCUT_KEY_MAP.get(key))}</span>
                 </KeyboardShortcut>
             ))}
         </BlockShortcutContainer>

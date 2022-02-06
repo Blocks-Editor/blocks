@@ -7,7 +7,7 @@ import {CODE_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 
 const block = memberBlock({
     title: '{ Member }',
-    info: 'Compile an arbitrary member',
+    info: 'Actor member definition(s) written in Motoko',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,

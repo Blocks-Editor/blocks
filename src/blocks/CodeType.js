@@ -5,7 +5,7 @@ import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 
 const block = {
     title: '{ Type }',
-    info: 'Compile an arbitrary type',
+    info: 'An arbitrary type expression',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,

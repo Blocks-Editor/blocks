@@ -45,3 +45,8 @@ const shortcutKeys = {
 export const SHORTCUT_KEY_MAP = new Map(Object.entries(shortcutKeys).map(([k, v]) => [k, getBlock(v)]));
 
 export const SHORTCUT_BLOCK_FROM_KEY_MAP = new Map([...SHORTCUT_KEY_MAP.entries()].map(([k, v]) => [v, k]));
+
+// TODO: refactor?
+export const SHORTCUT_MENU_MAP = new Map(Object.entries({
+    'q': 'reference',
+}))

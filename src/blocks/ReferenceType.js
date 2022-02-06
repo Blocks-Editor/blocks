@@ -6,17 +6,14 @@ const block = {
     title: 'Type',
     info: 'Convert a code reference to a type',
     category: referenceCategory,
-    icon: referenceCategory.data.icon,
+    // icon: referenceCategory.data.icon,
     useCases: [FOR_CUSTOM_LOGIC],
     topLeft: 'reference',
     topRight: 'type',
-    computeTitle(node, editor) {
-        const type = editor.compilers.type.getInput(node, 'type');
-        if(!type) {
-            return;
-        }
-        return editor.compilers.motoko.getTypeString(type);
-    },
+    width: 3,
+    // computeTitle(node, editor) {
+    //     return editor.compilers.motoko.getInput(node, 'reference');
+    // },
     inputs: [{
         key: 'reference',
         type: referenceType,

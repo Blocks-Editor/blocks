@@ -46,9 +46,12 @@ export default function DefaultNodeView({block, nodeHandle}) {
 
     const borderColor = node.data['editor:border'];
 
+    const width = 32 * (node.data['editor:width'] || block.width || 6) - 3;
+
     const style = {
         border: !!borderColor && `2px solid ${borderColor}`,
-        width: 32 * (node.data['editor:width'] || block.width || 6) - 3,
+        width,
+        minWidth: width,
     };
 
     useReactTooltip();

@@ -5,7 +5,7 @@ import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 
 const block = {
     title: '{ Import }',
-    info: 'Compile an arbitrary import statement',
+    info: 'Import statement(s) written in Motoko',
     topRight: 'result',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,

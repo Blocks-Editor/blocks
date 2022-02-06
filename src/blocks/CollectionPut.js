@@ -1,4 +1,4 @@
-import {valueType} from '../block-types/types';
+import {collectionType, valueType} from '../block-types/types';
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {collectionCategory} from '../block-categories/categories';
 import {stateWriteIcon} from './State';
@@ -11,7 +11,7 @@ const block = statementBlock({
     hidden: true,
     inputs: [{
         key: 'collection',
-        type: collectionCategory,
+        type: collectionType,
     }, {
         key: 'key',
         type: valueType,

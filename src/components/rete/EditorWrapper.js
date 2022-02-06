@@ -4,12 +4,13 @@ import EventsContext, {EDITOR_CHANGE_EVENT, EDITOR_SAVE_EVENT, ERROR_EVENT} from
 import BlockComponent from '../../editor/components/BlockComponent';
 import {BLOCK_MAP} from '../../editor/blocks';
 import useListener from '../../hooks/utils/useListener';
-import {SHORTCUT_KEY_MAP} from '../../editor/shortcutKeys';
+import {SHORTCUT_KEY_MAP, SHORTCUT_MENU_MAP} from '../../editor/shortcutKeys';
 import ConnectionAwareListContext from '../../contexts/ConnectionAwareListContext';
 import useAutosaveState from '../../hooks/persistent/useAutosaveState';
 import createEditor from '../../editor/createEditor';
 import ReactTooltip from 'react-tooltip';
 import useTimeout from '../../hooks/utils/useTimeout';
+import {EDITOR_MENU_STORE} from '../../observables/editorMenuStore';
 
 const inputTags = ['input', 'textarea'];
 
@@ -83,6 +84,10 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
                 }
             }
             else if(!document.activeElement || !inputTags.includes(document.activeElement.nodeName.toLowerCase())) {
+                const relevantMenu = SHORTCUT_MENU_MAP.get(key);
+                if(relevantMenu) {
+                    EDITOR_MENU_STORE.set(EDITOR_MENU_STORE.get() === relevantMenu ? null : relevantMenu);
+                }
                 if(key === 'Delete') {
                     editor.selected.each(n => editor.removeNode(n));
                     ReactTooltip.hide();

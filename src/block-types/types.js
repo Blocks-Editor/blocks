@@ -24,8 +24,8 @@ class Type {
     }
 
     withMeta(meta) {
-        let {name, ...otherMeta} = meta;
-        let type = buildType(name || this.name, this, this.generics);
+        let {name, info, ...otherMeta} = meta;
+        let type = buildType(name || this.name, this, this.generics, {info});
         Object.assign(type.meta, otherMeta);
         return type;
     }
@@ -223,7 +223,7 @@ export const charType = createType('Char', {
     },
 });
 export const textType = createType('Text', {
-    info: 'A sequence of letters, numbers, emojis, and other characters',
+    info: 'A sequence of letters, numbers, emojis, and/or other characters',
     parent: valueType,
     controlType: 'text',
     defaultValue: '',
@@ -407,40 +407,16 @@ export const noneType = createType('None', {
 });
 
 // // Fixed-size int values
-export const int8Type = createType('Int8', {
-    parent: intType,
-    validation: getIntValidation(8),
-});
+export const int8Type = createSizedType(intType, getIntValidation, 8, 'An 8-bit integer');
+export const int16Type = createSizedType(intType, getIntValidation, 16, 'A 16-bit integer');
+export const int32Type = createSizedType(intType, getIntValidation, 32, 'A 32-bit integer');
+export const int64Type = createSizedType(intType, getIntValidation, 64, 'A 64-bit integer');
 
-export const int16Type = createType('Int16', {
-    parent: intType,
-    validation: getIntValidation(16),
-});
-export const int32Type = createType('Int32', {
-    parent: intType,
-    validation: getIntValidation(32),
-});
-export const int64Type = createType('Int64', {
-    parent: intType,
-    validation: getIntValidation(64),
-});
 // Fixed-size nat values
-export const nat8Type = createType('Nat8', {
-    parent: natType,
-    validation: getNatValidation(8),
-});
-export const nat16Type = createType('Nat16', {
-    parent: natType,
-    validation: getNatValidation(16),
-});
-export const nat32Type = createType('Nat32', {
-    parent: natType,
-    validation: getNatValidation(32),
-});
-export const nat64Type = createType('Nat64', {
-    parent: natType,
-    validation: getNatValidation(64),
-});
+export const nat8Type = createSizedType(natType, getNatValidation, 8, 'An 8-bit natural number');
+export const nat16Type = createSizedType(natType, getNatValidation, 16, 'A 16-bit natural number');
+export const nat32Type = createSizedType(natType, getNatValidation, 32, 'A 32-bit natural number');
+export const nat64Type = createSizedType(natType, getNatValidation, 64, 'A 64-bit natural number');
 
 function getNatValidation(n) {
     return {
@@ -450,12 +426,20 @@ function getNatValidation(n) {
 }
 
 function getIntValidation(n) {
-    let x = 2 ** (n - 1);
+    let size = 2 ** (n - 1);
     return {
         ...intType.data.validation,
-        min: -x,
-        max: x - 1,
+        min: -size,
+        max: size - 1,
     };
+}
+
+function createSizedType(parent, validationFn, size, info) {
+    return createType(`${parent.name}${size}`, {
+        parent,
+        validation: validationFn(size),
+        info,
+    });
 }
 
 // Create a global type
@@ -542,6 +526,9 @@ export function getType(type, generics) {
         }
         else if(TYPE_MAP.has(type.name)) {
             return TYPE_MAP.get(type.name);
+        }
+        else {
+            throw new Error(`Unknown type: ${type.name}`);
         }
     }
     console.warn('Creating type from value:', type);
