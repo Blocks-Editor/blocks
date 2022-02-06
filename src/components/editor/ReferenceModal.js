@@ -13,13 +13,20 @@ import classNames from 'classnames';
 import capitalize from '../../utils/capitalize';
 
 const ScrollContainer = styled.div`
-    //background: var(--bs-dark);
-    //color: #FFF;
     padding: .5rem 1rem;
     background: #0001;
     max-height: 20rem;
     overflow-y: auto;
     border-radius: 0.25rem;
+`;
+
+const StyledExpandable = styled(Expandable)`
+    //background: #222;
+    background: var(--bs-dark);
+    color: #FFF;
+    padding: .75rem;
+    margin-bottom: .5rem;
+    border-radius: .75rem;
 `;
 
 function Expandable({header, className, children, ...others}) {
@@ -41,11 +48,10 @@ function BlockEntry({block}) {
     const Icon = block.icon;
 
     return (
-        <Expandable
-            className="mb-2 bg-dark text-light rounded-3 p-2"
+        <StyledExpandable
             header={
                 <div>
-                    <div className="h6 mb-0 d-flex" style={{color: block.category.data.color}}>
+                    <div className="h6 mb-0 d-flex align-items-center" style={{color: block.category.data.color}}>
                         {!!Icon && <Icon className="me-2"/>}
                         {getBlockLabel(block)}
                     </div>
@@ -62,18 +68,30 @@ function BlockEntry({block}) {
                     </span>
                 ))}
             </div>
-        </Expandable>
+        </StyledExpandable>
     );
 }
 
 function TypeEntry({type}) {
 
+    const color = getTypeColor(type);
+
     return (
-        <Expandable
-            className="mb-2 bg-dark text-light rounded-3 p-2"
+        <StyledExpandable
             header={
                 <div>
-                    <div className="h6 mb-0 d-flex" style={{color: getTypeColor(type)}}>
+                    <div className="h6 mb-0 d-flex align-items-center" style={{color}}>
+                        {/*<FiCircle className="me-2"/>*/}
+                        <div
+                            style={{
+                                width: '1rem',
+                                height: '1rem',
+                                borderRadius: '50%',
+                                marginRight: '.5rem',
+                                background: color,
+                            }}>
+
+                        </div>
                         {type.name}
                     </div>
                     <div className="small text-secondary">
@@ -84,7 +102,7 @@ function TypeEntry({type}) {
             {/*<div className="mt-2">*/}
 
             {/*</div>*/}
-        </Expandable>
+        </StyledExpandable>
     );
 }
 

@@ -25,10 +25,10 @@ const categoryColors = {
 const typeColors = {
     Bool: '#d8f',
     Float: '#5df',
-    Unit: '#333',
+    // Unit: '#333', // TODO: different color for dark background
 };
 
 export function getTypeColor(type) {
     type = getType(type);
-    return typeColors[type.name] || categoryColors[type.data.category];
+    return typeColors[type.name] || categoryColors[type.data.category] || '#FFF';
 }

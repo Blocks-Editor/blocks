@@ -193,12 +193,12 @@ export const containerType = createType('Container', {
     singleOutput: true,
     category: 'containers',
 });
-export const moduleType = createType('Module', {
-    info: 'A group of related containers (actors, objects, classes, and/or modules)',
-    parent: memberType,
-    singleOutput: true,
-    category: 'modules',
-});
+// export const moduleType = createType('Module', {
+//     info: 'A group of related containers (actors, objects, classes, and/or modules)',
+//     parent: memberType,
+//     singleOutput: true,
+//     category: 'modules',
+// });
 export const paramType = createType('Parameter', {
     info: 'An input to a function, class, or actor',
     parent: anyReversedType,
