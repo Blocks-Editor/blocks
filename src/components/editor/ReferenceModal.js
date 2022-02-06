@@ -21,8 +21,8 @@ const ScrollContainer = styled.div`
 `;
 
 const StyledEntry = styled(Entry)`
-    //background: #00131C;
-    background: var(--bs-dark);
+    background: #00131C;
+    //background: var(--bs-dark);
     color: #FFF;
     padding: .75rem;
     margin-bottom: .5rem;
