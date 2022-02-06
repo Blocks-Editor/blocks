@@ -10,6 +10,7 @@ const block = {
     useCases: [FOR_CUSTOM_LOGIC, FOR_REUSABLE_LOGIC],
     topLeft: 'reference',
     topRight: 'value',
+    hidden: true,///
     computeTitle(node, editor) {
         let type = editor.compilers.type.getInput(node, 'value');
         if(!type) {
