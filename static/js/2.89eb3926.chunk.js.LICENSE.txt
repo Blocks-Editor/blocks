@@ -11,6 +11,13 @@ object-assign
 */
 
 /*!
+ * parse-github-url <https://github.com/jonschlinkert/parse-github-url>
+ *
+ * Copyright (c) 2015-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+/*!
 * rete v1.4.5 
 * (c) 2021 Vitaliy Stoliarov 
 * Released under the MIT license.
@@ -39,6 +46,8 @@ object-assign
 * (c) 2020  
 * Released under the ISC license.
 */
+
+/*! https://mths.be/punycode v1.4.1 by @mathias */
 
 /**
       * @license
