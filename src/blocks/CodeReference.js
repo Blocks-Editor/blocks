@@ -6,7 +6,7 @@ import TextControlHandle from '../components/rete/controls/TextControlHandle';
 
 const block = {
     title: '{ Reference }',
-    info: 'An arbitrary code reference',
+    info: 'A reference to a custom type or value',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,

@@ -6,7 +6,7 @@ import {typeType, valueType} from '../block-types/types';
 
 const block = statementBlock({
     title: '{ Statement }',
-    info: 'An arbitrary statement expression',
+    info: 'A custom statement written in Motoko',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,

@@ -5,7 +5,7 @@ import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
 
 const block = {
     title: '{ Type }',
-    info: 'An arbitrary type expression',
+    info: 'A custom type expression written in Motoko',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,

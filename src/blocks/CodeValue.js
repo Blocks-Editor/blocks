@@ -6,7 +6,7 @@ import {formatCurlyBraces} from '../editor/format/formatHelpers';
 
 const block = {
     title: '{ Expression }',
-    info: 'An arbitrary value expression',
+    info: 'A custom value expression written in Motoko',
     useCases: [FOR_CUSTOM_LOGIC],
     category: expressionCategory,
     icon: expressionCategory.data.icon,
