@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {isMobile} from 'react-device-detect';
 import {onLeftClick} from '../../../utils/eventHelpers';
+import classNames from 'classnames';
 
 export default function ContextMenu({x, y, touch, style: styleProp, handleCloseMenu, children, ...others}) {
 
@@ -8,7 +9,7 @@ export default function ContextMenu({x, y, touch, style: styleProp, handleCloseM
         zIndex: 500,
         position: 'absolute',
         left: isMobile ? 150 : x,
-        top: isMobile ? 150 : y,
+        top: isMobile ? 250 : y,
         boxShadow: isMobile && '0 2px 10px #000E',
         pointerEvents: 'all',
         ...styleProp,
@@ -56,7 +57,7 @@ export default function ContextMenu({x, y, touch, style: styleProp, handleCloseM
             {...onLeftClick(handleCloseMenu)}
             {...others}>
             <div className="context-menu-container" style={style} ref={bindContainer}>
-                <div className="context-menu">
+                <div className={classNames('context-menu', isMobile && 'mobile')}>
                     {children}
                 </div>
             </div>

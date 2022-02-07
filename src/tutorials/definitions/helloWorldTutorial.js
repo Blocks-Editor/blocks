@@ -12,7 +12,7 @@ import {EDITOR_STATE_STORE} from '../../observables/editorStateStore';
 import {OUTPUT_PANEL_STATE} from '../../hooks/persistent/useOutputPanelState';
 import {EDITOR_SELECTION_STORE} from '../../observables/editorSelectionStore';
 import capitalize from '../../utils/capitalize';
-import {TUTORIAL_CLICK_DRAG, TUTORIAL_CONTEXT_MENU_CLICK} from '../utils/tutorialText';
+import {TUTORIAL_CLICK_DRAG, TUTORIAL_CONTEXT_MENU_CLICK, TUTORIAL_LEFT_CLICK} from '../utils/tutorialText';
 import {viewOutputStep} from '../steps/viewOutputStep';
 
 // Custom tutorial block IDs
@@ -61,7 +61,7 @@ export const helloWorldTutorial = {
         },
     }, {
         title: 'Clear the selection',
-        info: 'Left-click somewhere in the editor space.',
+        info: `${capitalize(TUTORIAL_LEFT_CLICK)} somewhere in the editor space.`,
         isComplete(progress, {editorSelection}) {
             return !editorSelection?.length || getReturnNode(progress.editor);
         },

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import React from 'react';
+import {isMobile} from 'react-device-detect';
 
 const StyledReactTooltip = styled(ReactTooltip)`
     z-index: 1000;
@@ -18,6 +19,7 @@ export default function GlobalTooltip() {
 
     return (
         <StyledReactTooltip
+            disable={isMobile}
             backgroundColor="#111"
             place="bottom"
             delayShow={200}

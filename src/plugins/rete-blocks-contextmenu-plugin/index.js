@@ -223,11 +223,18 @@ function install(editor, config = {}) {
     let touchStart; // `true` during a touch event
     let touchNode; // selected context menu node
     let touchTimeout;
+    let touchFlag = false;////
     editor.view.container.addEventListener('touchstart', e => {
+        if(document.activeElement && !document.activeElement.contains(editor.view.container)) {
+            // Skip if something has focus (e.g. a text input field)
+            return;
+        }
+
         if(CONTEXT_MENU_STORE.get()) {
             hideContextMenu();
         }
-        else {
+        else if(!editor.selected.list.length) {
+            touchFlag = true;
             touchStart = getPosition(e);
             clearTimeout(touchTimeout);
             touchTimeout = setTimeout(() => {
@@ -235,20 +242,18 @@ function install(editor, config = {}) {
             }, 300);
         }
     });
-    // editor.view.container.addEventListener('touchmove', e => touchReady = false);
     editor.view.container.addEventListener('touchend', e => {
-        // setTimeout to allow 'click' listener to access `touchReady`
-        setTimeout(() => {
-            if(touchStart) {
-                console.log(1223);///
-                const {x, y} = getPosition(e);
-                if(Math.abs(x - touchStart.x) + Math.abs(y - touchStart.y) < 20) {
+        if(touchStart) {
+            const {x, y} = getPosition(e);
+            if(touchFlag && Math.abs(x - touchStart.x) + Math.abs(y - touchStart.y) < 20) {
+                editor.trigger('contextmenu', {e, node: touchNode/*, touch: true*/});
+                touchFlag = false;
+                setTimeout(() => {
                     touchStart = null;
-                    editor.trigger('contextmenu', {e, node: touchNode, touch: true});
                     touchNode = null;
-                }
+                }, 100);
             }
-        });
+        }
     });
 
     // // Open touch placement menu when clicking empty space

@@ -251,6 +251,15 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         }
     }
 
+    selectNode(node, accumulate) {
+        try {
+            super.selectNode(node, accumulate);
+        }
+        catch(e) {
+            console.error(e);
+        }
+    }
+
     connect(output, input, data) {
         if(output.node && output.node === input.node) {
             return;
