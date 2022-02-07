@@ -26,6 +26,10 @@ export default function MenuComponent({component, specialTitle, ...others}) {
         };
     }
 
+    if(specialTitle !== null && specialTitle !== undefined) {
+        specialTitle = String(specialTitle);
+    }
+
     useReactTooltip();
 
     const title = getBlockLabel(block) || component.name;
