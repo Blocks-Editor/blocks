@@ -104,10 +104,12 @@ function BlockEntry({block, ...others}) {
                 </div>
             }
             {...others}>
-            <div className="mt-2 d-flex align-items-center" style={{color: block.category.data.color || '#FFF'}}>
+            <div className="mt-2" style={{color: block.category.data.color || '#FFF'}}>
                 <span className="text-light opacity-50">Category:</span>
-                {!!block.category.data.icon && React.createElement(block.category.data.icon, {className: 'mx-2'})}
-                {block.category.name}
+                <div className="d-flex align-items-center">
+                    {!!block.category.data.icon && React.createElement(block.category.data.icon, {className: 'mx-2'})}
+                    {block.category.name}
+                </div>
             </div>
             {block.useCases?.length > 0 && (
                 <div className="mt-2 text-secondary">
