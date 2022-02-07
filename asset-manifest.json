@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "https://blocks-editor.github.io/blocks/static/css/main.33c9082b.chunk.css",
+    "main.css": "https://blocks-editor.github.io/blocks/static/css/main.477cb5ac.chunk.css",
     "main.js": "https://blocks-editor.github.io/blocks/static/js/main.951c130d.chunk.js",
     "main.js.map": "https://blocks-editor.github.io/blocks/static/js/main.951c130d.chunk.js.map",
     "runtime-main.js": "https://blocks-editor.github.io/blocks/static/js/runtime-main.44f656de.js",
@@ -10,7 +10,7 @@
     "static/js/2.ddd5e48d.chunk.js.map": "https://blocks-editor.github.io/blocks/static/js/2.ddd5e48d.chunk.js.map",
     "index.html": "https://blocks-editor.github.io/blocks/index.html",
     "static/css/2.58a45539.chunk.css.map": "https://blocks-editor.github.io/blocks/static/css/2.58a45539.chunk.css.map",
-    "static/css/main.33c9082b.chunk.css.map": "https://blocks-editor.github.io/blocks/static/css/main.33c9082b.chunk.css.map",
+    "static/css/main.477cb5ac.chunk.css.map": "https://blocks-editor.github.io/blocks/static/css/main.477cb5ac.chunk.css.map",
     "static/js/2.ddd5e48d.chunk.js.LICENSE.txt": "https://blocks-editor.github.io/blocks/static/js/2.ddd5e48d.chunk.js.LICENSE.txt",
     "static/media/index.scss": "https://blocks-editor.github.io/blocks/static/media/silkamono-medium-webfont.d58546ce.ttf",
     "static/media/crosshair.dd422401.svg": "https://blocks-editor.github.io/blocks/static/media/crosshair.dd422401.svg",
@@ -30,7 +30,7 @@
     "static/js/runtime-main.44f656de.js",
     "static/css/2.58a45539.chunk.css",
     "static/js/2.ddd5e48d.chunk.js",
-    "static/css/main.33c9082b.chunk.css",
+    "static/css/main.477cb5ac.chunk.css",
     "static/js/main.951c130d.chunk.js"
   ]
 }
