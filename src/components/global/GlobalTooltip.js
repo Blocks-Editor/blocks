@@ -13,13 +13,9 @@ const StyledReactTooltip = styled(ReactTooltip)`
 `;
 
 export default function GlobalTooltip() {
-    // const afterShow = (event) => {
-    //     console.log(event);///
-    // };
-
     return (
         <StyledReactTooltip
-            disable={isMobile}
+            disable={!!isMobile} // isMobile === '' in Jest environment
             backgroundColor="#111"
             place="bottom"
             delayShow={200}
