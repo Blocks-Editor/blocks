@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import {onLeftClick} from '../../utils/eventHelpers';
 import styled from 'styled-components';
 import {EDITOR_MENU_STORE} from '../../observables/editorMenuStore';
+import {isMobile} from 'react-device-detect';
 
 const StyledMenuModalOption = styled(MenuModalOption)`
     transition: border-left-width .2s ease-out;
@@ -45,7 +46,12 @@ export default function TutorialsModal() {
                         description={tutorial.description || '(No description provided)'}
                         className={classNames(selected && 'text-info')}
                         selected={selected}
-                        {...onLeftClick(() => setProgress(selected ? null : {tutorial}))}>
+                        {...onLeftClick(() => {
+                            if(isMobile && !selected) {
+                                EDITOR_MENU_STORE.set(null);////
+                            }
+                            setProgress(selected ? null : {tutorial});
+                        })}>
                         {selected && <span className="h5 mb-0 text-muted"><FiX/></span>}
                     </StyledMenuModalOption>
                 );
