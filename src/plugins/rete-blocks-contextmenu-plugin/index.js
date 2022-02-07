@@ -63,7 +63,6 @@ function install(editor, config = {}) {
 
         // Move up due to possible virtual keyboard, TODO refactor
         const mobileElevated = !!context;
-        console.log(context)///
 
         menu.style.display = 'block';
         ReactDOM.render((
