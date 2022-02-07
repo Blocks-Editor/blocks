@@ -288,12 +288,12 @@ export default function EditorMenu({editor}) {
                             <StyledSocialIcon/>
                         </MenuButton>
                         {/*<div className="w-100 d-flex justify-content-end">*/}
-                            <MenuButton
-                                title="GitHub"
-                                tooltip="Source Code"
-                                {...onClickMenuButton(githubAction)}>
-                                <StyledGithubIcon/>
-                            </MenuButton>
+                        <MenuButton
+                            title="GitHub"
+                            tooltip="Source Code"
+                            {...onClickMenuButton(githubAction)}>
+                            <StyledGithubIcon/>
+                        </MenuButton>
                         {/*</div>*/}
                     </div>
                 </div>
@@ -369,7 +369,7 @@ export default function EditorMenu({editor}) {
                 show={openMenu}
                 onShow={() => ReactTooltip.hide()}
                 onHide={() => setOpenMenu(null)}>
-                <Modal.Body className="bg-light rounded-1">
+                <Modal.Body className={classNames('menu-modal rounded-1', openMenu && `menu-modal-${openMenu}`)}>
                     {openMenu === 'load' && (
                         <LoadProjectModal/>
                     )}

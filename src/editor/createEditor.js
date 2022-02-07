@@ -83,6 +83,13 @@ export default function createEditor(container, {history} = {}) {
         updateSelection();
     });
 
+    // Update selection on mobile
+    editor.view.container.addEventListener('touchend', (e) => {
+        setTimeout(() => {
+            updateSelection();
+        });
+    });
+
     editor.on('zoom', ({source}) => source !== 'dblclick'); // Prevent double-click zoom
     editor.on('nodeselect', node => !editor.selected.contains(node)); // Allow dragging multiple nodes
     editor.on('nodeselected', () => updateSelection());

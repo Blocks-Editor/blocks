@@ -48,7 +48,7 @@ export default function TutorialsModal() {
                         selected={selected}
                         {...onLeftClick(() => {
                             if(isMobile && !selected) {
-                                EDITOR_MENU_STORE.set(null);////
+                                EDITOR_MENU_STORE.set(null);
                             }
                             setProgress(selected ? null : {tutorial});
                         })}>

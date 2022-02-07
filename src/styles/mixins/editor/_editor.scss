@@ -139,6 +139,7 @@ $grid-area: $grid-size * 10000;
       background: none !important;
       border: 1px solid transparent !important;
       color: #022030AA;
+
       &:hover {
         border: 1px solid #02203055 !important;
       }
@@ -348,4 +349,8 @@ $grid-area: $grid-size * 10000;
   &:hover {
     background: #FFF1;
   }
+}
+
+.menu-modal {
+  background: var(--bs-light);
 }

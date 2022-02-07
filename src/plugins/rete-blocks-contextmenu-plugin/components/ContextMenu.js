@@ -3,17 +3,17 @@ import {isMobile} from 'react-device-detect';
 import {onLeftClick} from '../../../utils/eventHelpers';
 import classNames from 'classnames';
 
-export default function ContextMenu({x, y, touch, style: styleProp, handleCloseMenu, children, ...others}) {
+export default function ContextMenu({x, y, mobileElevated, style: styleProp, handleCloseMenu, children, ...others}) {
 
     const style = useMemo(() => ({
         zIndex: 500,
         position: 'absolute',
         left: isMobile ? 150 : x,
-        top: isMobile ? 250 : y,
+        top: isMobile ? mobileElevated ? 150 : 250 : y,
         boxShadow: isMobile && '0 2px 10px #000E',
         pointerEvents: 'all',
         ...styleProp,
-    }), [x, y, styleProp]);
+    }), [x, y, mobileElevated, styleProp]);
 
     const bindScreen = useCallback(el => {
         if(!el) {

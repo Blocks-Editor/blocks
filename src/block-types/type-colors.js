@@ -29,6 +29,8 @@ const typeColors = {
 };
 
 export function getTypeColor(type) {
-    type = getType(type);
-    return typeColors[type.name] || categoryColors[type.data.category] || '#FFF';
+    if(type) {
+        type = getType(type);
+    }
+    return (type && (typeColors[type.name] || categoryColors[type.data.category])) || '#FFF';
 }

@@ -5,6 +5,7 @@ import EventsContext, {ERROR_EVENT} from '../../../../contexts/EventsContext';
 import useReactTooltip from '../../../../hooks/useReactTooltip';
 import classNames from 'classnames';
 import useLearningModeState from '../../../../hooks/persistent/useLearningModeState';
+import {isMobile} from 'react-device-detect';
 
 export default function ShortcutButton({editor, node, shortcut}) {
     const {block} = shortcut;
@@ -34,7 +35,9 @@ export default function ShortcutButton({editor, node, shortcut}) {
 
             // Start dragging node
             let nodeView = editor.view.nodes.get(newNode);
-            nodeView._drag.down(event);
+            if(!isMobile) {
+                nodeView._drag.down(event);
+            }
 
             // Add shortcut-defined connections
             if(shortcut.connections) {
@@ -76,8 +79,8 @@ export default function ShortcutButton({editor, node, shortcut}) {
                 // fontSize: '1em',
             }}
             /*{...onLeftPress(handlePress)}*/
-            onMouseDown={handlePress}
-            onClick={handlePress}
+            onMouseDown={e => !isMobile && handlePress(e)}
+            onClick={e => isMobile && handlePress(e)}
         >
             {block.icon
                 ? React.createElement(block.icon)

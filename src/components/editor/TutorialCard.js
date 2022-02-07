@@ -2,7 +2,7 @@ import {Button, ButtonGroup, Card} from 'react-bootstrap';
 import React, {useCallback} from 'react';
 import useTutorialProgressState from '../../hooks/persistent/useTutorialProgressState';
 import useFamiliarityState, {FAMILIAR, LEARNING} from '../../hooks/persistent/useFamiliarityState';
-import styled, {createGlobalStyle} from 'styled-components';
+import styled, {createGlobalStyle, css} from 'styled-components';
 import {helloWorldTutorial} from '../../tutorials/definitions/helloWorldTutorial';
 import getTutorialStep from '../../tutorials/utils/getTutorialStep';
 import useTutorialVariables from '../../hooks/useTutorialVariables';
@@ -12,6 +12,7 @@ import {FiSmile, FiX} from 'react-icons/fi';
 import {LearningIcon} from '../common/Icon';
 import {TUTORIAL_STEP_STORE} from '../../observables/tutorialStepStore';
 import {onLeftClick} from '../../utils/eventHelpers';
+import {isMobile} from 'react-device-detect';
 
 const StyledLearningIcon = styled(LearningIcon)`
     width: 24px;
@@ -23,8 +24,12 @@ const StyledCard = styled(Card)`
     box-shadow: 0 2px 12px #0005;
     border: none;
     max-width: 30rem;
-    font-size: 18px;
+    font-size: ${isMobile ? 16 : 18}px;
     font-weight: 500;
+
+    h4 {
+        ${isMobile && css`font-size: 20px`};
+    }
 `;
 
 const StyledCardHeader = styled(Card.Header)`

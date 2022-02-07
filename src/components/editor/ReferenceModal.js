@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import MenuModal from '../common/MenuModal';
 import KeyBindingDetail from './KeyBindingDetail';
 import styled from 'styled-components';
-import {BLOCK_MAP} from '../../editor/blocks';
+import {BLOCK_MAP, getBlock} from '../../editor/blocks';
 import getBlockLabel from '../../utils/getBlockLabel';
 import getInfoText from '../../utils/getInfoText';
 import {TYPE_MAP} from '../../block-types/types';
@@ -11,6 +11,7 @@ import {getTypeColor} from '../../block-types/type-colors';
 import {onLeftClick} from '../../utils/eventHelpers';
 import classNames from 'classnames';
 import capitalize from '../../utils/capitalize';
+import {CATEGORY_MAP} from '../../block-categories/categories';
 
 const ScrollContainer = styled.div`
     padding: .5rem 1rem;
@@ -21,8 +22,8 @@ const ScrollContainer = styled.div`
 `;
 
 const StyledEntry = styled(Entry)`
-    background: rgb(2, 31, 47);
-    //background: var(--bs-dark);
+    //background: rgb(2, 31, 47);
+    background: #00131C;
     color: #FFF;
     padding: .75rem;
     margin-bottom: .5rem;
@@ -31,7 +32,7 @@ const StyledEntry = styled(Entry)`
 
 const MultiSelectionContext = React.createContext(null);
 
-function Entry({target, header, className, children, ...others}) {
+function Entry({target, subTargets, header, className, children, ...others}) {
     // const [expanded, setExpanded] = useState(false);
 
     const {selected, setSelected} = useContext(MultiSelectionContext);
@@ -41,11 +42,45 @@ function Entry({target, header, className, children, ...others}) {
     return (
         <div
             className={classNames('clickable', className, selected.length && !isSelected && 'opacity-50')}
-            {...onLeftClick(() => setSelected(isSelected ? [] : [target]))}
+            {...onLeftClick(() => setSelected(isSelected ? [] : [target, ...subTargets || []]))}
             {...others}>
             {header}
             {isSelected && children}
         </div>
+    );
+}
+
+function CategoryEntry({category, blocks, ...others}) {
+
+    blocks = blocks.filter(block => block.category === category);
+
+    if(!blocks.length) {
+        return null;
+    }
+
+    const Icon = category.data.icon;
+
+    return (
+        <StyledEntry
+            target={category}
+            header={
+                <div>
+                    <div className="h6 mb-0 d-flex align-items-center" style={{color: category.data.color}}>
+                        {!!Icon && <Icon className="me-2"/>}
+                        {category.name}
+                    </div>
+                    <div className="small text-secondary">
+                        {getInfoText(category.data.info)}
+                    </div>
+                </div>
+            }
+            {...others}>
+            {blocks.map(block => (
+                <div key={block.name} className="mt-2">
+                    <BlockEntry block={block}/>
+                </div>
+            ))}
+        </StyledEntry>
     );
 }
 
@@ -56,6 +91,7 @@ function BlockEntry({block, ...others}) {
     return (
         <StyledEntry
             target={block}
+            subTargets={[block.category]}
             header={
                 <div>
                     <div className="h6 mb-0 d-flex align-items-center" style={{color: block.category.data.color}}>
@@ -68,11 +104,16 @@ function BlockEntry({block, ...others}) {
                 </div>
             }
             {...others}>
+            <div className="mt-2 d-flex align-items-center" style={{color: block.category.data.color || '#FFF'}}>
+                <span className="text-light opacity-50">Category:</span>
+                {!!block.category.data.icon && React.createElement(block.category.data.icon, {className: 'mx-2'})}
+                {block.category.name}
+            </div>
             {block.useCases?.length > 0 && (
-                <div className="mt-2">
-                    Use cases:
+                <div className="mt-2 text-secondary">
+                    <span className="text-light opacity-50">Use cases:</span>
                     {block.useCases?.map(useCase => (
-                        <ul key={useCase} className="mb-0 text-muted">
+                        <ul key={useCase} className="mb-0 text-light">
                             <li>{capitalize(useCase)}</li>
                         </ul>
                     ))}
@@ -118,56 +159,86 @@ function TypeEntry({type, ...others}) {
     );
 }
 
-function MultiSelectionContainer({children, initial}) {
-    const [selected, setSelected] = useState(initial || []);
-
-    return (
-        <MultiSelectionContext.Provider value={{selected, setSelected}}>
-            {children}
-        </MultiSelectionContext.Provider>
-    );
-}
+// function MultiSelectionContainer({children, initial}) {
+//     const [selected, setSelected] = useState(initial || []);
+//
+//     return (
+//         <MultiSelectionContext.Provider value={{selected, setSelected}}>
+//             {children}
+//         </MultiSelectionContext.Provider>
+//     );
+// }
 
 export default function ReferenceModal() {
 
     const editor = useNodeEditor();
 
     const selectionNameSet = new Set(editor.selected.list.map(node => node.name));
-    const nodeNameSet = new Set([...editor.nodes.values()].map(node => node.name));
+    const editorBlockNameSet = new Set([...editor.nodes.values()].map(node => node.name));
 
-    const types = [...TYPE_MAP.values()]
-        .filter(type => !type.data.abstract)
-        .sort((a, b) => a.name.localeCompare(b.name));
+    const initialBlocks = selectionNameSet.size ? [...selectionNameSet].map(name => getBlock(name)) : [];
+    const initialCategories = [...new Set(initialBlocks.map(block => block.category))];
+
+    const initial = [
+        ...initialBlocks,
+        ...initialCategories,
+    ];
+
+    const [selected, setSelected] = useState(initial);
+
+    const categories = [...CATEGORY_MAP.values()]
+        .sort((a, b) =>
+            (+selected.includes(b) - selected.includes(a)) ||
+            a.name.localeCompare(b.name),
+        );
 
     const blocks = [...BLOCK_MAP.values()]
-        .filter(block => !block.hidden)
+        .filter(block => !block.hidden/* || selected.includes(block)*/ || initialBlocks.includes(block))
         .map(block => [block, getBlockLabel(block)])
         .sort(([aBlock, aLabel], [bBlock, bLabel]) =>
-            (+selectionNameSet.has(bBlock.name) - selectionNameSet.has(aBlock.name)) ||
-            (+nodeNameSet.has(bBlock.name) - nodeNameSet.has(aBlock.name)) ||
+            (+selected.includes(bBlock) - selected.includes(aBlock)) ||
+            (+editorBlockNameSet.has(bBlock.name) - editorBlockNameSet.has(aBlock.name)) ||
             (aBlock.category.name.localeCompare(bBlock.category.name)) ||
             aLabel.localeCompare(bLabel),
         )
         .map(([block]) => block);
 
+    const types = [...TYPE_MAP.values()]
+        .filter(type => (!type.data.abstract && !type.data.hidden) || selected.includes(type))
+        .sort((a, b) =>
+            (+selected.includes(b) - selected.includes(a)) ||
+            a.name.localeCompare(b.name),
+        );
+
     return (
         <MenuModal title="Quick Reference:">
-            <MultiSelectionContainer initial={selectionNameSet.size && [...selectionNameSet].map(name => BLOCK_MAP.get(name))}>
+            <MultiSelectionContext.Provider value={{selected, setSelected}}>
+
+                {/* Blocks */}
                 <h4 className="mt-4 mb-3 fw-normal text-secondary">All Blocks</h4>
                 <ScrollContainer>
-                    {blocks/*.filter(block => editorNodeNameSet.has(block.name))*/.map((block) => (
+                    {blocks.map((block) => (
                         <BlockEntry key={block.name} block={block}/>
                     ))}
                 </ScrollContainer>
-            </MultiSelectionContainer>
-            <MultiSelectionContainer>
+
+                {/* Categories */}
+                <h4 className="mt-4 mb-3 fw-normal text-secondary">Categories</h4>
+                <ScrollContainer>
+                    {categories.map((category) => (
+                        <CategoryEntry key={category.name} category={category} blocks={blocks}/>
+                    ))}
+                </ScrollContainer>
+
+                {/* Sockets */}
                 <h4 className="mt-4 mb-3 fw-normal text-secondary">Socket Types</h4>
                 <ScrollContainer>
                     {types.map((type) => (
                         <TypeEntry key={type.name} type={type}/>
                     ))}
                 </ScrollContainer>
-            </MultiSelectionContainer>
+
+            </MultiSelectionContext.Provider>
             {/*<div>*/}
             {/*    <h4 className="mt-4 mb-3 fw-normal">Use Cases</h4>*/}
             {/*    {USE_CASES.map(useCase => (*/}
@@ -178,7 +249,7 @@ export default function ReferenceModal() {
             {/*        </ScrollContainer>*/}
             {/*    ))}*/}
             {/*</div>*/}
-            <div>
+            <div className="text-secondary">
                 <h4 className="mt-4 mb-3 fw-normal text-secondary">Keyboard Shortcuts</h4>
                 <KeyBindingDetail/>
             </div>

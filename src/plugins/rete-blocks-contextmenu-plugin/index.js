@@ -27,7 +27,7 @@ function install(editor, config = {}) {
 
     editor.on(['hidecontextmenu', 'contextmenu', 'click'], hideContextMenu);
 
-    editor.on('contextmenu', ({e, node, context, touch}) => {
+    editor.on('contextmenu', ({e, node, context}) => {
         e.preventDefault?.();
         // if(e.button === 2) {
         //     return;///
@@ -38,7 +38,7 @@ function install(editor, config = {}) {
             context = {};////
         }
 
-        if(!editor.trigger('showcontextmenu', {e, node, context, touch})) {
+        if(!editor.trigger('showcontextmenu', {e, node, context})) {
             return;
         }
 
@@ -61,12 +61,16 @@ function install(editor, config = {}) {
         const menuContext = {editor, mouse, node, context};
         CONTEXT_MENU_STORE.set(menuContext);
 
+        // Move up due to possible virtual keyboard, TODO refactor
+        const mobileElevated = !!context;
+        console.log(context)///
+
         menu.style.display = 'block';
         ReactDOM.render((
             <ContextMenu
                 x={x + offsetX}
                 y={node ? y - 50 : y + offsetY} // TODO: magic number
-                touch={touch}
+                mobileElevated={mobileElevated}
                 handleCloseMenu={() => editor.trigger('hidecontextmenu')}>
                 <MenuContext.Provider value={menuContext}>
                     {node ? (
@@ -175,7 +179,7 @@ function install(editor, config = {}) {
     editor.view.container.addEventListener('touchend', e => {
         if(touchStart) {
             const {x, y} = getPosition(e);
-            if(Math.abs(x - touchStart.x) + Math.abs(y - touchStart.y) < 20) {
+            if(Math.abs(x - touchStart.x) + Math.abs(y - touchStart.y) < 10) {
                 editor.trigger('contextmenu', {e, node: touchNode/*, touch: true*/});
             }
         }
