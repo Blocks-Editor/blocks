@@ -16,6 +16,10 @@ html, body {
   position: relative;
 }
 
+body {
+  height: 100%;
+}
+
 .cursor-default {
   cursor: default !important;
 }
