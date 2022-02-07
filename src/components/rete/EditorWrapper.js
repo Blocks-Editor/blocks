@@ -11,8 +11,7 @@ import createEditor from '../../editor/createEditor';
 import ReactTooltip from 'react-tooltip';
 import useTimeout from '../../hooks/utils/useTimeout';
 import {EDITOR_MENU_STORE} from '../../observables/editorMenuStore';
-
-const inputTags = ['input', 'textarea'];
+import isInputElement from '../../utils/isInputElement';
 
 
 export default function EditorWrapper({observable, onSetup, onChange, onSave, history}) {
@@ -83,7 +82,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
                     editor.trigger('redo');
                 }
             }
-            else if(!document.activeElement || !inputTags.includes(document.activeElement.nodeName.toLowerCase())) {
+            else if(!isInputElement(document.activeElement)) {
                 const relevantMenu = SHORTCUT_MENU_MAP.get(key);
                 if(relevantMenu) {
                     EDITOR_MENU_STORE.set(EDITOR_MENU_STORE.get() === relevantMenu ? null : relevantMenu);
