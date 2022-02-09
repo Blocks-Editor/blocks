@@ -351,6 +351,10 @@ $grid-area: $grid-size * 10000;
   }
 }
 
+.modal-content {
+  background: none !important;
+}
+
 .menu-modal {
   background: var(--bs-light);
 }
