@@ -1,5 +1,3 @@
-// Using require(...) syntax for inline references
-
 const categories = [{
     id: 'templates',
     name: 'Templates',
@@ -58,14 +56,6 @@ categories.forEach(category => {
     });
 });
 
-module.exports = {
-    getExampleCategories() {
-        return categories;
-    },
-    getExampleProjects() {
-        return examples;
-    },
-    getExampleUsages(name) {
-        return [...usageMap.get(name) || []];
-    },
-};
+export const getExampleCategories = () => categories;
+export const getExampleProjects = () => examples;
+export const getExampleUsages = (name) => [...usageMap.get(name) || []];
