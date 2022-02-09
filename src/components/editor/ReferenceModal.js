@@ -42,7 +42,7 @@ function Entry({target, subTargets, header, noExpand, className, children, ...ot
 
     return (
         <div
-            className={classNames('clickable', className, selected.length && !isSelected && 'opacity-50')}
+            className={classNames('clickable my-1', className, selected.length && !isSelected && 'opacity-50')}
             {...onLeftClick(e => e.stopPropagation() & setSelected(isSelected ? [] : [target, ...subTargets || []]))}
             {...others}>
             {header}
@@ -76,13 +76,13 @@ function CategoryEntry({category, blocks, ...others}) {
                 </div>
             }
             {...others}>
-            {/*<MultiSelectionContainer>*/}
-            {blocks.map(block => (
-                <div key={block.name} className="mt-2">
-                    <BlockEntry block={block}/* noExpand*//>
-                </div>
-            ))}
-            {/*</MultiSelectionContainer>*/}
+            <MultiSelectionContainer>
+                {blocks.map(block => (
+                    <div key={block.name}>
+                        <BlockEntry block={block} style={{background:'#0004'}}/* noExpand*//>
+                    </div>
+                ))}
+            </MultiSelectionContainer>
         </StyledEntry>
     );
 }
@@ -179,14 +179,14 @@ function TypeEntry({type, ...others}) {
     );
 }
 
-// function MultiSelectionContainer({children, initial}) {
-//     const [selected, setSelected] = useState(initial || []);
-//     return (
-//         <MultiSelectionContext.Provider value={{selected, setSelected}}>
-//             {children}
-//         </MultiSelectionContext.Provider>
-//     );
-// }
+function MultiSelectionContainer({children, initial}) {
+    const [selected, setSelected] = useState(initial || []);
+    return (
+        <MultiSelectionContext.Provider value={{selected, setSelected}}>
+            {children}
+        </MultiSelectionContext.Provider>
+    );
+}
 
 export default function ReferenceModal() {
 
