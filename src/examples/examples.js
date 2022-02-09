@@ -1,3 +1,5 @@
+// Using require(...) syntax for inline references
+
 const categories = [{
     id: 'templates',
     name: 'Templates',
@@ -34,11 +36,36 @@ const categories = [{
 
 const examples = categories.flatMap(category => category.examples);
 
+const usageMap = new Map();
+categories.forEach(category => {
+    category.examples.forEach(example => {
+        Object.values(example.nodes).forEach(node => {
+            let usages = usageMap.get(node.name);
+            if(!usages) {
+                usageMap.set(node.name, usages = []);
+            }
+            let found = false;
+            usages.forEach(usage => {
+                if(usage.example === example) {
+                    found = true;
+                    usage.count++;
+                }
+            });
+            if(!found) {
+                usages.push({category, example, count: 1});
+            }
+        });
+    });
+});
+
 module.exports = {
     getExampleCategories() {
         return categories;
     },
     getExampleProjects() {
         return examples;
+    },
+    getExampleUsages(name) {
+        return [...usageMap.get(name) || []];
     },
 };

@@ -104,7 +104,9 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         };
         delete json.id;
         for(const node of Object.values(json.nodes)) {
-            delete node.inputs; // Remove duplicate information from Rete.js format
+            // Remove duplicate information from Rete.js format
+            delete node.id;
+            delete node.inputs;
         }
         // noinspection JSValidateTypes
         return json;
@@ -137,6 +139,7 @@ export default class BlocksNodeEditor extends Rete.NodeEditor {
         try {
             const nodes = {};
             await Promise.all(Object.entries(json.nodes).map(async ([id, jsonNode]) => {
+                jsonNode.id = id; // Ensure id matches key
                 try {
                     // Add default values if missing
                     jsonNode = {

@@ -12,6 +12,7 @@ import {onLeftClick} from '../../utils/eventHelpers';
 import classNames from 'classnames';
 import capitalize from '../../utils/capitalize';
 import {CATEGORY_MAP} from '../../block-categories/categories';
+import {getExampleUsages} from '../../examples/examples';
 
 const ScrollContainer = styled.div`
     padding: .5rem 1rem;
@@ -32,7 +33,7 @@ const StyledEntry = styled(Entry)`
 
 const MultiSelectionContext = React.createContext(null);
 
-function Entry({target, subTargets, header, className, children, ...others}) {
+function Entry({target, subTargets, header, noExpand, className, children, ...others}) {
     // const [expanded, setExpanded] = useState(false);
 
     const {selected, setSelected} = useContext(MultiSelectionContext);
@@ -42,10 +43,10 @@ function Entry({target, subTargets, header, className, children, ...others}) {
     return (
         <div
             className={classNames('clickable', className, selected.length && !isSelected && 'opacity-50')}
-            {...onLeftClick(() => setSelected(isSelected ? [] : [target, ...subTargets || []]))}
+            {...onLeftClick(e => e.stopPropagation() & setSelected(isSelected ? [] : [target, ...subTargets || []]))}
             {...others}>
             {header}
-            {isSelected && children}
+            {!noExpand && isSelected && children}
         </div>
     );
 }
@@ -75,11 +76,13 @@ function CategoryEntry({category, blocks, ...others}) {
                 </div>
             }
             {...others}>
+            {/*<MultiSelectionContainer>*/}
             {blocks.map(block => (
                 <div key={block.name} className="mt-2">
-                    <BlockEntry block={block}/>
+                    <BlockEntry block={block}/* noExpand*//>
                 </div>
             ))}
+            {/*</MultiSelectionContainer>*/}
         </StyledEntry>
     );
 }
@@ -87,6 +90,8 @@ function CategoryEntry({category, blocks, ...others}) {
 function BlockEntry({block, ...others}) {
 
     const Icon = block.icon;
+
+    const usages = getExampleUsages(block.name);
 
     return (
         <StyledEntry
@@ -104,21 +109,34 @@ function BlockEntry({block, ...others}) {
                 </div>
             }
             {...others}>
-            <div className="mt-2" style={{color: block.category.data.color || '#FFF'}}>
-                <span className="text-light opacity-50">Category:</span>
-                <div className="d-flex align-items-center">
+            <div className="mt-2">
+                <span className="opacity-50">Category:</span>
+                <div className="d-flex align-items-center" style={{color: block.category.data.color || '#FFF'}}>
                     {!!block.category.data.icon && React.createElement(block.category.data.icon, {className: 'mx-2'})}
                     {block.category.name}
                 </div>
             </div>
             {block.useCases?.length > 0 && (
-                <div className="mt-2 text-secondary">
-                    <span className="text-light opacity-50">Use cases:</span>
+                <div className="mt-2">
+                    <span className="opacity-50">Use cases:</span>
                     {block.useCases?.map(useCase => (
-                        <ul key={useCase} className="mb-0 text-light">
+                        <ul key={useCase} className="mb-0">
                             <li>{capitalize(useCase)}</li>
                         </ul>
                     ))}
+                </div>
+            )}
+            {usages?.length > 0 && (
+                <div className="mt-2">
+                    <span className="opacity-50">Found in example projects:</span>
+                    <ul className="text-muted">
+                        {usages.map(({example, count}, i) => (
+                            <li key={i}>
+                                {example.name}
+                                {count !== 1 && <span className="text-secondary ms-2">(x{count})</span>}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             )}
         </StyledEntry>
@@ -163,7 +181,6 @@ function TypeEntry({type, ...others}) {
 
 // function MultiSelectionContainer({children, initial}) {
 //     const [selected, setSelected] = useState(initial || []);
-//
 //     return (
 //         <MultiSelectionContext.Provider value={{selected, setSelected}}>
 //             {children}
