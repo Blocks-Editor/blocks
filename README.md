@@ -10,7 +10,33 @@
 
 ![A simple fungible token example](./public/img/example/currency-v3.png)
 
+> Inspired by low-code editors such as [Blender Nodes](https://docs.blender.org/manual/en/latest/compositing/introduction.html) and [Unreal Engine Blueprint](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/), the Blocks Editor makes it possible to build [Motoko smart contracts](https://smartcontracts.org/docs/language-guide/motoko.html) using a simple drag-and-drop interface.
+
+## Getting Started
+
+Here are a few tips for learning the Blocks user interface:
+
+- Complete the [interactive tutorials](https://blocks-editor.github.io/blocks/?menu=tutorials) to learn the basic editor workflow.
+- Browse a variety of [examples and templates](https://blocks-editor.github.io/blocks/?menu=load) available in the application.
+- Select a block and press 'Q' on your keyboard to view the corresponding [Quick Reference](https://blocks-editor.github.io/blocks/?menu=reference) information. 
+- Try hovering your mouse over a block name, connection socket, or input field to view a tooltip with more context.
+- Open the 'Compile' panel and press 'Build & Run' to compile, deploy and test your code on the Internet Computer. 
+- If you're running into an issue or have any questions, feel free to ask our [Discord community](https://discord.gg/jDDWtKwWQf)!
+
 ---
+
+![A simple fungible token example](./public/img/example/nft-v1.png)
+
+> Combine visual logic with Motoko language syntax using custom Expression blocks. 
+
+## Advanced Usage
+
+- Customize the editor and view keyboard shortcuts for common block types in the [Options](https://blocks-editor.github.io/blocks/?menu=settings) menu.
+- Hold 'Ctrl' or 'Cmd' when opening the right-click placement menu to view and search all blocks available in the editor. 
+- Quickly remove connections by holding the 'Ctrl' or 'Cmd' key and clicking on a connection socket.
+- Add a GitHub library using a `Package` block, import a file using an `Import` block, and call a library function using an expression block such as `{ Expression }` or `{ Statement }`.
+- Convert a standard Motoko file to a Blocks smart contract using the `{ Import }` and `{ Member }` block (view the [DIP721 NFT template](https://blocks-editor.github.io/blocks/?menu=load) for an example).
+- Simulate an embedded environment using the `?embed=true` query parameter.
 
 ## Embedded Mode
 
