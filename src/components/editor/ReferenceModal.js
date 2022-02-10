@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import capitalize from '../../utils/capitalize';
 import {CATEGORY_MAP} from '../../block-categories/categories';
 import {getExampleUsages} from '../../examples/examples';
+import getPropLabel from '../../utils/getPropLabel';
 
 const ScrollContainer = styled.div`
     padding: .5rem 1rem;
@@ -34,16 +35,33 @@ const StyledEntry = styled(Entry)`
 const MultiSelectionContext = React.createContext(null);
 
 function Entry({target, subTargets, header, noExpand, className, children, ...others}) {
+    // const [scrollOffset,setScrollOffset]=useState(null)
+
     // const [expanded, setExpanded] = useState(false);
 
     const {selected, setSelected} = useContext(MultiSelectionContext);
 
     const isSelected = selected.includes(target);
 
+    // let element;
+    // const ref = el => element = el;
+
     return (
         <div
+            // ref={ref}
             className={classNames('clickable my-1', className, selected.length && !isSelected && 'opacity-50')}
-            {...onLeftClick(e => e.stopPropagation() & setSelected(isSelected ? [] : [target, ...subTargets || []]))}
+            {...onLeftClick(e => {
+                e.stopPropagation();
+                setSelected(isSelected ? [] : [target, ...subTargets || []]);
+                // const offsetTop = element?.offsetTop ?? null;
+                // setTimeout(() => {
+                //     if(element && offsetTop !== null) {
+                //         // element.parentElement.
+                //         element.parent.scrollTop = offsetTop;
+                //         // console.log(offsetTop, element);
+                //     }
+                // });
+            })}
             {...others}>
             {header}
             {!noExpand && isSelected && children}
@@ -79,7 +97,7 @@ function CategoryEntry({category, blocks, ...others}) {
             <MultiSelectionContainer>
                 {blocks.map(block => (
                     <div key={block.name}>
-                        <BlockEntry block={block} style={{background:'#0004'}}/* noExpand*//>
+                        <BlockEntry block={block} style={{background: '#0004'}}/* noExpand*//>
                     </div>
                 ))}
             </MultiSelectionContainer>
@@ -92,6 +110,11 @@ function BlockEntry({block, ...others}) {
     const Icon = block.icon;
 
     const usages = getExampleUsages(block.name);
+
+    const isPropVisible = prop => !prop.hidden && prop.type;
+
+    const inputs = block.inputs.filter(isPropVisible);
+    const outputs = block.outputs.filter(isPropVisible);
 
     return (
         <StyledEntry
@@ -129,7 +152,7 @@ function BlockEntry({block, ...others}) {
             {usages?.length > 0 && (
                 <div className="mt-2">
                     <span className="opacity-50">Found in example projects:</span>
-                    <ul className="text-muted">
+                    <ul className="mb-0 text-muted">
                         {usages.map(({example, count}, i) => (
                             <li key={i}>
                                 {example.name}
@@ -139,32 +162,38 @@ function BlockEntry({block, ...others}) {
                     </ul>
                 </div>
             )}
+            {[[inputs, 'Inputs'], [outputs, 'Outputs']].map(([props, label]) => (
+                props.length > 0 && (
+                    <div key={label} className="mt-2">
+                        <span className="opacity-50">{label}:</span>
+                        <ul className="mb-0 text-secondary">
+                            {props.map(prop => (
+                                <li key={prop.key}>
+                                    <div className="d-flex align-items-center">
+                                        <span className="flex-grow-1">{getPropLabel(prop)}</span>
+                                        <small><SocketLabel type={prop.type}/* input={prop.input} output={prop.output}*//></small>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )
+            ))}
         </StyledEntry>
     );
 }
 
-function TypeEntry({type, ...others}) {
+function TypeEntry({type, blocks, ...others}) {
 
-    const color = getTypeColor(type);
+    blocks = blocks.filter(block => Object.values(block.props).some(prop => !prop.hidden && prop.type && prop.type.data.baseType === type));
 
     return (
         <StyledEntry
             target={type}
             header={
                 <div>
-                    <div className="h6 mb-0 d-flex align-items-center" style={{color}}>
-                        {/*<FiCircle className="me-2"/>*/}
-                        <div
-                            style={{
-                                width: '1rem',
-                                height: '1rem',
-                                borderRadius: '50%',
-                                marginRight: '.5rem',
-                                background: color,
-                            }}>
-
-                        </div>
-                        {type.name}
+                    <div className="h6 mb-0">
+                        <SocketLabel type={type} input={true}/>
                     </div>
                     <div className="small text-secondary">
                         {getInfoText(type.data.info)}
@@ -172,10 +201,43 @@ function TypeEntry({type, ...others}) {
                 </div>
             }
             {...others}>
-            {/*<div className="mt-2">*/}
-
-            {/*</div>*/}
+            {blocks.length > 0 && (
+                <div className="mt-2">
+                    <span className="opacity-50">Relevant blocks:</span>
+                    <MultiSelectionContainer>
+                        {blocks.map(block => (
+                            <div key={block.name}>
+                                <BlockEntry block={block} style={{background: '#0004'}}/* noExpand*//>
+                            </div>
+                        ))}
+                    </MultiSelectionContainer>
+                </div>
+            )}
         </StyledEntry>
+    );
+}
+
+function SocketLabel({type, input, output}) {
+    const color = getTypeColor(type);
+
+    const getSocketCircle = (left) => (
+        <div
+            style={{
+                width: '1rem',
+                height: '1rem',
+                borderRadius: '50%',
+                [left ? 'marginRight' : 'marginLeft']: '.5rem',
+                background: color,
+            }}>
+        </div>
+    );
+
+    return (
+        <span className="d-flex align-items-center" style={{color}}>
+            {!!input && getSocketCircle(true)}
+            {type === type.data.baseType ? type.name : type.toTypeString()}
+            {!!output && getSocketCircle(false)}
+        </span>
     );
 }
 
@@ -207,7 +269,7 @@ export default function ReferenceModal() {
 
     const categories = [...CATEGORY_MAP.values()]
         .sort((a, b) =>
-            (+selected.includes(b) - selected.includes(a)) ||
+            +initialCategories.includes(b) - initialCategories.includes(a) ||
             a.name.localeCompare(b.name),
         );
 
@@ -215,8 +277,8 @@ export default function ReferenceModal() {
         .filter(block => !block.hidden/* || selected.includes(block)*/ || initialBlocks.includes(block))
         .map(block => [block, getBlockLabel(block)])
         .sort(([aBlock, aLabel], [bBlock, bLabel]) =>
-            (+selected.includes(bBlock) - selected.includes(aBlock)) ||
-            (+editorBlockNameSet.has(bBlock.name) - editorBlockNameSet.has(aBlock.name)) ||
+            +initialBlocks.includes(bBlock) - initialBlocks.includes(aBlock) ||
+            +editorBlockNameSet.has(bBlock.name) - editorBlockNameSet.has(aBlock.name) ||
             (aBlock.category.name.localeCompare(bBlock.category.name)) ||
             aLabel.localeCompare(bLabel),
         )
@@ -225,7 +287,7 @@ export default function ReferenceModal() {
     const types = [...TYPE_MAP.values()]
         .filter(type => (!type.data.abstract && !type.data.hidden) || selected.includes(type))
         .sort((a, b) =>
-            (+selected.includes(b) - selected.includes(a)) ||
+            // (+selected.includes(b) - selected.includes(a)) ||
             a.name.localeCompare(b.name),
         );
 
@@ -253,7 +315,7 @@ export default function ReferenceModal() {
                 <h4 className="mt-4 mb-3 fw-normal text-secondary">Socket Types</h4>
                 <ScrollContainer>
                     {types.map((type) => (
-                        <TypeEntry key={type.name} type={type}/>
+                        <TypeEntry key={type.name} type={type} blocks={blocks}/>
                     ))}
                 </ScrollContainer>
 
