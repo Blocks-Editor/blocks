@@ -4,7 +4,7 @@ import styled, {css} from 'styled-components';
 import {FiClipboard, FiMaximize2, FiMinimize2, FiX} from 'react-icons/fi';
 import {FaLink, FaPlay} from 'react-icons/fa';
 import CodeEditor from '../monaco/CodeEditor';
-import compileGlobalMotoko from '../../compilers/utils/compileGlobalMotoko';
+import compileGlobalMotoko, {hasTestCases} from '../../compilers/utils/compileGlobalMotoko';
 import EventsContext, {EDITOR_CHANGE_EVENT, ERROR_EVENT} from '../../contexts/EventsContext';
 import useOutputPanelState from '../../hooks/persistent/useOutputPanelState';
 import useFullscreenPanelState from '../../hooks/persistent/useFullscreenPanelState';
@@ -98,7 +98,7 @@ export default function OutputPanel({editor}) {
                 const files = {
                     'Main.mo': compileGlobalMotoko(editor, compileOptions),
                 };
-                if(test) {
+                if(test && hasTestCases(editor)) {
                     files['Main_WithoutTests.mo'] = compileGlobalMotoko(editor);
                 }
 
