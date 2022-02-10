@@ -172,7 +172,7 @@ export const identifierType = createType('Identifier', {
         return nodeIdentifierRef(node, prop.key);
     },
 });
-export const effectType = createType('Effect', {
+export const effectType = createType('Statement', {
     info: 'A statement which runs after calling a function',
     parent: anyReversedType,
     category: 'effects',

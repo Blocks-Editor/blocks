@@ -11,6 +11,7 @@ export const TYPE_PRIORITY = 1;
 export const FUNCTION_PRIORITY = 2;
 export const STATE_PRIORITY = 3;
 export const CODE_PRIORITY = 4;
+export const TEST_PRIORITY = 5;
 
 // const packageBlockName = 'GithubPackage'; // external GitHub packages
 const codeImportBlockName = 'CodeImport'; // import expressions

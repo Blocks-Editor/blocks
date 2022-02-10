@@ -43,24 +43,24 @@ function Entry({target, subTargets, header, noExpand, className, children, ...ot
 
     const isSelected = selected.includes(target);
 
-    // let element;
-    // const ref = el => element = el;
+    let element;
+    const ref = el => element = el;
 
     return (
         <div
-            // ref={ref}
+            ref={ref}
             className={classNames('clickable my-1', className, selected.length && !isSelected && 'opacity-50')}
             {...onLeftClick(e => {
                 e.stopPropagation();
                 setSelected(isSelected ? [] : [target, ...subTargets || []]);
-                // const offsetTop = element?.offsetTop ?? null;
-                // setTimeout(() => {
-                //     if(element && offsetTop !== null) {
-                //         // element.parentElement.
-                //         element.parent.scrollTop = offsetTop;
-                //         // console.log(offsetTop, element);
-                //     }
-                // });
+                const offsetTop = element?.offsetTop ?? null;
+                setTimeout(() => {
+                    if(element && offsetTop !== null) {
+                        // element.parentElement.
+                        element.parent.scrollTop = offsetTop;
+                        // console.log(offsetTop, element);
+                    }
+                });
             })}
             {...others}>
             {header}

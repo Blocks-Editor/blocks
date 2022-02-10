@@ -1,17 +1,23 @@
 import {boolType} from '../block-types/types';
 import {statementBlock} from '../block-patterns/statement-patterns';
 import {FaExclamation} from 'react-icons/fa';
+import {FOR_TESTING} from '../editor/useCases';
+import {assertionCategory} from '../block-categories/categories';
 
 const block = statementBlock({
     title: 'Assert',
-    info: 'If the condition is false, terminate the program',
-    // category: debugCategory,
+    info: 'If any of the specified conditions are false, terminate the program',
+    category: assertionCategory,
     icon: FaExclamation,
+    useCases: [FOR_TESTING],
     inputs: [{
-        key: 'condition',
+        key: 'conditions',
         type: boolType,
+        multi: true,
     }],
-}, ({condition}) => {
-    return `assert ${condition};`;
+}, ({conditions}) => {
+    return conditions
+        .map(condition => `assert ${condition};`)
+        .join('\n');
 });
 export default block;

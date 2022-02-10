@@ -5,6 +5,7 @@ import {
     FaCubes,
     FaDatabase,
     FaEject,
+    FaExclamation,
     FaFilter,
     FaFont,
     FaLongArrowAltRight,
@@ -131,10 +132,17 @@ export const decompositionCategory = createCategory({
     // color: '#ccc',
     icon: FaNetworkWired,
 });
+export const assertionCategory = createCategory({
+    name: 'Assertions',
+    info: 'Blocks used for testing and validation',
+    color: '#C28',
+    icon: FaExclamation,
+    priority: -1,
+});
 export const commentCategory = createCategory({
     name: 'Comments',
     info: 'Documentation tools',
     // color: '#ccc',
     icon: FaCommentAlt,
-    priority: -1,
+    priority: -2,
 });

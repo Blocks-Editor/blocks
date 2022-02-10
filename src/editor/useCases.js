@@ -12,6 +12,7 @@ export const FOR_CONFIGURATION = addUseCase('configuration');
 export const FOR_DEBUGGING = addUseCase('debugging');
 export const FOR_ERROR_HANDLING = addUseCase('error handling');
 export const FOR_CUSTOM_LOGIC = addUseCase('custom logic');
+export const FOR_TESTING = addUseCase('validation and testing');
 
 function addUseCase(useCase) {
     USE_CASES.push(useCase);
