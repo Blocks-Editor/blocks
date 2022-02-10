@@ -2,7 +2,7 @@ import {literalCategory} from '../block-categories/categories';
 import {tupleType, valueType} from '../block-types/types';
 
 const block = {
-    title: 'Pair',
+    title: 'Pair (a, b)',
     info: 'An ordered pair of two values',
     category: literalCategory,
     topRight: 'value',

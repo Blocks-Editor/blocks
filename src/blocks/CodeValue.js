@@ -2,7 +2,7 @@ import {expressionArgsInput, expressionControl, parseCodeBlockInputs} from '../b
 import {typeType, valueType} from '../block-types/types';
 import {expressionCategory} from '../block-categories/categories';
 import {FOR_CUSTOM_LOGIC} from '../editor/useCases';
-import {formatCurlyBraces} from '../editor/format/formatHelpers';
+import {formatCurlyBraces, formatParentheses} from '../editor/format/formatHelpers';
 
 const block = {
     title: '{ Expression }',
@@ -28,7 +28,7 @@ const block = {
             return type;
         },
         toMotoko({inputs, expression}) {
-            return `do ${formatCurlyBraces(parseCodeBlockInputs(inputs, expression))}`;
+            return formatParentheses(['do', formatCurlyBraces(parseCodeBlockInputs(inputs, expression))]);
         },
     }],
     controls: [

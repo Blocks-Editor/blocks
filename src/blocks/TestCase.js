@@ -1,11 +1,10 @@
-import {effectType, textType, unitType} from '../block-types/types';
+import {boolType, effectType, textType, unitType} from '../block-types/types';
 import {memberBlock} from '../block-patterns/member-patterns';
 import {assertionCategory} from '../block-categories/categories';
 import {FOR_TESTING} from '../editor/useCases';
 import {formatStatementBlock} from '../editor/format/formatHelpers';
 import {TEST_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 import {FaCheckCircle} from 'react-icons/fa';
-import {pascalCase} from 'change-case';
 
 const block = memberBlock({
     info: 'Verify that your smart contract works as expected',
@@ -35,13 +34,23 @@ const block = memberBlock({
         key: 'description',
         info: 'A short description of the expected behavior',
         type: textType,
+    }, {
+        key: 'inactive',
+        title: 'Skip for now',
+        info: 'Temporarily deactivate this test case',
+        type: boolType,
     }],
 }, {
-    toMotoko({description, body}, node, compiler) {
+    toMotoko({inactive, description, body}, node, compiler) {
+        if(inactive) {
+            return;
+        }
 
-        const name = `test__${description ? pascalCase(description) : node.id}`;
+        const name = `test__${/*description ? pascalCase(description) : */node.id}`;
 
-        return `let ${name} = do ${formatStatementBlock(body || '')}`;
+        const commentLine = description && `// Test: [${description}]\n`;
+
+        return `let ${name} = do ${formatStatementBlock((commentLine || '') + (body || ''))}`;
     },
 });
 export default block;

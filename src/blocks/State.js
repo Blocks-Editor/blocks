@@ -62,9 +62,12 @@ const block = memberBlock({
         info: 'Readonly states cannot be reassigned, but value mutations are still possible',
         type: boolType,
         advanced: true,
+        hidden: true,/////
     }],
 }, {
     toMotoko({stable, readonly, name, initialValue, setup}, node, compiler) {
+        readonly = false;//////
+
         let modifiers = [!!stable && 'stable'].filter(m => m).join(' ');
         let type = compiler.editor.compilers.type.getInput(node, 'initialValue');
 

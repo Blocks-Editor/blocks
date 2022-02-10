@@ -55,37 +55,25 @@ const playgroundOrigin = process.env.REACT_APP_MOTOKO_PLAYGROUND_ORIGIN;
 const outputPanelId = 'output';
 
 export default function OutputPanel({editor}) {
-
     const [panel, setPanel] = useOutputPanelState();
     const [fullscreen, setFullscreen] = useFullscreenPanelState();
     const [output, setOutput] = useState('');
     const [copied, setCopied] = useState(false);
-    // const [playgroundPromise, setPlaygroundPromise] = useState(null);
+    // const [test, setTest] = useState(true);
+    const test = true;
 
     const events = useContext(EventsContext);
 
     const closed = !panel;
 
-    // Generate output source code
-    const getOutput = () => compileGlobalMotoko(editor);
+    const compileOptions = {test};
 
-    // Show an error message
-    // const handleError = err => events.emit(ERROR_EVENT, err);
+    // Generate output source code
+    const getOutput = () => compileGlobalMotoko(editor, compileOptions);
 
     const handleOpenPlayground = () => {
-        // let promise = playgroundPromise;
-        // if(!promise) {
-        //     promise = createMotokoPlaygroundShareLink(output, handleError)
-        //         .then(url => {
-        //             window.open(url, '_blank');
-        //         })
-        //         .catch(handleError)
-        //         .then(() => setPlaygroundPromise(null));
-        //     setPlaygroundPromise(promise);
-        // }
-
         try {
-            const playgroundKey = Math.random().toString(16).substr(2, 7);
+            const playgroundKey = Math.random().toString(16).substr(2, 12);
             const playgroundWindow = window.open(`${playgroundOrigin}?post=${playgroundKey}`, 'motokoPlayground');
             // const playgroundKey = 'blocks';
 
@@ -100,20 +88,19 @@ export default function OutputPanel({editor}) {
                 const packages = editor.nodes.filter(node => node.name === 'GithubPackage')
                     .map(node => {
                         const packageInfo = parseGithubPackage(node.data.repository, node.data.name);
-                        // console.log(packageInfo);////
-                        // return packageInfo && {
-                        //     type: 'package',
-                        //     package: {
-                        //         ...packageInfo,
-                        //         repo: `https://github.com/${packageInfo.repo}.git`,
-                        //     },
-                        // };
                         return packageInfo && {
                             ...packageInfo,
                             repo: `https://github.com/${packageInfo.repo}.git`,
                         };
                     })
                     .filter(x => x);
+
+                const files = {
+                    'Main.mo': compileGlobalMotoko(editor, compileOptions),
+                };
+                if(test) {
+                    files['Main_WithoutTests.mo'] = compileGlobalMotoko(editor);
+                }
 
                 playgroundWindow.postMessage(`${playgroundKey}${JSON.stringify({
                     type: 'workplace',
@@ -125,9 +112,7 @@ export default function OutputPanel({editor}) {
                         {
                             type: 'loadProject',
                             payload: {
-                                files: {
-                                    'Main.mo': compileGlobalMotoko(editor),
-                                },
+                                files,
                             },
                         },
                     ],
@@ -198,45 +183,48 @@ export default function OutputPanel({editor}) {
             <div className="flex-grow-1" style={{paddingLeft: isMobile && '1rem'}}>
                 <CodeEditor value={output} readOnly options={{lineNumbers: isMobile ? 'off' : undefined}}/>
             </div>
-            <div className="bottom-bar d-flex flex-row align-items-center justify-content-around py-2">
-                {/*<CopyToClipboard text={output} onCopy={() => setCopied(true)}>*/}
-                {/*    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">*/}
-                {/*        <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>*/}
-                {/*        <FiClipboard className="ms-2"/>*/}
-                {/*    </ClipboardButton>*/}
-                {/*</CopyToClipboard>*/}
-                <ExternalLink
-                    // className="flex-grow-1"
-                    href="https://smartcontracts.org/docs/language-guide/basic-concepts.html">
+            <div className="bottom-bar py-2">
+                {/*{hasTestCases(editor) && (*/}
+                {/*    <div className="mb-2 d-flex justify-content-end">*/}
+                {/*        <Checkbox value={test} onChange={test => setTest(test) & setOutput('') /* Recompile output *!/>*/}
+                {/*            Include test cases*/}
+                {/*        </Checkbox>*/}
+                {/*    </div>*/}
+                {/*)}*/}
+                <div className="d-flex flex-row align-items-center justify-content-between">
+                    {/*<CopyToClipboard text={output} onCopy={() => setCopied(true)}>*/}
+                    {/*    <ClipboardButton className="clickable d-flex flex-row align-items-center justify-content-center py-2 px-3">*/}
+                    {/*        <small>{copied ? 'Copied!' : 'Copy to Clipboard'}</small>*/}
+                    {/*        <FiClipboard className="ms-2"/>*/}
+                    {/*    </ClipboardButton>*/}
+                    {/*</CopyToClipboard>*/}
+                    <ExternalLink
+                        // className="flex-grow-1"
+                        href="https://smartcontracts.org/docs/language-guide/basic-concepts.html">
+                        <div
+                            className="btn btn-outline-secondary d-flex justify-content-center"
+                            data-tip="Learn more about the Motoko programming language.">
+                            <FaLink className="mt-1 me-2"/>
+                            {isMobile ? 'Docs' : 'Documentation'}
+                        </div>
+                    </ExternalLink>
+                    <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
+                        <ClipboardButton
+                            className="clickable d-flex justify-content-center py-2 px-4"
+                            data-tip="Copy to Clipboard"
+                            data-delay-show={100}>
+                            <FiClipboard className="h5 mb-0"/>
+                            {copied && <small className="ms-2">Copied!</small>}
+                        </ClipboardButton>
+                    </CopyToClipboard>
                     <div
-                        className="btn btn-outline-secondary d-flex justify-content-center"
-                        data-tip="Learn more about the Motoko programming language.">
-                        <FaLink className="mt-1 me-2"/>
-                        {isMobile ? 'Docs' : 'Documentation'}
+                        className="btn btn-outline-success d-flex justify-content-center"
+                        data-tip="Run and deploy your smart contract on Motoko Playground."
+                        {...onLeftClick(handleOpenPlayground)}>
+                        <FaPlay className="mt-1 me-2"/>
+                        Build & Run
                     </div>
-                </ExternalLink>
-                <CopyToClipboard text={output} onCopy={() => setCopied(true)}>
-                    <ClipboardButton
-                        className="clickable d-flex justify-content-center py-2 px-4"
-                        data-tip="Copy to Clipboard"
-                        data-delay-show={100}>
-                        <FiClipboard className="h5 mb-0"/>
-                        {copied && <small className="ms-2">Copied!</small>}
-                    </ClipboardButton>
-                </CopyToClipboard>
-                {/*<ExternalLink className="flex-grow-1" href="https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=_">*/}
-                <div
-                    className="btn btn-outline-success d-flex justify-content-center"
-                    data-tip="Run and deploy your smart contract on Motoko Playground."
-                    {...onLeftClick(handleOpenPlayground)}>
-                    {/*{playgroundPromise ? (*/}
-                    {/*    <FaSpinner className="mt-1 me-2"/>*/}
-                    {/*) : (*/}
-                    <FaPlay className="mt-1 me-2"/>
-                    {/*)}*/}
-                    Build & Run
                 </div>
-                {/*</ExternalLink>*/}
             </div>
         </OutputContainer>
     );

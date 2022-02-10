@@ -3,7 +3,7 @@ import {memberBlock} from '../block-patterns/member-patterns';
 import {stateCategory} from '../block-categories/categories';
 import {FaListOl} from 'react-icons/fa';
 import {FOR_ASSIGNING_ID, FOR_BUILDING_API, FOR_STORING_DATA} from '../editor/useCases';
-import {formatCurlyBraces, formatStatement} from '../editor/format/formatHelpers';
+import {formatCurlyBraces, formatParentheses, formatStatement} from '../editor/format/formatHelpers';
 import {STATE_PRIORITY} from '../compilers/utils/compileGlobalMotoko';
 
 const block = memberBlock({
@@ -36,7 +36,7 @@ const block = memberBlock({
                 `${name} += 1;`,
                 `${name}_`,
             ];
-            return ['do', formatCurlyBraces(parts.reduce((a, b) => formatStatement(a, b)))];
+            return formatParentheses(['do', formatCurlyBraces(parts.reduce((a, b) => formatStatement(a, b)))]);
         },
     }],
 }, {

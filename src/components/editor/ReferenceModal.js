@@ -14,6 +14,7 @@ import capitalize from '../../utils/capitalize';
 import {CATEGORY_MAP} from '../../block-categories/categories';
 import {getExampleUsages} from '../../examples/examples';
 import getPropLabel from '../../utils/getPropLabel';
+import {USE_CASES} from '../../editor/useCases';
 
 const ScrollContainer = styled.div`
     padding: .5rem 1rem;
@@ -119,7 +120,12 @@ function BlockEntry({block, ...others}) {
     return (
         <StyledEntry
             target={block}
-            subTargets={[block.category]}
+            subTargets={[
+                block.category,
+                ...inputs.map(prop => prop.type),
+                ...outputs.map(prop => prop.type),
+                ...block.useCases || [],
+            ]}
             header={
                 <div>
                     <div className="h6 mb-0 d-flex align-items-center" style={{color: block.category.data.color}}>
@@ -217,6 +223,40 @@ function TypeEntry({type, blocks, ...others}) {
     );
 }
 
+function UseCaseEntry({useCase, blocks, ...others}) {
+
+    blocks = blocks.filter(block => block.useCases?.includes(useCase));
+
+    return (
+        <StyledEntry
+            target={useCase}
+            header={
+                <div>
+                    <div className="h6 mb-0" style={{opacity: .9}}>
+                        {capitalize(useCase)}
+                    </div>
+                    {/*<div className="small text-secondary">*/}
+                    {/*    {getInfoText(type.data.info)}*/}
+                    {/*</div>*/}
+                </div>
+            }
+            {...others}>
+            {blocks.length > 0 && (
+                <div className="mt-2">
+                    {/*<span className="opacity-50">Relevant blocks:</span>*/}
+                    <MultiSelectionContainer>
+                        {blocks.map(block => (
+                            <div key={block.name}>
+                                <BlockEntry block={block} style={{background: '#0004'}}/* noExpand*//>
+                            </div>
+                        ))}
+                    </MultiSelectionContainer>
+                </div>
+            )}
+        </StyledEntry>
+    );
+}
+
 function SocketLabel({type, input, output}) {
     const color = getTypeColor(type);
 
@@ -269,7 +309,7 @@ export default function ReferenceModal() {
 
     const categories = [...CATEGORY_MAP.values()]
         .sort((a, b) =>
-            +initialCategories.includes(b) - initialCategories.includes(a) ||
+            +selected.includes(b) - selected.includes(a) ||
             a.name.localeCompare(b.name),
         );
 
@@ -277,9 +317,9 @@ export default function ReferenceModal() {
         .filter(block => !block.hidden/* || selected.includes(block)*/ || initialBlocks.includes(block))
         .map(block => [block, getBlockLabel(block)])
         .sort(([aBlock, aLabel], [bBlock, bLabel]) =>
-            +initialBlocks.includes(bBlock) - initialBlocks.includes(aBlock) ||
+            +selected.includes(bBlock) - selected.includes(aBlock) ||
             +editorBlockNameSet.has(bBlock.name) - editorBlockNameSet.has(aBlock.name) ||
-            (aBlock.category.name.localeCompare(bBlock.category.name)) ||
+            aBlock.category.name.localeCompare(bBlock.category.name) ||
             aLabel.localeCompare(bLabel),
         )
         .map(([block]) => block);
@@ -287,8 +327,13 @@ export default function ReferenceModal() {
     const types = [...TYPE_MAP.values()]
         .filter(type => (!type.data.abstract && !type.data.hidden) || selected.includes(type))
         .sort((a, b) =>
-            // (+selected.includes(b) - selected.includes(a)) ||
+            +selected.includes(b) - selected.includes(a) ||
             a.name.localeCompare(b.name),
+        );
+
+    const useCases = USE_CASES
+        .sort((a, b) =>
+            +selected.includes(b) - selected.includes(a),
         );
 
     return (
@@ -316,6 +361,14 @@ export default function ReferenceModal() {
                 <ScrollContainer>
                     {types.map((type) => (
                         <TypeEntry key={type.name} type={type} blocks={blocks}/>
+                    ))}
+                </ScrollContainer>
+
+                {/* Use Cases */}
+                <h4 className="mt-4 mb-3 fw-normal text-secondary">Use Cases</h4>
+                <ScrollContainer>
+                    {useCases.map((useCase) => (
+                        <UseCaseEntry key={useCase} useCase={useCase} blocks={blocks}/>
                     ))}
                 </ScrollContainer>
 

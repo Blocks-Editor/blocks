@@ -18,6 +18,7 @@ const codeImportBlockName = 'CodeImport'; // import expressions
 const referenceImportBlockName = 'ReferenceImport'; // import references
 const installerBlockName = 'MainInstaller'; // installer details
 const mainParameterBlockName = 'MainParameter'; // actor class parameters (config blocks)
+const testCaseBlockName = 'TestCase'; // test cases
 
 const defaultActorName = 'Main';
 
@@ -29,7 +30,13 @@ export function mainInstanceRef(editor) {
     return 'main__this';
 }
 
-export default function compileGlobalMotoko(editor) {
+// TODO refactor
+export function hasTestCases(editor) {
+    return editor.nodes.some(node => node.name === testCaseBlockName);
+}
+
+export default function compileGlobalMotoko(editor, options) {
+    options = options || {};
 
     const actorName = pascalCase(editor.details.name) || defaultActorName;
 
@@ -40,7 +47,7 @@ export default function compileGlobalMotoko(editor) {
                 return false;
             }
             const type = /* reversed */ io.socket.findType?.();
-            return type && memberType.isSubtype(type);
+            return type && memberType.isSubtype(type) && (options.test || node.name !== testCaseBlockName);
         })
         .map(node => [node, getBlock(node.name)])
         .sort(([a, aBlock], [b, bBlock]) => ((aBlock.memberPriority || 0) - (bBlock.memberPriority || 0)) || (a.position[0] - b.position[0]) || (a.position[1] - b.position[1]) || 0)
