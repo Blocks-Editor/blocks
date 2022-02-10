@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "https://blocks-editor.github.io/blocks/static/css/main.e9860199.chunk.css",
-    "main.js": "https://blocks-editor.github.io/blocks/static/js/main.e895f306.chunk.js",
-    "main.js.map": "https://blocks-editor.github.io/blocks/static/js/main.e895f306.chunk.js.map",
+    "main.js": "https://blocks-editor.github.io/blocks/static/js/main.872345c8.chunk.js",
+    "main.js.map": "https://blocks-editor.github.io/blocks/static/js/main.872345c8.chunk.js.map",
     "runtime-main.js": "https://blocks-editor.github.io/blocks/static/js/runtime-main.44f656de.js",
     "runtime-main.js.map": "https://blocks-editor.github.io/blocks/static/js/runtime-main.44f656de.js.map",
     "static/css/2.58a45539.chunk.css": "https://blocks-editor.github.io/blocks/static/css/2.58a45539.chunk.css",
@@ -31,6 +31,6 @@
     "static/css/2.58a45539.chunk.css",
     "static/js/2.ce586665.chunk.js",
     "static/css/main.e9860199.chunk.css",
-    "static/js/main.e895f306.chunk.js"
+    "static/js/main.872345c8.chunk.js"
   ]
 }
