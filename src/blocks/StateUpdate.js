@@ -3,6 +3,7 @@ import {stateCategory} from '../block-categories/categories';
 import {nodeType, valueType} from '../block-types/types';
 import {stateWriteIcon} from './State';
 import {FOR_STORING_DATA} from '../editor/useCases';
+import {findNodeSearchOptions} from '../block-patterns/search-patterns';
 
 const block = statementBlock({
     title: 'Write State',
@@ -10,6 +11,9 @@ const block = statementBlock({
     useCases: [FOR_STORING_DATA],
     category: stateCategory,
     icon: stateWriteIcon,
+    customSearch(text, {editor}) {
+        return findNodeSearchOptions(text, editor, 'State', 'stateNode');
+    },
     inputs: [{
         key: 'value',
         type: valueType,
