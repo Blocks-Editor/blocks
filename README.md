@@ -36,7 +36,7 @@ Here are a few tips for learning the Blocks user interface:
 - Quickly remove connections by holding the 'Ctrl' or 'Cmd' key and clicking on a connection socket.
 - Add a GitHub library using a `Package` block, import a file using an `Import` block, and call a library function using an expression block such as `{ Expression }` or `{ Statement }`.
 - Convert a standard Motoko file to a Blocks smart contract using the `{ Import }` and `{ Member }` block (view the [DIP721 NFT template](https://blocks-editor.github.io/blocks/?menu=load) for an example).
-- Simulate an embedded environment using the `?embed=true` query parameter.
+- Add test cases to ensure your smart contract works as intended.
 
 ## Embedded Mode
 
