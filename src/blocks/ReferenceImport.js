@@ -11,6 +11,7 @@ const block = {
     useCases: [FOR_CUSTOM_LOGIC],
     icon: FaItalic,
     topRight: 'value',
+    global: true,
     computeTitle(node, editor) {
         const name = defaultImportNameFromPath(editor.compilers.motoko.getInput(node, 'path'));
         if(name) {
