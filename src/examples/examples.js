@@ -13,6 +13,7 @@ const categories = [{
     description: 'Reference implementations for learning the editor.',
     className: 'text-success',
     examples: [
+        require('./concepts/SimpleNFT.blocks.json'),
         require('./concepts/SimpleCurrency.blocks.json'),
         require('./concepts/TextSharingAPI.blocks.json'),
         require('./concepts/GitHubQuicksort.blocks.json'),
