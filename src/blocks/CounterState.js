@@ -32,9 +32,8 @@ const block = memberBlock({
         type: natType,
         toMotoko({name}) {
             const parts = [
-                `let ${name}_ = ${name};`,
                 `${name} += 1;`,
-                `${name}_`,
+                `${name}`,
             ];
             return formatParentheses(['do', formatCurlyBraces(parts.reduce((a, b) => formatStatement(a, b)))]);
         },

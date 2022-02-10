@@ -47,7 +47,7 @@ export default function compileGlobalMotoko(editor, options) {
                 return false;
             }
             const type = /* reversed */ io.socket.findType?.();
-            return type && memberType.isSubtype(type) && (options.test || node.name !== testCaseBlockName);
+            return type && memberType.isSubtype(type) && (options.test !== false /* tests by default */ || node.name !== testCaseBlockName);
         })
         .map(node => [node, getBlock(node.name)])
         .sort(([a, aBlock], [b, bBlock]) => ((aBlock.memberPriority || 0) - (bBlock.memberPriority || 0)) || (a.position[0] - b.position[0]) || (a.position[1] - b.position[1]) || 0)
