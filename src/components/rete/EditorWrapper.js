@@ -67,7 +67,7 @@ export default function EditorWrapper({observable, onSetup, onChange, onSave, hi
             const key = event.key;
 
             if(event.ctrlKey || event.metaKey) {
-                // if(key === 'q') {
+                // if(key === 't') {
                 //     editor.trigger('arrange');
                 // }
                 if(key === 's') {
