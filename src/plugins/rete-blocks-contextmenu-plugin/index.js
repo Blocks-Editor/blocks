@@ -68,7 +68,7 @@ function install(editor, config = {}) {
         ReactDOM.render((
             <ContextMenu
                 x={x + offsetX}
-                y={node ? y - 50 : y + offsetY} // TODO: magic number
+                y={node ? y - 75 : y + offsetY} // TODO: magic number
                 mobileElevated={mobileElevated}
                 handleCloseMenu={() => editor.trigger('hidecontextmenu')}>
                 <MenuContext.Provider value={menuContext}>

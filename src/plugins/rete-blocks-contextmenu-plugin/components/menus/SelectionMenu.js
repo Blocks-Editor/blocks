@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import MenuAction from '../MenuAction';
 import {MenuContext} from '../../contexts/MenuContext';
 import jsonCopy from '../../../../utils/jsonCopy';
+import {EDITOR_MENU_STORE} from '../../../../observables/editorMenuStore';
 
 const cloneSelected = async (editor) => {
 
@@ -58,6 +59,7 @@ export default function SelectionMenu() {
 
     return (
         <>
+            <MenuAction onAction={() => EDITOR_MENU_STORE.set('reference')}>Info</MenuAction>
             <MenuAction onAction={() => cloneSelected(editor)}>Clone</MenuAction>
             <MenuAction onAction={() => editor.selected.each(node => editor.removeNode(node))}>Delete</MenuAction>
         </>
