@@ -1,4 +1,4 @@
-![Blocks.](./public/img/logo-gradient.png)
+[![Blocks.](./public/img/logo-gradient.png)](https://blocks-editor.github.io/blocks/)
 
 ---
 
