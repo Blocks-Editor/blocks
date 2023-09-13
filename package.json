@@ -8,7 +8,7 @@
     "test": "cross-env CI=1 craco test",
     "test:watch": "craco test",
     "precommit": "lint-staged",
-    "prebuild": "npm run test",
+    "prebuild": "npm test",
     "build": "craco build",
     "deploy": "cross-env PUBLIC_URL=https://blocks-editor.github.io/blocks npm run build && gh-pages -d build"
   },
@@ -50,6 +50,7 @@
     "web-vitals": "^2.1.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^6.4.0",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
