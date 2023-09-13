@@ -1,4 +1,4 @@
-![Blocks.](./public/img/logo-gradient.png)
+[![Blocks.](./public/img/logo-gradient.png)](https://blocks-editor.github.io/blocks/)
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-![A simple fungible token example](./public/img/example/currency-v3.png)
+[![A simple fungible token example](./public/img/example/currency-v3.png)](https://blocks-editor.github.io/blocks/)
 
 > Inspired by low-code editors such as [Blender Nodes](https://docs.blender.org/manual/en/latest/compositing/introduction.html) and [Unreal Engine Blueprint](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/), the Blocks Editor makes it possible to build [Motoko smart contracts](https://smartcontracts.org/docs/language-guide/motoko.html) using a simple drag-and-drop interface.
 
@@ -25,7 +25,7 @@ Here are a few tips for learning the Blocks user interface:
 
 ---
 
-![A simple fungible token example](./public/img/example/nft-v1.png)
+[![A simple NFT example](./public/img/example/nft-v1.png)](https://blocks-editor.github.io/blocks/)
 
 > Combine visual logic with Motoko language syntax using custom Expression blocks. 
 
